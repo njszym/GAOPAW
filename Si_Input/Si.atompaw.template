@@ -1,0 +1,26 @@
+Si 14
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -10. 20. 500
+3 3 0 0 0 0 
+3 1 2 
+0 0 0 
+c 
+c 
+v 
+c 
+v 
+1
+{DAKOTA_Si_RC_1}
+y
+{DAKOTA_Si_EP_1}
+n
+y
+{DAKOTA_Si_EP_2}
+n 
+VANDERBILT   
+2 0
+{DAKOTA_Si_RC_2}
+{DAKOTA_Si_RC_3}
+{DAKOTA_Si_RC_4}
+{DAKOTA_Si_RC_5}
+3
+0

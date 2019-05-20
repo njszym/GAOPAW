@@ -9,18 +9,18 @@ v
 c 
 v 
 1
-{DAKOTA_Si_RC} {DAKOTA_Si_RC}/1.2 {DAKOTA_Si_RC}/1.4 {DAKOTA_Si_RC}/1.4
+{DAKOTA_RC} {DAKOTA_RC}/1.2 {DAKOTA_RC}/1.4 {DAKOTA_RC}/1.4
 y
-{DAKOTA_Si_EP_1}
+{DAKOTA_EP_1}
 n
 y
-{DAKOTA_Si_EP_2}
+{DAKOTA_EP_2}
 n 
 custom rrkj vanderbiltortho
 2 0
-{DAKOTA_Si_RC}
-{DAKOTA_Si_RC}
-{DAKOTA_Si_RC}
-{DAKOTA_Si_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
 3
 0

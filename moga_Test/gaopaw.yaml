@@ -1,0 +1,6 @@
+# Input file for GAOPAW
+elements: ['Si']
+lattice_type: ['FCC']
+lattice_constant: [3.857]
+template_dir: '/scr/szymansk/gaopaw/Si_Input/'
+# End file

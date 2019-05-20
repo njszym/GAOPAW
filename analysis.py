@@ -72,6 +72,7 @@ def bad_run():
     params, results = di.read_parameters_file('params.in','results.out')
     results['obj_fn_1'].function = 100
     results['obj_fn_2'].function = 100
+    results['obj_fn_3'].function = 100
     results.write()
 
 def update_dakota(AE_lat,QE_lat):
@@ -83,6 +84,7 @@ def update_dakota(AE_lat,QE_lat):
     params, results = di.read_parameters_file('params.in','results.out')
     results['obj_fn_1'].function = abs(AE_lat - QE_lat)
     results['obj_fn_2'].function = compare_log()
+    results['obj_fn_3'].function = compare_log_peaks()
     results.write()
 
 def write_atompaw_input(elem,template_path):
@@ -173,36 +175,36 @@ def compare_log():
         total_diff += net_diff
     return total_diff/sum_log
 
-#def compare_log():
-#    """"
-#    Compare the energies at which local maxima occur in the
-#    exact and pseudized partial waves...want to minimize difference
-#    If number of local maxima differs, a ghost state likely exists
-#    Testing required, not sure if this works well
-#    """
-#    files = os.listdir('./')
-#    log_derivs = []
-#    for file in files:
-#        if file[:4] == 'logd':
-#            log_derivs.append(file)
-#    net_diff = []
-#    total_diff = 0
-#    for file in log_derivs[:-1]:
-#        df = pd.read_table(file,sep='\s+',header=None)
-#        e = df[0]
-#        log_exact = np.array(df[1])
-#        log_pseudo = np.array(df[2])
-#        peaks_ind_ex = argrelextrema(log_exact,np.greater)[0]
-#        peaks_ind_ps = argrelextrema(log_pseudo,np.greater)[0]
-#        energy_diff = []
-#        if len(peaks_ind_ex) == len(peaks_ind_ps):
-#            for (p1, p2) in zip(peaks_ind_ex, peaks_ind_ps):
-#                energy_diff.append(abs(e[p1] - e[p2]))
-#        else:
-#            energy_diff.append(10.0)
-#        net_diff.append(sum(energy_diff))
-#    total_diff = sum(net_diff)
-#    return total_diff
+def compare_log_peaks():
+    """"
+    Compare the energies at which local maxima occur in the
+    exact and pseudized partial waves...want to minimize difference
+    If number of local maxima differs, a ghost state likely exists
+    Testing required, not sure if this works well
+    """
+    files = os.listdir('./')
+    log_derivs = []
+    for file in files:
+        if file[:4] == 'logd':
+            log_derivs.append(file)
+    net_diff = []
+    total_diff = 0
+    for file in log_derivs[:-1]:
+        df = pd.read_table(file,sep='\s+',header=None)
+        e = df[0]
+        log_exact = np.array(df[1])
+        log_pseudo = np.array(df[2])
+        peaks_ind_ex = argrelextrema(log_exact,np.greater)[0]
+        peaks_ind_ps = argrelextrema(log_pseudo,np.greater)[0]
+        energy_diff = []
+        if len(peaks_ind_ex) == len(peaks_ind_ps):
+            for (p1, p2) in zip(peaks_ind_ex, peaks_ind_ps):
+                energy_diff.append(abs(e[p1] - e[p2]))
+        else:
+            energy_diff.append(20.0)
+        net_diff.append(sum(energy_diff))
+    total_diff = sum(net_diff)
+    return total_diff
 
 if __name__=='__main__':
     main()

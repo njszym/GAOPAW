@@ -1,6 +1,6 @@
 # Input file for GAOPAW
-elements: ['Si']
-lattice_type: ['FCC']
-lattice_constant: [3.857]
-template_dir: '/scr/szymansk/gaopaw/Si_Input/'
+elements: ['Si']					## Elements to be tested
+lattice_type: ['FCC']					## Lattice types to be tested
+lattice_constant: [3.857]				## AE lattice constants
+template_dir: '/scr/szymansk/gaopaw/Si_Input/'		# Directory containing templates for QE and AtomPAW
 # End file

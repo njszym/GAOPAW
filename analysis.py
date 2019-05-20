@@ -175,10 +175,11 @@ def compare_log():
 
 def compare_log_peaks():
     """"
-    Compare the energies at which local maxima occur in the
-    exact and pseudized partial waves...want to minimize difference
+    Alternative method to compare log derivs...seems to converge a bit
+    more slowly than compare_log()...
+    Compare the energies at which local maxima occur in the log derivs
+    of exact and pseudized partial waves...want to minimize difference
     If number of local maxima differs, a ghost state likely exists
-    Testing required, not sure if this works well
     """
     files = os.listdir('./')
     log_derivs = []
@@ -199,7 +200,7 @@ def compare_log_peaks():
             for (p1, p2) in zip(peaks_ind_ex, peaks_ind_ps):
                 energy_diff.append(abs(e[p1] - e[p2]))
         else:
-            energy_diff.append(20.0)
+            energy_diff.append(100.0)
         net_diff.append(sum(energy_diff))
     total_diff = sum(net_diff)
     return total_diff

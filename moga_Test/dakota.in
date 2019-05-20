@@ -5,9 +5,12 @@ environment
 variables
 	continuous_design = 3
   	  initial_point    1.8          4.0          5.0
-  	  lower_bounds     1.2          1.0          1.0
-  	  upper_bounds     2.5          6.0          8.0
+  	  lower_bounds     1.2          2.0          2.0
+  	  upper_bounds     2.5          6.0          6.0
   	  descriptors   'DAKOTA_Si_RC' 'DAKOTA_Si_EP_1' 'DAKOTA_Si_EP_2'
+
+## You must have reasonable guesses for the lower and upper bounds of the variables
+## Otherwise, algorithm may converge slowly or diverge completely
 
 method
         moga
@@ -19,7 +22,7 @@ method
           multi_point_parameterized_binary = 2
           crossover_rate = 0.8
         mutation_type replace_uniform
-          mutation_rate = 0.1 ## Keep low to avoid many unwanted chromosomes
+          mutation_rate = 0.1 ## Keep low to avoid many unwanted chromosomes w/ errors
         fitness_type domination_count
         replacement_type below_limit = 6
           shrinkage_fraction = 0.2  ## Testing implies small fraction works best

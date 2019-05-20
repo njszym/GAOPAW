@@ -2,10 +2,9 @@
                                         1.8 DAKOTA_Si_RC
                                         2.0 DAKOTA_Si_EP_1
                                         5.0 DAKOTA_Si_EP_2
-                                          3 functions
+                                          2 functions
                                           1 ASV_1:obj_fn_1
                                           2 ASV_2:obj_fn_2
-                                          3 ASV_3:obj_fn_3
                                           0 derivative_variables
                                           0 analysis_components
                                           12 eval_id

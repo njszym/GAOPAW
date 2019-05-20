@@ -72,7 +72,6 @@ def bad_run():
     params, results = di.read_parameters_file('params.in','results.out')
     results['obj_fn_1'].function = 100
     results['obj_fn_2'].function = 100
-    results['obj_fn_3'].function = 100
     results.write()
 
 def update_dakota(AE_lat,QE_lat):
@@ -84,7 +83,6 @@ def update_dakota(AE_lat,QE_lat):
     params, results = di.read_parameters_file('params.in','results.out')
     results['obj_fn_1'].function = abs(AE_lat - QE_lat)
     results['obj_fn_2'].function = compare_log()
-    results['obj_fn_3'].function = compare_log_peaks()
     results.write()
 
 def write_atompaw_input(elem,template_path):

@@ -38,7 +38,7 @@ interface
           named 'workdir_pp' file_save directory_save
 
 responses
-	num_objective_functions = 3
+	num_objective_functions = 2
 	no_gradients
         no_hessians
 

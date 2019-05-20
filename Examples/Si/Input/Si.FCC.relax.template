@@ -1,5 +1,5 @@
 &control
-  calculation='vc-relax'
+  calculation='relax'
   prefix='relax'
   pseudo_dir='./'
 /

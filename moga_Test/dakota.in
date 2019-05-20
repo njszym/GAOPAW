@@ -28,7 +28,6 @@ method
         output verbose
 
 interface
-        failure_capture retry = 5
         asynchronous
           evaluation_concurrency = 2
         system

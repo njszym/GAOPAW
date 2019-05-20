@@ -1,10 +1,11 @@
 &control
-  calculation='relax'
+  calculation='vc-relax'
   prefix='relax'
   pseudo_dir='./'
 /
 &system
-  ibrav=0
+  ibrav=2
+  celldm(1)=10.
   nat=2
   ntyp=2
   ecutwfc=40
@@ -30,8 +31,3 @@ ATOMIC_POSITIONS (alat)
   Si 0.5 0.5 0.5
 K_POINTS (automatic)
   8 8 8 0 0 0
-CELL_PARAMETERS angstrom
-  2.308347 2.308347 0.0000000
-  2.308347 0.000000 -2.308347
-  0.000000 2.308347 -2.308347
-

@@ -23,8 +23,8 @@ color_index = 0
 for file in log_derivs[:-1]:
     df = pd.read_table(file,sep='\s+',header=None)
     e = df[0]
-    log_pseudo = df[1]
-    log_exact = df[2]
+    log_pseudo = df[2]
+    log_exact = df[1]
     plt.plot(e,log_exact,color_list[color_index],label='Exact '+orbital_list[color_index])
     plt.plot(e,log_pseudo,color_list[color_index],linestyle='dashed',label='Pseudo '+orbital_list[color_index])
     color_index += 1

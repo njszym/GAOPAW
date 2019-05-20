@@ -19,7 +19,7 @@ method
           multi_point_parameterized_binary = 2
           crossover_rate = 0.8
         mutation_type replace_uniform
-          mutation_rate = 0.1
+          mutation_rate = 0.1 ## Keep low to avoid many unwanted chromosomes
         fitness_type domination_count
         replacement_type below_limit = 6
           shrinkage_fraction = 0.2  ## Testing implies small fraction works best
@@ -28,8 +28,8 @@ method
         output verbose
 
 interface
-        asynchronous
-          evaluation_concurrency = 2
+        asynchronous 
+          evaluation_concurrency = 2 ## Keep this low to prevent overusage of CPU
         system
           analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py $PWD'
           parameters_file = 'params.in'

@@ -9,7 +9,7 @@ v
 c 
 v 
 1
-{DAKOTA_Si_RC} {DAKOTA_Si_RC}/1.2 0.6*{DAKOTA_Si_RC} 0.6*{DAKOTA_Si_RC}
+{DAKOTA_Si_RC} {DAKOTA_Si_RC}/1.2 {DAKOTA_Si_RC}/1.4 {DAKOTA_Si_RC}/1.4
 y
 {DAKOTA_Si_EP_1}
 n

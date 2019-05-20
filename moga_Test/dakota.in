@@ -9,12 +9,12 @@ variables
   	  upper_bounds     2.5          6.0          6.0
   	  descriptors   'DAKOTA_Si_RC' 'DAKOTA_Si_EP_1' 'DAKOTA_Si_EP_2'
 
-## You must have reasonable guesses for the lower and upper bounds of the variables
+## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge slowly or diverge completely
 
 method
         moga
-        max_iterations = 100
+        max_iterations = 10 ## Just for testing purposes, but should be larger
         population_size = 50
         max_function_evaluations = 5000
         initialization_type unique_random

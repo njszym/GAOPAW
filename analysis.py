@@ -30,9 +30,7 @@ def main():
     template_dir = input_settings['template_dir']
     lat_type_list = input_settings['lattice_type']
     lat_const_list = input_settings['lattice_constant']
-    ## Testing with multiples elements and/or lattice types is required
-    ## Perhaps better to test all elem/lat, then sum up objectives and update dakota
-    ## However, be careful, still need to detect errors, i.e., bad_run()
+    lat_diff_list = []
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
         write_atompaw_input(elem, template_dir)
         run_atompaw(elem)
@@ -43,13 +41,17 @@ def main():
                 QE_lat = get_lattice_constant(elem,lat_type)
                 AE_lat = lat_const
                 if check_convergence(elem,lat_type) == True:
-                    update_dakota(AE_lat,QE_lat)
+                    lat_diff_list.append(compare_lat(AE_lat,QE_lat))
                 else:
-                    bad_run()
+                    pass
             except:
-                bad_run()
+                pass
         else:
-            bad_run()
+            pass
+    if len(lat_diff_list) == len(lat_type_list):
+        update_dakota(lat_diff_list)
+    else:
+        bad_run(lat_type_list)
 
 def check_UPF():
     """
@@ -64,25 +66,35 @@ def check_UPF():
             pass
     return check
 
-def bad_run():
+def bad_run(lat_type_list):
     """
     If something went wrong with the run, e.g., no .UPF file created or
     if running QE raised an error, set the objective function to 100
     """
     params, results = di.read_parameters_file('params.in','results.out')
     results['obj_fn_1'].function = 100
-    results['obj_fn_2'].function = 100
+    for index in range(len(lat_type_list)):
+        label = 'obj_fn_'+str(index+2)
+        results[label].function = 100
     results.write()
 
-def update_dakota(AE_lat,QE_lat):
+def compare_lat(AE_lat,QE_lat):
+    """
+    Compute difference between AE and PAW lattice constants
+    """
+    return abs(AE_lat - QE_lat)
+
+def update_dakota(lat_diff_list):
     """
     Set the parameters and results files to be used by Dakota
     The objective function is equal to the difference between the lattice
     constants of AE calculations and PAW calculations performed here
     """
     params, results = di.read_parameters_file('params.in','results.out')
-    results['obj_fn_1'].function = abs(AE_lat - QE_lat)
-    results['obj_fn_2'].function = compare_log()
+    results['obj_fn_1'].function = compare_log()
+    for index in range(len(lat_diff_list)):
+        label = 'obj_fn_'+str(index+2)
+        results[label].function = lat_diff_list[index]
     results.write()
 
 def write_atompaw_input(elem,template_path):

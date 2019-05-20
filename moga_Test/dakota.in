@@ -3,11 +3,11 @@ environment
   tabular_data
 
 variables
-	continuous_design = 7
-  	  initial_point    1.8          1.8          1.8          1.8          1.8          4.0          8.0
-  	  lower_bounds     1.0          1.0          1.0          1.0          1.0          1.0          4.0
-  	  upper_bounds     2.5          2.5          2.5          2.5          2.5          7.0         12.0
-  	  descriptors   'DAKOTA_Si_RC_1' 'DAKOTA_Si_RC_2' 'DAKOTA_Si_RC_3' 'DAKOTA_Si_RC_4' 'DAKOTA_Si_RC_5' 'DAKOTA_Si_EP_1' 'DAKOTA_Si_EP_2'
+	continuous_design = 3
+  	  initial_point    1.8          4.0          5.0
+  	  lower_bounds     1.0          1.0          2.0
+  	  upper_bounds     2.5          7.0          12.0
+  	  descriptors   'DAKOTA_Si_RC' 'DAKOTA_Si_EP_1' 'DAKOTA_Si_EP_2'
 
 method
         moga
@@ -15,8 +15,8 @@ method
         population_size = 50
         max_function_evaluations = 5000
         initialization_type unique_random
-        crossover_type shuffle_random
-          num_offspring = 2 num_parents = 2
+        crossover_type
+          multi_point_parameterized_binary = 2
           crossover_rate = 0.8
         mutation_type replace_uniform
           mutation_rate = 0.1
@@ -24,7 +24,7 @@ method
         replacement_type below_limit = 6
           shrinkage_percentage = 0.9
         convergence_type metric_tracker
-          percent_change = 0.05 num_generations = 20
+          percent_change = 0.05 num_generations = 10
         output verbose
 
 interface
@@ -32,7 +32,7 @@ interface
         asynchronous
           evaluation_concurrency = 2
         system
-          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py'
+          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py $PWD'
           parameters_file = 'params.in'
           results_file    = 'results.out'
         work_directory directory_tag 

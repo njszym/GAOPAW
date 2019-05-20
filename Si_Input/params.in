@@ -1,9 +1,5 @@
-                                          7 variables
-                                        1.8 DAKOTA_Si_RC_1
-                                        1.8 DAKOTA_Si_RC_2
-                                        1.8 DAKOTA_Si_RC_3
-                                        1.8 DAKOTA_Si_RC_4
-                                        1.8 DAKOTA_Si_RC_5
+                                          3 variables
+                                        1.8 DAKOTA_Si_RC
                                         2.0 DAKOTA_Si_EP_1
                                         5.0 DAKOTA_Si_EP_2
                                           2 functions

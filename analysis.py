@@ -23,9 +23,8 @@ def main():
     compare with AE lattice constant and update objective function.
     Logarithmic derivatives of exact and pseudized partial waves are also compared
     """
-#    working_dir = sys.argv[-1] ## Some work needed for ease of use
-    working_dir = '/scr/szymansk/gaopaw/moga_Test'
-    with open(working_dir+'/gaopaw.yaml') as f:
+    working_dir = sys.argv[-3]
+    with open(working_dir+'/../gaopaw.yaml') as f:
         input_settings = yaml.load(f)
     element_list = input_settings['elements']
     template_dir = input_settings['template_dir']

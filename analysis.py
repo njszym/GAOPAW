@@ -58,7 +58,6 @@ def main():
         os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
         if test_binary == True:
-### May need try/except statement here...not sure yet
             unique_elem_list = unique(element_list)
             cmpd = unique_elem_list[0]+unique_elem_list[1]
             write_QE_input(cmpd,'RS',template_dir)

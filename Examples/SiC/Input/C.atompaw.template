@@ -14,7 +14,7 @@ n
 y
 {DAKOTA_C_EP_2}
 n 
-custom rrkj vanderbiltortho
+custom rrkj vanderbiltortho besselshape
 2 0
 {DAKOTA_C_RC}
 {DAKOTA_C_RC}

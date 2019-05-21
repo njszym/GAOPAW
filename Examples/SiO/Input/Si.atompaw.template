@@ -16,7 +16,7 @@ n
 y
 {DAKOTA_Si_EP_2}
 n 
-custom rrkj vanderbiltortho
+custom rrkj vanderbiltortho besselshape
 2 0
 {DAKOTA_Si_RC}
 {DAKOTA_Si_RC}

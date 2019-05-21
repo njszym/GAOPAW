@@ -1,0 +1,9 @@
+# Input file for GAOPAW
+elements: ['Si','Si','C','C']
+lattice_type: ['FCC','BCC','FCC','BCC']
+lattice_constant: [3.857,3.08,3.103,2.366]
+template_dir: '/scr/szymansk/gaopaw_test/Examples/SiC/Input'
+test_binary: True
+binary_lattice_constant: 10.50197
+binary_lattice_type: 'ZB'
+# End file

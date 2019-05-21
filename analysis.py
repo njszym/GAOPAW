@@ -71,7 +71,7 @@ def main():
             update_dakota(element_list,lat_diff_list)
     else:
         if test_binary == True:
-            lat_type_list.append('RS')
+            lat_type_list.append(input_settings['binary_lattice_type'])
             bad_run(element_list,lat_type_list)
         else:
             bad_run(element_list,lat_type_list)
@@ -174,7 +174,7 @@ def get_lattice_constant(elem,lat_type):
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = xtal.get_params_from_chorus(cparams)
-    if lat_type == 'FCC' or lat_type == 'RS':
+    if lat_type == 'FCC' or lat_type == 'RS' or lat_type == 'ZB':
         return math.sqrt(2)*params[0]
     if lat_type == 'BCC':
         return (2./3.)*math.sqrt(3)*params[0]

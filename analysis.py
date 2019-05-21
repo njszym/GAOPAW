@@ -13,6 +13,7 @@ from schrodinger.application.matsci.nano import xtal
 import math
 import yaml
 import numpy as np
+from shutil import copyfile
 
 def main():
     """
@@ -32,7 +33,11 @@ def main():
     lat_const_list = input_settings['lattice_constant']
     lat_diff_list = []
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
+        if elem not in os.listdir('.'):
+            os.mkdir(elem)
         write_atompaw_input(elem, template_dir)
+        copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
+        os.chdir(elem)
         run_atompaw(elem)
         if check_UPF() == True:
             write_QE_input(elem,lat_type,template_dir)
@@ -48,10 +53,11 @@ def main():
                 pass
         else:
             pass
+        os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
-        update_dakota(lat_diff_list)
+        update_dakota(element_list,lat_diff_list)
     else:
-        bad_run(lat_type_list)
+        bad_run(element_list,lat_type_list)
 
 def check_UPF():
     """
@@ -66,15 +72,19 @@ def check_UPF():
             pass
     return check
 
-def bad_run(lat_type_list):
+def bad_run(element_list,lat_type_list):
     """
     If something went wrong with the run, e.g., no .UPF file created or
     if running QE raised an error, set the objective function to 100
     """
     params, results = di.read_parameters_file('params.in','results.out')
-    results['obj_fn_1'].function = 100
+    unique_elem_list = unique(element_list)
+    for (index,elem) in zip(range(len(unique_elem_list)),unique_elem_list):
+        label = 'obj_fn_'+str(index+1)
+        results[label].function = 100.0
+    add_index = len(unique_elem_list)+1
     for index in range(len(lat_type_list)):
-        label = 'obj_fn_'+str(index+2)
+        label = 'obj_fn_'+str(index+add_index)
         results[label].function = 100
     results.write()
 
@@ -84,16 +94,22 @@ def compare_lat(AE_lat,QE_lat):
     """
     return abs(AE_lat - QE_lat)
 
-def update_dakota(lat_diff_list):
+def update_dakota(element_list,lat_diff_list):
     """
     Set the parameters and results files to be used by Dakota
     The objective function is equal to the difference between the lattice
     constants of AE calculations and PAW calculations performed here
     """
     params, results = di.read_parameters_file('params.in','results.out')
-    results['obj_fn_1'].function = compare_log()
+    unique_elem_list = unique(element_list)
+    for (index,elem) in zip(range(len(unique_elem_list)),unique_elem_list):
+        os.chdir(elem)
+        label = 'obj_fn_'+str(index+1)
+        results[label].function = compare_log()
+        os.chdir('../')
+    add_index = len(unique_elem_list)+1
     for index in range(len(lat_diff_list)):
-        label = 'obj_fn_'+str(index+2)
+        label = 'obj_fn_'+str(index+add_index)
         results[label].function = lat_diff_list[index]
     results.write()
 
@@ -216,6 +232,16 @@ def compare_log_peaks():
         net_diff.append(sum(energy_diff))
     total_diff = sum(net_diff)
     return total_diff
+
+def unique(list): 
+    """
+    Get list of unique elements to be tested
+    """
+    unique_list = []   
+    for x in list:
+        if x not in unique_list: 
+            unique_list.append(x) 
+    return unique_list
 
 if __name__=='__main__':
     main()

@@ -1,0 +1,8 @@
+# Input file for GAOPAW
+elements: ['Si','Si','O','O']
+lattice_type: ['FCC','BCC','FCC','BCC']
+lattice_constant: [3.857,3.08,3.178,2.511]
+template_dir: '/scr/szymansk/gaopaw/Examples/Si_O/Input'
+test_binary: False
+binary_lattice_constant: 0.0
+# End file

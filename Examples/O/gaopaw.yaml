@@ -3,4 +3,6 @@ elements: ['O','O']
 lattice_type: ['FCC','BCC']
 lattice_constant: [3.178,2.511]
 template_dir: '/scr/szymansk/gaopaw/Examples/O/Input'
+test_binary: False
+binary_lattice_constant: 0.0
 # End file

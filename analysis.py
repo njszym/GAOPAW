@@ -31,6 +31,7 @@ def main():
     template_dir = input_settings['template_dir']
     lat_type_list = input_settings['lattice_type']
     lat_const_list = input_settings['lattice_constant']
+    test_binary = input_settings['test_binary']
     lat_diff_list = []
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
         if elem not in os.listdir('.'):
@@ -47,6 +48,7 @@ def main():
                 AE_lat = lat_const
                 if check_convergence(elem,lat_type) == True:
                     lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                    copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                 else:
                     pass
             except:
@@ -55,9 +57,24 @@ def main():
             pass
         os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
-        update_dakota(element_list,lat_diff_list)
+        if test_binary == True:
+### May need try/except statement here...not sure yet
+            unique_elem_list = unique(element_list)
+            cmpd = unique_elem_list[0]+unique_elem_list[1]
+            write_QE_input(cmpd,'RS',template_dir)
+            run_QE(cmpd,'RS')
+            QE_lat = get_lattice_constant(cmpd,'RS')
+            AE_lat = input_settings['binary_lattice_constant']
+            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+            update_dakota(element_list,lat_diff_list)
+        else:
+            update_dakota(element_list,lat_diff_list)
     else:
-        bad_run(element_list,lat_type_list)
+        if test_binary == True:
+            lat_type_list.append('RS')
+            bad_run(element_list,lat_type_list)
+        else:
+            bad_run(element_list,lat_type_list)
 
 def check_UPF():
     """

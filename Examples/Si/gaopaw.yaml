@@ -3,4 +3,6 @@ elements: ['Si','Si']
 lattice_type: ['FCC','BCC']
 lattice_constant: [3.857,3.08]
 template_dir: '/scr/szymansk/gaopaw/Examples/Si/Input'
+test_binary: False
+binary_lattice_constant: 0.0
 # End file

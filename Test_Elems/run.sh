@@ -1,5 +1,5 @@
 
-for elem in H Li Be B C O F Na Mg Al Si S Cl                                                                                                                   
+for elem in H Li Be B C O F Na Mg Al Si S Cl K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge                                                                                                                   
 do                                                                                                                                     
 mkdir $elem                                                                                                                            
 cp dakota_input/$elem.dakota.in $elem/dakota.in                                                                                                                     

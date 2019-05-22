@@ -1,0 +1,31 @@
+Se 34
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+4 4 3 0 0 0 
+4 1 4
+3 2 10
+0 0 0 
+c
+c
+c
+v
+c
+c
+v
+c
+2
+{DAKOTA_RC} {DAKOTA_RC}/1.2 {DAKOTA_RC}/1.4 {DAKOTA_RC}/1.4
+y
+{DAKOTA_EP_1}
+n
+y
+{DAKOTA_EP_2}
+n
+n
+custom polynom2 7 10.0 vanderbiltortho besselshape
+2 0.0 ultrasoft
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+3
+0

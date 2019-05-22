@@ -15,7 +15,7 @@ variables
 method
         moga
         max_iterations = 10 ## Just for testing purposes, but should be larger
-        population_size = 50
+        population_size = 50 ## 50 is default value, works well, but further testing required
         max_function_evaluations = 5000
         initialization_type unique_random
         crossover_type

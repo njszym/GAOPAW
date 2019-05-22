@@ -19,7 +19,7 @@ orbital_list = ['s','p','d']
 color_list = ['r','b','g']
 color_index = 0
 
-## For each l, plot exact and pseudo derivs
+## For each l, plot exact and pseudo arctan logderivs
 for file in log_derivs[:-1]:
     df = pd.read_table(file,sep='\s+',header=None)
     e = df[0]

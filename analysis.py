@@ -194,8 +194,11 @@ def check_convergence(elem,lat_type):
 
 def compare_log():
     """"
-    Compare the logarithmic derivatives of the pseudized and exact
-    wavefunctions produced by AtomPAW...want to minimize
+    Compare arctan of the logarithmic derivatives of the pseudized and 
+    exact wavefunctions produced by AtomPAW...want to minimize...
+    Comparing arctan works better than using log derivs explicitly.
+    Note that columns in logderiv.l correspond to:
+    energy, exact logderiv, pseudized logderv, exact arctan, pseudized arctan
     """
     files = os.listdir('./')
     log_derivs = []
@@ -207,8 +210,8 @@ def compare_log():
     for file in log_derivs[:-1]:
         df = pd.read_table(file,sep='\s+',header=None)
         e = df[0]
-        log_pseudo = df[1]
-        log_exact = df[2]
+        log_exact = df[3]
+        log_pseudo = df[4]
         sum_log += sum([abs(value) for value in log_exact])
         diff = []
         for (ps, ex) in zip(log_pseudo,log_exact):

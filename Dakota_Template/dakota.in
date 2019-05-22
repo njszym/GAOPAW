@@ -22,14 +22,14 @@ method
         max_function_evaluations = 5000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type
-          multi_point_parameterized_binary = 2  ## Has been tested, this method works better than shuffle_random
-          crossover_rate = 0.8
-        mutation_type replace_uniform
-          mutation_rate = 0.1 ## Keep low to avoid many unwanted chromosomes w/ errors
+          multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
+          crossover_rate = 0.6 ## Crossover point defining how parent genes are swapped to produce children; this value has been optimized (roughly, work in progress)
+        mutation_type replace_uniform  ## Randomly replace variables by mutations (no preference) at given rate below
+          mutation_rate = 0.1 ## Keep low to avoid many unwanted chromosomes w/ errors; # mutations = 10% * population size * number of variables
         fitness_type domination_count
         replacement_type below_limit = 6
-          shrinkage_fraction = 0.2  ## Testing implies small fraction works best
-        convergence_type metric_tracker
+          shrinkage_fraction = 0.2  ## Small fraction works best, optimum value may depend on how suitable your initial value ranges are
+        convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
           percent_change = 0.05 num_generations = 10 ## Convergence acheived if less than 5% change occurs over ten consecutive generations (default)
         output verbose ## Write details to log
 

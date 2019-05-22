@@ -1,0 +1,47 @@
+environment
+  graphics
+  tabular_data
+
+variables
+	continuous_design = 3
+  	  initial_point    2.2          0.00
+  	  lower_bounds     1.7          0.00
+  	  upper_bounds     2.5          12.0
+  	  descriptors   'DAKOTA_RC' 'DAKOTA_EP_1'
+
+## You should have reasonable guesses for the lower and upper bounds of the variables
+## Otherwise, algorithm may converge slowly or diverge completely
+
+method
+        moga
+        max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
+        population_size = 50
+        max_function_evaluations = 5000
+        initialization_type unique_random
+        crossover_type
+          multi_point_parameterized_binary = 2
+          crossover_rate = 0.8
+        mutation_type replace_uniform
+          mutation_rate = 0.1 ## Keep low to avoid many unwanted chromosomes w/ errors
+        fitness_type domination_count
+        replacement_type below_limit = 6
+          shrinkage_fraction = 0.2  ## Testing implies small fraction works best
+        convergence_type metric_tracker
+          percent_change = 0.05 num_generations = 10 ## Convergence acheived if less than 5% change occurs over ten consecutive generations (default)
+        final_solutions = 5
+        output verbose
+
+interface
+        asynchronous 
+          evaluation_concurrency = 2 ## Keep this low to prevent overusage of CPU
+        system
+          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py $PWD'
+          parameters_file = 'params.in'
+          results_file    = 'results.out'
+        work_directory directory_tag 
+          named 'workdir_pp' file_save directory_save
+
+responses
+	num_objective_functions = 3
+	no_gradients
+        no_hessians

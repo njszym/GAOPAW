@@ -23,7 +23,7 @@ method
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
-          crossover_rate = 0.6 ## Crossover point defining how parent genes are swapped to produce children; this value has been optimized (roughly, work in progress)
+          crossover_rate = 0.6 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly, work in progress)
         mutation_type replace_uniform  ## Randomly replace variables by mutations (no preference) at given rate below
           mutation_rate = 0.1 ## Keep low to avoid many unwanted chromosomes w/ errors; # mutations = 10% * population size * number of variables
         fitness_type domination_count

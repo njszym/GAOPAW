@@ -18,7 +18,7 @@ variables
 method
         moga
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 50 ## Default number of chromosomes per generation, works well
+        population_size = 50 ## Default number of chromosomes per generation, works well enough, but further optimization may be possible
         max_function_evaluations = 5000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type

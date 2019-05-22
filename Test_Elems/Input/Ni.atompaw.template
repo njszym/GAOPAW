@@ -1,0 +1,32 @@
+Ni 28
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+4 3 3 0 0 0 
+4 0 2
+3 2 8
+0 0 0 
+c
+c
+v
+v
+c
+v
+v
+2
+{DAKOTA_RC} {DAKOTA_RC}/1.2 {DAKOTA_RC}/1.4 {DAKOTA_RC}/1.4
+n
+y
+{DAKOTA_EP_1}
+n
+y
+{DAKOTA_EP_2}
+n
+VANDERBILT
+bessel
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+3
+0

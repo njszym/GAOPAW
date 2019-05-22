@@ -4,7 +4,7 @@ environment
 
 variables
 	continuous_design = 3
-  	  initial_point    1.2          2.00         2.00
+  	  initial_point    1.2          0.00         0.00
   	  lower_bounds     0.8          0.00         0.00
   	  upper_bounds     1.6          12.0         12.0
   	  descriptors   'DAKOTA_RC' 'DAKOTA_EP_1' 'DAKOTA_EP_2'
@@ -28,6 +28,7 @@ method
           shrinkage_fraction = 0.2  ## Testing implies small fraction works best
         convergence_type metric_tracker
           percent_change = 0.05 num_generations = 10 ## Convergence acheived if less than 5% change occurs over ten consecutive generations (default)
+        final_solutions = 5
         output verbose
 
 interface

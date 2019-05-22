@@ -15,8 +15,8 @@ n
 y
 {DAKOTA_EP_2}
 n 
-custom rrkj vanderbiltortho besselshape
-2 0
+VANDERBILT
+2 2.5 ultrasoft
 {DAKOTA_RC}
 {DAKOTA_RC}
 {DAKOTA_RC}

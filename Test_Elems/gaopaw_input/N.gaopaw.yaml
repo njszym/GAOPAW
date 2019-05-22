@@ -1,8 +1,0 @@
-# Input file for GAOPAW
-elements: ['N','N']
-lattice_type: ['FCC','BCC']
-lattice_constant: [?,?]
-template_dir: '/scr/szymansk/gaopaw/Test_Elems/Input'
-test_binary: False
-binary_lattice_constant: 0.0
-# End file

@@ -20,7 +20,7 @@ method
         initialization_type unique_random
         crossover_type
           multi_point_parameterized_binary = 2
-          crossover_rate = 0.8
+          crossover_rate = 0.4
         mutation_type replace_uniform
           mutation_rate = 0.1 ## Keep low to avoid many unwanted chromosomes w/ errors
         fitness_type domination_count

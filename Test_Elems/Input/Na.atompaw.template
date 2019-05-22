@@ -11,16 +11,10 @@ v
 v
 1
 {DAKOTA_RC} {DAKOTA_RC}/1.2 {DAKOTA_RC}/1.4 {DAKOTA_RC}/1.4
-y
-{DAKOTA_EP_1}
 n
-y
-{DAKOTA_EP_2}
 n 
 Vanderbilt
 bessel
-{DAKOTA_RC}
-{DAKOTA_RC}
 {DAKOTA_RC}
 {DAKOTA_RC}
 {DAKOTA_RC}

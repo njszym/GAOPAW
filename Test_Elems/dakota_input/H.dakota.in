@@ -14,7 +14,7 @@ variables
 
 method
         moga
-        max_iterations = 10 ## Just for testing purposes, but should be larger
+        max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
         population_size = 50
         max_function_evaluations = 5000
         initialization_type unique_random
@@ -27,7 +27,7 @@ method
         replacement_type below_limit = 6
           shrinkage_fraction = 0.2  ## Testing implies small fraction works best
         convergence_type metric_tracker
-          percent_change = 0.05 num_generations = 10
+          percent_change = 0.05 num_generations = 10 ## Convergence acheived if less than 5% change occurs over ten consecutive generations (default)
         output verbose
 
 interface

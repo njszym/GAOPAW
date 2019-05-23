@@ -4,5 +4,5 @@ lattice_type: ['FCC','BCC']
 lattice_constant: [4.335,3.427]
 template_dir: '/scr/szymansk/gaopaw/Test_Elems/Input'
 test_binary: False
-binary_lattice_constant: 0.0
+test_ternary: False
 # End file

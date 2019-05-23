@@ -3,7 +3,7 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 3
+	continuous_design = 6
   	  initial_point    1.9          0.00         0.00         1.40         0.00         0.00
   	  lower_bounds     1.4          0.00         0.00         1.00         0.00         0.00
   	  upper_bounds     2.3          12.0         12.0         1.80         12.0         12.0
@@ -46,6 +46,6 @@ interface
           named 'workdir_pp' ## Name of working directories, numbered by evaluation number, folders are temporary (delete and replace after evaluation to save space)
 
 responses
-	num_objective_functions = 3 ## Set this accordingly based on your calculation
+	num_objective_functions = 7 ## Set this accordingly based on your calculation
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

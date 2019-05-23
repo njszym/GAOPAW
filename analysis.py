@@ -31,7 +31,14 @@ def main():
     template_dir = input_settings['template_dir']
     lat_type_list = input_settings['lattice_type']
     lat_const_list = input_settings['lattice_constant']
-    test_binary = input_settings['test_binary']
+    try:
+        test_binary = input_settings['test_binary']
+    except:
+        test_binary = False
+    try:
+        test_ternary = input_settings['test_ternary']
+    except:
+        test_ternary = False
     lat_diff_list = []
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
         if elem not in os.listdir('.'):
@@ -66,13 +73,25 @@ def main():
             AE_lat = input_settings['binary_lattice_constant']
             lat_diff_list.append(compare_lat(AE_lat,QE_lat))
             update_dakota(element_list,lat_diff_list)
-        else:
+        if test_ternary == True:
+            unique_elem_list = unique(element_list)
+            cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
+            write_QE_input(cmpd,'per',template_dir)
+            run_QE(cmpd,'per')
+            QE_lat = get_lattice_constant(cmpd,'per')
+            AE_lat = input_settings['ternary_lattice_constant']
+            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+            update_dakota(element_list,lat_diff_list)
+        if test_binary == False and test_ternary == False:
             update_dakota(element_list,lat_diff_list)
     else:
         if test_binary == True:
             lat_type_list.append(input_settings['binary_lattice_type'])
             bad_run(element_list,lat_type_list)
-        else:
+        if test_ternary == True:
+            lat_type_list.append(input_settings['ternary_lattice_type'])
+            bad_run(element_list,lat_type_list)
+        if test_binary == False and test_binary == False:
             bad_run(element_list,lat_type_list)
 
 def check_UPF():
@@ -177,6 +196,8 @@ def get_lattice_constant(elem,lat_type):
         return math.sqrt(2)*params[0]
     if lat_type == 'BCC':
         return (2./3.)*math.sqrt(3)*params[0]
+    if lat_type == 'per':
+        return params[0]
 
 def check_convergence(elem,lat_type):
     """

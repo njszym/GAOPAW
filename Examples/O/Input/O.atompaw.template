@@ -1,9 +1,9 @@
 O 8
-GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 8. 1000
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
 2 2 0 0 0 0 
-2 1 4 
+2 1 4
 0 0 0 
-c 
+c
 v
 v
 1
@@ -14,8 +14,8 @@ n
 y
 {DAKOTA_EP_2}
 n 
-custom rrkj vanderbiltortho besselshape
-2 0
+VANDERBILT
+2 2.5 ultrasoft
 {DAKOTA_RC}
 {DAKOTA_RC}
 {DAKOTA_RC}

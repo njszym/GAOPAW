@@ -74,6 +74,7 @@ def get_walltime(elem,lat_type):
     time = pwscf_lines[-1][2]
     return time
 
+## Tolerances listed below may need to be tuned
 
 elem = sys.argv[-1]
 ediff = 0
@@ -113,14 +114,14 @@ while (ediff < etol) and (FCC_diff < FCC_tol) and (BCC_diff < BCC_tol):
         for line in lines:
             f.write(line)
     run_atompaw(elem)
-    ediff = abs(benchmark_e - read_output(elem)[1])
+    ediff = abs(benchmark_e - read_output(elem)[1])/benchmark_e
     run_QE(elem,'FCC')
     new_lat_FCC = get_lattice_constant(elem,'FCC')
-    FCC_diff = abs(benchmark_FCC - new_lat_FCC)
+    FCC_diff = abs(benchmark_FCC - new_lat_FCC)/benchmark_FCC
     FCC_walltime = get_walltime(elem,'FCC')
     run_QE(elem,'BCC')
     new_lat_BCC = get_lattice_constant(elem,'BCC')
-    BCC_diff = abs(benchmark_BCC - new_lat_BCC)
+    BCC_diff = abs(benchmark_BCC - new_lat_BCC)/benchmark_BCC
     BCC_walltime = get_walltime(elem,'BCC')
     differences.append([num_pts,ediff,FCC_diff,BCC_diff,FCC_walltime,BCC_walltime])
 

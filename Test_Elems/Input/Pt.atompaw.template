@@ -1,34 +1,38 @@
-Re 75
+Pt 78
 GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
-6 6 5 4 0 0                                 ! Max. n per angular momentum: 4s 3p 3d
-5 2 5.0
-6 0 2.
-6 1 0.
+6 6 5 4 0 0
+6 0 1
+5 2 9
+6 1 0
 0 0 0
 c
 c
 c
 c
-v
+c
 v
 c
 c
-c
-v
-v
 c
 c
 v
 c
-2 
+c
+v
+c
+2
 {DAKOTA_RC} {DAKOTA_RC/1.2} {DAKOTA_RC/1.3} {DAKOTA_RC/1.3}
-n
-n
 y
 {DAKOTA_EP_1}
 n
-custom polynom2 4 10.0 vanderbiltortho
-3 -0.4 ultrasoft
+y
+{DAKOTA_EP_2}       
+n
+y
+{DAKOTA_EP_3}
+n                                         
+custom rrkj vanderbiltortho     ! Scheme for PS partial waves and projectors
+bessel
 {DAKOTA_RC}
 {DAKOTA_RC}
 {DAKOTA_RC}

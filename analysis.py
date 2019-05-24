@@ -77,7 +77,11 @@ def main():
                 run_QE(cmpd,bin_lat_type)
                 atom_diff = compare_atoms(cmpd,bin_lat_type,template_dir)
                 lat_diff_list.append(atom_diff)
-                update_dakota(element_list,lat_diff_list)
+                if check_convergence(cmpd,bin_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(bin_lat_type)
+                    bad_run(element_list,lat_type_list)
             if test_ternary == True:
                 tern_lat_type = input_settings['ternary_lattice_type']
                 unique_elem_list = unique(element_list)
@@ -86,14 +90,22 @@ def main():
                 run_QE(cmpd,tern_lat_type)
                 atom_diff = compare_atoms(cmpd,tern_lat_type,template_dir)
                 lat_diff_list.append(atom_diff)
-                update_dakota(element_list,lat_diff_list)
+                if check_convergence(cmpd,tern_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(tern_lat_type)
+                    bad_run(element_list,lat_type_list)
             if test_binary == False and test_ternary == False:
                 cmpd = element_list[0]
                 write_QE_input(cmpd,'atoms',template_dir)
                 run_QE(cmpd,'atoms')
                 atom_diff = compare_atoms(cmpd,'atoms',template_dir)
                 lat_diff_list.append(atom_diff)
-                update_dakota(element_list,lat_diff_list)
+                if check_convergence(cmpd,'atoms') == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append('atoms')
+                    bad_run(element_list,lat_type_list)
         else:
             if test_binary == True:
                 bin_lat_type = input_settings['binary_lattice_type']
@@ -104,7 +116,11 @@ def main():
                 QE_lat = get_lattice_constant(cmpd,bin_lat_type)
                 AE_lat = input_settings['binary_lattice_constant']
                 lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                update_dakota(element_list,lat_diff_list)
+                if check_convergence(cmpd,bin_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(bin_lat_type)
+                    bad_run(element_list,lat_type_list)
             if test_ternary == True:
                 tern_lat_type = input_settings['ternary_lattice_type']
                 unique_elem_list = unique(element_list)
@@ -114,7 +130,11 @@ def main():
                 QE_lat = get_lattice_constant(cmpd,tern_lat_type)
                 AE_lat = input_settings['ternary_lattice_constant']
                 lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                update_dakota(element_list,lat_diff_list)
+                if check_convergence(cmpd,tern_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(tern_lat_type)
+                    bad_run(element_list,lat_type_list)
             if test_binary == False and test_ternary == False:
                 update_dakota(element_list,lat_diff_list)
     else:

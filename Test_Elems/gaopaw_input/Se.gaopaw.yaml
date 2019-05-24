@@ -3,6 +3,4 @@ elements: ['Se','Se']
 lattice_type: ['FCC','BCC']
 lattice_constant: [4.337,3.460]
 template_dir: '/scr/szymansk/gaopaw/Test_Elems/Input'
-test_binary: False
-test_ternary: False
 # End file

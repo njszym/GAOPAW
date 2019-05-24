@@ -3,6 +3,4 @@ elements: ['Ni','Ni']
 lattice_type: ['FCC','BCC']
 lattice_constant: [3.515,2.793]
 template_dir: '/scr/szymansk/gaopaw/Test_Elems/Input'
-test_binary: False
-test_ternary: False
 # End file

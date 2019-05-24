@@ -4,7 +4,7 @@ import os
 import sys
 
 
-## Usage EX: python plot_wfn.py 1 (to plot wfn1)
+## Usage: python plot_wfn.py (wfn number)
 
 file = 'wfn'+str(sys.argv[-1])
 

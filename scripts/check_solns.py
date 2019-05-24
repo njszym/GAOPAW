@@ -4,6 +4,8 @@ import numpy as np
 
 
 ## Determine accuracy of each final solution from a completed Dakota run
+## Best solution: minimize logderiv difference and lattice constant differences 
+## To ensure accuracy among all structures, also minimize standard deviation
 ## Usage: python check_solns.py (number of variables to check)
 
 num_obj = int(sys.argv[-1])
@@ -22,9 +24,10 @@ index = 1
 indices = []
 for obj in obj_list:
     net_diff = 0
+    std_dev = np.std(obj[1:])
     for value in obj:
         net_diff += value**2
-    net_diff = net_diff**0.5
+    net_diff = (net_diff + std_dev**2)**0.5
     print (index-1, ':', net_diff)
     solutions.append(net_diff)
     indices.append(index)
@@ -32,6 +35,6 @@ for obj in obj_list:
 min_diff = min(solutions)
 for (a,b) in zip(indices,solutions):
     if b == min_diff:
-        print ('\nBest Solution: ', a, b,'\n')
+        print ('\nBest Solution: ', a-1, b,'\n')
     else:
         pass

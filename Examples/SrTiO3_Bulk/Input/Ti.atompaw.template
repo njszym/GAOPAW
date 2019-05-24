@@ -1,0 +1,32 @@
+Ti 22
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+4 3 3 0 0 0 
+4 0 1
+3 2 3
+0 0 0 
+c
+c
+v
+v
+c
+v
+v
+2
+{DAKOTA_Ti_RC} {DAKOTA_Ti_RC}/1.2 {DAKOTA_Ti_RC}/1.4 {DAKOTA_Ti_RC}/1.4
+n
+y
+{DAKOTA_Ti_EP_1}
+n
+y
+{DAKOTA_Ti_EP_2}
+n
+custom polynom2 7 10.0 vanderbiltortho besselshape
+3 -0.5 ultrasoft
+{DAKOTA_Ti_RC}
+{DAKOTA_Ti_RC}
+{DAKOTA_Ti_RC}
+{DAKOTA_Ti_RC}
+{DAKOTA_Ti_RC}
+{DAKOTA_Ti_RC}
+3
+0

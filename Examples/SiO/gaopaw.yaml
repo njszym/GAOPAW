@@ -6,5 +6,4 @@ template_dir: '/scr/szymansk/gaopaw/Examples/SiO/Input'
 test_binary: True
 binary_lattice_constant: 4.616
 binary_lattice_type: 'RS'
-test_ternary: False
 # End file

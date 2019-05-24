@@ -68,7 +68,7 @@ def main():
             pass
         os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
-        if test_atoms == True: ## Work in progress, testing needed
+        if test_atoms == True:
             if test_binary == True:
                 bin_lat_type = input_settings['binary_lattice_type']
                 unique_elem_list = unique(element_list)
@@ -89,9 +89,9 @@ def main():
                 update_dakota(element_list,lat_diff_list)
             if test_binary == False and test_ternary == False:
                 cmpd = element_list[0]
-                write_QE_input(cmpd,'surf',template_dir)
-                run_QE(cmpd,'surf')
-                atom_diff = compare_atoms(cmpd,'surf',template_dir)
+                write_QE_input(cmpd,'atoms',template_dir)
+                run_QE(cmpd,'atoms')
+                atom_diff = compare_atoms(cmpd,'atoms',template_dir)
                 lat_diff_list.append(atom_diff)
                 update_dakota(element_list,lat_diff_list)
         else:

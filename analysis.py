@@ -39,6 +39,10 @@ def main():
         test_ternary = input_settings['test_ternary']
     except:
         test_ternary = False
+    try:
+        test_atoms = input_settings['test_atomic_positions']
+    except:
+        test_atoms = False
     lat_diff_list = []
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
         if elem not in os.listdir('.'):
@@ -64,28 +68,55 @@ def main():
             pass
         os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
-        if test_binary == True:
-            bin_lat_type = input_settings['binary_lattice_type']
-            unique_elem_list = unique(element_list)
-            cmpd = unique_elem_list[0]+unique_elem_list[1]
-            write_QE_input(cmpd,bin_lat_type,template_dir)
-            run_QE(cmpd,bin_lat_type)
-            QE_lat = get_lattice_constant(cmpd,bin_lat_type)
-            AE_lat = input_settings['binary_lattice_constant']
-            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-            update_dakota(element_list,lat_diff_list)
-        if test_ternary == True:
-            tern_lat_type = input_settings['ternary_lattice_type']
-            unique_elem_list = unique(element_list)
-            cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
-            write_QE_input(cmpd,tern_lat_type,template_dir)
-            run_QE(cmpd,tern_lat_type)
-            QE_lat = get_lattice_constant(cmpd,tern_lat_type)
-            AE_lat = input_settings['ternary_lattice_constant']
-            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-            update_dakota(element_list,lat_diff_list)
-        if test_binary == False and test_ternary == False:
-            update_dakota(element_list,lat_diff_list)
+        if test_atoms == True: ## Work in progress, testing needed
+            if test_binary == True:
+                bin_lat_type = input_settings['binary_lattice_type']
+                unique_elem_list = unique(element_list)
+                cmpd = unique_elem_list[0]+unique_elem_list[1]
+                write_QE_input(cmpd,bin_lat_type,template_dir)
+                run_QE(cmpd,bin_lat_type)
+                atom_diff = compare_atoms(cmpd,bin_lat_type,template_dir)
+                lat_diff_list.append(atom_diff)
+                update_dakota(element_list,lat_diff_list)
+            if test_ternary == True:
+                tern_lat_type = input_settings['ternary_lattice_type']
+                unique_elem_list = unique(element_list)
+                cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
+                write_QE_input(cmpd,tern_lat_type,template_dir)
+                run_QE(cmpd,tern_lat_type)
+                atom_diff = compare_atoms(cmpd,tern_lat_type,template_dir)
+                lat_diff_list.append(atom_diff)
+                update_dakota(element_list,lat_diff_list)
+            if test_binary == False and test_ternary == False:
+                cmpd = element_list[0]
+                write_QE_input(cmpd,'surf',template_dir)
+                run_QE(cmpd,'surf')
+                atom_diff = compare_atoms(cmpd,'surf',template_dir)
+                lat_diff_list.append(atom_diff)
+                update_dakota(element_list,lat_diff_list)
+        else:
+            if test_binary == True:
+                bin_lat_type = input_settings['binary_lattice_type']
+                unique_elem_list = unique(element_list)
+                cmpd = unique_elem_list[0]+unique_elem_list[1]
+                write_QE_input(cmpd,bin_lat_type,template_dir)
+                run_QE(cmpd,bin_lat_type)
+                QE_lat = get_lattice_constant(cmpd,bin_lat_type)
+                AE_lat = input_settings['binary_lattice_constant']
+                lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                update_dakota(element_list,lat_diff_list)
+            if test_ternary == True:
+                tern_lat_type = input_settings['ternary_lattice_type']
+                unique_elem_list = unique(element_list)
+                cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
+                write_QE_input(cmpd,tern_lat_type,template_dir)
+                run_QE(cmpd,tern_lat_type)
+                QE_lat = get_lattice_constant(cmpd,tern_lat_type)
+                AE_lat = input_settings['ternary_lattice_constant']
+                lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                update_dakota(element_list,lat_diff_list)
+            if test_binary == False and test_ternary == False:
+                update_dakota(element_list,lat_diff_list)
     else:
         if test_binary == True:
             lat_type_list.append(input_settings['binary_lattice_type'])

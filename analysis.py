@@ -22,7 +22,9 @@ def main():
     For each element: write AtomPAW input, run AtomPAW and generate .UPF,
     write QE input, run QE relaxation, parse equilibrium lattice constant,
     compare with AE lattice constant and update objective function.
-    Logarithmic derivatives (arctan) of exact and pseudized partial waves are also compared
+    Logarithmic derivatives (arctan) of exact and pseudized partial waves are compared.
+    May also study binaries and ternaries, comparing lattice constants and/or atomic positions.
+    More to come...
     """
     working_dir = sys.argv[-3]
     with open(working_dir+'/../gaopaw.yaml') as f:

@@ -241,38 +241,6 @@ def compare_log():
         total_diff += net_diff
     return total_diff/sum_log
 
-def compare_log_peaks():
-    """"
-    Alternative method to compare log derivs...seems to converge a bit
-    more slowly than compare_log()...
-    Compare the energies at which local maxima occur in the log derivs
-    of exact and pseudized partial waves...want to minimize difference
-    If number of local maxima differs, a ghost state likely exists
-    """
-    files = os.listdir('./')
-    log_derivs = []
-    for file in files:
-        if file[:4] == 'logd':
-            log_derivs.append(file)
-    net_diff = []
-    total_diff = 0
-    for file in log_derivs[:-1]:
-        df = pd.read_table(file,sep='\s+',header=None)
-        e = df[0]
-        log_exact = np.array(df[1])
-        log_pseudo = np.array(df[2])
-        peaks_ind_ex = argrelextrema(log_exact,np.greater)[0]
-        peaks_ind_ps = argrelextrema(log_pseudo,np.greater)[0]
-        energy_diff = []
-        if len(peaks_ind_ex) == len(peaks_ind_ps):
-            for (p1, p2) in zip(peaks_ind_ex, peaks_ind_ps):
-                energy_diff.append(abs(e[p1] - e[p2]))
-        else:
-            energy_diff.append(100.0)
-        net_diff.append(sum(energy_diff))
-    total_diff = sum(net_diff)
-    return total_diff
-
 def unique(list): 
     """
     Get list of unique elements to be tested
@@ -282,6 +250,27 @@ def unique(list):
         if x not in unique_list: 
             unique_list.append(x) 
     return unique_list
+
+def compare_atoms(elem,lat_type,template_path):
+    """
+    Compare atomic positions of QE-relaxed structure
+    and those of the AE-relaxed structure...
+    """
+    df_AE = pd.read_table(template_path+'/AE_Struct',sep='\s+',header=None)
+    df_AE = df_AE.drop(0,1)
+    df_AE = df_AE.transpose()
+    distance_list = []
+    qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),'periodic_dft_gui_dir', 'qe2mae.py')
+    qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
+    qe_reader = qe_reader_mod.QEOutputReader(elem+'.'+lat_type+'.relax.out')
+    struct = qe_reader.structs[qe_reader.final_struct_id]
+    df_QE = struct.getXYZ()
+    for index in range(len(df_AE.keys())):
+        AE_position = np.array(df_AE[index])
+        QE_position = np.array(df_QE[index])
+        distance = np.linalg.norm(AE_position-QE_position)
+        distance_list.append(distance)
+    return sum(distance_list)
 
 if __name__=='__main__':
     main()

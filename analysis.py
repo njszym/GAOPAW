@@ -366,6 +366,21 @@ def get_mag(elem,lat_type):
             pass
     return mag[-1]
 
+def get_gap(elem,lat_type):
+    """
+    Parse QE output (scf run) to obtain band gap.
+    Note that unoccupied bands need to be included
+    and occupations need to be fixed in the scf run.
+    """
+    with open(elem+'.'+lat_type+'.scf.out') as f:
+        lines = f.readlines()
+    for line in lines:
+        if 'highest' and 'lowest' in line.split():
+            gap = (float(line.split()[7]) - float(line.split()[6]))
+        else:
+            pass
+    return gap
+
 if __name__=='__main__':
     main()
 

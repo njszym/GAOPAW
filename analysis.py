@@ -23,8 +23,8 @@ def main():
     write QE input, run QE relaxation, parse equilibrium lattice constant,
     compare with AE lattice constant and update objective function.
     Logarithmic derivatives (arctan) of exact and pseudized partial waves are compared.
-    May also study binaries and ternaries, comparing lattice constants and/or atomic positions.
-    More to come...
+    May also study binaries and ternaries, comparing the following:
+    lattice constants, atomic positions, magnetic moments, ...
     """
     working_dir = sys.argv[-3]
     with open(working_dir+'/../gaopaw.yaml') as f:
@@ -45,6 +45,10 @@ def main():
         test_atoms = input_settings['test_atomic_positions']
     except:
         test_atoms = False
+    try:
+        test_mag = input_settings['test_magnetic_moment']
+    except:
+        test_mag = False
     lat_diff_list = []
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
         if elem not in os.listdir('.'):
@@ -108,7 +112,48 @@ def main():
                 else:
                     lat_type_list.append('atoms')
                     bad_run(element_list,lat_type_list)
-        else:
+        if test_mag == True:
+            if test_binary == True:
+                bin_lat_type = input_settings['binary_lattice_type']
+                unique_elem_list = unique(element_list)
+                cmpd = unique_elem_list[0]+unique_elem_list[1]
+                write_QE_input(cmpd,bin_lat_type,template_dir)
+                run_QE(cmpd,bin_lat_type)
+                QE_mag = get_mag(cmpd,lat_type)
+                AE_mag = input_settings['magnetization']
+                lat_diff_list.append(abs(QE_mag-AE_mag))
+                if check_convergence(cmpd,bin_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(bin_lat_type)
+                    bad_run(element_list,lat_type_list)
+            if test_ternary == True:
+                tern_lat_type = input_settings['ternary_lattice_type']
+                unique_elem_list = unique(element_list)
+                cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
+                write_QE_input(cmpd,tern_lat_type,template_dir)
+                run_QE(cmpd,tern_lat_type)
+                QE_mag = get_mag(cmpd,lat_type)
+                AE_mag = input_settings['magnetization']
+                lat_diff_list.append(abs(QE_mag-AE_mag))
+                if check_convergence(cmpd,tern_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(tern_lat_type)
+                    bad_run(element_list,lat_type_list)
+            if test_binary == False and test_ternary == False:
+                cmpd = element_list[0]
+                write_QE_input(cmpd,'atoms',template_dir)
+                run_QE(cmpd,'atoms')
+                QE_mag = get_mag(cmpd,lat_type)
+                AE_mag = input_settings['magnetization']
+                lat_diff_list.append(abs(QE_mag-AE_mag))
+                if check_convergence(cmpd,'atoms') == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append('atoms')
+                    bad_run(element_list,lat_type_list)
+        if test_atoms == False and test_mag == False:
             if test_binary == True:
                 bin_lat_type = input_settings['binary_lattice_type']
                 unique_elem_list = unique(element_list)
@@ -326,6 +371,20 @@ def compare_atoms(elem,lat_type,template_path):
         distance = np.linalg.norm(AE_position-QE_position)
         distance_list.append(distance)
     return sum(distance_list)
+
+def get_mag(elem,lat_type):
+    """
+    Parse QE output (scf run) to obtain total magnetization
+    """
+    with open(elem+'.'+lat_type+'.scf.out') as f:
+        lines = f.readlines()
+    mag = []
+    for line in lines:
+        if 'absolute' in line.split():
+            mag.append(line.split()[3])
+        else:
+            pass
+    return mag[-1]
 
 if __name__=='__main__':
     main()

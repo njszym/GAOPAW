@@ -74,13 +74,13 @@ def main():
             pass
         os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
-        if test_atoms == True:
-            if test_binary == True:
-                bin_lat_type = input_settings['binary_lattice_type']
-                unique_elem_list = unique(element_list)
-                cmpd = unique_elem_list[0]+unique_elem_list[1]
-                write_QE_input(cmpd,bin_lat_type,template_dir)
-                run_QE(cmpd,bin_lat_type)
+        if test_binary == True:
+            bin_lat_type = input_settings['binary_lattice_type']
+            unique_elem_list = unique(element_list)
+            cmpd = unique_elem_list[0]+unique_elem_list[1]
+            write_QE_input(cmpd,bin_lat_type,template_dir)
+            run_QE(cmpd,bin_lat_type)
+            if test_atoms == True:
                 atom_diff = compare_atoms(cmpd,bin_lat_type,template_dir)
                 lat_diff_list.append(atom_diff)
                 if check_convergence(cmpd,bin_lat_type) == True:
@@ -88,12 +88,31 @@ def main():
                 else:
                     lat_type_list.append(bin_lat_type)
                     bad_run(element_list,lat_type_list)
-            if test_ternary == True:
-                tern_lat_type = input_settings['ternary_lattice_type']
-                unique_elem_list = unique(element_list)
-                cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
-                write_QE_input(cmpd,tern_lat_type,template_dir)
-                run_QE(cmpd,tern_lat_type)
+            if test_mag == True:
+                QE_mag = get_mag(cmpd,bin_lat_type)
+                AE_mag = input_settings['magnetization']
+                lat_diff_list.append(abs(QE_mag-AE_mag))
+                if check_convergence(cmpd,bin_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(bin_lat_type)
+                    bad_run(element_list,lat_type_list)
+            if test_atoms == False and test_mag == False:
+                QE_lat = get_lattice_constant(cmpd,bin_lat_type)
+                AE_lat = input_settings['binary_lattice_constant']
+                lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                if check_convergence(cmpd,bin_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(bin_lat_type)
+                    bad_run(element_list,lat_type_list)
+        if test_ternary == True:
+            tern_lat_type = input_settings['ternary_lattice_type']
+            unique_elem_list = unique(element_list)
+            cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
+            write_QE_input(cmpd,tern_lat_type,template_dir)
+            run_QE(cmpd,tern_lat_type)
+            if test_atoms == True:
                 atom_diff = compare_atoms(cmpd,tern_lat_type,template_dir)
                 lat_diff_list.append(atom_diff)
                 if check_convergence(cmpd,tern_lat_type) == True:
@@ -101,7 +120,26 @@ def main():
                 else:
                     lat_type_list.append(tern_lat_type)
                     bad_run(element_list,lat_type_list)
-            if test_binary == False and test_ternary == False:
+            if test_mag == True:
+                QE_mag = get_mag(cmpd,tern_lat_type)
+                AE_mag = input_settings['magnetization']
+                lat_diff_list.append(abs(QE_mag-AE_mag))
+                if check_convergence(cmpd,tern_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(tern_lat_type)
+                    bad_run(element_list,lat_type_list)
+            if test_atoms == False and test_mag == False:
+                QE_lat = get_lattice_constant(cmpd,tern_lat_type)
+                AE_lat = input_settings['ternary_lattice_constant']
+                lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                if check_convergence(cmpd,tern_lat_type) == True:
+                    update_dakota(element_list,lat_diff_list)
+                else:
+                    lat_type_list.append(tern_lat_type)
+                    bad_run(element_list,lat_type_list)
+        if test_binary == False and test_ternary == False:
+            if test_atoms == True:
                 cmpd = element_list[0]
                 write_QE_input(cmpd,'atoms',template_dir)
                 run_QE(cmpd,'atoms')
@@ -112,77 +150,19 @@ def main():
                 else:
                     lat_type_list.append('atoms')
                     bad_run(element_list,lat_type_list)
-        if test_mag == True:
-            if test_binary == True:
-                bin_lat_type = input_settings['binary_lattice_type']
-                unique_elem_list = unique(element_list)
-                cmpd = unique_elem_list[0]+unique_elem_list[1]
-                write_QE_input(cmpd,bin_lat_type,template_dir)
-                run_QE(cmpd,bin_lat_type)
-                QE_mag = get_mag(cmpd,lat_type)
-                AE_mag = input_settings['magnetization']
-                lat_diff_list.append(abs(QE_mag-AE_mag))
-                if check_convergence(cmpd,bin_lat_type) == True:
-                    update_dakota(element_list,lat_diff_list)
-                else:
-                    lat_type_list.append(bin_lat_type)
-                    bad_run(element_list,lat_type_list)
-            if test_ternary == True:
-                tern_lat_type = input_settings['ternary_lattice_type']
-                unique_elem_list = unique(element_list)
-                cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
-                write_QE_input(cmpd,tern_lat_type,template_dir)
-                run_QE(cmpd,tern_lat_type)
-                QE_mag = get_mag(cmpd,lat_type)
-                AE_mag = input_settings['magnetization']
-                lat_diff_list.append(abs(QE_mag-AE_mag))
-                if check_convergence(cmpd,tern_lat_type) == True:
-                    update_dakota(element_list,lat_diff_list)
-                else:
-                    lat_type_list.append(tern_lat_type)
-                    bad_run(element_list,lat_type_list)
-            if test_binary == False and test_ternary == False:
+            if test_mag == True:
                 cmpd = element_list[0]
-                write_QE_input(cmpd,'atoms',template_dir)
-                run_QE(cmpd,'atoms')
+                write_QE_input(cmpd,'mag',template_dir)
+                run_QE(cmpd,'mag')
                 QE_mag = get_mag(cmpd,lat_type)
                 AE_mag = input_settings['magnetization']
                 lat_diff_list.append(abs(QE_mag-AE_mag))
-                if check_convergence(cmpd,'atoms') == True:
+                if check_convergence(cmpd,'mag') == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
-                    lat_type_list.append('atoms')
+                    lat_type_list.append('mag')
                     bad_run(element_list,lat_type_list)
-        if test_atoms == False and test_mag == False:
-            if test_binary == True:
-                bin_lat_type = input_settings['binary_lattice_type']
-                unique_elem_list = unique(element_list)
-                cmpd = unique_elem_list[0]+unique_elem_list[1]
-                write_QE_input(cmpd,bin_lat_type,template_dir)
-                run_QE(cmpd,bin_lat_type)
-                QE_lat = get_lattice_constant(cmpd,bin_lat_type)
-                AE_lat = input_settings['binary_lattice_constant']
-                lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                if check_convergence(cmpd,bin_lat_type) == True:
-                    update_dakota(element_list,lat_diff_list)
-                else:
-                    lat_type_list.append(bin_lat_type)
-                    bad_run(element_list,lat_type_list)
-            if test_ternary == True:
-                tern_lat_type = input_settings['ternary_lattice_type']
-                unique_elem_list = unique(element_list)
-                cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
-                write_QE_input(cmpd,tern_lat_type,template_dir)
-                run_QE(cmpd,tern_lat_type)
-                QE_lat = get_lattice_constant(cmpd,tern_lat_type)
-                AE_lat = input_settings['ternary_lattice_constant']
-                lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                if check_convergence(cmpd,tern_lat_type) == True:
-                    update_dakota(element_list,lat_diff_list)
-                else:
-                    lat_type_list.append(tern_lat_type)
-                    bad_run(element_list,lat_type_list)
-            if test_binary == False and test_ternary == False:
+            if test_atoms == False and test_mag == False:
                 update_dakota(element_list,lat_diff_list)
     else:
         if test_binary == True:

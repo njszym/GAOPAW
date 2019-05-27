@@ -1,5 +1,6 @@
 import pandas as pd
 from scipy.signal import argrelextrema
+from scipy.optimize import curve_fit as cf
 import shutil
 import os
 import sys
@@ -414,6 +415,88 @@ def get_gap(elem,lat_type):
         else:
             pass
     return gap
+
+def birch_murnaghan(V, V0, B0, B0_prime, E0):
+    """
+    3rd order Birch-Murnaghan equation of state, in the energy-volume form
+    """
+    V = np.array(V)
+    return E0 + 9 * V0 * B0 / 16. * (
+        ((V0 / V) ** (2 / 3.) - 1) ** 3 * B0_prime +
+        ((V0 / V) ** (2 / 3.) - 1) ** 2 * (6 - 4 * (V0 / V) ** (2 / 3.)))
+
+def get_bulk():
+    """
+    Reads in energy-volume data from E_V.txt and calculates bulk modulus
+    """
+    df = pd.read_table('E_V.txt',sep='\s+',header=None)
+    E = list(df[0])
+    V = list(df[1])
+    V = np.array([0.14818453429566825*value for value in V]) ## bohr^3 to A^3
+    Y = np.array([13.6056980659*value for value in E]) ## Ry to eV
+    initial_parameters = [V.mean(), 2.5, 4, Y.mean()]
+    fit_eqn = eval('birch_murnaghan')
+    popt, pcov = cf(fit_eqn, V, Y, initial_parameters)
+    bulk = popt[1]*160.2
+    return bulk
+
+def run_scale_lat(elem,lat_type,template_path):
+    """
+    Read in relaxed lattice parameter from (elem).(lat_type).relax.out,
+    scale this lattice constant from -1% to +1% (10 values created),
+    write input and run QE at each value, write corresponding volumes
+    and energies into E_V.txt (units of Bohr^3 and Ry^3)
+    """
+    with open(elem+'.'+lat_type+'.relax.out') as f:
+        lines = f.readlines()
+    volumes = []
+    for line in lines:
+        if 'volume' in line.split():
+            volumes.append(line.split()[3])
+        else:
+            pass
+    final_vol = float(volumes[-1])
+    if lat_type == 'FCC':
+        lat_const = (final_vol*4.)**(1./3.)
+    else: ## Need to implement other lattice types
+        pass
+    scale_num = [0.99,0.9922,0.9944,0.9966,0.9988,1.0,1.0022,1.0044,1.0066,1.0088,1.01]
+    scaled_lat = [num*lat_const for num in scale_num]
+    with open(template_path+'/'+elem+'.'+lat_type+'.scf.template') as f:
+        lines = f.readlines()
+    index = 0
+    for line in lines:
+        if 'celldm' in line:
+            cell_index = index
+        else:
+            pass
+        index += 1
+    energies = []
+    folder = 0
+    for value in scaled_lat:
+        os.mkdir(str(folder))
+        os.chdir(str(folder))
+        lines[cell_index] = '  celldm(1)='+str(value)+'\n'
+        with open(scf_file,'w') as f:
+            for line in lines:
+                f.write(line)
+        os.system('pw.x < '+scf_file+' > '+scf_file[:-2]+'out')
+        with open(scf_file[:-2]+'out') as f:
+            out_lines = f.readlines()
+        for line in out_lines:
+            if '!    total energy              =' in line:
+                energies.append(line.split()[4])
+        os.chdir('../')
+        folder += 1
+    if lat_type == 'FCC':
+        volumes = [(value**3.)/4. for value in scaled_lat]
+    else:
+        pass ## Need to implement other lattice types
+    f = open('E_V.txt','w+')
+    for (e,v) in zip(energies,volumes):
+        f.write(str(e)+' '+str(v)+'\n')
+    f.close()
+
 
 if __name__=='__main__':
     main()

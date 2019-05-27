@@ -54,6 +54,10 @@ def main():
         test_gap = input_settings['test_gap']
     except:
         test_gap = False
+    try:
+        test_bulk = input_settings['test_bulk']
+    except:
+        test_bulk = False
     lat_diff_list = []
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
         if elem not in os.listdir('.'):
@@ -116,7 +120,15 @@ def main():
                 AE_lat = input_settings['binary_lattice_constant']
                 lat_diff_list.append(compare_lat(AE_lat,QE_lat))
                 if check_convergence(cmpd,bin_lat_type) == True:
-                    update_dakota(element_list,lat_diff_list)
+                    if test_bulk == True: ## Testing required
+                        run_scale_lat(cmpd,bin_lat_type,template_dir)
+                        QE_bulk = get_bulk()
+                        AE_bulk = input_settings['bulk_modulus']
+                        bulk_diff = abs(AE_bulk-QE_bulk)
+                        lat_diff_list.append(bulk_diff)
+                        update_dakota(element_list,lat_diff_list)
+                    else:
+                        update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append(bin_lat_type)
                     bad_run(element_list,lat_type_list)
@@ -157,7 +169,15 @@ def main():
                 AE_lat = input_settings['ternary_lattice_constant']
                 lat_diff_list.append(compare_lat(AE_lat,QE_lat))
                 if check_convergence(cmpd,tern_lat_type) == True:
-                    update_dakota(element_list,lat_diff_list)
+                    if test_bulk == True: ## Testing required
+                        run_scale_lat(cmpd,tern_lat_type,template_dir)
+                        QE_bulk = get_bulk()
+                        AE_bulk = input_settings['bulk_modulus']
+                        bulk_diff = abs(AE_bulk-QE_bulk)
+                        lat_diff_list.append(bulk_diff)
+                        update_dakota(element_list,lat_diff_list)
+                    else:
+                        update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append(tern_lat_type)
                     bad_run(element_list,lat_type_list)

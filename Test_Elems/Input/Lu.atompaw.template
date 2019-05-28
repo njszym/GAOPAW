@@ -1,0 +1,43 @@
+Lu 71
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+6 5 5 4 0
+5 2 1
+0 0 0
+c
+c
+c
+c
+v
+v
+c
+c
+c
+v
+c
+c
+v
+v
+3
+{DAKOTA_RC} {DAKOTA_RC/1.2} {DAKOTA_RC/1.3} {DAKOTA_RC/1.3}
+n
+y
+{DAKOTA_EP_1}
+n
+y
+{DAKOTA_EP_2}
+n
+y
+{DAKOTA_EP_3}
+n
+custom rrkj
+4 2.75 ultrasoft
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+{DAKOTA_RC}
+3
+0

@@ -3,6 +3,8 @@ elements: ['Cr','Cr','O','O']
 lattice_type: ['FCC','BCC','FCC','BCC']
 lattice_constant: [3.630,2.851,3.178,2.511]
 template_dir: '/scr/szymansk/gaopaw/Examples/CrO/Input'
-test_mag: True
+test_binary: True
+binary_lattice_type: 'RS'
+test_magnetic_moment: True
 magnetization: 2.99
 # End file

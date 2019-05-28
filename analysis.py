@@ -67,8 +67,8 @@ def main():
         os.chdir(elem)
         run_atompaw(elem)
         if check_UPF() == True:
-            write_QE_input(elem,lat_type,template_dir)
-            run_QE(elem,lat_type)
+            write_QE_input(elem,lat_type,'relax',template_dir)
+            run_QE(elem,lat_type,'relax')
             try:
                 QE_lat = get_lattice_constant(elem,lat_type)
                 AE_lat = lat_const
@@ -87,8 +87,12 @@ def main():
             bin_lat_type = input_settings['binary_lattice_type']
             unique_elem_list = unique(element_list)
             cmpd = unique_elem_list[0]+unique_elem_list[1]
-            write_QE_input(cmpd,bin_lat_type,template_dir)
-            run_QE(cmpd,bin_lat_type)
+            if test_mag == True or test_gap == True:
+                calc_type = 'scf'
+            else:
+                calc_type = 'relax'
+            write_QE_input(cmpd,bin_lat_type,calc_type,template_dir)
+            run_QE(cmpd,bin_lat_type,calc_type)
             if test_atoms == True:
                 atom_diff = compare_atoms(cmpd,bin_lat_type,template_dir)
                 lat_diff_list.append(atom_diff)
@@ -136,8 +140,12 @@ def main():
             tern_lat_type = input_settings['ternary_lattice_type']
             unique_elem_list = unique(element_list)
             cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
-            write_QE_input(cmpd,tern_lat_type,template_dir)
-            run_QE(cmpd,tern_lat_type)
+            if test_mag == True or test_gap == True:
+                calc_type = 'scf'
+            else:
+                calc_type = 'relax'
+            write_QE_input(cmpd,tern_lat_type,calc_type,template_dir)
+            run_QE(cmpd,tern_lat_type,calc_type)
             if test_atoms == True:
                 atom_diff = compare_atoms(cmpd,tern_lat_type,template_dir)
                 lat_diff_list.append(atom_diff)
@@ -184,8 +192,8 @@ def main():
         if test_binary == False and test_ternary == False:
             if test_atoms == True:
                 cmpd = element_list[0]
-                write_QE_input(cmpd,'atoms',template_dir)
-                run_QE(cmpd,'atoms')
+                write_QE_input(cmpd,'atoms','relax',template_dir)
+                run_QE(cmpd,'atoms','relax')
                 atom_diff = compare_atoms(cmpd,'atoms',template_dir)
                 lat_diff_list.append(atom_diff)
                 if check_convergence(cmpd,'atoms') == True:
@@ -195,8 +203,8 @@ def main():
                     bad_run(element_list,lat_type_list)
             if test_mag == True:
                 cmpd = element_list[0]
-                write_QE_input(cmpd,'mag',template_dir)
-                run_QE(cmpd,'mag')
+                write_QE_input(cmpd,'mag','scf',template_dir)
+                run_QE(cmpd,'mag','scf')
                 QE_mag = get_mag(cmpd,'mag')
                 AE_mag = input_settings['magnetization']
                 lat_diff_list.append(abs(QE_mag-AE_mag))
@@ -207,8 +215,8 @@ def main():
                     bad_run(element_list,lat_type_list)
             if test_gap == True:
                 cmpd = element_list[0]
-                write_QE_input(cmpd,'gap',template_dir)
-                run_QE(cmpd,'gap')
+                write_QE_input(cmpd,'gap','scf',template_dir)
+                run_QE(cmpd,'gap','scf')
                 QE_gap = get_gap(cmpd,'gap')
                 AE_gap = input_settings['band_gap']
                 lat_diff_list.append(abs(QE_gap-AE_gap))
@@ -303,19 +311,19 @@ def run_atompaw(elem):
     with open(elem+'.atompaw.in','r') as input_fin, open('log_atompaw', 'w') as log_fout: 
         subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, env=env)
 
-def write_QE_input(elem,lat_type,template_path):
+def write_QE_input(elem,lat_type,calc_type,template_path):
     """
     Write QE input file based on some template specified in template_path
     """
-    template_file = os.path.join(template_path, elem+'.'+lat_type+'.relax.template')
-    new_input_file = elem+'.'+lat_type+'.relax.in'
+    template_file = os.path.join(template_path, elem+'.'+lat_type+'.'+calc_type+'.template')
+    new_input_file = elem+'.'+lat_type+'.'+calc_type+'.in'
     shutil.copy(template_file,new_input_file)
 
-def run_QE(elem,lat_type):
+def run_QE(elem,lat_type,calc_type):
     """
-    Run QE relaxation using (elem).relax.in
+    Run QE relaxation using (elem).(calc_type).in
     """
-    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+elem+'.'+lat_type+'.relax.in -MPICORES 4')
+    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+elem+'.'+lat_type+'.'+calc_type+'.in -MPICORES 4')
 
 def get_lattice_constant(elem,lat_type):
     """

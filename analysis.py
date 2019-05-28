@@ -235,7 +235,11 @@ def main():
             lat_type_list.append(input_settings['ternary_lattice_type'])
             bad_run(element_list,lat_type_list)
         if test_binary == False and test_binary == False:
-            bad_run(element_list,lat_type_list)
+            if test_mag == True or test_atoms == True or test_gap == True:
+                lat_type_list.append('placeholder')
+                bad_run(element_list,lat_type_list)
+            else:
+                bad_run(element_list,lat_type_list)
 
 def check_UPF():
     """
@@ -439,10 +443,10 @@ def get_gap(elem,lat_type):
         lines = f.readlines()
     for line in lines:
         if 'highest' and 'lowest' in line.split():
-            gap = (float(line.split()[7]) - float(line.split()[6]))
+            band_gap = (float(line.split()[7]) - float(line.split()[6]))
         else:
             pass
-    return float(gap)
+    return float(band_gap)
 
 def birch_murnaghan(V, V0, B0, B0_prime, E0):
     """

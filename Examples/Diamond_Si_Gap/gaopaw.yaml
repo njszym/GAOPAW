@@ -2,7 +2,7 @@
 elements: ['Si','Si']
 lattice_type: ['FCC','BCC']
 lattice_constant: [3.857,3.08]
-template_dir: '/scr/szymansk/gaopaw/Examples/Si/Input'
+template_dir: '/scr/szymansk/gaopaw/Examples/Diamond_Si_Gap/Input'
 test_gap: True
 band_gap: 0.57
 # End file

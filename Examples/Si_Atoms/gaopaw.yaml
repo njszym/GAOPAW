@@ -1,7 +1,0 @@
-# Input file for GAOPAW
-elements: ['Si','Si']
-lattice_type: ['FCC','BCC']
-lattice_constant: [3.857,3.080]
-template_dir: '/scr/szymansk/gaopaw/Examples/Si_Atoms/Input'
-test_atomic_positions: True
-# End file

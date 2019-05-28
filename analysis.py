@@ -230,10 +230,18 @@ def main():
     else:
         if test_binary == True:
             lat_type_list.append(input_settings['binary_lattice_type'])
-            bad_run(element_list,lat_type_list)
+            if test_bulk == True:
+                lat_type_list.append('placeholder')
+                bad_run(element_list,lat_type_list)
+            else:
+                bad_run(element_list,lat_type_list)
         if test_ternary == True:
             lat_type_list.append(input_settings['ternary_lattice_type'])
-            bad_run(element_list,lat_type_list)
+            if test_bulk == True:
+                lat_type_list.append('placeholder')
+                bad_run(element_list,lat_type_list)
+            else:
+                bad_run(element_list,lat_type_list)
         if test_binary == False and test_binary == False:
             if test_mag == True or test_atoms == True or test_gap == True:
                 lat_type_list.append('placeholder')
@@ -488,7 +496,7 @@ def run_scale_lat(elem,lat_type,template_path):
         else:
             pass
     final_vol = float(volumes[-1])
-    if lat_type == 'FCC':
+    if lat_type == 'FCC' or 'ZB':
         lat_const = (final_vol*4.)**(1./3.)
     else: ## Need to implement other lattice types
         pass
@@ -505,6 +513,7 @@ def run_scale_lat(elem,lat_type,template_path):
         index += 1
     energies = []
     folder = 0
+    scf_file = elem+'.'+lat_type+'.scf.in'
     for value in scaled_lat:
         os.mkdir(str(folder))
         os.chdir(str(folder))
@@ -512,7 +521,7 @@ def run_scale_lat(elem,lat_type,template_path):
         with open(scf_file,'w') as f:
             for line in lines:
                 f.write(line)
-        os.system('pw.x < '+scf_file+' > '+scf_file[:-2]+'out')
+        os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+scf_file+' -MPICORES 4')
         with open(scf_file[:-2]+'out') as f:
             out_lines = f.readlines()
         for line in out_lines:
@@ -520,7 +529,7 @@ def run_scale_lat(elem,lat_type,template_path):
                 energies.append(line.split()[4])
         os.chdir('../')
         folder += 1
-    if lat_type == 'FCC':
+    if lat_type == 'FCC' or 'ZB':
         volumes = [(value**3.)/4. for value in scaled_lat]
     else:
         pass ## Need to implement other lattice types

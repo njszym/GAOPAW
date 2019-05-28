@@ -21,8 +21,8 @@
   conv_thr=1.d-8
 /
 ATOMIC_SPECIES
-  O 0.0 o_pbe_v1.2.uspp.F.UPF
-  Cr 0.0 cr_pbe_v1.5.uspp.F.UPF
+  O 0.0 O.GGA-PBE-paw.UPF
+  Cr 0.0 Cr.GGA-PBE-paw.UPF
 ATOMIC_POSITIONS (alat)
   O 0.0 0.0 0.0
   Cr 0.5 0.5 0.5

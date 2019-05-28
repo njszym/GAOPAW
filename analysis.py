@@ -72,7 +72,7 @@ def main():
             try:
                 QE_lat = get_lattice_constant(elem,lat_type)
                 AE_lat = lat_const
-                if check_convergence(elem,lat_type) == True:
+                if check_convergence(elem,lat_type,'relax') == True:
                     lat_diff_list.append(compare_lat(AE_lat,QE_lat))
                     copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                 else:
@@ -96,16 +96,16 @@ def main():
             if test_atoms == True:
                 atom_diff = compare_atoms(cmpd,bin_lat_type,template_dir)
                 lat_diff_list.append(atom_diff)
-                if check_convergence(cmpd,bin_lat_type) == True:
+                if check_convergence(cmpd,bin_lat_type,calc_type) == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append(bin_lat_type)
                     bad_run(element_list,lat_type_list)
             if test_mag == True:
-                QE_mag = get_mag(cmpd,bin_lat_type)
-                AE_mag = input_settings['magnetization']
+                QE_mag = float(get_mag(cmpd,bin_lat_type))
+                AE_mag = float(input_settings['magnetization'])
                 lat_diff_list.append(abs(QE_mag-AE_mag))
-                if check_convergence(cmpd,bin_lat_type) == True:
+                if check_convergence(cmpd,bin_lat_type,calc_type) == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append(bin_lat_type)
@@ -114,7 +114,7 @@ def main():
                 QE_gap = get_gap(cmpd,bin_lat_type)
                 AE_gap = input_settings['band_gap']
                 lat_diff_list.append(abs(QE_gap-AE_gap))
-                if check_convergence(cmpd,bin_lat_type) == True:
+                if check_convergence(cmpd,bin_lat_type,calc_type) == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append(bin_lat_type)
@@ -123,7 +123,7 @@ def main():
                 QE_lat = get_lattice_constant(cmpd,bin_lat_type)
                 AE_lat = input_settings['binary_lattice_constant']
                 lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                if check_convergence(cmpd,bin_lat_type) == True:
+                if check_convergence(cmpd,bin_lat_type,calc_type) == True:
                     if test_bulk == True: ## Testing required
                         run_scale_lat(cmpd,bin_lat_type,template_dir)
                         QE_bulk = get_bulk()
@@ -149,16 +149,16 @@ def main():
             if test_atoms == True:
                 atom_diff = compare_atoms(cmpd,tern_lat_type,template_dir)
                 lat_diff_list.append(atom_diff)
-                if check_convergence(cmpd,tern_lat_type) == True:
+                if check_convergence(cmpd,tern_lat_type,calc_type) == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append(tern_lat_type)
                     bad_run(element_list,lat_type_list)
             if test_mag == True:
-                QE_mag = get_mag(cmpd,tern_lat_type)
-                AE_mag = input_settings['magnetization']
+                QE_mag = float(get_mag(cmpd,tern_lat_type))
+                AE_mag = float(input_settings['magnetization'])
                 lat_diff_list.append(abs(QE_mag-AE_mag))
-                if check_convergence(cmpd,tern_lat_type) == True:
+                if check_convergence(cmpd,tern_lat_type,calc_type) == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append(tern_lat_type)
@@ -167,7 +167,7 @@ def main():
                 QE_gap = get_gap(cmpd,tern_lat_type)
                 AE_gap = input_settings['band_gap']
                 lat_diff_list.append(abs(QE_gap-AE_gap))
-                if check_convergence(cmpd,tern_lat_type) == True:
+                if check_convergence(cmpd,tern_lat_type,calc_type) == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append(tern_lat_type)
@@ -176,7 +176,7 @@ def main():
                 QE_lat = get_lattice_constant(cmpd,tern_lat_type)
                 AE_lat = input_settings['ternary_lattice_constant']
                 lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                if check_convergence(cmpd,tern_lat_type) == True:
+                if check_convergence(cmpd,tern_lat_type,calc_type) == True:
                     if test_bulk == True: ## Testing required
                         run_scale_lat(cmpd,tern_lat_type,template_dir)
                         QE_bulk = get_bulk()
@@ -196,7 +196,7 @@ def main():
                 run_QE(cmpd,'atoms','relax')
                 atom_diff = compare_atoms(cmpd,'atoms',template_dir)
                 lat_diff_list.append(atom_diff)
-                if check_convergence(cmpd,'atoms') == True:
+                if check_convergence(cmpd,'atoms','relax') == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append('atoms')
@@ -205,10 +205,10 @@ def main():
                 cmpd = element_list[0]
                 write_QE_input(cmpd,'mag','scf',template_dir)
                 run_QE(cmpd,'mag','scf')
-                QE_mag = get_mag(cmpd,'mag')
-                AE_mag = input_settings['magnetization']
+                QE_mag = float(get_mag(cmpd,'mag'))
+                AE_mag = float(input_settings['magnetization'])
                 lat_diff_list.append(abs(QE_mag-AE_mag))
-                if check_convergence(cmpd,'mag') == True:
+                if check_convergence(cmpd,'mag','scf') == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append('mag')
@@ -220,7 +220,7 @@ def main():
                 QE_gap = get_gap(cmpd,'gap')
                 AE_gap = input_settings['band_gap']
                 lat_diff_list.append(abs(QE_gap-AE_gap))
-                if check_convergence(cmpd,'gap') == True:
+                if check_convergence(cmpd,'gap','scf') == True:
                     update_dakota(element_list,lat_diff_list)
                 else:
                     lat_type_list.append('gap')
@@ -342,12 +342,12 @@ def get_lattice_constant(elem,lat_type):
     if lat_type == 'per':
         return params[0]
 
-def check_convergence(elem,lat_type):
+def check_convergence(elem,lat_type,calc_type):
     """
     Check if the QE run converged
     """
     check = True
-    with open(elem+'.'+lat_type+'.relax.out') as f:
+    with open(elem+'.'+lat_type+'.'+calc_type+'.out') as f:
         output = f.readlines()
     for line in output:
         if 'convergence NOT' in line:
@@ -427,7 +427,7 @@ def get_mag(elem,lat_type):
             mag.append(line.split()[3])
         else:
             pass
-    return mag[-1]
+    return float(mag[-1])
 
 def get_gap(elem,lat_type):
     """
@@ -442,7 +442,7 @@ def get_gap(elem,lat_type):
             gap = (float(line.split()[7]) - float(line.split()[6]))
         else:
             pass
-    return gap
+    return float(gap)
 
 def birch_murnaghan(V, V0, B0, B0_prime, E0):
     """
@@ -466,7 +466,7 @@ def get_bulk():
     fit_eqn = eval('birch_murnaghan')
     popt, pcov = cf(fit_eqn, V, Y, initial_parameters)
     bulk = popt[1]*160.2
-    return bulk
+    return float(bulk)
 
 def run_scale_lat(elem,lat_type,template_path):
     """

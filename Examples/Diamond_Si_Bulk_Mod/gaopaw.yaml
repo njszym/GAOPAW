@@ -6,4 +6,5 @@ template_dir: '/scr/szymansk/gaopaw/Examples/Diamond_Si_Bulk_Mod/Input'
 test_bulk: True
 test_lat_type: 'diamond'
 bulk_modulus: 88.545
+num_atoms: 2
 # End file

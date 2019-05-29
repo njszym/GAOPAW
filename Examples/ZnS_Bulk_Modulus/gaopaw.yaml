@@ -8,4 +8,5 @@ binary_lattice_type: ZB
 binary_lattice_constant: 5.443
 test_bulk: True
 bulk_modulus: 70.95165
+num_atoms: 2
 # End file

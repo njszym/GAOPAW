@@ -225,7 +225,18 @@ def main():
                 else:
                     lat_type_list.append('gap')
                     bad_run(element_list,lat_type_list)
-            if test_atoms == False and test_mag == False and test_gap == False:
+            if test_bulk == True:
+                cmpd = element_list[0]
+                cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'relax')
+                run_scale_lat(cmpd,cmpd_lat_type,template_dir)
+                QE_bulk = get_bulk()
+                AE_bulk = input_settings['bulk_modulus']
+                bulk_diff = abs(AE_bulk-QE_bulk)
+                lat_diff_list.append(bulk_diff)
+                update_dakota(element_list,lat_diff_list)
+            if test_atoms == False and test_mag == False and test_gap == False and test_bulk == False:
                 update_dakota(element_list,lat_diff_list)
     else:
         if test_binary == True:

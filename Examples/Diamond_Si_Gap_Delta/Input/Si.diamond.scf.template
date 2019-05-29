@@ -1,18 +1,17 @@
 &control
   calculation='scf'
   prefix='Si-scf'
-  pseudo_dir='../'
+  pseudo_dir='./'
 /
 &system
   ibrav=2
-  celldm(1)=10.33
+  celldm(1)=10.3344
   nat=2
   ntyp=1
   ecutwfc=40
   ecutrho=200
-  smearing='fermi-dirac'
-  degauss=0.002
-  occupations='smearing'
+  occupations='fixed'
+  nbnd=16
 /
 &electrons
   conv_thr=1.d-8

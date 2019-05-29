@@ -42,7 +42,7 @@ def main():
         test_ternary = input_settings['test_ternary']
     except:
         test_ternary = False
-    num_tests = [] ## Work in progress...may use later
+    num_tests = []
     try:
         test_atoms = input_settings['test_atomic_positions']
         num_tests.append('placeholder')
@@ -240,39 +240,36 @@ def main():
         if test_binary == False and test_ternary == False:
             if test_atoms == True:
                 cmpd = element_list[0]
-                write_QE_input(cmpd,'atoms','relax',template_dir)
-                run_QE(cmpd,'atoms','relax')
-                atom_diff = compare_atoms(cmpd,'atoms',template_dir)
-                lat_diff_list.append(atom_diff)
-                if check_convergence(cmpd,'atoms','relax') == True:
-                    update_dakota(element_list,lat_diff_list)
+                cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'relax')
+                if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                    atom_diff = compare_atoms(cmpd,'atoms',template_dir)
+                    lat_diff_list.append(atom_diff)
                 else:
-                    lat_type_list.append('atoms')
-                    bad_run(element_list,lat_type_list)
+                    lat_type_list.append('bad_run')
             if test_mag == True:
                 cmpd = element_list[0]
-                write_QE_input(cmpd,'mag','scf',template_dir)
-                run_QE(cmpd,'mag','scf')
-                QE_mag = float(get_mag(cmpd,'mag'))
+                cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'scf')
                 AE_mag = float(input_settings['magnetization'])
-                lat_diff_list.append(abs(QE_mag-AE_mag))
-                if check_convergence(cmpd,'mag','scf') == True:
-                    update_dakota(element_list,lat_diff_list)
+                if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
+                    QE_mag = float(get_mag(cmpd,cmpd_lat_type))
+                    lat_diff_list.append(abs(QE_mag-AE_mag))
                 else:
-                    lat_type_list.append('mag')
-                    bad_run(element_list,lat_type_list)
+                    lat_type_list.append('bad_run')
             if test_gap == True:
                 cmpd = element_list[0]
-                write_QE_input(cmpd,'gap','scf',template_dir)
-                run_QE(cmpd,'gap','scf')
-                QE_gap = get_gap(cmpd,'gap')
+                cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'scf')
                 AE_gap = input_settings['band_gap']
-                lat_diff_list.append(abs(QE_gap-AE_gap))
-                if check_convergence(cmpd,'gap','scf') == True:
-                    update_dakota(element_list,lat_diff_list)
+                if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
+                    QE_gap = get_gap(cmpd,cmpd_lat_type)
+                    lat_diff_list.append(abs(QE_gap-AE_gap))
                 else:
-                    lat_type_list.append('gap')
-                    bad_run(element_list,lat_type_list)
+                    lat_type_list.append('bad_run')
             if test_bulk == True or test_delta == True:
                 num_atoms = input_settings['num_atoms']
                 cmpd = element_list[0]
@@ -285,14 +282,14 @@ def main():
                     AE_bulk = input_settings['bulk_modulus']
                     bulk_diff = abs(AE_bulk-QE_bulk)
                     lat_diff_list.append(bulk_diff)
-                    update_dakota(element_list,lat_diff_list)
                 if test_delta == True:
                     QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
                     delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
                     lat_diff_list.append(delta_factor)
-                    update_dakota(element_list,lat_diff_list)
-            if test_atoms == False and test_mag == False and test_gap == False and test_bulk == False and test_delta == False:
+            if 'bad_run' not in lat_type_list:
                 update_dakota(element_list,lat_diff_list)
+            else:
+                bad_run(element_list,lat_type_list)
     else:
         if test_binary == True:
             lat_type_list.append(input_settings['binary_lattice_type'])
@@ -309,11 +306,9 @@ def main():
             else:
                 bad_run(element_list,lat_type_list)
         if test_binary == False and test_binary == False:
-            if test_mag == True or test_atoms == True or test_gap == True or test_bulk == True or test_delta == True:
+            for i in range(len(num_tests)):
                 lat_type_list.append('placeholder')
-                bad_run(element_list,lat_type_list)
-            else:
-                bad_run(element_list,lat_type_list)
+            bad_run(element_list,lat_type_list)
 
 def check_UPF():
     """
@@ -589,6 +584,7 @@ def run_scale_lat(elem,lat_type,template_path):
     scf_file = elem+'.'+lat_type+'.scf.in'
     for value in scaled_lat:
         os.mkdir(str(folder))
+        copyfile(elem+'.GGA-PBE-paw.UPF',str(folder)+'/'+elem+'.GGA-PBE-paw.UPF')
         os.chdir(str(folder))
         lines[cell_index] = '  celldm(1)='+str(value)+'\n'
         with open(scf_file,'w') as f:

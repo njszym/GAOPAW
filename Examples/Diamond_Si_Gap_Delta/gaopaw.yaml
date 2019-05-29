@@ -2,8 +2,10 @@
 elements: ['Si','Si']
 lattice_type: ['FCC','BCC']
 lattice_constant: [3.857,3.080]
-template_dir: '/scr/szymansk/gaopaw/Examples/Diamond_Si_Delta/Input'
+template_dir: '/scr/szymansk/gaopaw/Examples/Diamond_Si_Gap_Delta/Input'
 test_delta: True
 test_lat_type: 'diamond'
 num_atoms: 2
+test_gap: True
+band_gap: 0.57
 # End file

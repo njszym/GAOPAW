@@ -274,7 +274,7 @@ def main():
             else:
                 bad_run(element_list,lat_type_list)
         if test_binary == False and test_binary == False:
-            if test_mag == True or test_atoms == True or test_gap == True:
+            if test_mag == True or test_atoms == True or test_gap == True or test_bulk == True:
                 lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
             else:
@@ -527,7 +527,7 @@ def run_scale_lat(elem,lat_type,template_path):
         else:
             pass
     final_vol = float(volumes[-1])
-    if lat_type == 'FCC' or 'ZB':
+    if lat_type == 'FCC' or 'ZB' or 'diamond':
         lat_const = (final_vol*4.)**(1./3.)
     else: ## Need to implement other lattice types
         pass
@@ -560,7 +560,7 @@ def run_scale_lat(elem,lat_type,template_path):
                 energies.append(line.split()[4])
         os.chdir('../')
         folder += 1
-    if lat_type == 'FCC' or 'ZB':
+    if lat_type == 'FCC' or 'ZB' or 'diamond':
         volumes = [(value**3.)/4. for value in scaled_lat]
     else:
         pass ## Need to implement other lattice types

@@ -58,6 +58,10 @@ def main():
         test_bulk = input_settings['test_bulk']
     except:
         test_bulk = False
+    try:
+        test_delta = input_settings['test_delta']
+    except:
+        test_delta = False
     lat_diff_list = []
     lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
     ## Not including La, for now
@@ -247,19 +251,25 @@ def main():
                 else:
                     lat_type_list.append('gap')
                     bad_run(element_list,lat_type_list)
-            if test_bulk == True:
+            if test_bulk == True or test_delta == True:
                 num_atoms = input_settings['num_atoms']
                 cmpd = element_list[0]
                 cmpd_lat_type = input_settings['test_lat_type']
                 write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
                 run_QE(cmpd,cmpd_lat_type,'relax')
                 run_scale_lat(cmpd,cmpd_lat_type,template_dir)
-                V0, QE_bulk, B_prime = get_bulk(num_atoms)
-                AE_bulk = input_settings['bulk_modulus']
-                bulk_diff = abs(AE_bulk-QE_bulk)
-                lat_diff_list.append(bulk_diff)
-                update_dakota(element_list,lat_diff_list)
-            if test_atoms == False and test_mag == False and test_gap == False and test_bulk == False:
+                if test_bulk == True:
+                    V0, QE_bulk, B_prime = get_bulk(num_atoms)
+                    AE_bulk = input_settings['bulk_modulus']
+                    bulk_diff = abs(AE_bulk-QE_bulk)
+                    lat_diff_list.append(bulk_diff)
+                    update_dakota(element_list,lat_diff_list)
+                if test_delta == True:
+                    QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
+                    delta_factor = calcDelta(AE_EOS_data,AE_EOS_data,[cmpd],False)
+                    lat_diff_list.append(delta_factor)
+                    update_dakota(element_list,lat_diff_list)
+            if test_atoms == False and test_mag == False and test_gap == False and test_bulk == False and test_delta == False:
                 update_dakota(element_list,lat_diff_list)
     else:
         if test_binary == True:
@@ -517,7 +527,7 @@ def get_bulk(num_atoms):
     bulk = popt[1]*160.2 ## GPa
     B_prime = popt[2] ## Dimensionless
     f = open('QE_EOS.txt','w+')
-    f.write(str(volume)+' '+str(bulk)+' 'str(B_prime))
+    f.write(str(volume)+' '+str(bulk)+' '+str(B_prime))
     f.close()
     return float(volume), float(bulk), float(B_prime)
 

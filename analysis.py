@@ -149,7 +149,15 @@ def main():
                 else:
                     lat_type_list.append(bin_lat_type)
                     bad_run(element_list,lat_type_list)
-            if test_atoms == False and test_mag == False and test_gap == False:
+            if test_delta == True:
+                num_atoms = input_settings['num_atoms']
+                run_scale_lat(cmpd,bin_lat_type,template_dir)
+                V0, QE_bulk, B_prime = get_bulk(num_atoms)
+                QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
+                delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
+                lat_diff_list.append(delta_factor)
+                update_dakota(element_list,lat_diff_list)
+            if test_atoms == False and test_mag == False and test_gap == False and test_delta == False:
                 QE_lat = get_lattice_constant(cmpd,bin_lat_type)
                 AE_lat = input_settings['binary_lattice_constant']
                 lat_diff_list.append(compare_lat(AE_lat,QE_lat))
@@ -203,7 +211,15 @@ def main():
                 else:
                     lat_type_list.append(tern_lat_type)
                     bad_run(element_list,lat_type_list)
-            if test_atoms == False and test_mag == False and test_gap == False:
+            if test_delta == True:
+                num_atoms = input_settings['num_atoms']
+                run_scale_lat(cmpd,tern_lat_type,template_dir)
+                V0, QE_bulk, B_prime = get_bulk(num_atoms)
+                QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
+                delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
+                lat_diff_list.append(delta_factor)
+                update_dakota(element_list,lat_diff_list)
+            if test_atoms == False and test_mag == False and test_gap == False and test_delta == False:
                 QE_lat = get_lattice_constant(cmpd,tern_lat_type)
                 AE_lat = input_settings['ternary_lattice_constant']
                 lat_diff_list.append(compare_lat(AE_lat,QE_lat))

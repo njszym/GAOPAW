@@ -59,30 +59,50 @@ def main():
     except:
         test_bulk = False
     lat_diff_list = []
-    for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
-        if elem not in os.listdir('.'):
-            os.mkdir(elem)
+    lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
+    ## Not including La, for now
+    if element_list[0] not in lanthanides:
+        for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
+            if elem not in os.listdir('.'):
+                os.mkdir(elem)
+            write_atompaw_input(elem, template_dir)
+            copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
+            os.chdir(elem)
+            run_atompaw(elem)
+            if check_UPF() == True:
+                write_QE_input(elem,lat_type,'relax',template_dir)
+                run_QE(elem,lat_type,'relax')
+                try:
+                    QE_lat = get_lattice_constant(elem,lat_type)
+                    AE_lat = lat_const
+                    if check_convergence(elem,lat_type,'relax') == True:
+                        lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                        copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                    else:
+                        pass
+                except:
+                    pass
+            else:
+                pass
+            os.chdir('../')
+    else:
+        elem = element_list[0]
+        os.mkdir(elem)
         write_atompaw_input(elem, template_dir)
         copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
         os.chdir(elem)
         run_atompaw(elem)
         if check_UPF() == True:
-            write_QE_input(elem,lat_type,'relax',template_dir)
-            run_QE(elem,lat_type,'relax')
-            try:
-                QE_lat = get_lattice_constant(elem,lat_type)
-                AE_lat = lat_const
-                if check_convergence(elem,lat_type,'relax') == True:
-                    lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                    copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                else:
-                    pass
-            except:
-                pass
+            lat_diff_list.append('placeholder')
+            lat_diff_list.append('placeholder')
         else:
             pass
-        os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
+        if element_list[0] in lanthanides:
+            lat_diff_list = []
+            copyfile(template_dir+'/'+element_list[1]+'.GGA-PBE-paw.UPF','./'+element_list[1]+'.GGA-PBE-paw.UPF')
+        else:
+            pass
         if test_binary == True:
             bin_lat_type = input_settings['binary_lattice_type']
             unique_elem_list = unique(element_list)

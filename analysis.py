@@ -34,15 +34,17 @@ def main():
     template_dir = input_settings['template_dir']
     lat_type_list = input_settings['lattice_type']
     lat_const_list = input_settings['lattice_constant']
+    num_tests = []
     try:
         test_binary = input_settings['test_binary']
+        num_tests.append('placeholder')
     except:
         test_binary = False
     try:
         test_ternary = input_settings['test_ternary']
+        num_tests.append('placeholder')
     except:
         test_ternary = False
-    num_tests = []
     try:
         test_atoms = input_settings['test_atomic_positions']
         num_tests.append('placeholder')
@@ -114,6 +116,7 @@ def main():
         else:
             pass
         if test_binary == True:
+            num_tests = num_tests[:-1]
             bin_lat_type = input_settings['binary_lattice_type']
             unique_elem_list = unique(element_list)
             cmpd = unique_elem_list[0]+unique_elem_list[1]
@@ -171,6 +174,7 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
         if test_ternary == True:
+            num_tests = num_tests[:-1]
             tern_lat_type = input_settings['ternary_lattice_type']
             unique_elem_list = unique(element_list)
             cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]

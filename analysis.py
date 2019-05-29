@@ -501,7 +501,9 @@ def birch_murnaghan(V, V0, B0, B0_prime, E0):
 
 def get_bulk(num_atoms):
     """
-    Reads in energy-volume data from E_V.txt and calculates bulk modulus
+    Reads in energy-volume data from E_V.txt and calculates:
+    equilibrium volume, bulk modulus, and dB/dP...
+    i.e., fit to Birch Murnaghan equation of state
     """
     df = pd.read_table('E_V.txt',sep='\s+',header=None)
     E = list(df[0])
@@ -514,6 +516,9 @@ def get_bulk(num_atoms):
     volume = popt[0]/float(num_atoms) ## A^3/atom
     bulk = popt[1]*160.2 ## GPa
     B_prime = popt[2] ## Dimensionless
+    f = open('QE_EOS.txt','w+')
+    f.write(str(volume)+' '+str(bulk)+' 'str(B_prime))
+    f.close()
     return float(volume), float(bulk), float(B_prime)
 
 def run_scale_lat(elem,lat_type,template_path):
@@ -573,6 +578,21 @@ def run_scale_lat(elem,lat_type,template_path):
     for (e,v) in zip(energies,volumes):
         f.write(str(e)+' '+str(v)+'\n')
     f.close()
+
+def read_eos(elem,template_path):
+    """
+    Read in QE and AE equilibrium volume, bulk modulus, and dB/dP
+    from QE_EOS.txt and AE_EOS.txt
+    """
+    with open('QE_EOS.txt') as f:
+        lines = f.readlines()
+    QE_data = [float(value) for value in lines.split()]
+    with open(template_path+'/AE_EOS.txt') as f:
+        lines = f.readlines()
+    AE_data = [float(value) for value in lines.split()]
+    data_f = {'element': [elem], 'V0': [QE_data[0]], 'B0': [QE_data[1]], 'BP': [QE_data[2]]}
+    data_w = {'element': [elem], 'V0': [AE_data[0]], 'B0': [AE_data[1]], 'BP': [AE_data[2]]}
+    return data_f, data_w
 
 def calcDelta(data_f, data_w, eloverlap, useasymm):
     """

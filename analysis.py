@@ -42,24 +42,30 @@ def main():
         test_ternary = input_settings['test_ternary']
     except:
         test_ternary = False
+    num_tests = [] ## Work in progress...may use later
     try:
         test_atoms = input_settings['test_atomic_positions']
+        num_tests.append('placeholder')
     except:
         test_atoms = False
     try:
         test_mag = input_settings['test_magnetic_moment']
+        num_tests.append('placeholder')
     except:
         test_mag = False
     try:
         test_gap = input_settings['test_gap']
+        num_tests.append('placeholder')
     except:
         test_gap = False
     try:
         test_bulk = input_settings['test_bulk']
+        num_tests.append('placeholder')
     except:
         test_bulk = False
     try:
         test_delta = input_settings['test_delta']
+        num_tests.append('placeholder')
     except:
         test_delta = False
     lat_diff_list = []
@@ -258,15 +264,15 @@ def main():
                 write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
                 run_QE(cmpd,cmpd_lat_type,'relax')
                 run_scale_lat(cmpd,cmpd_lat_type,template_dir)
+                V0, QE_bulk, B_prime = get_bulk(num_atoms)
                 if test_bulk == True:
-                    V0, QE_bulk, B_prime = get_bulk(num_atoms)
                     AE_bulk = input_settings['bulk_modulus']
                     bulk_diff = abs(AE_bulk-QE_bulk)
                     lat_diff_list.append(bulk_diff)
                     update_dakota(element_list,lat_diff_list)
                 if test_delta == True:
                     QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
-                    delta_factor = calcDelta(AE_EOS_data,AE_EOS_data,[cmpd],False)
+                    delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
                     lat_diff_list.append(delta_factor)
                     update_dakota(element_list,lat_diff_list)
             if test_atoms == False and test_mag == False and test_gap == False and test_bulk == False and test_delta == False:
@@ -274,20 +280,20 @@ def main():
     else:
         if test_binary == True:
             lat_type_list.append(input_settings['binary_lattice_type'])
-            if test_bulk == True:
+            if test_bulk == True: ## Because we are comparing lat const and bulk, I think
                 lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
             else:
                 bad_run(element_list,lat_type_list)
         if test_ternary == True:
             lat_type_list.append(input_settings['ternary_lattice_type'])
-            if test_bulk == True:
+            if test_bulk == True: ## Because we are comparing lat const and bulk, I think
                 lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
             else:
                 bad_run(element_list,lat_type_list)
         if test_binary == False and test_binary == False:
-            if test_mag == True or test_atoms == True or test_gap == True or test_bulk == True:
+            if test_mag == True or test_atoms == True or test_gap == True or test_bulk == True or test_delta == True:
                 lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
             else:
@@ -596,10 +602,10 @@ def read_eos(elem,template_path):
     """
     with open('QE_EOS.txt') as f:
         lines = f.readlines()
-    QE_data = [float(value) for value in lines.split()]
+    QE_data = [float(value) for value in lines[0].split()]
     with open(template_path+'/AE_EOS.txt') as f:
         lines = f.readlines()
-    AE_data = [float(value) for value in lines.split()]
+    AE_data = [float(value) for value in lines[0].split()]
     data_f = {'element': [elem], 'V0': [QE_data[0]], 'B0': [QE_data[1]], 'BP': [QE_data[2]]}
     data_w = {'element': [elem], 'V0': [AE_data[0]], 'B0': [AE_data[1]], 'BP': [AE_data[2]]}
     return data_f, data_w

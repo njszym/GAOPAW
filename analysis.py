@@ -70,6 +70,11 @@ def main():
         num_tests.append('placeholder')
     except:
         test_delta = False
+    try:
+        test_phonon = input_settings['test_phonon']
+        num_tests.append('placeholder')
+    except:
+	test_phonon = False
     lat_diff_list = []
     lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
     ## Not including La, for now
@@ -155,7 +160,16 @@ def main():
                 QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
                 delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
                 lat_diff_list.append(delta_factor)
-            if test_atoms == False and test_mag == False and test_gap == False and test_delta == False:
+            if test_phonon == True: ## Testing required
+                write_QE_input(cmpd,bin_lat_type,'scf',template_dir)
+                run_QE(cmpd,bin_lat_type,'scf')
+                copyfile(template_dir+'/phonon.in','./phonon.in')
+                os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save ' + cmpd + '.scf.save.qegz -MPICORES 4 -HOST localhost:1')
+                copyfile(template_dir+'/dynmat.in','./dynmat.in')
+                os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4 -HOST localhost:1')
+                phonon_diff = compare_phonon(template_dir)
+                lat_diff_list.append(phonon_diff)
+            if test_atoms == False and test_mag == False and test_gap == False and test_delta == False and test_phonon == False:
                 write_QE_input(cmpd,tern_lat_type,'relax',template_dir)
                 run_QE(cmpd,tern_lat_type,'relax')
                 QE_lat = get_lattice_constant(cmpd,bin_lat_type)
@@ -691,18 +705,23 @@ def compare_phonon(template_path):
     Parse optical phonon frequencies from QE run
     and compare with AE frequencies
     """
-    with open('phonon.out') as f:
+    with open('dynmat.out') as f:
         lines = f.readlines()
     index = 0
-    block = []
     for line in lines:
-        if '*****' in line:
-            block.append(index)
+        if 'mode' in line:
+            mode_line = index
         index += 1
+    freq_index = mode_line + 1
     freq = []
-    for i in range(block[0]+1,block[1]):
-        freq.append(lines[i].split()[4])
-    QE_freq = [float(value) for value in freq[:3]]
+    check = True
+    while check == True:
+        try:
+            freq.append(lines[freq_index].split()[2])
+            freq_index += 1
+        except:
+            check = False
+    QE_freq = [float(value) for value in freq[3:]]
     with open(template_path+'/AE_freq') as f:
         lines = f.readlines()
     AE_freq = []
@@ -716,4 +735,5 @@ def compare_phonon(template_path):
 
 if __name__=='__main__':
     main()
+
 

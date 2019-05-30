@@ -686,6 +686,34 @@ def calcDelta(data_f, data_w, eloverlap, useasymm):
                  / (v0w + v0f) / (b0w + b0f) * 4. * vref * bref
     return Delta ## Just return Delta-factor for now
 
+def compare_phonon(template_path):
+    """
+    Parse optical phonon frequencies from QE run
+    and compare with AE frequencies
+    """
+    with open('phonon.out') as f:
+        lines = f.readlines()
+    index = 0
+    block = []
+    for line in lines:
+        if '*****' in line:
+            block.append(index)
+        index += 1
+    freq = []
+    for i in range(block[0]+1,block[1]):
+        freq.append(lines[i].split()[4])
+    QE_freq = [float(value) for value in freq[:3]]
+    with open(template_path+'/AE_freq') as f:
+        lines = f.readlines()
+    AE_freq = []
+    for line in lines:
+        AE_freq.append(float(lines[:-1]))
+    rel_diff = []
+    for (QE,AE) in zip(QE_freq,AE_freq):
+        rel_diff.append(abs((QE-AE)/AE))
+    net_diff = sum(rel_diff)/len(rel_diff)
+    return net_diff
+
 if __name__=='__main__':
     main()
 

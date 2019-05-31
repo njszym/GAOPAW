@@ -42,6 +42,10 @@ def main():
        	test_ternary = True
     else:
        	test_ternary = False
+    if len(element_list) == 8:
+        test_quarternary = True
+    else:
+        test_quarternary = False
     num_tests = []
     try:
         test_atoms = input_settings['test_atomic_positions']
@@ -266,7 +270,7 @@ def main():
                 run_QE(cmpd,tern_lat_type,'scf')
                 if check_convergence(cmpd,tern_lat_type,'scf') == True:
                     copyfile(template_dir+'/phonon.in','./phonon.in')
-                    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+bin_lat_type+'.scf.save.qegz -MPICORES 4')
+                    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+tern_lat_type+'.scf.save.qegz -MPICORES 4')
                     copyfile(template_dir+'/dynmat.in','./dynmat.in')
                     os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
                     phonon_diff = compare_phonon(template_dir)
@@ -294,7 +298,90 @@ def main():
                     lat_diff_list.append(compare_lat(AE_lat,QE_lat))
                 else:
                     lat_type_list.append('bad_run')
-        if test_binary == False and test_ternary == False:
+        if test_quarternary == True:
+            qtern_lat_type = input_settings['quarternary_lattice_type']
+            unique_elem_list = unique(element_list)
+            cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]+unique_elem_list[3]
+            if test_atoms == True:
+                write_QE_input(cmpd,qtern_lat_type,'relax',template_dir)
+                run_QE(cmpd,qtern_lat_type,'relax')
+                if check_convergence(cmpd,qtern_lat_type,'relax') == True:
+                    atom_diff = compare_atoms(cmpd,qtern_lat_type,template_dir)
+                    lat_diff_list.append(atom_diff)
+                else:
+                    lat_type_list.append('bad_run')
+            if test_mag == True:
+                write_QE_input(cmpd,qtern_lat_type,'scf',template_dir)
+                run_QE(cmpd,qtern_lat_type,'scf')
+                AE_mag = float(input_settings['magnetization'])
+                if check_convergence(cmpd,qtern_lat_type,'scf') == True:
+                    QE_mag = float(get_mag(cmpd,qtern_lat_type))
+                    lat_diff_list.append(abs(QE_mag-AE_mag))
+                else:
+                    lat_type_list.append('bad_run')
+            if test_mag_mom == True:
+                write_QE_input(cmpd,qtern_lat_type,'scf',template_dir)
+                run_QE(cmpd,qtern_lat_type,'scf')
+                if check_convergence(cmpd,qtern_lat_type,'scf') == True:
+                    mag_mom_diff = compare_mag_mom(cmpd,qtern_lat_type,template_dir)
+                    lat_diff_list.append(mag_mom_diff)
+                else:
+                    lat_type_list.append('bad_run')
+            if test_gap == True:
+                write_QE_input(cmpd,qtern_lat_type,'scf',template_dir)
+                run_QE(cmpd,qtern_lat_type,'scf')
+                AE_gap = input_settings['band_gap']
+                if check_convergence(cmpd,qtern_lat_type,'scf') == True:
+                    QE_gap = get_gap(cmpd,qtern_lat_type)
+                    lat_diff_list.append(abs(QE_gap-AE_gap))
+                else:
+                    lat_type_list.append('bad_run')
+            if test_delta == True:
+                write_QE_input(cmpd,qtern_lat_type,'relax',template_dir)
+                run_QE(cmpd,qtern_lat_type,'relax')
+                if check_convergence(cmpd,qtern_lat_type,'relax') == True:
+                    num_atoms = input_settings['num_atoms']
+                    run_scale_lat(cmpd,qtern_lat_type,template_dir)
+                    V0, QE_bulk, B_prime = get_bulk(num_atoms)
+                    QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
+                    delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
+                    lat_diff_list.append(delta_factor)
+                else:
+                    lat_type_list.append('bad_run')
+            if test_phonon == True: ## Testing required
+                write_QE_input(cmpd,qtern_lat_type,'scf',template_dir)
+                run_QE(cmpd,qtern_lat_type,'scf')
+                if check_convergence(cmpd,qtern_lat_type,'scf') == True:
+                    copyfile(template_dir+'/phonon.in','./phonon.in')
+                    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+qtern_lat_type+'.scf.save.qegz -MPICORES 4')
+                    copyfile(template_dir+'/dynmat.in','./dynmat.in')
+                    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
+                    phonon_diff = compare_phonon(template_dir)
+                    lat_diff_list.append(phonon_diff)
+                else:
+                    lat_type_list.append('bad_run')
+            if test_bulk == True:
+                write_QE_input(cmpd,qtern_lat_type,'relax',template_dir)
+                run_QE(cmpd,qtern_lat_type,'relax')
+                if check_convergence(cmpd,qtern_lat_type,'relax') == True:
+                    num_atoms = input_settings['num_atoms']
+                    run_scale_lat(cmpd,qtern_lat_type,template_dir)
+                    V0, QE_bulk, B_prime = get_bulk(num_atoms)
+                    AE_bulk = input_settings['bulk_modulus']
+                    bulk_diff = abs(AE_bulk-QE_bulk)
+                    lat_diff_list.append(bulk_diff)
+                else:
+                    lat_type_list.append('bad_run')
+            if test_lat == True:
+                write_QE_input(cmpd,qtern_lat_type,'relax',template_dir)
+                run_QE(cmpd,qtern_lat_type,'relax')
+                if check_convergence(cmpd,qtern_lat_type,'relax') == True:
+                    QE_lat = get_lattice_constant(cmpd,qtern_lat_type)
+                    AE_lat = input_settings['quarternary_lattice_constant']
+                    lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                else:
+                    lat_type_list.append('bad_run')
+        if test_binary == False and test_ternary == False and test_quarternary == False:
             if test_atoms == True:
                 cmpd = element_list[0]
                 cmpd_lat_type = input_settings['test_lat_type']

@@ -49,10 +49,15 @@ def main():
     except:
         test_atoms = False
     try:
-        test_mag = input_settings['test_magnetic_moment']
+        test_mag = input_settings['test_magnetization']
         num_tests.append('placeholder')
     except:
         test_mag = False
+    try:
+        test_mag_mom = input_settings['test_magnetic_moment']
+        num_tests.append('placeholder')
+    except:
+	test_mag_mom = False
     try:
         test_gap = input_settings['test_gap']
         num_tests.append('placeholder')
@@ -144,6 +149,14 @@ def main():
                     lat_diff_list.append(abs(QE_mag-AE_mag))
                 else:
                     lat_type_list.append('bad_run')
+            if test_mag_mom == True:
+                write_QE_input(cmpd,bin_lat_type,'scf',template_dir)
+                run_QE(cmpd,bin_lat_type,'scf')
+                if check_convergence(cmpd,bin_lat_type,'scf') == True:
+                    mag_mom_diff = compare_mag_mom(cmpd,bin_lat_type,template_dir)
+                    lat_diff_list.append(mag_mom_diff)
+                else:
+                    lat_type_list.append('bad_run')
             if test_gap == True:
                 write_QE_input(cmpd,bin_lat_type,'scf',template_dir)
                 run_QE(cmpd,bin_lat_type,'scf')
@@ -217,6 +230,14 @@ def main():
                 if check_convergence(cmpd,tern_lat_type,'scf') == True:
                     QE_mag = float(get_mag(cmpd,tern_lat_type))
                     lat_diff_list.append(abs(QE_mag-AE_mag))
+                else:
+                    lat_type_list.append('bad_run')
+            if test_mag_mom == True:
+                write_QE_input(cmpd,tern_lat_type,'scf',template_dir)
+                run_QE(cmpd,tern_lat_type,'scf')
+                if check_convergence(cmpd,tern_lat_type,'scf') == True:
+                    mag_mom_diff = compare_mag_mom(cmpd,tern_lat_type,template_dir)
+                    lat_diff_list.append(mag_mom_diff)
                 else:
                     lat_type_list.append('bad_run')
             if test_gap == True:
@@ -293,6 +314,16 @@ def main():
                 if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                     QE_mag = float(get_mag(cmpd,cmpd_lat_type))
                     lat_diff_list.append(abs(QE_mag-AE_mag))
+                else:
+                    lat_type_list.append('bad_run')
+            if test_mag_mom == True:
+                cmpd = element_list[0]
+                cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'scf')
+                if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
+                    mag_mom_diff = compare_mag_mom(cmpd,cmpd_lat_type,template_dir)
+                    lat_diff_list.append(mag_mom_diff)
                 else:
                     lat_type_list.append('bad_run')
             if test_gap == True:
@@ -558,6 +589,35 @@ def get_mag(elem,lat_type):
             pass
     return float(mag[-1])
 
+def compare_mag_mom(elem,lat_type,template_path):
+    """
+    Parse QE output (scf run) to obtain individual
+    magnetic moments of atoms in given structure.
+    Compare these with AE magnetic moments in AE_mag.
+    """
+    with open(elem+'.'+lat_type+'.scf.out') as f:
+        lines = f.readlines()
+    QE_mag_mom = []
+    for line in lines:
+        if 'magn:' in line.split():
+            QE_mag_mom.append(line.split()[5])
+        else:
+            pass
+    QE_mag_mom = [float(value) for value in mag_mom]
+    with open(template_path+'/AE_mag') as f:
+        lines = f.readlines()
+    AE_mag_mom = []
+    for line in lines:
+        try:
+            AE_mag_mom.append(float(line[:-1]))
+        except:
+            pass
+    rel_diff = []
+    for (QE,AE) in zip(QE_mag_mom,AE_mag_mom):
+        rel_diff.append(abs((QE-AE)/AE))
+    net_diff = sum(rel_diff)/len(rel_diff)
+    return float(net_diff)
+
 def get_gap(elem,lat_type):
     """
     Parse QE output (scf run) to obtain band gap.
@@ -623,7 +683,7 @@ def run_scale_lat(elem,lat_type,template_path):
         else:
             pass
     final_vol = float(volumes[-1])
-    if lat_type == 'FCC' or 'ZB' or 'diamond':
+    if lat_type == 'FCC' or 'ZB' or 'diamond' or 'RS':
         lat_const = (final_vol*4.)**(1./3.)
     else: ## Need to implement other lattice types
         pass
@@ -665,7 +725,7 @@ def run_scale_lat(elem,lat_type,template_path):
                 energies.append(line.split()[4])
         os.chdir('../')
         folder += 1
-    if lat_type == 'FCC' or 'ZB' or 'diamond':
+    if lat_type == 'FCC' or 'ZB' or 'diamond' or 'RS':
         volumes = [(value**3.)/4. for value in scaled_lat]
     else:
         pass ## Need to implement other lattice types

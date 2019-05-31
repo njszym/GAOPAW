@@ -4,8 +4,7 @@
   pseudo_dir='./'
 /
 &system
-  ibrav=2
-  celldm(1)=10.2858
+  ibrav=0
   nat=2
   ntyp=2
   ecutwfc=40

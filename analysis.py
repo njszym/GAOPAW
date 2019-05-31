@@ -583,6 +583,9 @@ def main():
         if 'bad_run' not in lat_type_list:
             update_dakota(element_list,lat_diff_list)
         else:
+            lat_type_list = [value for value in lat_type_list if value != 'bad_run']
+            for i in range(len(num_tests)):
+                lat_type_list.append('placeholder')
             bad_run(element_list,lat_type_list)
     else:
         for i in range(len(num_tests)):

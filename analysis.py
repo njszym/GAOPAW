@@ -61,7 +61,7 @@ def main():
         test_mag_mom = input_settings['test_magnetic_moment']
         num_tests.append('placeholder')
     except:
-	test_mag_mom = False
+        test_mag_mom = False
     try:
         test_gap = input_settings['test_gap']
         num_tests.append('placeholder')
@@ -102,13 +102,38 @@ def main():
                 write_QE_input(elem,lat_type,'relax',template_dir)
                 run_QE(elem,lat_type,'relax')
                 try:
-                    QE_lat = get_lattice_constant(elem,lat_type)
-                    AE_lat = lat_const
-                    if check_convergence(elem,lat_type,'relax') == True:
-                        lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                        copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                    else:
-                        pass
+                    if lat_type not in ['ortho','tetrag']:
+                        QE_lat = get_lattice_constant(elem,lat_type)
+                        AE_lat = lat_const
+                        if check_convergence(elem,lat_type,'relax') == True:
+                            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                        else:
+                            pass
+       	       	    else:
+                        if lat_type == 'tetrag':
+                            QE_a, QE_c = get_lattice_constant(elem,lat_type)
+                            AE_lat = lat_const
+                            lat_diff = compare_lat(AE_lat[0],QE_a)
+                            lat_diff += compare_lat(AE_lat[1],QE_c)
+                            lat_diff = lat_diff/2.
+                            if check_convergence(elem,lat_type,'relax') == True:
+                                lat_diff_list.append(lat_diff)
+                                copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                            else:
+                                pass
+       	       	       	if lat_type == 'ortho':
+                            QE_a, QE_b, QE_c = get_lattice_constant(elem,lat_type)
+                            AE_lat = lat_const
+                            lat_diff = compare_lat(AE_lat[0],QE_a)
+       	       	       	    lat_diff +=	compare_lat(AE_lat[1],QE_b)
+                            lat_diff += compare_lat(AE_lat[2],QE_c)
+       	       	       	    lat_diff = lat_diff/3.
+                            if check_convergence(elem,lat_type,'relax') == True:
+                                lat_diff_list.append(lat_diff)
+                                copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                            else:
+                                pass
                 except:
                     pass
             else:
@@ -145,16 +170,22 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_mag == True:
+                write_QE_input(cmpd,bin_lat_type,'relax',template_dir)
+                run_QE(cmpd,bin_lat_type,'relax')
                 write_QE_input(cmpd,bin_lat_type,'scf',template_dir)
+                update_structure(cmpd,bin_lat_type)
                 run_QE(cmpd,bin_lat_type,'scf')
                 AE_mag = float(input_settings['magnetization'])
                 if check_convergence(cmpd,bin_lat_type,'scf') == True:
                     QE_mag = float(get_mag(cmpd,bin_lat_type))
-                    lat_diff_list.append(abs(QE_mag-AE_mag))
+                    lat_diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
                 else:
                     lat_type_list.append('bad_run')
             if test_mag_mom == True:
+                write_QE_input(cmpd,bin_lat_type,'relax',template_dir)
+                run_QE(cmpd,bin_lat_type,'relax')
                 write_QE_input(cmpd,bin_lat_type,'scf',template_dir)
+                update_structure(cmpd,bin_lat_type)
                 run_QE(cmpd,bin_lat_type,'scf')
                 if check_convergence(cmpd,bin_lat_type,'scf') == True:
                     mag_mom_diff = compare_mag_mom(cmpd,bin_lat_type,template_dir)
@@ -162,12 +193,15 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_gap == True:
+       	       	write_QE_input(cmpd,bin_lat_type,'relax',template_dir)
+       	       	run_QE(cmpd,bin_lat_type,'relax')
                 write_QE_input(cmpd,bin_lat_type,'scf',template_dir)
+       	       	update_structure(cmpd,bin_lat_type)
                 run_QE(cmpd,bin_lat_type,'scf')
                 AE_gap = input_settings['band_gap']
                 if check_convergence(cmpd,bin_lat_type,'scf') == True:
                     QE_gap = get_gap(cmpd,bin_lat_type)
-                    lat_diff_list.append(abs(QE_gap-AE_gap))
+                    lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
                 else:
                     lat_type_list.append('bad_run')
             if test_delta == True:
@@ -183,7 +217,10 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_phonon == True: ## Testing required
+       	       	write_QE_input(cmpd,bin_lat_type,'relax',template_dir)
+       	       	run_QE(cmpd,bin_lat_type,'relax')
                 write_QE_input(cmpd,bin_lat_type,'scf',template_dir)
+       	       	update_structure(cmpd,bin_lat_type)
                 run_QE(cmpd,bin_lat_type,'scf')
                 if check_convergence(cmpd,bin_lat_type,'scf') == True:
                     copyfile(template_dir+'/phonon.in','./phonon.in')
@@ -202,7 +239,7 @@ def main():
                     run_scale_lat(cmpd,bin_lat_type,template_dir)
                     V0, QE_bulk, B_prime = get_bulk(num_atoms)
                     AE_bulk = input_settings['bulk_modulus']
-                    bulk_diff = abs(AE_bulk-QE_bulk)
+                    bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
                     lat_diff_list.append(bulk_diff)
                 else:
                     lat_type_list.append('bad_run')
@@ -220,7 +257,7 @@ def main():
             unique_elem_list = unique(element_list)
             cmpd = unique_elem_list[0]+unique_elem_list[1]+unique_elem_list[2]
             if test_atoms == True:
-                write_QE_input(cmpd,tern_lat_type,'relax',template_dir)
+       	       	write_QE_input(cmpd,tern_lat_type,'relax',template_dir)
                 run_QE(cmpd,tern_lat_type,'relax')
                 if check_convergence(cmpd,tern_lat_type,'relax') == True:
                     atom_diff = compare_atoms(cmpd,tern_lat_type,template_dir)
@@ -228,16 +265,22 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_mag == True:
+                write_QE_input(cmpd,tern_lat_type,'relax',template_dir)
+                run_QE(cmpd,tern_lat_type,'relax')
                 write_QE_input(cmpd,tern_lat_type,'scf',template_dir)
+                update_structure(cmpd,tern_lat_type)
                 run_QE(cmpd,tern_lat_type,'scf')
                 AE_mag = float(input_settings['magnetization'])
                 if check_convergence(cmpd,tern_lat_type,'scf') == True:
                     QE_mag = float(get_mag(cmpd,tern_lat_type))
-                    lat_diff_list.append(abs(QE_mag-AE_mag))
+                    lat_diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
                 else:
                     lat_type_list.append('bad_run')
             if test_mag_mom == True:
+                write_QE_input(cmpd,tern_lat_type,'relax',template_dir)
+                run_QE(cmpd,tern_lat_type,'relax')
                 write_QE_input(cmpd,tern_lat_type,'scf',template_dir)
+                update_structure(cmpd,tern_lat_type)
                 run_QE(cmpd,tern_lat_type,'scf')
                 if check_convergence(cmpd,tern_lat_type,'scf') == True:
                     mag_mom_diff = compare_mag_mom(cmpd,tern_lat_type,template_dir)
@@ -245,12 +288,15 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_gap == True:
+                write_QE_input(cmpd,tern_lat_type,'relax',template_dir)
+                run_QE(cmpd,tern_lat_type,'relax')
                 write_QE_input(cmpd,tern_lat_type,'scf',template_dir)
+                update_structure(cmpd,tern_lat_type)
                 run_QE(cmpd,tern_lat_type,'scf')
                 AE_gap = input_settings['band_gap']
                 if check_convergence(cmpd,tern_lat_type,'scf') == True:
                     QE_gap = get_gap(cmpd,tern_lat_type)
-                    lat_diff_list.append(abs(QE_gap-AE_gap))
+                    lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
                 else:
                     lat_type_list.append('bad_run')
             if test_delta == True:
@@ -266,7 +312,10 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_phonon == True: ## Testing required
+                write_QE_input(cmpd,tern_lat_type,'relax',template_dir)
+                run_QE(cmpd,tern_lat_type,'relax')
                 write_QE_input(cmpd,tern_lat_type,'scf',template_dir)
+                update_structure(cmpd,tern_lat_type)
                 run_QE(cmpd,tern_lat_type,'scf')
                 if check_convergence(cmpd,tern_lat_type,'scf') == True:
                     copyfile(template_dir+'/phonon.in','./phonon.in')
@@ -285,7 +334,7 @@ def main():
                     run_scale_lat(cmpd,tern_lat_type,template_dir)
                     V0, QE_bulk, B_prime = get_bulk(num_atoms)
                     AE_bulk = input_settings['bulk_modulus']
-                    bulk_diff = abs(AE_bulk-QE_bulk)
+                    bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
                     lat_diff_list.append(bulk_diff)
                 else:
                     lat_type_list.append('bad_run')
@@ -311,16 +360,22 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_mag == True:
+                write_QE_input(cmpd,qtern_lat_type,'relax',template_dir)
+                run_QE(cmpd,qtern_lat_type,'relax')
                 write_QE_input(cmpd,qtern_lat_type,'scf',template_dir)
+                update_structure(cmpd,qtern_lat_type)
                 run_QE(cmpd,qtern_lat_type,'scf')
                 AE_mag = float(input_settings['magnetization'])
                 if check_convergence(cmpd,qtern_lat_type,'scf') == True:
                     QE_mag = float(get_mag(cmpd,qtern_lat_type))
-                    lat_diff_list.append(abs(QE_mag-AE_mag))
+                    lat_diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
                 else:
                     lat_type_list.append('bad_run')
             if test_mag_mom == True:
+                write_QE_input(cmpd,qtern_lat_type,'relax',template_dir)
+                run_QE(cmpd,qtern_lat_type,'relax')
                 write_QE_input(cmpd,qtern_lat_type,'scf',template_dir)
+                update_structure(cmpd,qtern_lat_type)
                 run_QE(cmpd,qtern_lat_type,'scf')
                 if check_convergence(cmpd,qtern_lat_type,'scf') == True:
                     mag_mom_diff = compare_mag_mom(cmpd,qtern_lat_type,template_dir)
@@ -328,12 +383,15 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_gap == True:
+                write_QE_input(cmpd,qtern_lat_type,'relax',template_dir)
+                run_QE(cmpd,qtern_lat_type,'relax')
                 write_QE_input(cmpd,qtern_lat_type,'scf',template_dir)
+                update_structure(cmpd,qtern_lat_type)
                 run_QE(cmpd,qtern_lat_type,'scf')
                 AE_gap = input_settings['band_gap']
                 if check_convergence(cmpd,qtern_lat_type,'scf') == True:
                     QE_gap = get_gap(cmpd,qtern_lat_type)
-                    lat_diff_list.append(abs(QE_gap-AE_gap))
+                    lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
                 else:
                     lat_type_list.append('bad_run')
             if test_delta == True:
@@ -349,7 +407,10 @@ def main():
                 else:
                     lat_type_list.append('bad_run')
             if test_phonon == True: ## Testing required
+                write_QE_input(cmpd,qtern_lat_type,'relax',template_dir)
+                run_QE(cmpd,qtern_lat_type,'relax')
                 write_QE_input(cmpd,qtern_lat_type,'scf',template_dir)
+                update_structure(cmpd,qtern_lat_type)
                 run_QE(cmpd,qtern_lat_type,'scf')
                 if check_convergence(cmpd,qtern_lat_type,'scf') == True:
                     copyfile(template_dir+'/phonon.in','./phonon.in')
@@ -368,7 +429,7 @@ def main():
                     run_scale_lat(cmpd,qtern_lat_type,template_dir)
                     V0, QE_bulk, B_prime = get_bulk(num_atoms)
                     AE_bulk = input_settings['bulk_modulus']
-                    bulk_diff = abs(AE_bulk-QE_bulk)
+                    bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
                     lat_diff_list.append(bulk_diff)
                 else:
                     lat_type_list.append('bad_run')
@@ -395,18 +456,24 @@ def main():
             if test_mag == True:
                 cmpd = element_list[0]
                 cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'relax')
                 write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                update_structure(cmpd,cmpd_lat_type)
                 run_QE(cmpd,cmpd_lat_type,'scf')
                 AE_mag = float(input_settings['magnetization'])
                 if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                     QE_mag = float(get_mag(cmpd,cmpd_lat_type))
-                    lat_diff_list.append(abs(QE_mag-AE_mag))
+                    lat_diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
                 else:
                     lat_type_list.append('bad_run')
             if test_mag_mom == True:
                 cmpd = element_list[0]
                 cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'relax')
                 write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                update_structure(cmpd,cmpd_lat_type)
                 run_QE(cmpd,cmpd_lat_type,'scf')
                 if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                     mag_mom_diff = compare_mag_mom(cmpd,cmpd_lat_type,template_dir)
@@ -416,18 +483,24 @@ def main():
             if test_gap == True:
                 cmpd = element_list[0]
                 cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'relax')
                 write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                update_structure(cmpd,cmpd_lat_type)
                 run_QE(cmpd,cmpd_lat_type,'scf')
                 AE_gap = input_settings['band_gap']
                 if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                     QE_gap = get_gap(cmpd,cmpd_lat_type)
-                    lat_diff_list.append(abs(QE_gap-AE_gap))
+                    lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
                 else:
                     lat_type_list.append('bad_run')
             if test_phonon == True: ## Testing required
                 cmpd = element_list[0]
                 cmpd_lat_type = input_settings['test_lat_type']
+                write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'relax')
                 write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                update_structure(cmpd,cmpd_lat_type)
                 run_QE(cmpd,cmpd_lat_type,'scf')
                 if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                     copyfile(template_dir+'/phonon.in','./phonon.in')
@@ -447,7 +520,7 @@ def main():
                 run_scale_lat(cmpd,cmpd_lat_type,template_dir)
                 V0, QE_bulk, B_prime = get_bulk(num_atoms)
                 AE_bulk = input_settings['bulk_modulus']
-                bulk_diff = abs(AE_bulk-QE_bulk)
+                bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
                 lat_diff_list.append(bulk_diff)
             if test_delta == True:
                 num_atoms = input_settings['num_atoms']
@@ -517,7 +590,7 @@ def compare_lat(AE_lat,QE_lat):
     """
     Compute difference between AE and PAW lattice constants
     """
-    return abs(AE_lat - QE_lat)
+    return abs(AE_lat - QE_lat)/AE_lat
 
 def update_dakota(element_list,lat_diff_list):
     """
@@ -586,8 +659,12 @@ def get_lattice_constant(elem,lat_type):
         return math.sqrt(2)*params[0]
     if lat_type == 'BCC':
         return (2./3.)*math.sqrt(3)*params[0]
-    if lat_type == 'per':
+    if lat_type == 'per' or lat_type == 'SC' or lat_type == 'CsCl':
         return params[0]
+    if lat_type == 'tetrag':
+        return params[0], params[2]
+    if lat_type == 'ortho':
+        return params[0], params[1], params[2]
 
 def check_convergence(elem,lat_type,calc_type):
     """
@@ -949,6 +1026,66 @@ def compare_phonon(template_path):
         rel_diff.append(abs((QE-AE)/AE))
     net_diff = sum(rel_diff)/len(rel_diff)
     return net_diff
+
+def update_structure(elem,lat_type):
+    """
+    Parse equilibrium structure from completed relaxation
+    and update the corresponding scf calculation input file.
+    """
+    with open(elem+'.'+lat_type+'.relax.out') as f:
+        lines = f.readlines()
+    index = 0
+    for line in lines:
+        if 'ATOMIC_POSITIONS' in line:
+            start = index+1
+        else:
+            pass
+        index += 1
+    coords = []
+    for line in lines[start:]:
+        if 'End' in line:
+            break
+        else:
+            coords.append(line)
+    coords_header = 'ATOMIC_POSITIONS alat\n'
+    index = 0
+    for line in lines:
+        if 'CELL_PARAMETERS' in line:
+            cell_index = [index+1,index+2,index+3]
+            split_line = line.split('=')
+            alat = float(split_line[1][1:-2])
+        else:
+            pass
+        index += 1
+    vectors = []
+    for i in cell_index:
+        v = lines[i].split()
+        v = [float(value) for value in v]
+        v = [alat*value for value in v]
+        vectors.append(v)
+    cell_header = 'CELL_PARAMETERS bohr\n'
+    v1 = str(vectors[0][0])+' '+str(vectors[0][1])+' '+str(vectors[0][2])+'\n'
+    v2 = str(vectors[1][0])+' '+str(vectors[1][1])+' '+str(vectors[1][2])+'\n'
+    v3 = str(vectors[2][0])+' '+str(vectors[2][1])+' '+str(vectors[2][2])+'\n'
+    with open(elem+'.'+lat_type+'.scf.in') as f:
+        lines = f.readlines()
+    orig_struct = []
+    for line in lines:
+        if ('ATOMIC_POSITIONS' not in line) and ('CELL_PARAMETERS' not in line):
+            orig_struct.append(line)
+        else:
+            break
+    f = open(elem+'.'+lat_type+'.scf.in','w+')
+    for line in orig_struct:
+        f.write(line)
+    f.write(coords_header)
+    for line in coords:
+        f.write(line)
+    f.write(cell_header)
+    f.write(v1)
+    f.write(v2)
+    f.write(v3)
+    f.close()
 
 if __name__=='__main__':
     main()

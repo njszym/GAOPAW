@@ -1,0 +1,6 @@
+# Input file for GAOPAW
+elements: ['P']
+lattice_type: ['ortho']
+lattice_constant: [[3.304659,11.316935,4.573268]]
+template_dir: '/scr/szymansk/gaopaw/Test_Elems/Input'
+# End file

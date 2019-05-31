@@ -1,0 +1,9 @@
+# Input file for GAOPAW
+elements: ['La','La','Co','Co','Mn','Mn','O','O']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [5.267,4.235,3.457,2.762,3.503,2.784,3.178,2.511]
+template_dir: '/scr/szymansk/gaopaw/Examples/La2CoMnO6_magmom_atoms/Input'
+quarternary_lattice_type: 'trig'
+test_atomic_positions: True
+test_magnetic_moment: True
+# End file

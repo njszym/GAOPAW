@@ -4,8 +4,10 @@
   pseudo_dir='./'
 /
 &system
-  ibrav=2
-  celldm=6.2
+  ibrav=9
+  celldm(1)=6.24
+  celldm(2)=21.36
+  celldm(3)=8.64
   nat=1
   ntyp=1
   ecutwfc=40
@@ -24,8 +26,8 @@
   cell_dynamics='bfgs'
 /
 ATOMIC_SPECIES
-  N 0.0 N.GGA-PBE-paw.UPF
+  P 0.0 P.GGA-PBE-paw.UPF
 ATOMIC_POSITIONS (alat)
-  N 0.0 0.0 0.0
+  P 0.0 0.0 0.0
 K_POINTS (automatic)
   8 8 8 0 0 0

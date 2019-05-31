@@ -3,7 +3,7 @@ elements: ['Zn','Zn','S','S']
 lattice_type: ['FCC','BCC','FCC','BCC']
 lattice_constant: [3.936,3.128,3.994,3.182]
 template_dir: '/scr/szymansk/gaopaw/Examples/ZnS_Bulk_Modulus/Input'
-binary_lattice_type: ZB
+cmpd_lattice_type: ZB
 test_bulk: True
 bulk_modulus: 70.95165
 num_atoms: 2

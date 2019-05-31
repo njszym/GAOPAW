@@ -2,7 +2,7 @@
 elements: ['Sr','Sr','Ti','Ti','O','O']
 lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC']
 lattice_constant: [6.030,4.756,4.114,3.259,3.178,2.511]
-template_dir: '/scr/szymansk/gaopaw_test/SrTiO3/Surface/Input'
+template_dir: '/scr/szymansk/gaopaw/Examples/SrTiO3_Surface/Input'
 ternary_lattice_type: 'surf'
 test_atomic_positions: True
 # End file

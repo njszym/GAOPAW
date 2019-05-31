@@ -616,7 +616,10 @@ def run_scale_lat(elem,lat_type,template_path):
     volumes = []
     for line in lines:
         if 'volume' in line.split():
-            volumes.append(line.split()[3])
+            if 'new' in line.split():
+                volumes.append(line.split()[4])
+            else:
+                volumes.append(line.split()[3])
         else:
             pass
     final_vol = float(volumes[-1])

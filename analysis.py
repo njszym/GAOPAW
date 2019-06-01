@@ -818,6 +818,33 @@ def scale_cell(elem,lat_type,scale_factor):
         i += 1
     return np.array(M)
 
+def write_cell(elem,lat_type,cell):
+    """
+    Write given cell to QE relaxation input
+    """
+    vectors = np.array(cell)
+    v1 = str(vectors[0][0])+' '+str(vectors[0][1])+' '+str(vectors[0][2])+'\n'
+    v2 = str(vectors[1][0])+' '+str(vectors[1][1])+' '+str(vectors[1][2])+'\n'
+    v3 = str(vectors[2][0])+' '+str(vectors[2][1])+' '+str(vectors[2][2])+'\n'
+    cell_header = 'CELL_PARAMETERS bohr\n'
+    with open(elem+'.'+lat_type+'.relax.in') as f:
+        lines = f.readlines()
+    orig_struct = []
+    for line in lines:
+        if 'CELL_PARAMETERS' not in line:
+            orig_struct.append(line)
+        else:
+            break
+    f = open(elem+'.'+lat_type+'.relax.in','w+')
+    for line in orig_struct:
+        f.write(line)
+    f.write(cell_header)
+    f.write(v1)
+    f.write(v2)
+    f.write(v3)
+    f.close()
+
+
 if __name__=='__main__':
     main()
 

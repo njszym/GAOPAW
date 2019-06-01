@@ -351,9 +351,29 @@ def get_lattice_constant(elem,lat_type):
     if lat_type == 'per' or lat_type == 'SC' or lat_type == 'CsCl':
         return params[0]
     if lat_type == 'tetrag':
-        return params[0], params[2]
+        unique_lat_list = sorted(unique(params[:3]))
+        return unique_lat_list[0], unique_lat_list[1]
     if lat_type == 'ortho':
-        return params[0], params[1], params[2]
+        unique_lat_list = sorted(unique(params[:3]))
+        return unique_lat_list[0], unique_lat_list[1], unique_lat_list[3]
+    if lat_type == 'hex':
+        unique_lat_list = sorted(unique(params[:3]))
+        return unique_lat_list[0], unique_lat_list[1]
+    if lat_type == 'rhomb':
+        lat = params[0]
+        angle = params[4]
+        return lat, angle
+    if lat_type == 'monoclin':
+        unique_lat_list = sorted(unique(params[:3]))
+        for value in params[3:]:
+            if value > 90.01 or value < 89.99:
+                angle = value
+        return unique_lat_list[0], unique_lat_list[1], unique_lat_list[3], angle
+    if lat_type == 'triclin':
+        unique_lat_list = sorted(unique(params[:3]))
+        unique_angle_list = sorted(unique(params[3:]))
+        all_params = unique_lat_list + unique_angle_list
+        return all_params
 
 def check_convergence(elem,lat_type,calc_type):
     """
@@ -532,10 +552,12 @@ def run_scale_lat(elem,lat_type,template_path):
             else:
                 volumes.append(line.split()[3])
     final_vol = float(volumes[-1])
+    scale_num = [0.94,0.96,0.98,1.0,1.02,1.04,1.06]
+    scaled_vol = [num*final_vol for num in scale_num]
     if lat_type == 'FCC' or 'ZB' or 'diamond' or 'RS':
-        lat_const = (final_vol*4.)**(1./3.)
-    scale_num = [0.99,0.9922,0.9944,0.9966,0.9988,1.0,1.0022,1.0044,1.0066,1.0088,1.01]
-    scaled_lat = [num*lat_const for num in scale_num]
+        scaled_lat = [(V*4)**(1./3.) for V in scaled_vol]
+    if lat_type == 'BCC':
+        scaled_lat = [(V*2)**(1./3.) for V in scaled_vol]
     with open(template_path+'/'+elem+'.'+lat_type+'.relax.template') as f:
         lines = f.readlines()
     index = 0
@@ -574,6 +596,8 @@ def run_scale_lat(elem,lat_type,template_path):
         folder += 1
     if lat_type == 'FCC' or 'ZB' or 'diamond' or 'RS':
         volumes = [(value**3.)/4. for value in scaled_lat]
+    if lat_type == 'BCC':
+        volumes = [(value**3.)/2. for value in scaled_lat]
     f = open('E_V.txt','w+')
     for (e,v) in zip(energies,volumes):
         f.write(str(e)+' '+str(v)+'\n')
@@ -763,6 +787,34 @@ def update_structure(elem,lat_type):
     f.write(v2)
     f.write(v3)
     f.close()
+
+def scale_cell(elem,lat_type,scale_factor)
+    """
+    with open(elem+'.'+lat_type+'.relax.out') as f:
+        lines = f.readlines()
+    index = 0
+    for line in lines:
+        if 'CELL_PARAMETERS' in line:
+            cell_index = [index+1,index+2,index+3]
+            split_line = line.split('=')
+            alat = float(split_line[1][1:-2])
+        index += 1
+    vectors = []
+    for i in cell_index:
+        v = lines[i].split()
+        v = [float(value) for value in v]
+        v = np.array([alat*value for value in v])
+        vectors.append(v)
+    M = np.matrix(vectors)
+    i, j = [0,0]
+    scaled_M = [[0,0,0],[0,0,0],[0,0,0]]
+    for vector in np.array(M):
+        j = 0
+        for value in vector:
+            scaled_M[i][j] = value*(scale_factor**(1./3.))
+            j += 1
+        i += 1
+    return np.array(M)
 
 if __name__=='__main__':
     main()

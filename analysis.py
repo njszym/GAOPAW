@@ -191,9 +191,8 @@ def main():
                 write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
                 run_QE(cmpd,cmpd_lat_type,'relax')
             if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                num_atoms = input_settings['num_atoms']
                 run_scale_lat(cmpd,cmpd_lat_type,template_dir)
-                V0, QE_bulk, B_prime = get_bulk(num_atoms)
+                V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
                 QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
                 delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
                 lat_diff_list.append(delta_factor)
@@ -221,9 +220,8 @@ def main():
                 write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
                 run_QE(cmpd,cmpd_lat_type,'relax')
             if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                num_atoms = input_settings['num_atoms']
                 run_scale_lat(cmpd,cmpd_lat_type,template_dir)
-                V0, QE_bulk, B_prime = get_bulk(num_atoms)
+                V0, QE_bulk, B_prime = get_bulk(cmpd,cpmd_lat_type)
                 AE_bulk = input_settings['bulk_modulus']
                 bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
                 lat_diff_list.append(bulk_diff)
@@ -489,7 +487,7 @@ def birch_murnaghan(V, V0, B0, B0_prime, E0):
         ((V0 / V) ** (2 / 3.) - 1) ** 3 * B0_prime +
         ((V0 / V) ** (2 / 3.) - 1) ** 2 * (6 - 4 * (V0 / V) ** (2 / 3.)))
 
-def get_bulk(num_atoms):
+def get_bulk(elem,lat_type):
     """
     Reads in energy-volume data from E_V.txt and calculates:
     equilibrium volume, bulk modulus, and dB/dP...
@@ -503,7 +501,13 @@ def get_bulk(num_atoms):
     initial_parameters = [V.mean(), 2.5, 4, Y.mean()]
     fit_eqn = eval('birch_murnaghan')
     popt, pcov = cf(fit_eqn, V, Y, initial_parameters)
-    volume = popt[0]/float(num_atoms) ## A^3/atom
+
+    with open(elem+'.'+lat_type+'.relax.in') as f:
+        lines = f.readlines()
+    for line in lines:
+        if 'nat=' in line:
+            num_atoms = float(line.split('=')[1][:-1])
+    volume = popt[0]/num_atoms ## A^3/atom
     bulk = popt[1]*160.2 ## GPa
     B_prime = popt[2] ## Dimensionless
     f = open('QE_EOS.txt','w+')

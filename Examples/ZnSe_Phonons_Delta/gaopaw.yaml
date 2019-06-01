@@ -6,5 +6,4 @@ template_dir: '/scr/szymansk/gaopaw/Examples/ZnSe_Phonons_Delta/Input'
 cmpd_lattice_type: ZB
 test_phonon: True
 test_delta: True
-num_atoms: 2
 # End file

@@ -6,5 +6,4 @@ template_dir: '/scr/szymansk/gaopaw/Examples/ZnS_Bulk_Modulus/Input'
 cmpd_lattice_type: ZB
 test_bulk: True
 bulk_modulus: 70.95165
-num_atoms: 2
 # End file

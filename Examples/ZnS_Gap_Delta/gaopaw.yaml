@@ -7,5 +7,4 @@ cmpd_lattice_type: ZB
 test_delta: True
 test_gap: True
 band_gap: 1.98
-num_atoms: 2
 # End file

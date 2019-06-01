@@ -788,7 +788,9 @@ def update_structure(elem,lat_type):
     f.write(v3)
     f.close()
 
-def scale_cell(elem,lat_type,scale_factor)
+def scale_cell(elem,lat_type,scale_factor):
+    """
+    Scale cell volume according to scale_factor
     """
     with open(elem+'.'+lat_type+'.relax.out') as f:
         lines = f.readlines()

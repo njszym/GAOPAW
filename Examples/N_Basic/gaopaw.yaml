@@ -1,0 +1,6 @@
+# Input file for GAOPAW
+elements: ['N']
+lattice_type: ['SC']
+lattice_constant: [6.190188]
+template_dir: '/scr/szymansk/gaopaw/Examples/N_Basic/Input'
+# End file

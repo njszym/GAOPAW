@@ -568,6 +568,7 @@ def run_scale_lat(elem,lat_type,template_path):
             UPF_files.append(file)
     energies = []
     volumes = []
+    folder = 0
     for value in scale_num:
         new_cell_params = scale_cell(elem,lat_type,value)
         new_cell_matrix = np.matrix(new_cell_params)
@@ -575,11 +576,10 @@ def run_scale_lat(elem,lat_type,template_path):
         os.mkdir(str(folder))
         for file in UPF_files:
             copyfile(file,str(folder)+'/'+file)
-        with open(relax_file,'w') as f:
-            for line in lines:
-                f.write(line)
-        f.close()
-        write_cell(elem,lat_tye,new_cell_params)
+        copyfile(relax_file,str(folder)+'/'+relax_file)
+        copyfile(relax_file[:-2]+'out',str(folder)+relax_file[:-2]+'out')
+        os.chdir(str(folder))
+        write_cell(elem,lat_type,new_cell_params)
         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+relax_file+' -MPICORES 4')
         with open(relax_file[:-2]+'out') as f:
             out_lines = f.readlines()
@@ -847,7 +847,7 @@ def get_coh_energy(elem_list,lat_type,template_path):
     """
     cmpd = ''
     cmpd = cmpd.join(elem_list)
-    with open(cmpd+'.'lat_type+'.relax.out') as f:
+    with open(cmpd+'.'+lat_type+'.relax.out') as f:
         lines = f.readlines()
     index = 0
     for line in lines:
@@ -874,7 +874,7 @@ def get_coh_energy(elem_list,lat_type,template_path):
         run_QE(elem,'atom','scf')
         with open(elem+'.atom.scf.out') as f:
             if '!    total energy              =' in line:
-                elem_energies[elem] = float(line.split()[4]))
+                elem_energies[elem] = float(line.split()[4])
     sum_energies = 0
     for elem in elem_list:
         sum_energies += formula[elem]*elem_energies[elem]

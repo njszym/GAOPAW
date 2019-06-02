@@ -822,7 +822,11 @@ def write_cell(elem,lat_type,cell):
     orig_struct = []
     for line in lines:
         if 'CELL_PARAMETERS' not in line:
-            orig_struct.append(line)
+            if 'ibrav' in line or 'celldm' in line:
+                if 'ibrav' in line:
+                    orig_struct.append('  ibrav=0\n')
+            else:
+                orig_struct.append(line)
         else:
             break
     f = open(elem+'.'+lat_type+'.relax.in','w+')

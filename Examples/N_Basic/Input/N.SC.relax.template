@@ -6,7 +6,7 @@
 &system
   ibrav=1
   celldm=11.71
-  nat=1
+  nat=8
   ntyp=1
   ecutwfc=40
   ecutrho=200

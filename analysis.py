@@ -75,6 +75,11 @@ def main():
         num_tests.append('placeholder')
     except:
         test_lat = False
+    try:
+        test_coh = input_settings['test_coh_energy']
+        num_tests.append('placeholder')
+    except:
+        test_coh = False
     lat_diff_list = []
     lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
     ## Not including La, for now
@@ -184,6 +189,16 @@ def main():
             if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                 QE_gap = get_gap(cmpd,cmpd_lat_type)
                 lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
+            else:
+                lat_type_list.append('bad_run')
+        if test_coh == True:
+            if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                run_QE(cmpd,cmpd_lat_type,'relax')
+            if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                AE_coh = input_settings['cohesive_energy']
+                QE_coh = get_coh_energy(unique_elem_list,cmpd_lat_type,template_dir)
+                lat_diff_list.append(abs(QE_coh-AE_coh)/AE_coh)
             else:
                 lat_type_list.append('bad_run')
         if test_delta == True:

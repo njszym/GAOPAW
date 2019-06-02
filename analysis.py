@@ -90,7 +90,7 @@ def main():
                 write_QE_input(elem,lat_type,'relax',template_dir)
                 run_QE(elem,lat_type,'relax')
                 try:
-                    if lat_type not in ['ortho','tetrag']:
+                    if lat_type in ['SC','RS','BCC','FCC','ZB','diamond','CsCl']:
                         QE_lat = get_lattice_constant(elem,lat_type)
                         AE_lat = lat_const
                         if check_convergence(elem,lat_type,'relax') == True:
@@ -537,55 +537,30 @@ def get_bulk(elem,lat_type):
 
 def run_scale_lat(elem,lat_type,template_path):
     """
-    Read in relaxed lattice parameter from (elem).(lat_type).relax.out,
-    scale this lattice constant from -1% to +1% (10 values created),
+    Read in relaxed cell parameters from (elem).(lat_type).relax.out,
+    scale this lattice constant from 94% to 106% (7 values created),
     write input and run QE at each value, write corresponding volumes
     and energies into E_V.txt (units of Bohr^3 and Ry^3)
     """
-    with open(elem+'.'+lat_type+'.relax.out') as f:
-        lines = f.readlines()
-    volumes = []
-    for line in lines:
-        if 'volume' in line.split():
-            if 'new' in line.split():
-                volumes.append(line.split()[4])
-            else:
-                volumes.append(line.split()[3])
-    final_vol = float(volumes[-1])
     scale_num = [0.94,0.96,0.98,1.0,1.02,1.04,1.06]
-    scaled_vol = [num*final_vol for num in scale_num]
-    if lat_type == 'FCC' or 'ZB' or 'diamond' or 'RS':
-        scaled_lat = [(V*4)**(1./3.) for V in scaled_vol]
-    if lat_type == 'BCC':
-        scaled_lat = [(V*2)**(1./3.) for V in scaled_vol]
     with open(template_path+'/'+elem+'.'+lat_type+'.relax.template') as f:
         lines = f.readlines()
-    index = 0
-    for line in lines:
-        if 'celldm' in line or 'calculation' in line:
-            if 'celldm' in line:
-                cell_index = index
-       	    if 'calculation' in line:
-                calc_index = index
-        index += 1
-    energies = []
-    folder = 0
     relax_file = elem+'.'+lat_type+'.relax.in'
     UPF_files = []
     files_in_folder = os.listdir('.')
     for file in files_in_folder:
         if file[-3:] == 'UPF':
             UPF_files.append(file)
-    for value in scaled_lat:
+    for value in scale_num:
+        new_cell_params = scale_cell(elem,lat_type,value)
         os.mkdir(str(folder))
         for file in UPF_files:
             copyfile(file,str(folder)+'/'+file)
-        os.chdir(str(folder))
-        lines[cell_index] = '  celldm(1)='+str(value)+'\n'
-        lines[calc_index] = """  calculation='relax'\n"""
         with open(relax_file,'w') as f:
             for line in lines:
                 f.write(line)
+        f.close()
+        write_cell(elem,lat_tye,new_cell_params)
         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+relax_file+' -MPICORES 4')
         with open(relax_file[:-2]+'out') as f:
             out_lines = f.readlines()

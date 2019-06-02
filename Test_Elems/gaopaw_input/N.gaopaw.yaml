@@ -3,4 +3,5 @@ elements: ['N']
 lattice_type: ['SC']
 lattice_constant: [6.190188]
 template_dir: '/scr/szymansk/gaopaw/Test_Elems/Input'
+test_atomic_positions: True
 # End file

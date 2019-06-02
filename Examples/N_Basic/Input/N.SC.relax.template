@@ -1,11 +1,11 @@
 &control
-  calculation='vc-relax'
+  calculation='relax'
   prefix='relax'
   pseudo_dir='./'
 /
 &system
   ibrav=1
-  celldm=11.71
+  celldm=11.6977
   nat=8
   ntyp=1
   ecutwfc=40

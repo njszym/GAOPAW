@@ -551,8 +551,12 @@ def run_scale_lat(elem,lat_type,template_path):
     for file in files_in_folder:
         if file[-3:] == 'UPF':
             UPF_files.append(file)
+    energies = []
+    volumes = []
     for value in scale_num:
         new_cell_params = scale_cell(elem,lat_type,value)
+        new_cell_matrix = np.matrix(new_cell_params)
+        volumes.append(np.linalg.det(new_cell_matrix))
         os.mkdir(str(folder))
         for file in UPF_files:
             copyfile(file,str(folder)+'/'+file)
@@ -569,10 +573,6 @@ def run_scale_lat(elem,lat_type,template_path):
                 energies.append(line.split()[4])
         os.chdir('../')
         folder += 1
-    if lat_type == 'FCC' or 'ZB' or 'diamond' or 'RS':
-        volumes = [(value**3.)/4. for value in scaled_lat]
-    if lat_type == 'BCC':
-        volumes = [(value**3.)/2. for value in scaled_lat]
     f = open('E_V.txt','w+')
     for (e,v) in zip(energies,volumes):
         f.write(str(e)+' '+str(v)+'\n')
@@ -819,6 +819,48 @@ def write_cell(elem,lat_type,cell):
     f.write(v3)
     f.close()
 
+def get_coh_energy(elem_list,lat_type,template_path):
+    """
+    Parse final energy from converged relaxation calculation
+    for given cmpd, then for each constituent element in cmpd,
+    perform scf run on the "atom in a box", obtain final energies
+    per atom, and compute the difference, i.e., cohesive energy
+    """
+    cmpd = ''
+    cmpd = cmpd.join(elem_list)
+    with open(cmpd+'.'lat_type+'.relax.out') as f:
+        lines = f.readlines()
+    index = 0
+    for line in lines:
+        if '!    total energy              =' in line:
+            cmpd_energy = float(line.split()[4])
+        if 'ATOMIC_POSITIONS' in line:
+            start = index+1
+        index += 1
+    elems_in_cmpd = []
+    for line in lines[start:]:
+        if 'End' in line:
+            break
+        else:
+            elems_in_cmpd.append(line.split()[0])
+    formula = {}
+    for elem in elems_in_cmpd:
+        if elem in formula:
+            formula[elem] += 1
+        else:
+            formula[elem] = 1
+    elem_energies = {}
+    for elem in elem_list:
+        write_QE_input(elem,'atom','scf',template_path)
+        run_QE(elem,'atom','scf')
+        with open(elem+'.atom.scf.out') as f:
+            if '!    total energy              =' in line:
+                elem_energies[elem] = float(line.split()[4]))
+    sum_energies = 0
+    for elem in elem_list:
+        sum_energies += formula[elem]*elem_energies[elem]
+    coh_energy = cmpd_energy - sum_energies
+    return coh_energy
 
 if __name__=='__main__':
     main()

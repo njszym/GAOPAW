@@ -26,7 +26,7 @@
 ATOMIC_SPECIES
   O 15.999 O.GGA-PBE-paw.UPF
   Si 28.0855 Si.GGA-PBE-paw.UPF
-ATOMIC_POSITIONS (alat)
+ATOMIC_POSITIONS (crystal)
   O 0.0 0.0 0.0
   Si 0.5 0.5 0.5
 K_POINTS (automatic)

@@ -4,8 +4,7 @@
   pseudo_dir='./'
 /
 &system
-  ibrav=2
-  celldm(1)=10.6429
+  ibrav=0
   nat=2
   ntyp=2
   ecutwfc=40
@@ -19,8 +18,8 @@
 ATOMIC_SPECIES
   Zn 0.0 Zn.GGA-PBE-paw.UPF
   Se 0.0 Se.GGA-PBE-paw.UPF
-ATOMIC_POSITIONS (alat)
-Zn 0.25 0.25 0.25
+ATOMIC_POSITIONS (crystal)
+Zn 0.00 0.00 0.00
 Se 0.25 0.25 0.25
 K_POINTS (automatic)
   13 13 13 0 0 0

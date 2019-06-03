@@ -1,11 +1,11 @@
 &control
   calculation='scf'
-  prefix='ZnSe.ZB.scf'
+  prefix='ZrO-scf'
   pseudo_dir='./'
 /
 &system
   ibrav=0
-  nat=2
+  nat=3
   ntyp=2
   ecutwfc=40
   ecutrho=200
@@ -13,13 +13,14 @@
   nbnd=24
 /
 &electrons
-  conv_thr=1.d-10
+  conv_thr=1.d-8
 /
-K_POINTS (automatic)
-  11 11 11 0 0 0
 ATOMIC_SPECIES
-  Zn 0.0 Zn.GGA-PBE-paw.UPF
-  Se 0.0 Se.GGA-PBE-paw.UPF
+  Zr 0.0 Zr.GGA-PBE-paw.UPF
+  O 0.0 O.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  10 10 10 0 0 0
 ATOMIC_POSITIONS (crystal)
-Zn 0.00 0.00 0.00
-Se 0.25 0.25 0.25
+Zr 0.0 0.0 0.0
+O 0.25 0.25 0.25
+O 0.75 0.75 0.75

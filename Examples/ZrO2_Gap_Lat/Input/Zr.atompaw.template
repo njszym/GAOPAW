@@ -21,7 +21,7 @@ v
 n
 n
 y
-{DAKOTA_EP_1}
+{DAKOTA_Zr_EP_1}
 n
 custom polynom2 4 10.0 vanderbiltortho besselshape
 3 0.0 ultrasoft

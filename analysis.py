@@ -884,6 +884,46 @@ def get_coh_energy(elem_list,lat_type,template_path):
     coh_energy = cmpd_energy - sum_energies
     return coh_energy
 
+def update_best_result():
+    """
+    Parse dakota results and check overall fitness with
+    respect to previous best solution. If current solution
+    is better, replace old solution with current one.
+    """
+    better_solution = False
+    UPF_files = []
+    files_in_folder = os.listdir('.')
+    for file in files_in_folder:
+        if file[-3:] == 'UPF':
+            UPF_files.append(file)
+    atompaw_files = []
+    for file in files_in_folder:
+        if 'atompaw' in file:
+            atompaw_files.append(file)
+    if 'Best_Solution' not in os.listdir('../'):
+        os.mkdir('../Best_Solution')
+    results_df = pd.read_table('results.out',sep='\s+',header=None)
+    obj_fn_list = [float(value) for value in list(df[0])]
+    rms_error = 0
+    for obj_fn in obj_fn_list:
+        rms_error += obj_fn**2
+    rms_error = math.sqrt(rms_error/len(obj_fn_list))
+    if 'rms_error' in os.listdir('../Best_Solutions/'):
+        last_rms_error = float(np.loadtxt('../Best_Solutions/rms_error'))
+    else:
+        better_solution = True
+    if rms_error < last_rms_error:
+        better_solution = True
+    if better_solution == True:
+        for filename in os.listdir('../Best_Solution/'):
+            os.remove('../Best_Solution/'+filename)
+        for (file_1,file_2) in zip(atompaw_files,UPF_files):
+            copyfile(file_1,'../Best_Solution/'+file_1)
+       	    copyfile(file_2,'../Best_Solution/'+file_2)
+        f = open('../Best_Solution/rms_error','w+')
+        f.write(str(rms_error))
+        f.close()
+
 if __name__=='__main__':
     main()
 

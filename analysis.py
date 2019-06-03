@@ -255,6 +255,7 @@ def main():
         if 'bad_run' not in lat_type_list:
             update_dakota(element_list,lat_diff_list)
         else:
+            lat_type_list = input_settings['lattice_type']
             for i in range(len(num_tests)):
                 lat_type_list.append('placeholder')
             bad_run(element_list,lat_type_list)
@@ -577,7 +578,7 @@ def run_scale_lat(elem,lat_type,template_path):
         for file in UPF_files:
             copyfile(file,str(folder)+'/'+file)
         copyfile(relax_file,str(folder)+'/'+relax_file)
-        copyfile(relax_file[:-2]+'out',str(folder)+relax_file[:-2]+'out')
+        copyfile(relax_file[:-2]+'out',str(folder)+'/'+relax_file[:-2]+'out')
         os.chdir(str(folder))
         write_cell(elem,lat_type,new_cell_params)
         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+relax_file+' -MPICORES 4')
@@ -806,7 +807,7 @@ def scale_cell(elem,lat_type,scale_factor):
             scaled_M[i][j] = value*(scale_factor**(1./3.))
             j += 1
         i += 1
-    return np.array(M)
+    return np.array(scaled_M)
 
 def write_cell(elem,lat_type,cell):
     """
@@ -822,9 +823,11 @@ def write_cell(elem,lat_type,cell):
     orig_struct = []
     for line in lines:
         if 'CELL_PARAMETERS' not in line:
-            if 'ibrav' in line or 'celldm' in line:
+            if ('ibrav' in line) or ('celldm' in line) or ('vc-relax' in line):
                 if 'ibrav' in line:
                     orig_struct.append('  ibrav=0\n')
+                if 'vc-relax' in line:
+                    orig_struct.append("""  calculation='relax'""")
             else:
                 orig_struct.append(line)
         else:

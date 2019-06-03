@@ -2,6 +2,7 @@
   calculation='vc-relax'
   prefix='Si-relax'
   pseudo_dir='./'
+  etot_conv_thr=1.0d-5
 /
 &system
   ibrav=2
@@ -25,7 +26,7 @@
 /
 ATOMIC_SPECIES
   Si 0.0 Si.GGA-PBE-paw.UPF
-ATOMIC_POSITIONS (alat)
+ATOMIC_POSITIONS (crystal)
 Si 0.0 0.0 0.0
 Si 0.25 0.25 0.25
 K_POINTS (automatic)

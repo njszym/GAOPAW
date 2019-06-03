@@ -24,6 +24,6 @@ ATOMIC_SPECIES
   Cr 0.0 Cr.GGA-PBE-paw.UPF
 K_POINTS (automatic)
   12 12 12 0 0 0
-ATOMIC_POSITIONS (alat)
+ATOMIC_POSITIONS (crystal)
   O 0.0 0.0 0.0
   Cr 0.5 0.5 0.5

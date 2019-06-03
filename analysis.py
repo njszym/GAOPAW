@@ -255,7 +255,7 @@ def main():
         if 'bad_run' not in lat_type_list:
             update_dakota(element_list,lat_diff_list)
         else:
-            lat_type_list = input_settings['lattice_type']
+            lat_type_list = [value for value in lat_type_list if value != 'bad_run']
             for i in range(len(num_tests)):
                 lat_type_list.append('placeholder')
             bad_run(element_list,lat_type_list)
@@ -282,7 +282,7 @@ def bad_run(element_list,lat_type_list):
     """
     params, results = di.read_parameters_file('params.in','results.out')
     unique_elem_list = unique(element_list)
-    for (index,elem) in zip(range(len(unique_elem_list)),unique_elem_list):
+    for index in range(len(unique_elem_list)):
         label = 'obj_fn_'+str(index+1)
         results[label].function = 100.0
     add_index = len(unique_elem_list)+1
@@ -569,7 +569,7 @@ def run_scale_lat(elem,lat_type,template_path):
             UPF_files.append(file)
     energies = []
     volumes = []
-    folder = 0
+    folder = 1
     for value in scale_num:
         new_cell_params = scale_cell(elem,lat_type,value)
         new_cell_matrix = np.matrix(new_cell_params)
@@ -741,7 +741,7 @@ def update_structure(elem,lat_type):
             break
         else:
             coords.append(line)
-    coords_header = 'ATOMIC_POSITIONS alat\n'
+    coords_header = 'ATOMIC_POSITIONS crystal\n'
     index = 0
     for line in lines:
         if 'CELL_PARAMETERS' in line:
@@ -827,7 +827,7 @@ def write_cell(elem,lat_type,cell):
                 if 'ibrav' in line:
                     orig_struct.append('  ibrav=0\n')
                 if 'vc-relax' in line:
-                    orig_struct.append("""  calculation='relax'""")
+                    orig_struct.append("""  calculation='relax'\n""")
             else:
                 orig_struct.append(line)
         else:

@@ -29,7 +29,7 @@
 ATOMIC_SPECIES
   O 0.0 O.GGA-PBE-paw.UPF
   Cr 0.0 Cr.GGA-PBE-paw.UPF
-ATOMIC_POSITIONS (alat)
+ATOMIC_POSITIONS (crystal)
   O 0.0 0.0 0.0
   Cr 0.5 0.5 0.5
 K_POINTS (automatic)

@@ -254,6 +254,7 @@ def main():
                 lat_type_list.append('bad_run')
         if 'bad_run' not in lat_type_list:
             update_dakota(element_list,lat_diff_list)
+            update_best_result()
         else:
             lat_type_list = [value for value in lat_type_list if value != 'bad_run']
             for i in range(len(num_tests)):
@@ -903,7 +904,7 @@ def update_best_result():
     if 'Best_Solution' not in os.listdir('../'):
         os.mkdir('../Best_Solution')
     results_df = pd.read_table('results.out',sep='\s+',header=None)
-    obj_fn_list = [float(value) for value in list(df[0])]
+    obj_fn_list = [float(value) for value in list(results_df[0])]
     rms_error = 0
     for obj_fn in obj_fn_list:
         rms_error += obj_fn**2
@@ -915,6 +916,7 @@ def update_best_result():
     if rms_error < last_rms_error:
         better_solution = True
     if better_solution == True:
+        copyfile('results.out','../Best_Solution/results.out')
         for filename in os.listdir('../Best_Solution/'):
             os.remove('../Best_Solution/'+filename)
         for (file_1,file_2) in zip(atompaw_files,UPF_files):

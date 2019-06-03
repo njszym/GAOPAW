@@ -43,7 +43,7 @@ interface
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp' ## Name of working directories, numbered by evaluation number, folders are temporary (delete and replace after evaluation to save space)
+          named 'workdir_pp' file_save directory_save
 
 responses
 	num_objective_functions = 3 ## Set this accordingly based on your calculation

@@ -138,7 +138,10 @@ def main():
         if element_list[0] in lanthanides:
             lat_diff_list = []
             copyfile(template_dir+'/'+element_list[1]+'.GGA-PBE-paw.UPF','./'+element_list[1]+'.GGA-PBE-paw.UPF')
-        cmpd_lat_type = input_settings['cmpd_lattice_type']
+        try:
+            cmpd_lat_type = input_settings['cmpd_lattice_type']
+        except:
+            pass
         unique_elem_list = unique(element_list)
         cmpd = ''
         cmpd = cmpd.join(unique_elem_list)
@@ -890,8 +893,9 @@ def update_best_result():
     Parse dakota results and check overall fitness with
     respect to previous best solution. If current solution
     is better, replace old solution with current one.
+    Note that fitness is normalized per the highest error
+    for a given objective function.
     """
-    better_solution = False
     UPF_files = []
     files_in_folder = os.listdir('.')
     for file in files_in_folder:
@@ -905,20 +909,57 @@ def update_best_result():
         os.mkdir('../Best_Solution')
     results_df = pd.read_table('results.out',sep='\s+',header=None)
     obj_fn_list = [float(value) for value in list(results_df[0])]
-    rms_error = 0
-    for obj_fn in obj_fn_list:
-        rms_error += obj_fn**2
-    rms_error = math.sqrt(rms_error/len(obj_fn_list))
-    if 'rms_error' in os.listdir('../Best_Solutions/'):
-        last_rms_error = float(np.loadtxt('../Best_Solutions/rms_error'))
+    if 'results.out' in os.listdir('../Best_Solution/'):
+        last_results_df = pd.read_table('../Best_Solution/results.out',sep='\s+',header=None)
+        last_obj_fn_list = [float(value) for value in list(results_df[0])]
+        index = 1
+        for obj_fn in obj_fn_list:
+            last_max = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
+            if obj_fn > last_max:
+                os.remove('../Best_Solution/Max_Error_'+str(index))
+                f = open('../Best_Solution/Max_Error_'+str(index),'w+')
+                f.write(str(obj_fn))
+                f.close()
+            index += 1
     else:
-        better_solution = True
+        index = 1
+        for obj_fn in obj_fn_list:
+            f = open('../Best_Solution/Max_Error_'+str(index),'w+')
+            f.write(str(obj_fn))
+            f.close()
+            index += 1
+    index = 1
+    norm_obj_fn_list = []
+    for obj_fn in obj_fn_list:
+        max_value = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
+        norm_obj_fn_list.append(obj_fn/max_value)
+        index += 1
+    rms_error = 0
+    for obj_fn in norm_obj_fn_list:
+        rms_error += obj_fn**2
+    rms_error = math.sqrt(rms_error/len(norm_obj_fn_list))
+    if 'results.out' in os.listdir('../Best_Solution/'):
+        index = 1
+        last_norm_obj_fn_list = []
+        for obj_fn in last_obj_fn_list:
+            max_value = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
+            last_norm_obj_fn_list.append(obj_fn/max_value)
+            index += 1
+        last_rms_error = 0
+        for obj_fn in last_norm_obj_fn_list:
+            last_rms_error += obj_fn**2
+        last_rms_error = math.sqrt(last_rms_error/len(last_norm_obj_fn_list))
+    else:
+        last_rms_error = 999999999.0
     if rms_error < last_rms_error:
-        better_solution = True
-    if better_solution == True:
-        copyfile('results.out','../Best_Solution/results.out')
-        for filename in os.listdir('../Best_Solution/'):
+        files_in_dir = os.listdir('../Best_Solution/')
+        files_to_del = []
+        for file in files_in_dir:
+            if 'Max_Error' not in file:
+                files_to_del.append(file)
+        for filename in files_to_del:
             os.remove('../Best_Solution/'+filename)
+        copyfile('results.out','../Best_Solution/results.out')
         for (file_1,file_2) in zip(atompaw_files,UPF_files):
             copyfile(file_1,'../Best_Solution/'+file_1)
        	    copyfile(file_2,'../Best_Solution/'+file_2)

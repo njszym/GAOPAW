@@ -939,6 +939,11 @@ def update_best_result():
             atompaw_files.append(file)
     if 'Best_Solution' not in os.listdir('../'):
         os.mkdir('../Best_Solution')
+    while os.path.exists('../Best_Solution/WAIT'):
+        time.sleep(1)
+    f = open('../Best_Solution/WAIT','w+')
+    f.write('wait to start until previous finishes')
+    f.close()
     results_df = pd.read_table('results.out',sep='\s+',header=None)
     obj_fn_list = [float(value) for value in list(results_df[0])]
     if 'results.out' in os.listdir('../Best_Solution/'):
@@ -987,7 +992,7 @@ def update_best_result():
         files_in_dir = os.listdir('../Best_Solution/')
         files_to_del = []
         for file in files_in_dir:
-            if 'Max_Error' not in file:
+            if ('Max_Error' not in file) and ('WAIT' not in file):
                 files_to_del.append(file)
         for filename in files_to_del:
             os.remove('../Best_Solution/'+filename)
@@ -998,6 +1003,8 @@ def update_best_result():
         f = open('../Best_Solution/rms_error','w+')
         f.write(str(rms_error))
         f.close()
+    os.remove('../Best_Solution/WAIT')
+
 
 if __name__=='__main__':
     main()

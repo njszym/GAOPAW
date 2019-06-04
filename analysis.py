@@ -232,7 +232,7 @@ def main():
                     if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
                         run_scale_lat(cmpd,cmpd_lat_type,template_dir)
                         V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
-                        QE_EOS_data, AE_EOS_data = read_eos(cmpd,template_dir)
+                        QE_EOS_data, AE_EOS_data = read_eos(cmpd,cmpd_lat_type,template_dir)
                         delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
                         lat_diff_list.append(delta_factor)
                     else:
@@ -250,7 +250,7 @@ def main():
                         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+cmpd_lat_type+'.scf.save.qegz -MPICORES 4')
                         copyfile(template_dir+'/dynmat.in','./dynmat.in')
                         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
-                        phonon_diff = compare_phonon(template_dir)
+                        phonon_diff = compare_phonon(cmpd,cmpd_lat_type,template_dir)
                         if phonon_diff == 'bad_run':
                             lat_type_list.append('bad_run')
                         else:
@@ -477,7 +477,7 @@ def compare_atoms(elem,lat_type,template_path):
     Compare atomic positions of QE-relaxed structure
     and those of the AE-relaxed structure...
     """
-    df_AE = pd.read_table(template_path+'/AE_Struct',sep='\s+',header=None)
+    df_AE = pd.read_table(template_path+'/AE_Struct.'+elem+'.'+lat_type,sep='\s+',header=None)
     df_AE = df_AE.drop(0,1)
     df_AE = df_AE.transpose()
     distance_list = []
@@ -518,7 +518,7 @@ def compare_mag_mom(elem,lat_type,template_path):
         if 'magn:' in line.split():
             QE_mag_mom.append(line.split()[5])
     QE_mag_mom = [float(value) for value in mag_mom]
-    with open(template_path+'/AE_mag') as f:
+    with open(template_path+'/AE_mag.'+elem+'.'+lat_type) as f:
         lines = f.readlines()
     AE_mag_mom = []
     for line in lines:
@@ -626,7 +626,7 @@ def run_scale_lat(elem,lat_type,template_path):
         f.write(str(e)+' '+str(v)+'\n')
     f.close()
 
-def read_eos(elem,template_path):
+def read_eos(elem,lat_type,template_path):
     """
     Read in QE and AE equilibrium volume, bulk modulus, and dB/dP
     from QE_EOS.txt and AE_EOS.txt
@@ -634,7 +634,7 @@ def read_eos(elem,template_path):
     with open('QE_EOS.txt') as f:
         lines = f.readlines()
     QE_data = [float(value) for value in lines[0].split()]
-    with open(template_path+'/AE_EOS.txt') as f:
+    with open(template_path+'/AE_EOS.'+elem+'.'+lat_type) as f:
         lines = f.readlines()
     AE_data = [float(value) for value in lines[0].split()]
     data_f = {'element': [elem], 'V0': [QE_data[0]], 'B0': [QE_data[1]], 'BP': [QE_data[2]]}
@@ -718,7 +718,7 @@ def calcDelta(data_f, data_w, eloverlap, useasymm):
                  / (v0w + v0f) / (b0w + b0f) * 4. * vref * bref
     return Delta ## Just return Delta-factor for now
 
-def compare_phonon(template_path):
+def compare_phonon(elem,lat_type,template_path):
     """
     Parse optical phonon frequencies from QE run
     and compare with AE frequencies
@@ -743,7 +743,7 @@ def compare_phonon(template_path):
         except:
             check = False
     QE_freq = sorted([float(value) for value in freq[3:]])
-    with open(template_path+'/AE_freq') as f:
+    with open(template_path+'/AE_freq.'+elem+'.'+lat_type) as f:
         lines = f.readlines()
     AE_freq = []
     for line in lines:

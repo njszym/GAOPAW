@@ -230,7 +230,10 @@ def main():
                 copyfile(template_dir+'/dynmat.in','./dynmat.in')
                 os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
                 phonon_diff = compare_phonon(template_dir)
-                lat_diff_list.append(phonon_diff)
+                if phonon_diff == 'bad_run':
+                    lat_type_list.append('bad_run')
+                else:
+                    lat_diff_list.append(phonon_diff)
             else:
                 lat_type_list.append('bad_run')
         if test_bulk == True:
@@ -702,7 +705,10 @@ def compare_phonon(template_path):
         if 'mode' in line:
             mode_line = index
         index += 1
-    freq_index = mode_line + 1
+    try:
+        freq_index = mode_line + 1
+    except:
+        return 'bad_run'
     freq = []
     check = True
     while check == True:

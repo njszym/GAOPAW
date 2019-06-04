@@ -15,7 +15,7 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 50 ## 100 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        population_size = 200 ## 100 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
         max_function_evaluations = 5000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
@@ -23,7 +23,7 @@ method
           crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
         mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
           mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
-          mutation_rate = 0.1  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+          mutation_rate = 0.2  ## No. of mutations = 20% * population size * number of variables (each generation), low rate works well
         fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
         replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
           shrinkage_fraction = 0.25  ## Next generation must be at least 20% the size of the previous generation, small values work best here

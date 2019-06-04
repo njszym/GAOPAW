@@ -5,8 +5,8 @@ environment
 variables
 	continuous_design = 5
   	  initial_point    2.2          0.00          1.4          0.00          0.00
-  	  lower_bounds     1.8          0.00          1.2          0.00          0.00
-  	  upper_bounds     2.5          12.0          1.6          12.0          12.0
+  	  lower_bounds     2.0          0.00          1.2          0.00          0.00
+  	  upper_bounds     2.4          12.0          1.6          12.0          12.0
   	  descriptors   'DAKOTA_Zr_RC' 'DAKOTA_Zr_EP_1' 'DAKOTA_O_RC' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables

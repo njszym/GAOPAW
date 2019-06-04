@@ -3,8 +3,9 @@ elements: ['Zn','Zn','S','S']
 lattice_type: ['FCC','BCC','FCC','BCC']
 lattice_constant: [3.936,3.128,3.994,3.182]
 template_dir: '/scr/szymansk/gaopaw/Examples/ZnS_Gap_Delta/Input'
-cmpd_lattice_type: ZB
-test_delta: True
-test_gap: True
-band_gap: 1.98
+cmpd_formula: ['ZnS']
+cmpd_lattice_type: ['ZB']
+test_delta: [True]
+test_gap: [True]
+band_gap: [1.98]
 # End file

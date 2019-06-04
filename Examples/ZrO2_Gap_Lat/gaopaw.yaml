@@ -3,9 +3,10 @@ elements: ['Zr','Zr','O','O']
 lattice_type: ['FCC','BCC','FCC','BCC']
 lattice_constant: [4.522,3.569,3.178,2.511]
 template_dir: '/scr/szymansk/gaopaw/Examples/ZrO2_Gap_Lat/Input'
-cmpd_lattice_type: ZB
-test_lattice: True
-cmpd_lattice_constant: 5.139
-test_gap: True
-band_gap: 3.09
+cmpd_formula: ['ZrO2']
+cmpd_lattice_type: ['ZB']
+test_lattice: [True]
+cmpd_lattice_constant: [5.139]
+test_gap: [True]
+band_gap: [3.09]
 # End file

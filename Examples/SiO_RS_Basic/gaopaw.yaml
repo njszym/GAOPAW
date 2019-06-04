@@ -4,6 +4,6 @@ lattice_type: ['FCC','BCC','FCC','BCC']
 lattice_constant: [3.857,3.08,3.178,2.511]
 template_dir: '/scr/szymansk/gaopaw/Examples/SiO_RS_Basic/Input'
 test_lattice: True
-binary_lattice_constant: 4.616
-binary_lattice_type: 'RS'
+cmpd_lattice_constant: 4.616
+cmpd_lattice_type: 'RS'
 # End file

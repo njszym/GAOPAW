@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 9
-  	  initial_point    2.05          0.00         0.00         1.40         0.00         0.00         1.50         0.00         0.00
-  	  lower_bounds     2.04          0.00         0.00         1.00         0.00         0.00         1.30         0.00         0.00
-  	  upper_bounds     2.10          12.0         12.0         1.80         12.0         12.0         1.80         12.0         12.0
-  	  descriptors   'DAKOTA_Si_RC' 'DAKOTA_Si_EP_1' 'DAKOTA_Si_EP_2' 'DAKOTA_O_RC' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_C_RC' 'DAKOTA_C_EP_1' 'DAKOTA_C_EP_2'
+	continuous_design = 12
+  	  initial_point    2.05          0.00         0.00         1.40         0.00         0.00         1.50         0.00         0.00         2.20          0.00          0.00
+  	  lower_bounds     2.04          0.00         0.00         1.00         0.00         0.00         1.30         0.00         0.00         2.10          0.00          0.00
+  	  upper_bounds     2.10          12.0         12.0         1.80         12.0         12.0         1.80         12.0         12.0         2.30          12.0          12.0
+  	  descriptors   'DAKOTA_Si_RC' 'DAKOTA_Si_EP_1' 'DAKOTA_Si_EP_2' 'DAKOTA_O_RC' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_C_RC' 'DAKOTA_C_EP_1' 'DAKOTA_C_EP_2' 'DAKOTA_Sr_RC' 'DAKOTA_Sr_EP_1' 'DAKOTA_Sr_EP_2'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,7 +18,7 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 100 ## 100 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        population_size = 250 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
         max_function_evaluations = 5000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
@@ -46,6 +46,6 @@ interface
           named 'workdir_pp' file_save directory_save
 
 responses
-	num_objective_functions = 11 ## Set this accordingly based on your calculation
+	num_objective_functions = 19 ## Set this accordingly based on your calculation
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

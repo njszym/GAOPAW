@@ -1,6 +1,6 @@
 &control
   calculation='vc-relax'
-  prefix='Si-relax'
+  prefix='Si.diamond.relax'
   pseudo_dir='./'
   etot_conv_thr=1.0d-5
 /

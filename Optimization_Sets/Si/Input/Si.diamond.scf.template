@@ -1,6 +1,6 @@
 &control
   calculation='scf'
-  prefix='Si-scf'
+  prefix='Si.diamond.scf'
   pseudo_dir='./'
 /
 &system
@@ -15,11 +15,10 @@
 &electrons
   conv_thr=1.d-8
 /
+K_POINTS (automatic)
+  12 12 12 0 0 0
 ATOMIC_SPECIES
   Si 0.0 Si.GGA-PBE-paw.UPF
 ATOMIC_POSITIONS (crystal)
 Si 0.0 0.0 0.0
 Si 0.25 0.25 0.25
-K_POINTS (automatic)
-  12 12 12 0 0 0
-

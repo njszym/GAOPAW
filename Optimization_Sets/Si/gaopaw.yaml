@@ -3,11 +3,12 @@ elements: ['Si','Si','O','O','C','C','Sr','Sr']
 lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
 lattice_constant: [3.857,3.08,3.178,2.511,3.103,2.366,6.030,4.756]
 template_dir: '/scr/szymansk/gaopaw/Optimization_Sets/Si/Input'
-cmpd_formula: ['Si','SiO','SiC','SrSiO']
+cmpd_formula: ['Si','SiO','SiC','SrSiO3']
 cmpd_lattice_type: ['diamond','RS','ZB','per']
 test_lattice: [False,True,False,True]
 cmpd_lattice_constant: [4.341,4.616,4.378,3.695]
 test_delta: [True,False,True,False]
 test_gap: [True,False,True,False]
 band_gap: [0.57,0.0,1.24,0.0]
+test_phonon: [True,False,False,False]
 # End file

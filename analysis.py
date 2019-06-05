@@ -391,7 +391,7 @@ def get_lattice_constant(elem,lat_type):
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = xtal.get_params_from_chorus(cparams)
-    if lat_type == 'FCC' or lat_type == 'RS' or lat_type == 'ZB':
+    if lat_type == 'FCC' or lat_type == 'RS' or lat_type == 'ZB' or lat_type == 'HH':
         return math.sqrt(2)*params[0]
     if lat_type == 'BCC':
         return (2./3.)*math.sqrt(3)*params[0]

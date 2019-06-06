@@ -1,0 +1,62 @@
+ Completed calculations for Ti
+ Exchange-correlation type: GGA, Perdew-Burke-Ernzerhof
+  Radial integration grid is logarithmic 
+r0 =   6.4047058E-04 h =   1.4090353E-02   n =       899 rmax =   2.0030199E+02
+ Scalar relativistic calculation
+   AEatom converged in          35  iterations
+     for nz =  22.00
+     delta  =   1.436450033663110E-015
+  All Electron Orbital energies:         
+  n  l     occupancy       energy
+ 1  0      2.0000000E+00 -3.5762249E+02
+ 2  0      2.0000000E+00 -3.9187896E+01
+ 3  0      2.0000000E+00 -4.3601236E+00
+ 4  0      1.0000000E+00 -2.7410004E-01
+ 2  1      6.0000000E+00 -3.2380155E+01
+ 3  1      6.0000000E+00 -2.6242692E+00
+ 3  2      3.0000000E+00 -1.4078260E-01
+ 
+  Total energy
+     Total                    :    -1707.04763937814     
+ Completed calculations for Ti
+ Exchange-correlation type: GGA, Perdew-Burke-Ernzerhof
+  Radial integration grid is logarithmic 
+r0 =   6.4047058E-04 h =   1.4090353E-02   n =       899 rmax =   2.0030199E+02
+ Scalar relativistic calculation
+   SCatom converged in           3  iterations
+     for nz =  22.00
+     delta  =   6.885740681393531E-017
+   Valence Electron Orbital energies:         
+  n  l     occupancy       energy
+ 3  0      2.0000000E+00 -4.3601236E+00
+ 4  0      1.0000000E+00 -2.7410004E-01
+ 3  1      6.0000000E+00 -2.6242692E+00
+ 3  2      3.0000000E+00 -1.4078260E-01
+ 
+  Total energy
+     Total                    :    -1707.04763937409     
+     Valence                  :    -183.129051156131     
+  paw parameters: 
+       lmax =            2
+         rc =    2.30000000000000     
+        irc =          582
+ Vloc: Non norm-conserving form with l= 3;e=  -5.0000E-01
+ Projector type: improved polynomial pseudization + Vanderbilt ortho.
+ Bessel compensation charge shape zeroed at rc
+
+Number of basis functions     6
+ No.   n    l      Energy         Cp coeff         Occ
+    1    3    0 -4.3601236E+00  2.3056577E+01  2.0000000E+00
+    2    4    0 -2.7410004E-01 -1.3140355E+02  1.0000000E+00
+    3    3    1 -2.6242692E+00 -3.1925277E+00  6.0000000E+00
+    4  999    1  1.5000000E+00  1.0986090E+01  0.0000000E+00
+    5    3    2 -1.4078260E-01  4.1340081E+02  3.0000000E+00
+    6  999    2  3.0000000E-01  2.4634865E+00  0.0000000E+00
+  Summary of PAW energies
+        Total valence energy       -183.129056501765     
+          Smooth energy             16.1218767830710     
+          One center               -199.250933284836     
+          Smooth kinetic            15.4296591269308     
+          Vloc energy              0.732494354737348     
+          Smooth exch-corr         -4.90467328439123     
+          One-center xc            -79.1951787321176     

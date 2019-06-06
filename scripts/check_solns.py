@@ -3,6 +3,8 @@ import sys
 import numpy as np
 
 
+## DEPRECATED...choice of best PAW is now automated in analysis
+
 ## Determine accuracy of each final solution from a completed Dakota run
 ## Best solution: minimize logderiv difference and lattice constant differences 
 ## To ensure accuracy among all structures, also minimize standard deviation

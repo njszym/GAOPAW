@@ -289,7 +289,8 @@ def main():
                     lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
         except:
-            pass
+            update_dakota(element_list,lat_diff_list)
+            update_best_result()
     else:
         for i in range(len(num_tests)):
             lat_type_list.append('placeholder')

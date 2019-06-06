@@ -9,7 +9,7 @@ v
 c 
 v 
 1
-{DAKOTA_Si_RC} {DAKOTA_Si_RC/1.2} {DAKOTA_Si_RC/1.3} {DAKOTA_Si_RC/1.3}
+{DAKOTA_Si_RC_1} {DAKOTA_Si_RC_1/1.2} {DAKOTA_Si_RC_2} {DAKOTA_Si_RC_3}
 y
 {DAKOTA_Si_EP_1}
 n
@@ -18,9 +18,9 @@ y
 n 
 custom polynom2 7 10.0 vanderbiltortho besselshape
 2 -1.0  ultrasoft
-{DAKOTA_Si_RC}
-{DAKOTA_Si_RC}
-{DAKOTA_Si_RC}
-{DAKOTA_Si_RC}
+{DAKOTA_Si_RC_4}
+{DAKOTA_Si_RC_5}
+{DAKOTA_Si_RC_6}
+{DAKOTA_Si_RC_7}
 3
 0

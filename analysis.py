@@ -107,27 +107,29 @@ def main():
     ## Not including La, for now
     ## Lanthanides remain untested, will investigate in near future
     if element_list[0] not in lanthanides:
+        check_error = False
         for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
-            if elem not in os.listdir('.'):
-                os.mkdir(elem)
-            write_atompaw_input(elem, template_dir)
-            copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
-            os.chdir(elem)
-            run_atompaw(elem)
-            if check_UPF() == True:
-                write_QE_input(elem,lat_type,'relax',template_dir)
-                run_QE(elem,lat_type,'relax')
-                try:
-                    if lat_type in ['SC','RS','BCC','FCC','ZB','diamond','CsCl']:
-                        QE_lat = get_lattice_constant(elem,lat_type)
-                        AE_lat = lat_const
-                        if check_convergence(elem,lat_type,'relax') == True:
-                            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                            if elem == 'N':
-                                copyfile('N.SC.relax.out','../N.SC.relax.out')
-
-       	       	    else:
+            while check_error == False:
+                if elem not in os.listdir('.'):
+                    os.mkdir(elem)
+                write_atompaw_input(elem, template_dir)
+                copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
+                os.chdir(elem)
+                run_atompaw(elem)
+                if check_UPF() == True:
+                    write_QE_input(elem,lat_type,'relax',template_dir)
+                    run_QE(elem,lat_type,'relax')
+                    try:
+                        if lat_type in ['SC','RS','BCC','FCC','ZB','diamond','CsCl']:
+                            QE_lat = get_lattice_constant(elem,lat_type)
+                            AE_lat = lat_const
+                            if check_convergence(elem,lat_type,'relax') == True:
+                                lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                                copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                                if elem == 'N':
+                                    copyfile('N.SC.relax.out','../N.SC.relax.out')
+                            else:
+                                check_error = True
                         if lat_type == 'tetrag':
                             QE_a, QE_c = get_lattice_constant(elem,lat_type)
                             AE_lat = lat_const
@@ -137,21 +139,27 @@ def main():
                             if check_convergence(elem,lat_type,'relax') == True:
                                 lat_diff_list.append(lat_diff)
                                 copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-       	       	       	if lat_type == 'ortho':
+                            else:
+                                check_error = True
+       	                if lat_type == 'ortho':
                             QE_a, QE_b, QE_c = get_lattice_constant(elem,lat_type)
                             AE_lat = lat_const
                             lat_diff = compare_lat(AE_lat[0],QE_a)
-       	       	       	    lat_diff +=	compare_lat(AE_lat[1],QE_b)
+       	                    lat_diff +=	compare_lat(AE_lat[1],QE_b)
                             lat_diff += compare_lat(AE_lat[2],QE_c)
-       	       	       	    lat_diff = lat_diff/3.
+       	               	    lat_diff = lat_diff/3.
                             if check_convergence(elem,lat_type,'relax') == True:
                                 lat_diff_list.append(lat_diff)
                                 copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                                 if elem == 'P':
                                     copyfile('P.ortho.relax.out','../P.ortho.relax.out')
-                except:
-                    pass
-            os.chdir('../')
+                            else:
+       	       	       	        check_error = True
+                    except:
+                        check_error = True
+                else:
+                    check_error = True
+                os.chdir('../')
     else:
         elem = element_list[0]
         os.mkdir(elem)

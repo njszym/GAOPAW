@@ -402,8 +402,8 @@ def get_lattice_constant(elem,lat_type):
         unique_lat_list = sorted(unique(params[:3]))
         return unique_lat_list[0], unique_lat_list[1]
     if lat_type == 'ortho':
-        unique_lat_list = sorted(unique(params[:3]))
-        return unique_lat_list[0], unique_lat_list[1], unique_lat_list[3]
+        unique_lat_list = sorted(params[:3])
+        return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2]
     if lat_type == 'hex':
         unique_lat_list = sorted(unique(params[:3]))
         return unique_lat_list[0], unique_lat_list[1]
@@ -416,7 +416,7 @@ def get_lattice_constant(elem,lat_type):
         for value in params[3:]:
             if value > 90.01 or value < 89.99:
                 angle = value
-        return unique_lat_list[0], unique_lat_list[1], unique_lat_list[3], angle
+        return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2], angle
     if lat_type == 'triclin':
         unique_lat_list = sorted(unique(params[:3]))
         unique_angle_list = sorted(unique(params[3:]))

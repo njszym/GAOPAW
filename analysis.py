@@ -124,6 +124,9 @@ def main():
                         if check_convergence(elem,lat_type,'relax') == True:
                             lat_diff_list.append(compare_lat(AE_lat,QE_lat))
                             copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                            if elem == 'N':
+                                copyfile('N.SC.relax.out','../N.SC.relax.out')
+
        	       	    else:
                         if lat_type == 'tetrag':
                             QE_a, QE_c = get_lattice_constant(elem,lat_type)
@@ -144,6 +147,8 @@ def main():
                             if check_convergence(elem,lat_type,'relax') == True:
                                 lat_diff_list.append(lat_diff)
                                 copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                                if elem == 'P':
+                                    copyfile('P.ortho.relax.out','../P.ortho.relax.out')
                 except:
                     pass
             os.chdir('../')
@@ -167,8 +172,9 @@ def main():
             cmpd_lat_type_list = input_settings['cmpd_lattice_type']
             for (cmpd,cmpd_lat_type,test_atoms,test_mag,test_mag_mom,test_gap,test_bulk,test_delta,test_phonon,test_lat,test_coh) in zip(cmpd_formula_list,cmpd_lat_type_list,test_atoms_list,test_mag_list,test_mag_mom_list,test_gap_list,test_bulk_list,test_delta_list,test_phonon_list,test_lat_list,test_coh_list):
                 if test_atoms == True:
-                    write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                    run_QE(cmpd,cmpd_lat_type,'relax')
+                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                        run_QE(cmpd,cmpd_lat_type,'relax')
                     if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
                         atom_diff = compare_atoms(cmpd,cmpd_lat_type,template_dir)
                         lat_diff_list.append(atom_diff)

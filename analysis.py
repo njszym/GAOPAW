@@ -280,18 +280,18 @@ def main():
                         write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
                         run_QE(cmpd,cmpd_lat_type,'relax')
                     if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                        if lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl']:
+                        if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl']:
                             QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                        if lat_type in ['tetrag','hex']:
+                        if cmpd_lat_type in ['tetrag','hex']:
                             QE_a, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff = compare_lat(AE_lat[0],QE_a)
                             lat_diff += compare_lat(AE_lat[1],QE_c)
                             lat_diff = lat_diff/2.
                             lat_diff_list.append(lat_diff)
-                        if lat_type == 'ortho':
+                        if cmpd_lat_type == 'ortho':
                             QE_a, QE_b, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
        	       	       	    lat_diff = compare_lat(AE_lat[0],QE_a)
@@ -299,14 +299,14 @@ def main():
                             lat_diff += compare_lat(AE_lat[2],QE_c)
        	       	       	    lat_diff = lat_diff/3.
                             lat_diff_list.append(lat_diff)
-                        if lat_type == 'rhomb':
+                        if cmpd_lat_type == 'rhomb':
                             QE_a, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
        	       	       	    lat_diff = compare_lat(AE_lat[0],QE_a)
                             lat_diff += compare_lat(AE_lat[1],QE_angle)
        	       	       	    lat_diff = lat_diff/2.
                             lat_diff_list.append(lat_diff)
-                        if lat_type == 'monoclin':
+                        if cmpd_lat_type == 'monoclin':
                             QE_a, QE_b, QE_c, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff = compare_lat(AE_lat[0],QE_a)
@@ -315,7 +315,7 @@ def main():
                             lat_diff += compare_lat(AE_lat[3],QE_angle)
                             lat_diff = lat_diff/4.
                             lat_diff_list.append(lat_diff)
-                        if lat_type == 'triclin':
+                        if cmpd_lat_type == 'triclin':
                             QE_a, QE_b, QE_c, QE_angle_1, QE_angle_2, QE_angle_3 = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff = compare_lat(AE_lat[0],QE_a)

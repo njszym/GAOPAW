@@ -109,7 +109,7 @@ def main():
     if element_list[0] not in lanthanides:
         check_error = False
         for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
-            while check_error == False:
+            if check_error == False:
                 if elem not in os.listdir('.'):
                     os.mkdir(elem)
                 write_atompaw_input(elem, template_dir)
@@ -153,6 +153,7 @@ def main():
                                 copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                                 if elem == 'P':
                                     copyfile('P.ortho.relax.out','../P.ortho.relax.out')
+                                    copyfile('P.ortho.relax.in','../P.ortho.relax.in')
                             else:
        	       	       	        check_error = True
                     except:
@@ -194,7 +195,7 @@ def main():
                         run_QE(cmpd,cmpd_lat_type,'relax')
                     if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
                         write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type)
+                        update_structure(cmpd,cmpd_lat_type,'scf')
                         run_QE(cmpd,cmpd_lat_type,'scf')
                     AE_mag = float(input_settings['magnetization'][cmpd_index])
                     if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
@@ -208,7 +209,7 @@ def main():
                         run_QE(cmpd,cmpd_lat_type,'relax')
                     if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
                         write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type)
+                        update_structure(cmpd,cmpd_lat_type,'scf')
                         run_QE(cmpd,cmpd_lat_type,'scf')
                     if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                         mag_mom_diff = compare_mag_mom(cmpd,cmpd_lat_type,template_dir)
@@ -221,7 +222,7 @@ def main():
                         run_QE(cmpd,cmpd_lat_type,'relax')
        	            if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
                         write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type)
+                        update_structure(cmpd,cmpd_lat_type,'scf')
                         run_QE(cmpd,cmpd_lat_type,'scf')
                     AE_gap = input_settings['band_gap'][cmpd_index]
                     if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
@@ -257,7 +258,7 @@ def main():
                         run_QE(cmpd,cmpd_lat_type,'relax')
                     if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
                         write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type)
+                        update_structure(cmpd,cmpd_lat_type,'scf')
                         run_QE(cmpd,cmpd_lat_type,'scf')
                     if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                         copyfile(template_dir+'/phonon.in','./phonon.in')
@@ -670,6 +671,7 @@ def run_scale_lat(elem,lat_type,template_path):
         copyfile(relax_file,folder+'/'+relax_file)
         copyfile(relax_file[:-2]+'out',folder+'/'+relax_file[:-2]+'out')
         os.chdir(folder)
+        update_structure(elem,lat_type,'relax')
         write_cell(elem,lat_type,new_cell_params)
         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+relax_file+' -MPICORES 4')
         with open(relax_file[:-2]+'out') as f:
@@ -816,10 +818,10 @@ def compare_phonon(elem,lat_type,template_path):
     net_diff = sum(rel_diff)/len(rel_diff)
     return net_diff
 
-def update_structure(elem,lat_type):
+def update_structure(elem,lat_type,calc_type):
     """
     Parse equilibrium structure from completed relaxation
-    and update the corresponding scf calculation input file.
+    and update the corresponding calculation input file.
     """
     with open(elem+'.'+lat_type+'.relax.out') as f:
         lines = f.readlines()
@@ -840,7 +842,10 @@ def update_structure(elem,lat_type):
         if 'CELL_PARAMETERS' in line:
             cell_index = [index+1,index+2,index+3]
             split_line = line.split('=')
-            alat = float(split_line[1][1:-2])
+            try:
+                alat = float(split_line[1][1:-2])
+            except:
+                alat = 1.88973 ## A to bohr
         index += 1
     vectors = []
     for i in cell_index:
@@ -852,7 +857,7 @@ def update_structure(elem,lat_type):
     v1 = str(vectors[0][0])+' '+str(vectors[0][1])+' '+str(vectors[0][2])+'\n'
     v2 = str(vectors[1][0])+' '+str(vectors[1][1])+' '+str(vectors[1][2])+'\n'
     v3 = str(vectors[2][0])+' '+str(vectors[2][1])+' '+str(vectors[2][2])+'\n'
-    with open(elem+'.'+lat_type+'.scf.in') as f:
+    with open(elem+'.'+lat_type+'.'+calc_type+'.in') as f:
         lines = f.readlines()
     orig_struct = []
     for line in lines:
@@ -860,7 +865,7 @@ def update_structure(elem,lat_type):
             orig_struct.append(line)
         else:
             break
-    f = open(elem+'.'+lat_type+'.scf.in','w+')
+    f = open(elem+'.'+lat_type+'.'+calc_type+'.in','w+')
     for line in orig_struct:
         f.write(line)
     f.write(coords_header)
@@ -883,7 +888,10 @@ def scale_cell(elem,lat_type,scale_factor):
         if 'CELL_PARAMETERS' in line:
             cell_index = [index+1,index+2,index+3]
             split_line = line.split('=')
-            alat = float(split_line[1][1:-2])
+            try:
+                alat = float(split_line[1][1:-2])
+            except:
+                alat = 1.88973 ## A to Bohr
         index += 1
     vectors = []
     for i in cell_index:

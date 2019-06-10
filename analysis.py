@@ -906,10 +906,12 @@ def scale_cell(elem,lat_type,scale_factor):
         if 'CELL_PARAMETERS' in line:
             cell_index = [index+1,index+2,index+3]
             split_line = line.split('=')
-            try:
+            if 'alat' in line:
                 alat = float(split_line[1][1:-2])
-            except:
+            if 'angstrom' in line:
                 alat = 1.88973 ## A to Bohr
+            if 'bohr' in line:
+                alat = 1.00
         index += 1
     vectors = []
     for i in cell_index:

@@ -1,6 +1,6 @@
 &control
   calculation='scf'
-  prefix='SiC-scf'
+  prefix='SiC.ZB.scf'
   pseudo_dir='./'
 /
 &system

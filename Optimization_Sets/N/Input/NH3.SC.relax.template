@@ -1,0 +1,47 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+/
+&system
+  ibrav=1
+  celldm=9.668
+  nat=16
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  H 0.0 H.GGA-PBE.paw.UPF
+  N 0.0 N.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 0 0 0
+ATOMIC_POSITIONS (crystal)
+H 0.101755 0.361648 0.270493
+H 0.398245 0.638352 0.770493
+H 0.601755 0.138352 0.729507
+H 0.898245 0.861648 0.229507
+H 0.270493 0.101755 0.361648
+H 0.770493 0.398245 0.638352
+H 0.729507 0.601755 0.138352
+H 0.229507 0.898245 0.861648
+H 0.361648 0.270493 0.101755
+H 0.638352 0.770493 0.398245
+H 0.138352 0.729507 0.601755
+H 0.861648 0.229507 0.898245
+N 0.201829 0.201829 0.201829
+N 0.298171 0.798171 0.701829
+N 0.701829 0.298171 0.798171
+N 0.798171 0.701829 0.298171

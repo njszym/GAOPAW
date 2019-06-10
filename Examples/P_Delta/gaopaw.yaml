@@ -1,10 +1,6 @@
 # Input file for GAOPAW
 elements: ['P']
 lattice_type: ['ortho']
-lattice_constant: [[4.57327,5.89478,5.89478]]
+lattice_constant: [[3.304659,4.573268,11.316935]]
 template_dir: '/scr/szymansk/gaopaw/Examples/P_Delta/Input'
-cmpd_formula: ['P']
-cmpd_lattice_type: ['ortho']
-test_atomic_positions: [True]
-test_delta: [True]
 # End file

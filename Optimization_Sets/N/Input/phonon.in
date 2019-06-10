@@ -1,0 +1,6 @@
+&inputph
+  prefix='phonon',
+  fildyn='phonon.dyn',
+  tr2_ph=1.0d-12
+/
+0.0 0.0 0.0

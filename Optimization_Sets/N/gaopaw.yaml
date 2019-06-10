@@ -1,0 +1,17 @@
+# Input file for GAOPAW
+elements: ['N','Sc','Sc','Ga','Ga','As','As','Ca','Ca','H','H','B','B']
+lattice_type: ['SC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [6.190188,4.622,3.680,4.240,3.364,4.272,3.383,5.532,4.400,2.283,1.806,2.872,2.323]
+template_dir: '/scr/szymansk/gaopaw/Optimization_Sets/N/Input'
+cmpd_formula: ['N','ScN','GaN','AsNCa3','NH3','BN']
+cmpd_lattice_type: ['SC','RS','ZB','per','SC','hex']
+test_lattice: [False,True,False,True,True,True]
+cmpd_lattice_constant: [0.00,4.516,0.00,4.769,5.170,[2.519,6.699]]
+test_delta: [False,False,True,False,False,False]
+test_gap: [False,False,True,False,False,True]
+band_gap: [0.00,0.00,1.510,0.00,0.00,4.250]
+test_phonon: [False,False,True,False,False,False]
+test_atomic_positions: [True,False,False,False,False,False]
+test_bulk: [False,True,False,False,False,False]
+bulk_modulus: [0.0,193.0,0.0,0.0,0.0,0.0]
+# End file

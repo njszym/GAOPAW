@@ -839,6 +839,14 @@ def update_structure(elem,lat_type,calc_type):
     for line in lines:
         if 'ATOMIC_POSITIONS' in line:
             start = index+1
+            if 'alat' in line:
+                coord_type = 'alat'
+       	    if 'angstrom' in line:
+                coord_type = 'angstrom'
+       	    if 'crystal' in line:
+                coord_type = 'crystal'
+       	    if 'bohr' in line:
+                coord_type = 'bohr'
         index += 1
     coords = []
     for line in lines[start:]:
@@ -846,7 +854,7 @@ def update_structure(elem,lat_type,calc_type):
             break
         else:
             coords.append(line)
-    coords_header = 'ATOMIC_POSITIONS crystal\n'
+    coords_header = 'ATOMIC_POSITIONS '+coord_type+'\n'
     index = 0
     for line in lines:
         if 'CELL_PARAMETERS' in line:

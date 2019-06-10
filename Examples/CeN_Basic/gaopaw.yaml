@@ -1,8 +1,8 @@
 # Input file for GAOPAW
-elements: ['Ce','N']
+elements: ['Ce','Ce']
 lattice_type: ['XXX','XXX']
-lattice_constant: ['XXX','XXX']
-template_dir: '/home/njszym/Research/Schrodinger/GAOPAW/Examples/CeN_Basic/Input'
+lattice_constant: [1.00,1.00]
+template_dir: '/scr/szymansk/gaopaw/Examples/CeN_Basic/Input'
 cmpd_formula: ['CeN']
 cmpd_lattice_type: ['RS']
 test_lattice: [True]

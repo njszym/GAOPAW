@@ -7,4 +7,6 @@ cmpd_formula: ['TiO2']
 cmpd_lattice_type: ['tetrag']
 test_lattice: [True]
 cmpd_lattice_constant: [[2.954,4.586]]
+test_bulk: [True]
+bulk_modulus: [203.0]
 # End file

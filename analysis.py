@@ -169,12 +169,20 @@ def main():
         os.chdir(elem)
         run_atompaw(elem)
         if check_UPF() == True:
-            lat_diff_list.append('placeholder')
-            lat_diff_list.append('placeholder')
+            try:
+                write_QE_input(elem,'SC','relax',template_dir)
+                run_QE(elem,'SC','relax')
+                if check_convergence(elem,'SC','relax') == True:
+                    lat_diff_list.append(1.00)
+                    lat_diff_list.append(1.00)
+                    copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+            except:
+                pass
+        os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
         if element_list[0] in lanthanides:
             lat_diff_list = []
-            copyfile(template_dir+'/'+element_list[1]+'.GGA-PBE-paw.UPF','./'+element_list[1]+'.GGA-PBE-paw.UPF')
+            copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
         try:
             cmpd_index = 0
             cmpd_formula_list = input_settings['cmpd_formula']
@@ -278,7 +286,7 @@ def main():
                         run_QE(cmpd,cmpd_lat_type,'relax')
                     if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
                         run_scale_lat(cmpd,cmpd_lat_type,template_dir)
-                        V0, QE_bulk, B_prime = get_bulk(cmpd,cpmd_lat_type)
+                        V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
                         AE_bulk = input_settings['bulk_modulus'][cmpd_index]
                         bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
                         lat_diff_list.append(bulk_diff)
@@ -676,9 +684,11 @@ def run_scale_lat(elem,lat_type,template_path):
         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+relax_file+' -MPICORES 4')
         with open(relax_file[:-2]+'out') as f:
             out_lines = f.readlines()
+        temp_energies = []
         for line in out_lines:
             if '!    total energy              =' in line:
-                energies.append(line.split()[4])
+                temp_energies.append(line.split()[4])
+        energies.append(temp_energies[-1])
         os.chdir('../')
         folder_index += 1
     f = open('E_V.txt','w+')

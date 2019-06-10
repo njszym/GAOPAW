@@ -2,7 +2,6 @@
   calculation='vc-relax'
   prefix='relax'
   pseudo_dir='./'
-  etot_conv_thr=1.d-6
 /
 &system
   ibrav=0
@@ -26,7 +25,7 @@
 ATOMIC_SPECIES
   P 0.0 P.GGA-PBE-paw.UPF
 K_POINTS (automatic)
-  6 6 6 0 0 0
+  5 5 7 0 0 0
 ATOMIC_POSITIONS angstrom
 P        0.0000000000     1.0589257015     2.6853772369
 P        0.0000000000     4.5995422985     0.3987432369

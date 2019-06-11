@@ -104,12 +104,10 @@ def main():
         pass
     lat_diff_list = []
     lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
-    ## Not including La, for now
-    ## Lanthanides remain untested, will investigate in near future
-    if element_list[0] not in lanthanides:
-        check_error = False
-        for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
-            if check_error == False:
+    check_error = False
+    for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
+        if check_error == False:
+            if elem not in lanthanides:
                 if elem not in os.listdir('.'):
                     os.mkdir(elem)
                 write_atompaw_input(elem, template_dir)
@@ -161,31 +159,32 @@ def main():
                 else:
                     check_error = True
                 os.chdir('../')
-    else:
-        elem = element_list[0]
-        os.mkdir(elem)
-        write_atompaw_input(elem, template_dir)
-        copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
-        os.chdir(elem)
-        run_atompaw(elem)
-        if check_UPF() == True:
-            copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
-            write_QE_input(elem+'N','RS','relax',template_dir)
-            run_QE(elem+'N','RS','relax')
-            try:
-                QE_lat = get_lattice_constant(elem+'N','RS')
-                if check_convergence(elem+'N','RS','relax') == True:
-                    lat_diff_list.append(1.00)
-                    lat_diff_list.append(1.00)
-                    copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                    copyfile(elem+'N.RS.relax.out','../'+elem+'N.RS.relax.out')
-            except:
-                pass
-        os.chdir('../')
+            else:
+                if elem not in os.listdir('.'):
+                    os.mkdir(elem)
+                write_atompaw_input(elem, template_dir)
+                copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
+                os.chdir(elem)
+                run_atompaw(elem)
+                if check_UPF() == True:
+                    copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
+                    write_QE_input(elem+'N','RS','relax',template_dir)
+                    run_QE(elem+'N','RS','relax')
+                    try:
+                        QE_lat = get_lattice_constant(elem+'N','RS')
+                        AE_lat = lat_const
+                        if check_convergence(elem+'N','RS','relax') == True:
+                            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                            copyfile(elem+'N.RS.relax.out','../'+elem+'N.RS.relax.out')
+                        else:
+                            check_error = True
+                    except:
+                        check_error = True
+                else:
+                    check_error = True
+                os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
-        if element_list[0] in lanthanides:
-            lat_diff_list = []
-            copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
         try:
             cmpd_index = 0
             cmpd_formula_list = input_settings['cmpd_formula']
@@ -361,8 +360,6 @@ def main():
             update_dakota(element_list,lat_diff_list)
             update_best_result()
     else:
-        if element_list[0] in lanthanides:
-            lat_type_list = []
         for i in range(len(num_tests)):
             lat_type_list.append('placeholder')
         bad_run(element_list,lat_type_list)

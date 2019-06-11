@@ -4,10 +4,10 @@
   pseudo_dir='./'
 /
 &system
-  ibrav=1
-  celldm=10.0
-  nat=1
-  ntyp=1
+  ibrav=2
+  celldm(1)=10.
+  nat=2
+  ntyp=2
   ecutwfc=40
   ecutrho=200
   smearing='fermi-dirac'
@@ -24,8 +24,10 @@
   cell_dynamics='bfgs'
 /
 ATOMIC_SPECIES
+  N 0.0 N.GGA-PBE-paw.UPF
   Ce 0.0 Ce.GGA-PBE-paw.UPF
 ATOMIC_POSITIONS (crystal)
-Ce 0.0 0.0 0.0
+  N 0.0 0.0 0.0
+  Ce 0.5 0.5 0.5
 K_POINTS (automatic)
   8 8 8 0 0 0

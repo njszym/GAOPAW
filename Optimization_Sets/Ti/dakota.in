@@ -4,9 +4,9 @@ environment
 
 variables
 	continuous_design = 40
-  	  initial_point    2.20          2.10          1.20          1.80          1.80          2.00          2.00          2.20          2.20          0.00         0.00          2.30          2.10          0.80          2.30          2.30          2.10          2.10          2.10          2.10          0.00         0.00         1.45          1.40          1.20          1.45          1.45          1.45          1.45          0.00         0.00         1.90         1.70         1.40         1.90         1.90         1.90         1.90         0.00         0.00
-  	  lower_bounds     1.90          1.90          0.90          1.60          1.60          1.70          1.70          1.80          1.80          0.00         0.00          2.00          1.90          0.60          2.00          2.00          1.90          1.90          1.90          1.90          0.00         0.00         1.25          1.20          1.10          1.25          1.25          1.25          1.25          0.00         0.00         1.70         1.50         1.10         1.70         1.70         1.70         1.70         0.00         0.00
-  	  upper_bounds     2.50          2.20          1.90          2.20          2.20          2.30          2.30          2.50          2.50          12.0         12.0          2.60          2.20          1.60          2.60          2.60          2.30          2.30          2.30          2.30          12.0         12.0         1.65          1.60          1.40          1.65          1.65          1.65          1.65          12.0         12.0         2.10         1.90         1.80         2.10         2.10         2.10         2.10         12.0         12.0
+  	  initial_point    
+  	  lower_bounds     
+  	  upper_bounds     
   	  descriptors     'DAKOTA_Sr_RC_1' 'DAKOTA_Sr_RC_2' 'DAKOTA_Sr_RC_3' 'DAKOTA_Sr_RC_4' 'DAKOTA_Sr_RC_5' 'DAKOTA_Sr_RC_6' 'DAKOTA_Sr_RC_7' 'DAKOTA_Sr_RC_8' 'DAKOTA_Sr_RC_9' 'DAKOTA_Sr_EP_1' 'DAKOTA_Sr_EP_2' 'DAKOTA_Ti_RC_1' 'DAKOTA_Ti_RC_2' 'DAKOTA_Ti_RC_3' 'DAKOTA_Ti_RC_4' 'DAKOTA_Ti_RC_5' 'DAKOTA_Ti_RC_6' 'DAKOTA_Ti_RC_7' 'DAKOTA_Ti_RC_8' 'DAKOTA_Ti_RC_9' 'DAKOTA_Ti_EP_1' 'DAKOTA_Ti_EP_2' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
@@ -37,9 +37,9 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 2 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 

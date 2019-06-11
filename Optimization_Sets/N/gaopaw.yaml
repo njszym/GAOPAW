@@ -2,7 +2,7 @@
 elements: ['N','Sc','Sc','Ga','Ga','As','As','Ca','Ca','H','H','B','B']
 lattice_type: ['SC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
 lattice_constant: [6.190188,4.622,3.680,4.240,3.364,4.272,3.383,5.532,4.400,2.283,1.806,2.872,2.323]
-template_dir: '/scr/szymansk/gaopaw/Optimization_Sets/N/Input'
+template_dir: '/home/szymansk/Optimization_Sets/N/Input'
 cmpd_formula: ['N','ScN','GaN','AsNCa3','NH3','BN']
 cmpd_lattice_type: ['SC','RS','ZB','per','SC','hex']
 test_lattice: [False,True,False,True,True,True]

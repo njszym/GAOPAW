@@ -4,9 +4,9 @@ environment
 
 variables
 	continuous_design = 56
-  	  initial_point   1.353  1.267  0.819  1.312  1.378  1.748  1.398  11.439  7.272  2.031  1.781  1.873  1.746  1.816  1.739  1.783  
-  	  lower_bounds    1.253  1.167  0.719  1.212  1.278  1.648  1.298  10.439  6.272  1.931  1.681  1.773  1.646  1.716  1.639  1.683
-  	  upper_bounds    1.453  1.367  0.919  1.412  1.478  1.848  1.498  12.439  8.272  2.131  1.881  2.973  1.846  1.916  1.839  1.883
+  	  initial_point   1.353  1.267  0.819  1.312  1.378  1.748  1.398  11.439  7.272  2.031  1.781  1.873  1.746  1.816  1.739  1.783  1.797  1.617  1.617  1.910  2.092  1.988  1.980  6.728  2.167
+  	  lower_bounds    1.253  1.167  0.719  1.212  1.278  1.648  1.298  10.439  6.272  1.931  1.681  1.773  1.646  1.716  1.639  1.683  1.697  1.517  1.517  1.810  1.992  1.888  1.880  5.728  1.667
+  	  upper_bounds    1.453  1.367  0.919  1.412  1.478  1.848  1.498  12.439  8.272  2.131  1.881  2.973  1.846  1.916  1.839  1.883  1.897  1.717  1.717  2.010  2.192  2.088  2.080  7.728  2.667
   	  descriptors    'DAKOTA_C_RC_1' 'DAKOTA_C_RC_2' 'DAKOTA_C_RC_3' 'DAKOTA_C_RC_4' 'DAKOTA_C_RC_5' 'DAKOTA_C_RC_6' 'DAKOTA_C_RC_7' 'DAKOTA_C_EP_1' 'DAKOTA_C_EP_2' 'DAKOTA_Mg_RC_1' 'DAKOTA_Mg_RC_2' 'DAKOTA_Mg_RC_3' 'DAKOTA_Mg_RC_4' 'DAKOTA_Mg_RC_5' 'DAKOTA_Mg_RC_6' 'DAKOTA_Mg_RC_7' 'DAKOTA_Si_RC_1' 'DAKOTA_Si_RC_2' 'DAKOTA_Si_RC_3' 'DAKOTA_Si_RC_4' 'DAKOTA_Si_RC_5' 'DAKOTA_Si_RC_6' 'DAKOTA_Si_RC_7' 'DAKOTA_Si_EP_1' 'DAKOTA_Si_EP_2' 'DAKOTA_Li_RC_1' 'DAKOTA_Li_RC_2' 'DAKOTA_Li_RC_3' 'DAKOTA_Li_RC_4' 'DAKOTA_Li_RC_5' 'DAKOTA_Li_RC_6' 'DAKOTA_Li_RC_7' 'DAKOTA_Li_RC_8' 'DAKOTA_Li_EP_1' 'DAKOTA_Li_EP_2' 'DAKOTA_Ga_RC_1' 'DAKOTA_Ga_RC_2' 'DAKOTA_Ga_RC_3' 'DAKOTA_Ga_RC_4' 'DAKOTA_Ga_RC_5' 'DAKOTA_Ga_RC_6' 'DAKOTA_Ga_RC_7' 'DAKOTA_Ga_RC_8' 'DAKOTA_Ga_RC_9' 'DAKOTA_Ga_EP_1' 'DAKOTA_Ga_EP_2' 'DAKOTA_Ga_EP_3' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
@@ -37,9 +37,9 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 2 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 

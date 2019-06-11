@@ -1,16 +1,18 @@
 &control
-  calculation='scf'
-  prefix='BN.hex.scf'
+  calculation='vc-relax'
+  prefix='relax'
   pseudo_dir='./'
 /
 &system
-  ibrav=0
-  nat=2
+  ibrav=2
+  celldm=5.6
+  nat=1
   ntyp=1
   ecutwfc=40
   ecutrho=200
-  occupations='fixed'
-  nbnd=24
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
 /
 &electrons
   conv_thr=1.d-8
@@ -23,6 +25,7 @@
 /
 ATOMIC_SPECIES
   B 0.0 B.GGA-PBE-paw.UPF
-  N 0.0 N.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (alat)
+  B 0.0 0.0 0.0
 K_POINTS (automatic)
-  10 10 2 0 0 0
+  8 8 8 0 0 0

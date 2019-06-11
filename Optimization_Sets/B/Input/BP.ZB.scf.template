@@ -1,6 +1,6 @@
 &control
   calculation='scf'
-  prefix='ZnO.ZB.scf'
+  prefix='BP.ZB.scf'
   pseudo_dir='./'
 /
 &system
@@ -15,11 +15,17 @@
 &electrons
   conv_thr=1.d-8
 /
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
 K_POINTS (automatic)
   8 8 8 0 0 0
 ATOMIC_SPECIES
-  Zn 0.0 Zn.GGA-PBE-paw.UPF
-  O 0.0 O.GGA-PBE-paw.UPF
+  B 0.0 B.GGA-PBE-paw.UPF
+  P 0.0 P.GGA-PBE-paw.UPF
 ATOMIC_POSITIONS (crystal)
-Zn 0.0 0.0 0.0
-O 0.25 0.25 0.25
+  B 0.0 0.0 0.0
+  P 0.25 0.25 0.25

@@ -15,12 +15,6 @@
 &electrons
   conv_thr=1.d-8
 /
-&ions
-  ion_dynamics='bfgs'
-/        
-&cell
-  cell_dynamics='bfgs'
-/
 K_POINTS (automatic)
   8 8 8 0 0 0
 ATOMIC_SPECIES

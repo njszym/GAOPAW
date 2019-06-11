@@ -169,13 +169,16 @@ def main():
         os.chdir(elem)
         run_atompaw(elem)
         if check_UPF() == True:
+            copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
+            write_QE_input(elem+'N','RS','relax',template_dir)
+            run_QE(elem+'N','RS','relax')
             try:
-                write_QE_input(elem,'SC','relax',template_dir)
-                run_QE(elem,'SC','relax')
-                if check_convergence(elem,'SC','relax') == True:
+                QE_lat = get_lattice_constant(elem+'N','RS')
+                if check_convergence(elem+'N','RS','relax') == True:
                     lat_diff_list.append(1.00)
                     lat_diff_list.append(1.00)
                     copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                    copyfile(elem+'N.RS.relax.out','../'+elem+'N.RS.relax.out')
             except:
                 pass
         os.chdir('../')
@@ -358,6 +361,8 @@ def main():
             update_dakota(element_list,lat_diff_list)
             update_best_result()
     else:
+        if element_list[0] in lanthanides:
+            lat_type_list = []
         for i in range(len(num_tests)):
             lat_type_list.append('placeholder')
         bad_run(element_list,lat_type_list)

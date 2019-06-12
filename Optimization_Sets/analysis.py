@@ -4,7 +4,7 @@ from scipy.optimize import curve_fit as cf
 import shutil
 import os
 import sys
-sys.path.insert(0, '/scr/szymansk/dakota/share/dakota/Python')
+sys.path.insert(0, '/home/szymansk/Programs/dakota-6.9.0.Linux.x86_64/share/dakota/Python')
 import dakota.interfacing as di
 from schrodinger.utils import subprocess
 from schrodinger.utils import imputils

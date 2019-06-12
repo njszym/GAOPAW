@@ -880,11 +880,25 @@ def update_structure(elem,lat_type,calc_type):
     with open(elem+'.'+lat_type+'.'+calc_type+'.in') as f:
         lines = f.readlines()
     orig_struct = []
+    line_index = 0
     for line in lines:
+        if 'nat=' in line:
+            natoms = int(line.split('=')[1][:-1])
+    while line_index < len(lines):
+        line = lines[line_index]
         if ('ATOMIC_POSITIONS' not in line) and ('CELL_PARAMETERS' not in line):
-            orig_struct.append(line)
+            if ('ibrav' in line) or ('celldm' in line):
+                if 'ibrav' in line:
+                    orig_struct.append('  ibrav=0\n')
+            else:
+                orig_struct.append(line)
+            line_index += 1
         else:
-            break
+            if 'CELL_PARAMETERS' in line:
+                line_index += 4
+            if 'ATOMIC_POSITIONS' in line:
+                jump = natoms+1
+                line_index += jump
     f = open(elem+'.'+lat_type+'.'+calc_type+'.in','w+')
     for line in orig_struct:
         f.write(line)
@@ -944,7 +958,9 @@ def write_cell(elem,lat_type,cell):
     with open(elem+'.'+lat_type+'.relax.in') as f:
         lines = f.readlines()
     orig_struct = []
-    for line in lines:
+    line_index = 0
+    while line_index < len(lines):
+        line = lines[line_index]
         if 'CELL_PARAMETERS' not in line:
             if ('ibrav' in line) or ('celldm' in line) or ('vc-relax' in line):
                 if 'ibrav' in line:
@@ -953,8 +969,9 @@ def write_cell(elem,lat_type,cell):
                     orig_struct.append("""  calculation='relax'\n""")
             else:
                 orig_struct.append(line)
+            line_index += 1
         else:
-            break
+            line_index += 4
     f = open(elem+'.'+lat_type+'.relax.in','w+')
     for line in orig_struct:
         f.write(line)

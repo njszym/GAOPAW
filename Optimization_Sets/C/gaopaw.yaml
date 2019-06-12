@@ -11,5 +11,4 @@ test_delta: [True,False,True,False,False]
 test_gap: [False,True,True,False,False]
 band_gap: [0.00,1.530,1.24,0.00,0.00]
 test_phonon: [False,False,True,False,False]
-test_atomic_positions: [False,False,False,False,True]
 # End file

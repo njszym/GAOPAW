@@ -23,11 +23,11 @@
 &cell
   cell_dynamics='bfgs'
 /
+K_POINTS (automatic)
+  8 8 8 0 0 0
 ATOMIC_SPECIES
   S 0.0 S.GGA-PBE-paw.UPF
   Mg 0.0 Mg.GGA-PBE-paw.UPF
 ATOMIC_POSITIONS (crystal)
   S 0.0 0.0 0.0
   Mg 0.25 0.25 0.25
-K_POINTS (automatic)
-  8 8 8 0 0 0

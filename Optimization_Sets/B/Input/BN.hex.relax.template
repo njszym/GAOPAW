@@ -12,6 +12,7 @@
   smearing='fermi-dirac'
   degauss=0.002
   occupations='smearing'
+  use_all_frac=.TRUE.
 /
 &electrons
   conv_thr=1.d-8
@@ -26,7 +27,7 @@ ATOMIC_SPECIES
   B 0.0 B.GGA-PBE-paw.UPF
   N 0.0 N.GGA-PBE-paw.UPF
 K_POINTS (automatic)
-  10 10 2 0 0 0
+  10 10 2 1 1 1
 CELL_PARAMETERS angstrom
 2.515945 0.000000 0.000000
 -1.257972 2.178872 0.000000

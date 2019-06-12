@@ -2,7 +2,7 @@
 elements: ['C','C','Mg','Mg','Si','Si','Li','Li','Ga','Ga','O','O']
 lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
 lattice_constant: [3.103,2.366,4.526,3.581,3.857,3.080,4.335,3.427,4.240,3.364,3.178,2.511]
-template_dir: '/home/szymansk/Optimization_Sets/C/Input'
+template_dir: '/scr/szymansk/gaopaw/Optimization_Sets/C/Input'
 cmpd_formula: ['C','Mg2C','SiC','LiCGa','CO2']
 cmpd_lattice_type: ['hex','FCC','ZB','HH','SC']
 test_lattice: [False,True,False,True,True]

@@ -299,7 +299,7 @@ def main():
                         write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
                         run_QE(cmpd,cmpd_lat_type,'relax')
                     if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                        if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl']:
+                        if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
                             QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff_list.append(compare_lat(AE_lat,QE_lat))

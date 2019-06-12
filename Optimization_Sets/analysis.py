@@ -4,7 +4,7 @@ from scipy.optimize import curve_fit as cf
 import shutil
 import os
 import sys
-sys.path.insert(0, '/home/szymansk/Programs/dakota-6.9.0.Linux.x86_64/share/dakota/Python')
+sys.path.insert(0, '/scr/szymansk/dakota/share/dakota/Python')
 import dakota.interfacing as di
 from schrodinger.utils import subprocess
 from schrodinger.utils import imputils
@@ -104,12 +104,10 @@ def main():
         pass
     lat_diff_list = []
     lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
-    ## Not including La, for now
-    ## Lanthanides remain untested, will investigate in near future
-    if element_list[0] not in lanthanides:
-        check_error = False
-        for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
-            if check_error == False:
+    check_error = False
+    for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
+        if check_error == False:
+            if elem not in lanthanides:
                 if elem not in os.listdir('.'):
                     os.mkdir(elem)
                 write_atompaw_input(elem, template_dir)
@@ -161,28 +159,32 @@ def main():
                 else:
                     check_error = True
                 os.chdir('../')
-    else:
-        elem = element_list[0]
-        os.mkdir(elem)
-        write_atompaw_input(elem, template_dir)
-        copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
-        os.chdir(elem)
-        run_atompaw(elem)
-        if check_UPF() == True:
-            try:
-                write_QE_input(elem,'SC','relax',template_dir)
-                run_QE(elem,'SC','relax')
-                if check_convergence(elem,'SC','relax') == True:
-                    lat_diff_list.append(1.00)
-                    lat_diff_list.append(1.00)
-                    copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-            except:
-                pass
-        os.chdir('../')
+            else:
+                if elem not in os.listdir('.'):
+                    os.mkdir(elem)
+                write_atompaw_input(elem, template_dir)
+                copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
+                os.chdir(elem)
+                run_atompaw(elem)
+                if check_UPF() == True:
+                    copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
+                    write_QE_input(elem+'N','RS','relax',template_dir)
+                    run_QE(elem+'N','RS','relax')
+                    try:
+                        QE_lat = get_lattice_constant(elem+'N','RS')
+                        AE_lat = lat_const
+                        if check_convergence(elem+'N','RS','relax') == True:
+                            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                            copyfile(elem+'N.RS.relax.out','../'+elem+'N.RS.relax.out')
+                        else:
+                            check_error = True
+                    except:
+                        check_error = True
+                else:
+                    check_error = True
+                os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
-        if element_list[0] in lanthanides:
-            lat_diff_list = []
-            copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
         try:
             cmpd_index = 0
             cmpd_formula_list = input_settings['cmpd_formula']
@@ -297,7 +299,7 @@ def main():
                         write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
                         run_QE(cmpd,cmpd_lat_type,'relax')
                     if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                        if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl']:
+                        if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
                             QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff_list.append(compare_lat(AE_lat,QE_lat))

@@ -190,163 +190,166 @@ def main():
             cmpd_formula_list = input_settings['cmpd_formula']
             cmpd_lat_type_list = input_settings['cmpd_lattice_type']
             for (cmpd,cmpd_lat_type,test_atoms,test_mag,test_mag_mom,test_gap,test_bulk,test_delta,test_phonon,test_lat,test_coh) in zip(cmpd_formula_list,cmpd_lat_type_list,test_atoms_list,test_mag_list,test_mag_mom_list,test_gap_list,test_bulk_list,test_delta_list,test_phonon_list,test_lat_list,test_coh_list):
-                if test_atoms == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                        atom_diff = compare_atoms(cmpd,cmpd_lat_type,template_dir)
-                        lat_diff_list.append(atom_diff)
-                    else:
-                        lat_type_list.append('bad_run')
-                if test_mag == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-                    if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type,'scf')
-                        run_QE(cmpd,cmpd_lat_type,'scf')
-                    AE_mag = float(input_settings['magnetization'][cmpd_index])
-                    if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        QE_mag = float(get_mag(cmpd,cmpd_lat_type))
-                        lat_diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
-                    else:
-                        lat_type_list.append('bad_run')
-                if test_mag_mom == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-                    if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type,'scf')
-                        run_QE(cmpd,cmpd_lat_type,'scf')
-                    if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        mag_mom_diff = compare_mag_mom(cmpd,cmpd_lat_type,template_dir)
-                        lat_diff_list.append(mag_mom_diff)
-                    else:
-                        lat_type_list.append('bad_run')
-                if test_gap == True:
-       	            if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-       	            if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type,'scf')
-                        run_QE(cmpd,cmpd_lat_type,'scf')
-                    AE_gap = input_settings['band_gap'][cmpd_index]
-                    if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        QE_gap = get_gap(cmpd,cmpd_lat_type)
-                        lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
-                    else:
-                        lat_type_list.append('bad_run')
-                if test_coh == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                        AE_coh = input_settings['cohesive_energy'][cmpd_index]
-                        QE_coh = get_coh_energy(unique_elem_list,cmpd_lat_type,template_dir) ## deprecated
-                        lat_diff_list.append(abs(QE_coh-AE_coh)/AE_coh)
-                    else:
-                        lat_type_list.append('bad_run')
-                if test_delta == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                        run_scale_lat(cmpd,cmpd_lat_type,template_dir)
-                        V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
-                        QE_EOS_data, AE_EOS_data = read_eos(cmpd,cmpd_lat_type,template_dir)
-                        delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
-                        lat_diff_list.append(delta_factor)
-                    else:
-                        lat_type_list.append('bad_run')
-                if test_phonon == True: ## Testing required
-       	            if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-                    if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type,'scf')
-                        run_QE(cmpd,cmpd_lat_type,'scf')
-                    if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        copyfile(template_dir+'/phonon.in','./phonon.in')
-                        os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+cmpd_lat_type+'.scf.save.qegz -MPICORES 4')
-                        copyfile(template_dir+'/dynmat.in','./dynmat.in')
-                        os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
-                        phonon_diff = compare_phonon(cmpd,cmpd_lat_type,template_dir)
-                        if phonon_diff == 'bad_run':
+                try:
+                    if test_atoms == True:
+                        if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+                        if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                            atom_diff = compare_atoms(cmpd,cmpd_lat_type,template_dir)
+                            lat_diff_list.append(atom_diff)
+                       	else:
                             lat_type_list.append('bad_run')
+                    if test_mag == True:
+                        if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+                       	if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                            update_structure(cmpd,cmpd_lat_type,'scf')
+                            run_QE(cmpd,cmpd_lat_type,'scf')
+                       	AE_mag = float(input_settings['magnetization'][cmpd_index])
+                       	if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
+                            QE_mag = float(get_mag(cmpd,cmpd_lat_type))
+                            lat_diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
+                       	else:
+                            lat_type_list.append('bad_run')
+                    if test_mag_mom == True:
+                       	if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+                        if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                            update_structure(cmpd,cmpd_lat_type,'scf')
+                            run_QE(cmpd,cmpd_lat_type,'scf')
+                       	if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
+                            mag_mom_diff = compare_mag_mom(cmpd,cmpd_lat_type,template_dir)
+                            lat_diff_list.append(mag_mom_diff)
+                       	else:
+                            lat_type_list.append('bad_run')
+                    if test_gap == True:
+       	               	if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+       	               	if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                            update_structure(cmpd,cmpd_lat_type,'scf')
+                            run_QE(cmpd,cmpd_lat_type,'scf')
+                       	AE_gap = input_settings['band_gap'][cmpd_index]
+                        if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
+                            QE_gap = get_gap(cmpd,cmpd_lat_type)
+                            lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
+                       	else:
+                            lat_type_list.append('bad_run')
+                    if test_coh == True:
+                       	if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+                       	if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                            AE_coh = input_settings['cohesive_energy'][cmpd_index]
+                            QE_coh = get_coh_energy(unique_elem_list,cmpd_lat_type,template_dir) ## deprecated
+                            lat_diff_list.append(abs(QE_coh-AE_coh)/AE_coh)
+                       	else:
+                            lat_type_list.append('bad_run')
+                    if test_delta == True:
+                       	if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+                       	if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                            run_scale_lat(cmpd,cmpd_lat_type,template_dir)
+                            V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
+                            QE_EOS_data, AE_EOS_data = read_eos(cmpd,cmpd_lat_type,template_dir)
+                            delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
+                            lat_diff_list.append(delta_factor)
+                       	else:
+                            lat_type_list.append('bad_run')
+                    if test_phonon == True: ## Testing required
+       	               	if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+                       	if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
+                            update_structure(cmpd,cmpd_lat_type,'scf')
+                            run_QE(cmpd,cmpd_lat_type,'scf')
+                       	if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
+                            copyfile(template_dir+'/phonon.in','./phonon.in')
+                            os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+cmpd_lat_type+'.scf.save.qegz -MPICORES 4')
+                            copyfile(template_dir+'/dynmat.in','./dynmat.in')
+                            os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
+                            phonon_diff = compare_phonon(cmpd,cmpd_lat_type,template_dir)
+                            if phonon_diff == 'bad_run':
+                               	lat_type_list.append('bad_run')
+                            else:
+                               	lat_diff_list.append(phonon_diff)
+                       	else:
+                            lat_type_list.append('bad_run')
+                    if test_bulk == True:
+                       	if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+                       	if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                            run_scale_lat(cmpd,cmpd_lat_type,template_dir)
+                            V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
+                            AE_bulk = input_settings['bulk_modulus'][cmpd_index]
+                            bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
+                            lat_diff_list.append(bulk_diff)
+                       	else:
+                            lat_type_list.append('bad_run')
+                    if test_lat == True:
+                       	if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
+                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
+                            run_QE(cmpd,cmpd_lat_type,'relax')
+                       	if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                            if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
+                               	QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
+                               	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
+                               	lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                            if cmpd_lat_type in ['tetrag','hex']:
+                               	QE_a, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
+                               	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
+                               	lat_diff = compare_lat(AE_lat[0],QE_a)
+                               	lat_diff += compare_lat(AE_lat[1],QE_c)
+                               	lat_diff = lat_diff/2.
+                               	lat_diff_list.append(lat_diff)
+                            if cmpd_lat_type == 'ortho':
+                               	QE_a, QE_b, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
+                               	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
+       	       	       	       	lat_diff = compare_lat(AE_lat[0],QE_a)
+                               	lat_diff += compare_lat(AE_lat[1],QE_b)
+                               	lat_diff += compare_lat(AE_lat[2],QE_c)
+                                lat_diff = lat_diff/3.
+                               	lat_diff_list.append(lat_diff)
+                            if cmpd_lat_type == 'rhomb':
+                               	QE_a, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
+                               	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
+       	       	       	       	lat_diff = compare_lat(AE_lat[0],QE_a)
+                               	lat_diff += compare_lat(AE_lat[1],QE_angle)
+       	       	       	       	lat_diff = lat_diff/2.
+                               	lat_diff_list.append(lat_diff)
+                            if cmpd_lat_type == 'monoclin':
+                               	QE_a, QE_b, QE_c, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
+                               	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
+                               	lat_diff = compare_lat(AE_lat[0],QE_a)
+                               	lat_diff += compare_lat(AE_lat[1],QE_b)
+                               	lat_diff += compare_lat(AE_lat[2],QE_c)
+                               	lat_diff += compare_lat(AE_lat[3],QE_angle)
+                               	lat_diff = lat_diff/4.
+                               	lat_diff_list.append(lat_diff)
+                            if cmpd_lat_type == 'triclin':
+                               	QE_a, QE_b, QE_c, QE_angle_1, QE_angle_2, QE_angle_3 = get_lattice_constant(cmpd,cmpd_lat_type)
+                               	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
+                               	lat_diff = compare_lat(AE_lat[0],QE_a)
+                               	lat_diff += compare_lat(AE_lat[1],QE_b)
+                               	lat_diff += compare_lat(AE_lat[2],QE_c)
+                               	lat_diff += compare_lat(AE_lat[3],QE_angle_1)
+                               	lat_diff += compare_lat(AE_lat[4],QE_angle_2)
+                               	lat_diff += compare_lat(AE_lat[5],QE_angle_3)
+                               	lat_diff = lat_diff/6.
+                                lat_diff_list.append(lat_diff)
                         else:
-                            lat_diff_list.append(phonon_diff)
-                    else:
-                        lat_type_list.append('bad_run')
-                if test_bulk == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                        run_scale_lat(cmpd,cmpd_lat_type,template_dir)
-                        V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
-                        AE_bulk = input_settings['bulk_modulus'][cmpd_index]
-                        bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
-                        lat_diff_list.append(bulk_diff)
-                    else:
-                        lat_type_list.append('bad_run')
-                if test_lat == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        run_QE(cmpd,cmpd_lat_type,'relax')
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                        if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
-                            QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
-                            AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
-                            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                        if cmpd_lat_type in ['tetrag','hex']:
-                            QE_a, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
-                            AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
-                            lat_diff = compare_lat(AE_lat[0],QE_a)
-                            lat_diff += compare_lat(AE_lat[1],QE_c)
-                            lat_diff = lat_diff/2.
-                            lat_diff_list.append(lat_diff)
-                        if cmpd_lat_type == 'ortho':
-                            QE_a, QE_b, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
-                            AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
-       	       	       	    lat_diff = compare_lat(AE_lat[0],QE_a)
-                            lat_diff += compare_lat(AE_lat[1],QE_b)
-                            lat_diff += compare_lat(AE_lat[2],QE_c)
-       	       	       	    lat_diff = lat_diff/3.
-                            lat_diff_list.append(lat_diff)
-                        if cmpd_lat_type == 'rhomb':
-                            QE_a, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
-                            AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
-       	       	       	    lat_diff = compare_lat(AE_lat[0],QE_a)
-                            lat_diff += compare_lat(AE_lat[1],QE_angle)
-       	       	       	    lat_diff = lat_diff/2.
-                            lat_diff_list.append(lat_diff)
-                        if cmpd_lat_type == 'monoclin':
-                            QE_a, QE_b, QE_c, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
-                            AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
-                            lat_diff = compare_lat(AE_lat[0],QE_a)
-                            lat_diff += compare_lat(AE_lat[1],QE_b)
-                            lat_diff += compare_lat(AE_lat[2],QE_c)
-                            lat_diff += compare_lat(AE_lat[3],QE_angle)
-                            lat_diff = lat_diff/4.
-                            lat_diff_list.append(lat_diff)
-                        if cmpd_lat_type == 'triclin':
-                            QE_a, QE_b, QE_c, QE_angle_1, QE_angle_2, QE_angle_3 = get_lattice_constant(cmpd,cmpd_lat_type)
-                            AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
-                            lat_diff = compare_lat(AE_lat[0],QE_a)
-                            lat_diff += compare_lat(AE_lat[1],QE_b)
-                            lat_diff += compare_lat(AE_lat[2],QE_c)
-                            lat_diff += compare_lat(AE_lat[3],QE_angle_1)
-                            lat_diff += compare_lat(AE_lat[4],QE_angle_2)
-                            lat_diff += compare_lat(AE_lat[5],QE_angle_3)
-                            lat_diff = lat_diff/6.
-                            lat_diff_list.append(lat_diff)
-                    else:
-                        lat_type_list.append('bad_run')
+                       	    lat_type_list.append('bad_run')
+                except:
+                    lat_type_list.append('bad_run')
                 cmpd_index += 1
             if 'bad_run' not in lat_type_list:
                 update_dakota(element_list,lat_diff_list)

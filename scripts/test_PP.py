@@ -267,8 +267,16 @@ def main():
                         run_QE(cmpd,cmpd_lat_type,'scf')
                     if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                         copyfile(template_dir+'/phonon.in','./phonon.in')
+                        if 'phonon.save' in os.listdir('.'):
+                            os.remove('phonon.out')
+                            shutil.rmtree('phonon.save')
+                            os.remove('phonon.save.qegz')
                         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+cmpd_lat_type+'.scf.save.qegz -MPICORES 4')
                         copyfile(template_dir+'/dynmat.in','./dynmat.in')
+                        if 'dynmat.save' in os.listdir('.'):
+                            os.remove('dynmat.out')
+                            shutil.rmtree('dynmat.save')
+                            os.remove('dynmat.save.qegz')
                         os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
                         phonon_diff = compare_phonon(cmpd,cmpd_lat_type,template_dir)
                         if phonon_diff == 'bad_run':
@@ -355,6 +363,7 @@ def main():
             for value in lat_diff_list:
                 f.write(str(value)+'\n')
             f.close()
+            raise Exception('Looks like your pseudopotential is not very good...but here is some results')
     else:
         raise Exception('Looks like your pseudopotential is not very good...')
 

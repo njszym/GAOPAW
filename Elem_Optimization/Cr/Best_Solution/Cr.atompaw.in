@@ -1,0 +1,33 @@
+Cr 24
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+4 3 3 0 0 0 
+4 0 1
+3 2 5
+0 0 0 
+c
+c
+v
+v
+c
+v
+v
+2
+2.362788 1.96899 1.423782 1.273415
+n
+y
+3.205605
+n
+y
+1.817172
+n
+custom rrkj
+bessel
+1.738706
+2.181942
+1.736177
+1.613139
+1.905943
+1.850465
+3
+0
+[nyc-desk-l205:m

@@ -1,0 +1,974 @@
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Sun Jun  9 15:08:02 2019
+
+Global Log initialized using "verbose" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+15:08:02: quiet- JEGA Front End: Random seed = 1560157282
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_1 added.  1 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_2 added.  2 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_3 added.  3 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_4 added.  4 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_5 added.  5 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_6 added.  6 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_7 added.  7 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_8 added.  8 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_RC_9 added.  9 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_EP_1 added.  10 design variables now in target.
+15:08:02: verbose- Design Target: Design variable DAKOTA_EP_2 added.  11 design variables now in target.
+15:08:02: verbose- Design Target: Objective Non-Linear Minimize obj_fn_1 added.  1 objectives now in target.
+15:08:02: verbose- Design Target: Objective Non-Linear Minimize obj_fn_2 added.  2 objectives now in target.
+15:08:02: verbose- Design Target: Objective Non-Linear Minimize obj_fn_3 added.  3 objectives now in target.
+15:08:02: verbose- JEGA Front End: Creating a MOGA
+15:08:02: debug-  Matching Group: Trying "Domination Count Operator Group".
+15:08:02: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
+15:08:02: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
+15:08:02: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
+15:08:02: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
+15:08:02: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
+15:08:02: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
+15:08:02: verbose- Domination Count Operator Group: Contains Selector "below_limit".
+15:08:02: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
+15:08:02: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
+15:08:02: debug-  Matching Group: "Domination Count Operator Group" match succeeded.
+15:08:02: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+15:08:02: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
+15:08:02: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
+15:08:02: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
+15:08:02: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
+15:08:02: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
+15:08:02: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
+15:08:02: verbose- Domination Count Operator Group: Contains Selector "below_limit".
+15:08:02: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
+15:08:02: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
+15:08:02: verbose- NO_ID: The name of this GA is now NO_ID
+15:08:02: verbose- NO_ID: The print each population flag is now set to 0
+15:08:02: verbose- NO_ID: The print final data flag is now set to 1
+15:08:02: verbose- NO_ID: The print discards flag is now set to 1
+15:08:02: verbose- NO_ID: The name of the file to which final data will be written is now finaldata1.dat
+15:08:02: verbose- NO_ID: The data directory is now set to ./
+15:08:02: verbose- metric_tracker: Number of generations tracked now = 10
+15:08:02: verbose- metric_tracker: Max allowable % change now = 1
+15:08:02: verbose- metric_tracker: Maximum allowable generations now = 100
+15:08:02: verbose- metric_tracker: Maximum allowable evaluations now = 20000
+15:08:02: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+15:08:02: verbose- metric_tracker: The maximum allowable amount of time was not found in the parameter database.  Using the current value of 1.79769e+308
+15:08:02: verbose- metric_tracker: Maximum allowable time now = 1.79769e+308 seconds 
+15:08:02: quiet- Error encountered while retrieving parameter named "method.jega.num_cross_points" of type "St6vectorIiSaIiEE" from parameter database reading: Parameter not found for tag: method.jega.num_cross_points
+15:08:02: verbose- multi_point_parameterized_binary: The number of crossover points for each variable were not found in the parameter database.  Checking for a single value.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points now = 2
+15:08:02: verbose- multi_point_parameterized_binary: Crossover rate now = 0.4
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_1" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_2" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_3" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_4" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_5" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_6" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_7" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_8" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_9" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_1" now = 2.
+15:08:02: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_2" now = 2.
+15:08:02: verbose- DAKOTA JEGA Evaluator: Maximum allowable evaluations now = 20000
+15:08:02: verbose- DAKOTA JEGA Evaluator: The evaluation concurrency is now 1
+15:08:02: verbose- unique_random: Desired initial population size now = 250
+15:08:02: verbose- null_niching: Niched design caching now set to true.
+15:08:02: quiet- Error encountered while retrieving parameter named "method.jega.max_niche_cache_size" of type "m" from parameter database reading: Parameter not found for tag: method.jega.max_niche_cache_size
+15:08:02: verbose- null_niching: The max niche cache size value was not found in the parameter database.  Using the current value of 1
+15:08:02: verbose- null_niching: Niched design caching max size now set to 18446744073709551615.
+15:08:02: verbose- offset_normal: Offset range now = 0.05
+15:08:02: verbose- offset_normal: Mutation rate now = 0.2
+15:08:02: verbose- below_limit: Limiting value now = 6
+15:08:02: verbose- below_limit: Shrinkage percentage now = 0.3
+15:08:02: verbose- below_limit: Minimum selections now = 2
+15:08:02: verbose- NO_ID: About to perform algorithm execution.
+15:08:02: verbose- unique_random: 250 unique random designs created.
+19:03:51: verbose- below_limit: Performed 75 total selections.
+19:03:51: verbose- NO_ID: 175 of 250 population members were not selected to continue.  0 of 0 offspring were immediately rejected.
+19:03:51: verbose- metric_tracker: Operating on 75 total designs and 10 "best fitness" designs.
+19:03:51: verbose- metric_tracker: Pushed metric value of 0 onto the convergence stack.
+19:03:51: quiet- duplicate_free: 1 generation so far.
+19:03:51: quiet- duplicate_free: 250 evaluations so far.
+19:03:51: verbose- duplicate_free: 75 members in population so far.
+19:03:51: verbose- multi_point_parameterized_binary: 30 children created.
+19:03:51: quiet- offset_normal: Produced invalid  variable representation 1.69508. Mutation performed without corrective action.
+19:03:51: quiet- offset_normal: Produced invalid  variable representation 2.21165. Mutation performed without corrective action.
+19:03:51: quiet- offset_normal: Produced invalid  variable representation 2.50195. Mutation performed without corrective action.
+19:03:51: verbose- offset_normal: Performed 15 total mutations.
+19:03:51: quiet- NO_ID: Invalid value of 1.83274 found for variable DAKOTA_RC_2.  Corrected to 2.05818.
+19:03:51: quiet- NO_ID: Invalid value of 1.58352 found for variable DAKOTA_RC_4.  Corrected to 1.70287.
+19:03:51: quiet- NO_ID: Invalid value of 2.5463 found for variable DAKOTA_RC_8.  Corrected to 2.0463.
+19:03:51: quiet- NO_ID: Invalid value of 1.69508 found for variable DAKOTA_RC_7.  Corrected to 2.25428.
+19:03:51: quiet- NO_ID: Invalid value of 1.59905 found for variable DAKOTA_RC_5.  Corrected to 1.93074.
+19:03:51: quiet- NO_ID: Invalid value of 1.58856 found for variable DAKOTA_RC_5.  Corrected to 1.9254.
+19:03:51: quiet- NO_ID: Invalid value of 1.75426 found for variable DAKOTA_RC_9.  Corrected to 2.05631.
+19:03:51: quiet- NO_ID: Invalid value of 15.5423 found for variable DAKOTA_EP_1.  Corrected to 1.19092.
+19:03:51: quiet- NO_ID: Invalid value of 2.21165 found for variable DAKOTA_RC_4.  Corrected to 2.12917.
+19:03:51: quiet- NO_ID: Invalid value of 2.32667 found for variable DAKOTA_RC_4.  Corrected to 2.11015.
+19:03:51: quiet- NO_ID: Invalid value of 2.50195 found for variable DAKOTA_RC_1.  Corrected to 2.20989.
+19:03:51: quiet- NO_ID: Invalid value of 2.54758 found for variable DAKOTA_RC_1.  Corrected to 2.23209.
+19:03:51: quiet- NO_ID: Invalid value of 2.22981 found for variable DAKOTA_RC_2.  Corrected to 2.09221.
+19:03:51: quiet- NO_ID: Invalid value of 2.25038 found for variable DAKOTA_RC_4.  Corrected to 2.01605.
+19:03:51: quiet- NO_ID: Invalid value of 1.57653 found for variable DAKOTA_RC_5.  Corrected to 2.15507.
+19:03:51: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+20:53:00: verbose- below_limit: Performed 39 total selections.
+20:53:00: verbose- NO_ID: 52 of 75 population members were not selected to continue.  28 of 44 offspring were immediately rejected.
+20:53:00: verbose- metric_tracker: Operating on 39 total designs and 16 "best fitness" designs.
+20:53:00: verbose- metric_tracker: Max "best fitness" expanse change of -47.149% found for objective "Non-Linear Minimize obj_fn_1".
+20:53:00: verbose- metric_tracker: Population density increased by 9.30139e+12%.
+20:53:00: verbose- metric_tracker: 10% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+20:53:00: verbose- metric_tracker: Pushed metric value of 9.30139e+10 onto the convergence stack.
+20:53:00: quiet- duplicate_free: 2 generations so far.
+20:53:00: quiet- duplicate_free: 294 evaluations so far.
+20:53:00: verbose- duplicate_free: 39 members in population so far.
+20:53:00: verbose- multi_point_parameterized_binary: 16 children created.
+20:53:00: verbose- offset_normal: Performed 8 total mutations.
+20:53:00: quiet- NO_ID: Invalid value of 2.46062 found for variable DAKOTA_RC_6.  Corrected to 2.23924.
+20:53:00: quiet- NO_ID: Invalid value of 2.74559 found for variable DAKOTA_RC_8.  Corrected to 1.93438.
+20:53:00: quiet- NO_ID: Invalid value of 2.58078 found for variable DAKOTA_RC_9.  Corrected to 2.11264.
+21:54:43: verbose- below_limit: Performed 49 total selections.
+21:54:43: verbose- NO_ID: 6 of 39 population members were not selected to continue.  8 of 24 offspring were immediately rejected.
+21:54:43: verbose- metric_tracker: Operating on 49 total designs and 21 "best fitness" designs.
+21:54:43: verbose- metric_tracker: Max "best fitness" expanse change of 289.801% found for objective "Non-Linear Minimize obj_fn_1".
+21:54:43: verbose- metric_tracker: Population density increased by 85.081%.
+21:54:43: verbose- metric_tracker: No "best fitness" designs from the previous population are dominated by "best fitness" designs in the current population.
+21:54:43: verbose- metric_tracker: Pushed metric value of 3.74882 onto the convergence stack.
+21:54:43: quiet- duplicate_free: 3 generations so far.
+21:54:43: quiet- duplicate_free: 318 evaluations so far.
+21:54:43: verbose- duplicate_free: 49 members in population so far.
+21:54:43: verbose- multi_point_parameterized_binary: 20 children created.
+21:54:43: quiet- offset_normal: Produced invalid  variable representation 2.50503. Mutation performed without corrective action.
+21:54:43: verbose- offset_normal: Performed 10 total mutations.
+21:54:43: quiet- NO_ID: Invalid value of 12.3746 found for variable DAKOTA_EP_2.  Corrected to 3.13254.
+21:54:43: quiet- NO_ID: Invalid value of 2.42906 found for variable DAKOTA_RC_6.  Corrected to 1.88809.
+21:54:43: quiet- NO_ID: Invalid value of 1.52488 found for variable DAKOTA_RC_7.  Corrected to 2.04532.
+21:54:43: quiet- NO_ID: Invalid value of 2.62556 found for variable DAKOTA_RC_8.  Corrected to 2.32538.
+21:54:43: quiet- NO_ID: Invalid value of 2.42927 found for variable DAKOTA_RC_7.  Corrected to 1.84508.
+21:54:43: quiet- NO_ID: Invalid value of 1.69798 found for variable DAKOTA_RC_8.  Corrected to 2.24651.
+21:54:43: quiet- NO_ID: Invalid value of 2.79554 found for variable DAKOTA_RC_9.  Corrected to 2.33628.
+21:54:43: quiet- NO_ID: Invalid value of 2.2401 found for variable DAKOTA_RC_2.  Corrected to 2.00098.
+21:54:43: quiet- NO_ID: Invalid value of 1.36679 found for variable DAKOTA_RC_8.  Corrected to 2.42098.
+21:54:43: quiet- NO_ID: Invalid value of 1.83045 found for variable DAKOTA_RC_2.  Corrected to 2.03403.
+21:54:43: quiet- NO_ID: Invalid value of 2.24058 found for variable DAKOTA_RC_2.  Corrected to 2.10759.
+21:54:43: quiet- NO_ID: Invalid value of 2.30444 found for variable DAKOTA_RC_7.  Corrected to 2.15724.
+21:54:43: quiet- NO_ID: Invalid value of 2.50503 found for variable DAKOTA_RC_1.  Corrected to 2.38915.
+21:54:43: quiet- NO_ID: Invalid value of 2.50553 found for variable DAKOTA_RC_1.  Corrected to 2.48435.
+21:54:43: quiet- NO_ID: Invalid value of 1.84746 found for variable DAKOTA_RC_2.  Corrected to 2.07086.
+21:54:43: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+22:57:59: verbose- below_limit: Performed 64 total selections.
+22:57:59: verbose- NO_ID: 6 of 49 population members were not selected to continue.  8 of 29 offspring were immediately rejected.
+22:57:59: verbose- metric_tracker: Operating on 64 total designs and 28 "best fitness" designs.
+22:57:59: verbose- metric_tracker: Max "best fitness" expanse change of -20.09% found for objective "Non-Linear Minimize obj_fn_2".
+22:57:59: verbose- metric_tracker: Population density increased by 213.499%.
+22:57:59: verbose- metric_tracker: 14.286% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+22:57:59: verbose- metric_tracker: Pushed metric value of 2.47875 onto the convergence stack.
+22:57:59: quiet- duplicate_free: 4 generations so far.
+22:57:59: quiet- duplicate_free: 347 evaluations so far.
+22:57:59: verbose- duplicate_free: 64 members in population so far.
+22:57:59: verbose- multi_point_parameterized_binary: 26 children created.
+22:57:59: verbose- offset_normal: Performed 13 total mutations.
+22:57:59: quiet- NO_ID: Invalid value of 1.88631 found for variable DAKOTA_RC_1.  Corrected to 2.45614.
+22:57:59: quiet- NO_ID: Invalid value of 2.28464 found for variable DAKOTA_RC_5.  Corrected to 2.07023.
+22:57:59: quiet- NO_ID: Invalid value of 2.22967 found for variable DAKOTA_RC_3.  Corrected to 1.26872.
+22:57:59: quiet- NO_ID: Invalid value of 2.57797 found for variable DAKOTA_RC_5.  Corrected to 1.68883.
+22:57:59: quiet- NO_ID: Invalid value of 1.91837 found for variable DAKOTA_RC_3.  Corrected to 1.73668.
+22:57:59: quiet- NO_ID: Invalid value of 2.20566 found for variable DAKOTA_RC_4.  Corrected to 2.1835.
+22:57:59: quiet- NO_ID: Invalid value of 2.49325 found for variable DAKOTA_RC_6.  Corrected to 1.93445.
+22:57:59: quiet- NO_ID: Invalid value of 2.84453 found for variable DAKOTA_RC_8.  Corrected to 1.96701.
+22:57:59: quiet- NO_ID: Invalid value of 2.6449 found for variable DAKOTA_RC_9.  Corrected to 1.85342.
+22:57:59: quiet- NO_ID: Invalid value of 14.935 found for variable DAKOTA_EP_2.  Corrected to 1.36674.
+22:57:59: quiet- NO_ID: Invalid value of 1.56876 found for variable DAKOTA_RC_5.  Corrected to 1.7012.
+22:57:59: quiet- NO_ID: Invalid value of 2.54875 found for variable DAKOTA_RC_9.  Corrected to 2.29688.
+22:57:59: quiet- NO_ID: Invalid value of 2.7344 found for variable DAKOTA_RC_1.  Corrected to 1.91411.
+00:28:31: verbose- below_limit: Performed 79 total selections.
+00:28:31: verbose- NO_ID: 8 of 64 population members were not selected to continue.  16 of 39 offspring were immediately rejected.
+00:28:31: verbose- metric_tracker: Operating on 79 total designs and 25 "best fitness" designs.
+00:28:31: verbose- metric_tracker: Max "best fitness" expanse change of -3.707% found for objective "Non-Linear Minimize obj_fn_2".
+00:28:31: verbose- metric_tracker: Population density decreased by 53.155%.
+00:28:31: verbose- metric_tracker: 35.714% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+00:28:31: verbose- metric_tracker: Pushed metric value of 0.925768 onto the convergence stack.
+00:28:31: quiet- duplicate_free: 5 generations so far.
+00:28:31: quiet- duplicate_free: 386 evaluations so far.
+00:28:31: verbose- duplicate_free: 79 members in population so far.
+00:28:31: verbose- multi_point_parameterized_binary: 32 children created.
+00:28:31: quiet- offset_normal: Produced invalid  variable representation 2.50465. Mutation performed without corrective action.
+00:28:31: verbose- offset_normal: Performed 16 total mutations.
+00:28:31: quiet- NO_ID: Invalid value of 2.43584 found for variable DAKOTA_RC_6.  Corrected to 1.93854.
+00:28:31: quiet- NO_ID: Invalid value of 2.91755 found for variable DAKOTA_RC_8.  Corrected to 2.29832.
+00:28:31: quiet- NO_ID: Invalid value of 2.50465 found for variable DAKOTA_RC_8.  Corrected to 2.11638.
+00:28:31: quiet- NO_ID: Invalid value of 2.62235 found for variable DAKOTA_RC_8.  Corrected to 2.08132.
+00:28:31: quiet- NO_ID: Invalid value of 1.71397 found for variable DAKOTA_RC_9.  Corrected to 1.80495.
+00:28:31: quiet- NO_ID: Invalid value of 2.45298 found for variable DAKOTA_RC_4.  Corrected to 1.6695.
+00:28:31: quiet- NO_ID: Invalid value of 1.38052 found for variable DAKOTA_RC_8.  Corrected to 2.22453.
+00:28:31: quiet- NO_ID: Invalid value of 1.58587 found for variable DAKOTA_RC_4.  Corrected to 1.96564.
+00:28:31: quiet- NO_ID: Invalid value of 1.82226 found for variable DAKOTA_RC_2.  Corrected to 1.94312.
+00:28:31: quiet- NO_ID: Invalid value of 2.64302 found for variable DAKOTA_RC_1.  Corrected to 2.22615.
+00:28:31: quiet- NO_ID: Invalid value of 1.75328 found for variable DAKOTA_RC_8.  Corrected to 2.26785.
+00:28:31: quiet- NO_ID: Invalid value of 2.50036 found for variable DAKOTA_RC_9.  Corrected to 2.42739.
+02:35:09: verbose- below_limit: Performed 103 total selections.
+02:35:09: verbose- NO_ID: 5 of 79 population members were not selected to continue.  19 of 48 offspring were immediately rejected.
+02:35:09: verbose- metric_tracker: Operating on 103 total designs and 41 "best fitness" designs.
+02:35:09: verbose- metric_tracker: Max "best fitness" expanse change of 25.801% found for objective "Non-Linear Minimize obj_fn_2".
+02:35:09: verbose- metric_tracker: Population density increased by 30.38%.
+02:35:09: verbose- metric_tracker: 4% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+02:35:09: verbose- metric_tracker: Pushed metric value of 0.601807 onto the convergence stack.
+02:35:09: quiet- duplicate_free: 6 generations so far.
+02:35:09: quiet- duplicate_free: 434 evaluations so far.
+02:35:09: verbose- duplicate_free: 103 members in population so far.
+02:35:09: verbose- multi_point_parameterized_binary: 42 children created.
+02:35:09: quiet- offset_normal: Produced invalid  variable representation 2.21688. Mutation performed without corrective action.
+02:35:09: verbose- offset_normal: Performed 21 total mutations.
+02:35:09: quiet- NO_ID: Invalid value of 2.3168 found for variable DAKOTA_RC_6.  Corrected to 2.16379.
+02:35:09: quiet- NO_ID: Invalid value of 2.28748 found for variable DAKOTA_RC_4.  Corrected to 1.72447.
+02:35:09: quiet- NO_ID: Invalid value of 1.56853 found for variable DAKOTA_RC_5.  Corrected to 1.88752.
+02:35:09: quiet- NO_ID: Invalid value of 1.74099 found for variable DAKOTA_RC_8.  Corrected to 1.93367.
+02:35:09: quiet- NO_ID: Invalid value of 2.21688 found for variable DAKOTA_RC_4.  Corrected to 2.1684.
+02:35:09: quiet- NO_ID: Invalid value of 2.21047 found for variable DAKOTA_RC_2.  Corrected to 2.14908.
+02:35:09: quiet- NO_ID: Invalid value of 1.79391 found for variable DAKOTA_RC_8.  Corrected to 2.45221.
+02:35:09: quiet- NO_ID: Invalid value of 2.50039 found for variable DAKOTA_RC_9.  Corrected to 2.1837.
+02:35:09: quiet- NO_ID: Invalid value of 1.56159 found for variable DAKOTA_RC_9.  Corrected to 2.38726.
+02:35:09: quiet- NO_ID: Invalid value of 2.50162 found for variable DAKOTA_RC_8.  Corrected to 2.09505.
+02:35:09: quiet- NO_ID: Invalid value of 1.81275 found for variable DAKOTA_RC_2.  Corrected to 2.11553.
+02:35:09: quiet- NO_ID: Invalid value of 1.80872 found for variable DAKOTA_RC_2.  Corrected to 2.16172.
+02:35:09: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+05:11:27: verbose- below_limit: Performed 140 total selections.
+05:11:27: verbose- NO_ID: 4 of 103 population members were not selected to continue.  21 of 62 offspring were immediately rejected.
+05:11:27: verbose- metric_tracker: Operating on 140 total designs and 51 "best fitness" designs.
+05:11:27: verbose- metric_tracker: Max "best fitness" expanse change of 0.041% found for objective "Non-Linear Minimize obj_fn_1".
+05:11:27: verbose- metric_tracker: Population density increased by 35.901%.
+05:11:27: verbose- metric_tracker: 14.634% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+05:11:27: verbose- metric_tracker: Pushed metric value of 0.505766 onto the convergence stack.
+05:11:27: quiet- duplicate_free: 7 generations so far.
+05:11:27: quiet- duplicate_free: 496 evaluations so far.
+05:11:27: verbose- duplicate_free: 140 members in population so far.
+05:11:27: verbose- multi_point_parameterized_binary: 56 children created.
+05:11:27: quiet- offset_normal: Produced invalid  variable representation -0.185251. Mutation performed without corrective action.
+05:11:27: quiet- offset_normal: Produced invalid  variable representation 2.52676. Mutation performed without corrective action.
+05:11:27: verbose- offset_normal: Performed 28 total mutations.
+05:11:27: quiet- NO_ID: Invalid value of 2.50009 found for variable DAKOTA_RC_9.  Corrected to 2.16608.
+05:11:27: quiet- NO_ID: Invalid value of 2.28748 found for variable DAKOTA_RC_4.  Corrected to 1.75265.
+05:11:27: quiet- NO_ID: Invalid value of 1.58629 found for variable DAKOTA_RC_5.  Corrected to 2.19698.
+05:11:27: quiet- NO_ID: Invalid value of 1.75985 found for variable DAKOTA_RC_8.  Corrected to 2.37583.
+05:11:27: quiet- NO_ID: Invalid value of 2.639 found for variable DAKOTA_RC_9.  Corrected to 2.1167.
+05:11:27: quiet- NO_ID: Invalid value of 1.64277 found for variable DAKOTA_RC_7.  Corrected to 1.7791.
+05:11:27: quiet- NO_ID: Invalid value of 1.58356 found for variable DAKOTA_RC_4.  Corrected to 1.83827.
+05:11:27: quiet- NO_ID: Invalid value of 1.8325 found for variable DAKOTA_RC_2.  Corrected to 2.15788.
+05:11:27: quiet- NO_ID: Invalid value of 1.67323 found for variable DAKOTA_RC_9.  Corrected to 1.83603.
+05:11:27: quiet- NO_ID: Invalid value of -0.185251 found for variable DAKOTA_EP_1.  Corrected to 6.5175.
+05:11:27: quiet- NO_ID: Invalid value of 2.28829 found for variable DAKOTA_RC_5.  Corrected to 2.15547.
+05:11:27: quiet- NO_ID: Invalid value of 14.9355 found for variable DAKOTA_EP_2.  Corrected to 10.4114.
+05:11:27: quiet- NO_ID: Invalid value of 2.44328 found for variable DAKOTA_RC_7.  Corrected to 1.71541.
+05:11:27: quiet- NO_ID: Invalid value of 2.44588 found for variable DAKOTA_RC_6.  Corrected to 2.01434.
+05:11:27: quiet- NO_ID: Invalid value of 1.36792 found for variable DAKOTA_RC_8.  Corrected to 2.22642.
+05:11:27: quiet- NO_ID: Invalid value of 2.50331 found for variable DAKOTA_RC_9.  Corrected to 2.44611.
+05:11:27: quiet- NO_ID: Invalid value of 2.2551 found for variable DAKOTA_RC_4.  Corrected to 1.93935.
+05:11:27: quiet- NO_ID: Invalid value of 1.55123 found for variable DAKOTA_RC_5.  Corrected to 2.06638.
+05:11:27: quiet- NO_ID: Invalid value of 1.76657 found for variable DAKOTA_RC_8.  Corrected to 2.26328.
+05:11:27: quiet- NO_ID: Invalid value of 1.41226 found for variable DAKOTA_RC_8.  Corrected to 2.20949.
+05:11:27: quiet- NO_ID: Invalid value of 2.23937 found for variable DAKOTA_RC_4.  Corrected to 1.93086.
+05:11:27: quiet- NO_ID: Invalid value of 1.56824 found for variable DAKOTA_RC_5.  Corrected to 1.68346.
+05:11:27: quiet- NO_ID: Invalid value of 2.53275 found for variable DAKOTA_RC_9.  Corrected to 2.40903.
+05:11:27: quiet- NO_ID: Invalid value of 2.52676 found for variable DAKOTA_RC_1.  Corrected to 2.02934.
+05:11:27: quiet- NO_ID: Invalid value of 2.64309 found for variable DAKOTA_RC_1.  Corrected to 1.92398.
+05:11:27: quiet- NO_ID: Invalid value of 2.6434 found for variable DAKOTA_RC_1.  Corrected to 2.40185.
+05:11:27: quiet- NO_ID: Invalid value of 2.72667 found for variable DAKOTA_RC_1.  Corrected to 2.32238.
+05:11:27: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+08:11:02: verbose- below_limit: Performed 177 total selections.
+08:11:02: verbose- NO_ID: 16 of 140 population members were not selected to continue.  30 of 83 offspring were immediately rejected.
+08:11:02: verbose- metric_tracker: Operating on 177 total designs and 56 "best fitness" designs.
+08:11:02: verbose- metric_tracker: Max "best fitness" expanse change of 85.33% found for objective "Non-Linear Minimize obj_fn_1".
+08:11:02: verbose- metric_tracker: Population density increased by 30.435%.
+08:11:02: verbose- metric_tracker: 21.569% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+08:11:02: verbose- metric_tracker: Pushed metric value of 1.37334 onto the convergence stack.
+08:11:02: quiet- duplicate_free: 8 generations so far.
+08:11:02: quiet- duplicate_free: 579 evaluations so far.
+08:11:02: verbose- duplicate_free: 177 members in population so far.
+08:11:02: verbose- multi_point_parameterized_binary: 70 children created.
+08:11:02: verbose- offset_normal: Performed 35 total mutations.
+08:11:02: quiet- NO_ID: Invalid value of 2.25045 found for variable DAKOTA_RC_5.  Corrected to 2.1173.
+08:11:02: quiet- NO_ID: Invalid value of 2.27394 found for variable DAKOTA_RC_4.  Corrected to 1.60327.
+08:11:02: quiet- NO_ID: Invalid value of 2.31483 found for variable DAKOTA_RC_6.  Corrected to 1.96704.
+08:11:02: quiet- NO_ID: Invalid value of 2.02048 found for variable DAKOTA_RC_3.  Corrected to 1.39886.
+08:11:02: quiet- NO_ID: Invalid value of 2.48993 found for variable DAKOTA_RC_4.  Corrected to 1.7655.
+08:11:02: quiet- NO_ID: Invalid value of 2.20918 found for variable DAKOTA_RC_3.  Corrected to 1.83278.
+08:11:02: quiet- NO_ID: Invalid value of 2.23697 found for variable DAKOTA_RC_3.  Corrected to 1.28909.
+08:11:02: quiet- NO_ID: Invalid value of 0.74132 found for variable DAKOTA_RC_3.  Corrected to 1.89945.
+08:11:02: quiet- NO_ID: Invalid value of 0.73496 found for variable DAKOTA_RC_3.  Corrected to 1.27929.
+08:11:02: quiet- NO_ID: Invalid value of 0.675872 found for variable DAKOTA_RC_3.  Corrected to 1.83201.
+08:11:02: quiet- NO_ID: Invalid value of 2.88781 found for variable DAKOTA_RC_8.  Corrected to 2.22697.
+08:11:02: quiet- NO_ID: Invalid value of 2.43306 found for variable DAKOTA_RC_5.  Corrected to 1.84681.
+08:11:02: quiet- NO_ID: Invalid value of 0.741312 found for variable DAKOTA_RC_3.  Corrected to 0.912853.
+08:11:02: quiet- NO_ID: Invalid value of 1.87525 found for variable DAKOTA_RC_2.  Corrected to 2.01285.
+08:11:02: quiet- NO_ID: Invalid value of 13.887 found for variable DAKOTA_EP_2.  Corrected to 3.2924.
+08:11:02: quiet- NO_ID: Invalid value of 2.3122 found for variable DAKOTA_RC_7.  Corrected to 2.14366.
+08:11:02: quiet- NO_ID: Invalid value of 2.64312 found for variable DAKOTA_RC_9.  Corrected to 1.84055.
+08:11:02: quiet- NO_ID: Invalid value of 1.55092 found for variable DAKOTA_RC_4.  Corrected to 2.07493.
+08:11:02: quiet- NO_ID: Invalid value of 2.50318 found for variable DAKOTA_RC_9.  Corrected to 2.15215.
+08:11:02: quiet- NO_ID: Invalid value of 1.5461 found for variable DAKOTA_RC_5.  Corrected to 2.12852.
+08:11:02: quiet- NO_ID: Invalid value of 2.45847 found for variable DAKOTA_RC_6.  Corrected to 2.22784.
+08:11:02: quiet- NO_ID: Invalid value of 2.55506 found for variable DAKOTA_RC_9.  Corrected to 2.40935.
+08:11:02: quiet- NO_ID: Invalid value of 1.77259 found for variable DAKOTA_RC_9.  Corrected to 1.93865.
+08:11:02: quiet- NO_ID: Invalid value of 1.40976 found for variable DAKOTA_RC_8.  Corrected to 1.90696.
+08:11:02: quiet- NO_ID: Invalid value of 1.59935 found for variable DAKOTA_RC_4.  Corrected to 1.77235.
+08:11:02: quiet- NO_ID: Invalid value of 1.65603 found for variable DAKOTA_RC_7.  Corrected to 2.17957.
+08:11:02: quiet- NO_ID: Invalid value of 2.23671 found for variable DAKOTA_RC_3.  Corrected to 1.0933.
+08:11:02: quiet- NO_ID: Invalid value of 2.2632 found for variable DAKOTA_RC_2.  Corrected to 1.99476.
+08:11:02: quiet- NO_ID: Invalid value of 2.5133 found for variable DAKOTA_RC_1.  Corrected to 2.40388.
+08:11:02: quiet- NO_ID: Invalid value of 2.61983 found for variable DAKOTA_RC_8.  Corrected to 2.27791.
+08:11:02: quiet- NO_ID: Invalid value of 2.64387 found for variable DAKOTA_RC_1.  Corrected to 1.94688.
+12:40:39: verbose- below_limit: Performed 214 total selections.
+12:40:39: verbose- NO_ID: 24 of 177 population members were not selected to continue.  44 of 105 offspring were immediately rejected.
+12:40:39: verbose- metric_tracker: Operating on 214 total designs and 73 "best fitness" designs.
+12:40:39: verbose- metric_tracker: Max "best fitness" expanse change of 0.207% found for objective "Non-Linear Minimize obj_fn_3".
+12:40:39: verbose- metric_tracker: Population density increased by 20.655%.
+12:40:39: verbose- metric_tracker: 10.714% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+12:40:39: verbose- metric_tracker: Pushed metric value of 0.315756 onto the convergence stack.
+12:40:39: quiet- duplicate_free: 9 generations so far.
+12:40:39: quiet- duplicate_free: 684 evaluations so far.
+12:40:39: verbose- duplicate_free: 214 members in population so far.
+12:40:39: verbose- multi_point_parameterized_binary: 86 children created.
+12:40:39: verbose- offset_normal: Performed 43 total mutations.
+12:40:39: quiet- NO_ID: Invalid value of 2.24068 found for variable DAKOTA_RC_2.  Corrected to 2.1634.
+12:40:39: quiet- NO_ID: Invalid value of 2.32229 found for variable DAKOTA_RC_4.  Corrected to 1.90958.
+12:40:39: quiet- NO_ID: Invalid value of 1.5497 found for variable DAKOTA_RC_4.  Corrected to 1.92349.
+12:40:39: quiet- NO_ID: Invalid value of 1.74504 found for variable DAKOTA_RC_9.  Corrected to 2.40083.
+12:40:39: quiet- NO_ID: Invalid value of 1.83237 found for variable DAKOTA_RC_2.  Corrected to 1.918.
+12:40:39: quiet- NO_ID: Invalid value of 1.5639 found for variable DAKOTA_RC_5.  Corrected to 1.65197.
+12:40:39: quiet- NO_ID: Invalid value of 2.78143 found for variable DAKOTA_RC_8.  Corrected to 2.02519.
+12:40:39: quiet- NO_ID: Invalid value of 1.89472 found for variable DAKOTA_RC_2.  Corrected to 2.02578.
+12:40:39: quiet- NO_ID: Invalid value of 1.59933 found for variable DAKOTA_RC_4.  Corrected to 1.84808.
+12:40:39: quiet- NO_ID: Invalid value of 2.61184 found for variable DAKOTA_RC_8.  Corrected to 1.95401.
+12:40:39: quiet- NO_ID: Invalid value of 0.696661 found for variable DAKOTA_RC_3.  Corrected to 1.68248.
+12:40:39: quiet- NO_ID: Invalid value of 2.20659 found for variable DAKOTA_RC_5.  Corrected to 1.61783.
+12:40:39: quiet- NO_ID: Invalid value of 2.51532 found for variable DAKOTA_RC_8.  Corrected to 2.43326.
+12:40:39: quiet- NO_ID: Invalid value of 1.57734 found for variable DAKOTA_RC_5.  Corrected to 1.7917.
+12:40:39: quiet- NO_ID: Invalid value of 1.53502 found for variable DAKOTA_RC_7.  Corrected to 1.71968.
+12:40:39: quiet- NO_ID: Invalid value of 1.54978 found for variable DAKOTA_RC_7.  Corrected to 2.08394.
+12:40:39: quiet- NO_ID: Invalid value of 1.53507 found for variable DAKOTA_RC_7.  Corrected to 2.13816.
+12:40:39: quiet- NO_ID: Invalid value of 1.7081 found for variable DAKOTA_RC_8.  Corrected to 1.85264.
+12:40:39: quiet- NO_ID: Invalid value of 1.54286 found for variable DAKOTA_RC_7.  Corrected to 1.72603.
+12:40:39: quiet- NO_ID: Invalid value of 1.56816 found for variable DAKOTA_RC_5.  Corrected to 2.10514.
+12:40:39: quiet- NO_ID: Invalid value of 2.31137 found for variable DAKOTA_RC_7.  Corrected to 2.22508.
+12:40:39: quiet- NO_ID: Invalid value of 1.57378 found for variable DAKOTA_RC_8.  Corrected to 1.85317.
+12:40:39: quiet- NO_ID: Invalid value of 2.61469 found for variable DAKOTA_RC_9.  Corrected to 2.08788.
+12:40:39: quiet- NO_ID: Invalid value of 2.63589 found for variable DAKOTA_RC_1.  Corrected to 2.24959.
+12:40:39: quiet- NO_ID: Invalid value of 2.64302 found for variable DAKOTA_RC_1.  Corrected to 1.98521.
+12:40:39: quiet- NO_ID: Invalid value of 2.73318 found for variable DAKOTA_RC_1.  Corrected to 2.19069.
+17:53:42: verbose- below_limit: Performed 260 total selections.
+17:53:42: verbose- NO_ID: 33 of 214 population members were not selected to continue.  50 of 129 offspring were immediately rejected.
+17:53:42: verbose- metric_tracker: Operating on 260 total designs and 91 "best fitness" designs.
+17:53:42: verbose- metric_tracker: Max "best fitness" expanse change of -45.875% found for objective "Non-Linear Minimize obj_fn_3".
+17:53:42: verbose- metric_tracker: Population density increased by 73.191%.
+17:53:42: verbose- metric_tracker: 17.808% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+17:53:42: verbose- metric_tracker: Pushed metric value of 1.36874 onto the convergence stack.
+17:53:42: verbose- metric_tracker: Current max percentage progress is 9.30139e+12%.
+17:53:42: quiet- duplicate_free: 10 generations so far.
+17:53:42: quiet- duplicate_free: 813 evaluations so far.
+17:53:42: verbose- duplicate_free: 260 members in population so far.
+17:53:42: verbose- multi_point_parameterized_binary: 104 children created.
+17:53:42: quiet- offset_normal: Produced invalid  variable representation 2.22153. Mutation performed without corrective action.
+17:53:42: quiet- offset_normal: Produced invalid  variable representation 1.91297. Mutation performed without corrective action.
+17:53:42: quiet- offset_normal: Produced invalid  variable representation -0.449345. Mutation performed without corrective action.
+17:53:42: quiet- offset_normal: Produced invalid  variable representation 2.50072. Mutation performed without corrective action.
+17:53:42: verbose- offset_normal: Performed 52 total mutations.
+17:53:42: quiet- NO_ID: Invalid value of 2.61384 found for variable DAKOTA_RC_8.  Corrected to 2.10979.
+17:53:42: quiet- NO_ID: Invalid value of 2.46639 found for variable DAKOTA_RC_6.  Corrected to 1.8546.
+17:53:42: quiet- NO_ID: Invalid value of 2.22153 found for variable DAKOTA_RC_5.  Corrected to 1.91142.
+17:53:42: quiet- NO_ID: Invalid value of 1.58652 found for variable DAKOTA_RC_4.  Corrected to 1.8622.
+17:53:42: quiet- NO_ID: Invalid value of 1.3846 found for variable DAKOTA_RC_9.  Corrected to 2.37334.
+17:53:42: quiet- NO_ID: Invalid value of 1.91297 found for variable DAKOTA_RC_3.  Corrected to 1.01106.
+17:53:42: quiet- NO_ID: Invalid value of 2.26309 found for variable DAKOTA_RC_2.  Corrected to 2.07674.
+17:53:42: quiet- NO_ID: Invalid value of -0.449345 found for variable DAKOTA_EP_1.  Corrected to 9.3421.
+17:53:42: quiet- NO_ID: Invalid value of 2.55922 found for variable DAKOTA_RC_8.  Corrected to 2.27303.
+17:53:42: quiet- NO_ID: Invalid value of 1.7709 found for variable DAKOTA_RC_2.  Corrected to 1.92408.
+17:53:42: quiet- NO_ID: Invalid value of 1.82226 found for variable DAKOTA_RC_2.  Corrected to 2.19752.
+17:53:42: quiet- NO_ID: Invalid value of 2.51204 found for variable DAKOTA_RC_9.  Corrected to 2.01062.
+17:53:42: quiet- NO_ID: Invalid value of 1.52483 found for variable DAKOTA_RC_7.  Corrected to 1.95911.
+17:53:42: quiet- NO_ID: Invalid value of 2.55506 found for variable DAKOTA_RC_9.  Corrected to 2.28856.
+17:53:42: quiet- NO_ID: Invalid value of 2.91778 found for variable DAKOTA_RC_9.  Corrected to 1.8921.
+17:53:42: quiet- NO_ID: Invalid value of 1.79596 found for variable DAKOTA_RC_8.  Corrected to 2.33056.
+17:53:42: quiet- NO_ID: Invalid value of 2.85291 found for variable DAKOTA_RC_9.  Corrected to 2.24672.
+17:53:42: quiet- NO_ID: Invalid value of 1.34661 found for variable DAKOTA_RC_9.  Corrected to 2.14573.
+17:53:42: quiet- NO_ID: Invalid value of 1.67582 found for variable DAKOTA_RC_8.  Corrected to 2.39566.
+17:53:42: quiet- NO_ID: Invalid value of 2.43293 found for variable DAKOTA_RC_4.  Corrected to 1.70658.
+17:53:42: quiet- NO_ID: Invalid value of 1.58355 found for variable DAKOTA_RC_4.  Corrected to 1.96929.
+17:53:42: quiet- NO_ID: Invalid value of 1.58442 found for variable DAKOTA_RC_4.  Corrected to 1.9685.
+17:53:42: quiet- NO_ID: Invalid value of 1.56083 found for variable DAKOTA_RC_8.  Corrected to 2.35073.
+17:53:42: quiet- NO_ID: Invalid value of 2.30333 found for variable DAKOTA_RC_4.  Corrected to 1.76759.
+17:53:42: quiet- NO_ID: Invalid value of 1.76235 found for variable DAKOTA_RC_9.  Corrected to 1.83271.
+17:53:42: quiet- NO_ID: Invalid value of 1.58473 found for variable DAKOTA_RC_7.  Corrected to 1.8629.
+17:53:42: quiet- NO_ID: Invalid value of 2.91845 found for variable DAKOTA_RC_9.  Corrected to 2.36366.
+17:53:42: quiet- NO_ID: Invalid value of 1.92363 found for variable DAKOTA_RC_3.  Corrected to 1.39526.
+17:53:42: quiet- NO_ID: Invalid value of 1.82226 found for variable DAKOTA_RC_2.  Corrected to 2.09851.
+17:53:42: quiet- NO_ID: Invalid value of 2.50072 found for variable DAKOTA_RC_1.  Corrected to 2.25898.
+17:53:42: quiet- NO_ID: Invalid value of 2.50818 found for variable DAKOTA_RC_1.  Corrected to 2.49679.
+17:53:42: quiet- NO_ID: Invalid value of 2.51326 found for variable DAKOTA_RC_1.  Corrected to 1.96256.
+17:53:42: quiet- NO_ID: Invalid value of 2.64529 found for variable DAKOTA_RC_1.  Corrected to 2.41359.
+17:53:42: quiet- NO_ID: Invalid value of 2.73413 found for variable DAKOTA_RC_1.  Corrected to 2.20821.
+17:53:42: quiet- NO_ID: Invalid value of 2.77133 found for variable DAKOTA_RC_1.  Corrected to 2.22476.
+00:39:15: verbose- below_limit: Performed 306 total selections.
+00:39:15: verbose- NO_ID: 49 of 260 population members were not selected to continue.  61 of 156 offspring were immediately rejected.
+00:39:15: verbose- metric_tracker: Operating on 306 total designs and 94 "best fitness" designs.
+00:39:15: verbose- metric_tracker: Max "best fitness" expanse change of -21.372% found for objective "Non-Linear Minimize obj_fn_2".
+00:39:15: verbose- metric_tracker: Population density increased by 17.637%.
+00:39:15: verbose- metric_tracker: 34.066% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+00:39:15: verbose- metric_tracker: Pushed metric value of 0.730748 onto the convergence stack.
+00:39:15: verbose- metric_tracker: Current max percentage progress is 9.30139e+12%.
+00:39:15: quiet- duplicate_free: 11 generations so far.
+00:39:15: quiet- duplicate_free: 969 evaluations so far.
+00:39:15: verbose- duplicate_free: 306 members in population so far.
+00:39:15: verbose- multi_point_parameterized_binary: 122 children created.
+00:39:15: quiet- offset_normal: Produced invalid  variable representation 12.6978. Mutation performed without corrective action.
+00:39:15: verbose- offset_normal: Performed 61 total mutations.
+00:39:15: quiet- NO_ID: Invalid value of 2.3007 found for variable DAKOTA_RC_6.  Corrected to 2.07132.
+00:39:15: quiet- NO_ID: Invalid value of 2.34071 found for variable DAKOTA_RC_6.  Corrected to 2.24802.
+00:39:15: quiet- NO_ID: Invalid value of 2.32934 found for variable DAKOTA_RC_7.  Corrected to 2.10051.
+00:39:15: quiet- NO_ID: Invalid value of 1.56813 found for variable DAKOTA_RC_5.  Corrected to 2.14503.
+00:39:15: quiet- NO_ID: Invalid value of 2.40085 found for variable DAKOTA_RC_6.  Corrected to 1.99638.
+00:39:15: quiet- NO_ID: Invalid value of 2.29872 found for variable DAKOTA_RC_4.  Corrected to 1.72847.
+00:39:15: quiet- NO_ID: Invalid value of 1.62058 found for variable DAKOTA_RC_7.  Corrected to 2.05559.
+00:39:15: quiet- NO_ID: Invalid value of 2.21075 found for variable DAKOTA_RC_2.  Corrected to 2.02308.
+00:39:15: quiet- NO_ID: Invalid value of 1.85401 found for variable DAKOTA_RC_2.  Corrected to 2.06925.
+00:39:15: quiet- NO_ID: Invalid value of 14.7297 found for variable DAKOTA_EP_2.  Corrected to 3.63064.
+00:39:15: quiet- NO_ID: Invalid value of 2.42602 found for variable DAKOTA_RC_5.  Corrected to 1.9193.
+00:39:15: quiet- NO_ID: Invalid value of 2.48035 found for variable DAKOTA_RC_7.  Corrected to 1.80756.
+00:39:15: quiet- NO_ID: Invalid value of 12.6978 found for variable DAKOTA_EP_2.  Corrected to 3.78731.
+00:39:15: quiet- NO_ID: Invalid value of 2.58273 found for variable DAKOTA_RC_5.  Corrected to 1.96149.
+00:39:15: quiet- NO_ID: Invalid value of 2.44105 found for variable DAKOTA_RC_4.  Corrected to 1.60236.
+00:39:15: quiet- NO_ID: Invalid value of 1.4113 found for variable DAKOTA_RC_8.  Corrected to 2.37711.
+00:39:15: quiet- NO_ID: Invalid value of 2.5806 found for variable DAKOTA_RC_9.  Corrected to 1.90221.
+00:39:15: quiet- NO_ID: Invalid value of 1.58456 found for variable DAKOTA_RC_4.  Corrected to 2.18339.
+00:39:15: quiet- NO_ID: Invalid value of 1.73357 found for variable DAKOTA_RC_8.  Corrected to 2.11174.
+00:39:15: quiet- NO_ID: Invalid value of 1.66785 found for variable DAKOTA_RC_9.  Corrected to 1.80152.
+00:39:15: quiet- NO_ID: Invalid value of 1.54278 found for variable DAKOTA_RC_7.  Corrected to 1.8226.
+00:39:15: quiet- NO_ID: Invalid value of 1.94723 found for variable DAKOTA_RC_3.  Corrected to 1.00676.
+00:39:15: quiet- NO_ID: Invalid value of 2.4548 found for variable DAKOTA_RC_4.  Corrected to 2.18188.
+00:39:15: quiet- NO_ID: Invalid value of 1.59147 found for variable DAKOTA_RC_5.  Corrected to 1.75373.
+00:39:15: quiet- NO_ID: Invalid value of 1.59935 found for variable DAKOTA_RC_5.  Corrected to 1.96175.
+00:39:15: quiet- NO_ID: Invalid value of 2.89627 found for variable DAKOTA_RC_9.  Corrected to 1.9629.
+00:39:15: quiet- NO_ID: Invalid value of 2.32219 found for variable DAKOTA_RC_4.  Corrected to 1.82813.
+00:39:15: quiet- NO_ID: Invalid value of 1.57478 found for variable DAKOTA_RC_5.  Corrected to 1.95286.
+00:39:15: quiet- NO_ID: Invalid value of 1.47768 found for variable DAKOTA_RC_9.  Corrected to 2.1835.
+00:39:15: quiet- NO_ID: Invalid value of 1.97359 found for variable DAKOTA_RC_3.  Corrected to 1.63468.
+00:39:15: quiet- NO_ID: Invalid value of 2.50688 found for variable DAKOTA_RC_1.  Corrected to 2.13677.
+00:39:15: quiet- NO_ID: Invalid value of 2.64301 found for variable DAKOTA_RC_1.  Corrected to 2.00004.
+08:09:30: verbose- below_limit: Performed 370 total selections.
+08:09:30: verbose- NO_ID: 51 of 306 population members were not selected to continue.  68 of 183 offspring were immediately rejected.
+08:09:30: verbose- metric_tracker: Operating on 370 total designs and 122 "best fitness" designs.
+08:09:30: verbose- metric_tracker: No "best fitness" expansion or contraction occurred this generation.
+08:09:30: verbose- metric_tracker: Population density increased by 20.915%.
+08:09:30: verbose- metric_tracker: 17.021% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+08:09:30: verbose- metric_tracker: Pushed metric value of 0.379363 onto the convergence stack.
+08:09:30: verbose- metric_tracker: Current max percentage progress is 374.882%.
+08:09:30: quiet- duplicate_free: 12 generations so far.
+08:09:30: quiet- duplicate_free: 1152 evaluations so far.
+08:09:30: verbose- duplicate_free: 370 members in population so far.
+08:09:30: verbose- multi_point_parameterized_binary: 148 children created.
+08:09:30: quiet- offset_normal: Produced invalid  variable representation -0.0524082. Mutation performed without corrective action.
+08:09:30: quiet- offset_normal: Produced invalid  variable representation -0.224766. Mutation performed without corrective action.
+08:09:30: quiet- offset_normal: Produced invalid  variable representation -0.690126. Mutation performed without corrective action.
+08:09:30: verbose- offset_normal: Performed 74 total mutations.
+08:09:30: quiet- NO_ID: Invalid value of 2.31511 found for variable DAKOTA_RC_6.  Corrected to 2.17046.
+08:09:30: quiet- NO_ID: Invalid value of 2.47194 found for variable DAKOTA_RC_6.  Corrected to 1.87923.
+08:09:30: quiet- NO_ID: Invalid value of 2.32922 found for variable DAKOTA_RC_7.  Corrected to 1.8971.
+08:09:30: quiet- NO_ID: Invalid value of 1.58379 found for variable DAKOTA_RC_4.  Corrected to 1.92085.
+08:09:30: quiet- NO_ID: Invalid value of 2.4257 found for variable DAKOTA_RC_4.  Corrected to 1.81705.
+08:09:30: quiet- NO_ID: Invalid value of 1.65724 found for variable DAKOTA_RC_7.  Corrected to 2.19568.
+08:09:30: quiet- NO_ID: Invalid value of 1.77503 found for variable DAKOTA_RC_2.  Corrected to 1.92587.
+08:09:30: quiet- NO_ID: Invalid value of 2.44328 found for variable DAKOTA_RC_7.  Corrected to 1.87975.
+08:09:30: quiet- NO_ID: Invalid value of 1.69852 found for variable DAKOTA_RC_7.  Corrected to 1.79697.
+08:09:30: quiet- NO_ID: Invalid value of 1.65686 found for variable DAKOTA_RC_7.  Corrected to 1.95195.
+08:09:30: quiet- NO_ID: Invalid value of 2.18721 found for variable DAKOTA_RC_3.  Corrected to 1.76038.
+08:09:30: quiet- NO_ID: Invalid value of 1.87499 found for variable DAKOTA_RC_2.  Corrected to 1.92414.
+08:09:30: quiet- NO_ID: Invalid value of 1.58642 found for variable DAKOTA_RC_4.  Corrected to 1.79132.
+08:09:30: quiet- NO_ID: Invalid value of 1.82894 found for variable DAKOTA_RC_2.  Corrected to 1.94737.
+08:09:30: quiet- NO_ID: Invalid value of 2.8869 found for variable DAKOTA_RC_8.  Corrected to 2.45731.
+08:09:30: quiet- NO_ID: Invalid value of 2.48494 found for variable DAKOTA_RC_7.  Corrected to 2.28177.
+08:09:30: quiet- NO_ID: Invalid value of 2.90139 found for variable DAKOTA_RC_9.  Corrected to 2.16779.
+08:09:30: quiet- NO_ID: Invalid value of 1.70948 found for variable DAKOTA_RC_9.  Corrected to 2.45104.
+08:09:30: quiet- NO_ID: Invalid value of 2.89073 found for variable DAKOTA_RC_9.  Corrected to 1.96471.
+08:09:30: quiet- NO_ID: Invalid value of 2.30334 found for variable DAKOTA_RC_7.  Corrected to 1.92901.
+08:09:30: quiet- NO_ID: Invalid value of -0.0524082 found for variable DAKOTA_EP_1.  Corrected to 0.471791.
+08:09:30: quiet- NO_ID: Invalid value of 1.83455 found for variable DAKOTA_RC_2.  Corrected to 2.15574.
+08:09:30: quiet- NO_ID: Invalid value of 1.58444 found for variable DAKOTA_RC_4.  Corrected to 2.04613.
+08:09:30: quiet- NO_ID: Invalid value of 2.34737 found for variable DAKOTA_RC_7.  Corrected to 1.74628.
+08:09:30: quiet- NO_ID: Invalid value of 2.54991 found for variable DAKOTA_RC_9.  Corrected to 2.36295.
+08:09:30: quiet- NO_ID: Invalid value of 2.55038 found for variable DAKOTA_RC_4.  Corrected to 1.71247.
+08:09:30: quiet- NO_ID: Invalid value of 2.31291 found for variable DAKOTA_RC_7.  Corrected to 2.18572.
+08:09:30: quiet- NO_ID: Invalid value of -0.224766 found for variable DAKOTA_EP_1.  Corrected to 11.1504.
+08:09:30: quiet- NO_ID: Invalid value of 1.67386 found for variable DAKOTA_RC_7.  Corrected to 1.73463.
+08:09:30: quiet- NO_ID: Invalid value of 1.80816 found for variable DAKOTA_RC_2.  Corrected to 2.05143.
+08:09:30: quiet- NO_ID: Invalid value of 2.62199 found for variable DAKOTA_RC_8.  Corrected to 1.82143.
+08:09:30: quiet- NO_ID: Invalid value of 13.6696 found for variable DAKOTA_EP_2.  Corrected to 10.1017.
+08:09:30: quiet- NO_ID: Invalid value of 2.26337 found for variable DAKOTA_RC_2.  Corrected to 2.14105.
+08:09:30: quiet- NO_ID: Invalid value of 2.50039 found for variable DAKOTA_RC_9.  Corrected to 2.05139.
+08:09:30: quiet- NO_ID: Invalid value of 2.26532 found for variable DAKOTA_RC_5.  Corrected to 1.82594.
+08:09:30: quiet- NO_ID: Invalid value of 16.5182 found for variable DAKOTA_EP_2.  Corrected to 1.9829.
+08:09:30: quiet- NO_ID: Invalid value of 12.8706 found for variable DAKOTA_EP_2.  Corrected to 2.22297.
+08:09:30: quiet- NO_ID: Invalid value of 1.57709 found for variable DAKOTA_RC_8.  Corrected to 2.12397.
+08:09:30: quiet- NO_ID: Invalid value of 1.54943 found for variable DAKOTA_RC_5.  Corrected to 1.8789.
+08:09:30: quiet- NO_ID: Invalid value of 1.56474 found for variable DAKOTA_RC_8.  Corrected to 2.0428.
+08:09:30: quiet- NO_ID: Invalid value of 1.5836 found for variable DAKOTA_RC_4.  Corrected to 2.12964.
+08:09:30: quiet- NO_ID: Invalid value of 2.32283 found for variable DAKOTA_RC_4.  Corrected to 1.79513.
+08:09:30: quiet- NO_ID: Invalid value of 1.59498 found for variable DAKOTA_RC_5.  Corrected to 1.85639.
+08:09:30: quiet- NO_ID: Invalid value of 1.55131 found for variable DAKOTA_RC_5.  Corrected to 1.72096.
+08:09:30: quiet- NO_ID: Invalid value of 1.79623 found for variable DAKOTA_RC_8.  Corrected to 2.13818.
+08:09:30: quiet- NO_ID: Invalid value of 0.705091 found for variable DAKOTA_RC_3.  Corrected to 1.26633.
+08:09:30: quiet- NO_ID: Invalid value of 1.77189 found for variable DAKOTA_RC_9.  Corrected to 1.91985.
+08:09:30: quiet- NO_ID: Invalid value of 16.5182 found for variable DAKOTA_EP_2.  Corrected to 0.102333.
+08:09:30: quiet- NO_ID: Invalid value of 2.26186 found for variable DAKOTA_RC_2.  Corrected to 1.98892.
+08:09:30: quiet- NO_ID: Invalid value of 2.59003 found for variable DAKOTA_RC_9.  Corrected to 2.08456.
+08:09:30: quiet- NO_ID: Invalid value of 1.65718 found for variable DAKOTA_RC_7.  Corrected to 1.93412.
+08:09:30: quiet- NO_ID: Invalid value of 2.26002 found for variable DAKOTA_RC_2.  Corrected to 2.00071.
+08:09:30: quiet- NO_ID: Invalid value of 2.42099 found for variable DAKOTA_RC_4.  Corrected to 1.7554.
+08:09:30: quiet- NO_ID: Invalid value of 2.32009 found for variable DAKOTA_RC_7.  Corrected to 1.78025.
+08:09:30: quiet- NO_ID: Invalid value of 2.36992 found for variable DAKOTA_RC_4.  Corrected to 1.8477.
+08:09:30: quiet- NO_ID: Invalid value of 1.776 found for variable DAKOTA_RC_2.  Corrected to 1.91896.
+08:09:30: quiet- NO_ID: Invalid value of -0.690126 found for variable DAKOTA_EP_1.  Corrected to 3.85442.
+08:09:30: quiet- NO_ID: Invalid value of 1.59986 found for variable DAKOTA_RC_5.  Corrected to 1.73342.
+08:09:30: quiet- NO_ID: Invalid value of 2.51432 found for variable DAKOTA_RC_9.  Corrected to 2.49468.
+08:09:30: quiet- NO_ID: Invalid value of 2.26648 found for variable DAKOTA_RC_2.  Corrected to 2.01367.
+08:09:30: quiet- NO_ID: Invalid value of 2.20463 found for variable DAKOTA_RC_2.  Corrected to 2.11814.
+08:09:30: quiet- NO_ID: Invalid value of 1.59936 found for variable DAKOTA_RC_5.  Corrected to 1.61381.
+08:09:30: quiet- NO_ID: Invalid value of 2.20193 found for variable DAKOTA_RC_2.  Corrected to 1.96622.
+08:09:30: quiet- NO_ID: Invalid value of 1.46094 found for variable DAKOTA_RC_7.  Corrected to 2.01838.
+08:09:30: quiet- NO_ID: Invalid value of 2.50818 found for variable DAKOTA_RC_1.  Corrected to 2.12929.
+08:09:30: quiet- NO_ID: Invalid value of 2.53378 found for variable DAKOTA_RC_1.  Corrected to 2.25837.
+08:09:30: quiet- NO_ID: Invalid value of 2.6371 found for variable DAKOTA_RC_1.  Corrected to 2.31753.
+08:09:30: quiet- NO_ID: Invalid value of 2.68915 found for variable DAKOTA_RC_1.  Corrected to 2.24043.
+08:09:30: quiet- NO_ID: Invalid value of 2.69214 found for variable DAKOTA_RC_1.  Corrected to 1.93606.
+17:40:08: verbose- below_limit: Performed 435 total selections.
+17:40:08: verbose- NO_ID: 59 of 370 population members were not selected to continue.  98 of 222 offspring were immediately rejected.
+17:40:08: verbose- metric_tracker: Operating on 435 total designs and 138 "best fitness" designs.
+17:40:08: verbose- metric_tracker: Max "best fitness" expanse change of 13.535% found for objective "Non-Linear Minimize obj_fn_2".
+17:40:08: verbose- metric_tracker: Population density increased by 16.416%.
+17:40:08: verbose- metric_tracker: 16.393% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+17:40:08: verbose- metric_tracker: Pushed metric value of 0.46345 onto the convergence stack.
+17:40:08: verbose- metric_tracker: Current max percentage progress is 247.875%.
+17:40:08: quiet- duplicate_free: 13 generations so far.
+17:40:08: quiet- duplicate_free: 1374 evaluations so far.
+17:40:08: verbose- duplicate_free: 435 members in population so far.
+17:40:08: verbose- multi_point_parameterized_binary: 174 children created.
+17:40:08: quiet- offset_normal: Produced invalid  variable representation 1.55675. Mutation performed without corrective action.
+17:40:08: quiet- offset_normal: Produced invalid  variable representation 1.69133. Mutation performed without corrective action.
+17:40:08: quiet- offset_normal: Produced invalid  variable representation 2.52603. Mutation performed without corrective action.
+17:40:08: quiet- offset_normal: Produced invalid  variable representation 2.50722. Mutation performed without corrective action.
+17:40:08: verbose- offset_normal: Performed 87 total mutations.
+17:40:08: quiet- NO_ID: Invalid value of 1.80101 found for variable DAKOTA_RC_1.  Corrected to 2.40849.
+17:40:08: quiet- NO_ID: Invalid value of 1.85684 found for variable DAKOTA_RC_1.  Corrected to 2.42303.
+17:40:08: quiet- NO_ID: Invalid value of 2.45282 found for variable DAKOTA_RC_6.  Corrected to 1.94389.
+17:40:08: quiet- NO_ID: Invalid value of 1.88116 found for variable DAKOTA_RC_1.  Corrected to 2.17678.
+17:40:08: quiet- NO_ID: Invalid value of 1.8891 found for variable DAKOTA_RC_1.  Corrected to 1.99395.
+17:40:08: quiet- NO_ID: Invalid value of 2.31296 found for variable DAKOTA_RC_7.  Corrected to 1.72056.
+17:40:08: quiet- NO_ID: Invalid value of 1.55081 found for variable DAKOTA_RC_5.  Corrected to 2.16172.
+17:40:08: quiet- NO_ID: Invalid value of 1.56729 found for variable DAKOTA_RC_7.  Corrected to 1.98083.
+17:40:08: quiet- NO_ID: Invalid value of 2.21719 found for variable DAKOTA_RC_2.  Corrected to 2.13705.
+17:40:08: quiet- NO_ID: Invalid value of 2.35876 found for variable DAKOTA_RC_5.  Corrected to 1.98139.
+17:40:08: quiet- NO_ID: Invalid value of 0.729384 found for variable DAKOTA_RC_3.  Corrected to 1.15417.
+17:40:08: quiet- NO_ID: Invalid value of 1.81197 found for variable DAKOTA_RC_2.  Corrected to 2.10867.
+17:40:08: quiet- NO_ID: Invalid value of 2.2635 found for variable DAKOTA_RC_2.  Corrected to 1.97865.
+17:40:08: quiet- NO_ID: Invalid value of 1.76235 found for variable DAKOTA_RC_9.  Corrected to 1.86834.
+17:40:08: quiet- NO_ID: Invalid value of 0.679212 found for variable DAKOTA_RC_3.  Corrected to 1.42915.
+17:40:08: quiet- NO_ID: Invalid value of 1.65684 found for variable DAKOTA_RC_7.  Corrected to 2.25701.
+17:40:08: quiet- NO_ID: Invalid value of 2.90932 found for variable DAKOTA_RC_9.  Corrected to 2.26647.
+17:40:08: quiet- NO_ID: Invalid value of 2.50187 found for variable DAKOTA_RC_8.  Corrected to 2.32108.
+17:40:08: quiet- NO_ID: Invalid value of 2.31585 found for variable DAKOTA_RC_5.  Corrected to 2.13384.
+17:40:08: quiet- NO_ID: Invalid value of 1.54155 found for variable DAKOTA_RC_7.  Corrected to 2.13032.
+17:40:08: quiet- NO_ID: Invalid value of 2.23832 found for variable DAKOTA_RC_2.  Corrected to 2.00846.
+17:40:08: quiet- NO_ID: Invalid value of 1.58251 found for variable DAKOTA_RC_5.  Corrected to 2.15592.
+17:40:08: quiet- NO_ID: Invalid value of 1.89574 found for variable DAKOTA_RC_2.  Corrected to 2.06026.
+17:40:08: quiet- NO_ID: Invalid value of 1.94717 found for variable DAKOTA_RC_3.  Corrected to 1.61546.
+17:40:08: quiet- NO_ID: Invalid value of 1.57726 found for variable DAKOTA_RC_8.  Corrected to 2.07709.
+17:40:08: quiet- NO_ID: Invalid value of 1.55675 found for variable DAKOTA_RC_5.  Corrected to 1.9563.
+17:40:08: quiet- NO_ID: Invalid value of 2.30077 found for variable DAKOTA_RC_4.  Corrected to 2.1789.
+17:40:08: quiet- NO_ID: Invalid value of 1.63044 found for variable DAKOTA_RC_8.  Corrected to 1.99114.
+17:40:08: quiet- NO_ID: Invalid value of 1.69133 found for variable DAKOTA_RC_7.  Corrected to 2.15874.
+17:40:08: quiet- NO_ID: Invalid value of 2.50722 found for variable DAKOTA_RC_9.  Corrected to 2.2445.
+17:40:08: quiet- NO_ID: Invalid value of 2.2562 found for variable DAKOTA_RC_4.  Corrected to 1.92061.
+17:40:08: quiet- NO_ID: Invalid value of 1.58349 found for variable DAKOTA_RC_4.  Corrected to 1.96723.
+17:40:08: quiet- NO_ID: Invalid value of 2.47296 found for variable DAKOTA_RC_7.  Corrected to 2.00403.
+17:40:08: quiet- NO_ID: Invalid value of 2.20757 found for variable DAKOTA_RC_2.  Corrected to 2.18225.
+17:40:08: quiet- NO_ID: Invalid value of 1.59319 found for variable DAKOTA_RC_4.  Corrected to 1.64401.
+17:40:08: quiet- NO_ID: Invalid value of 1.77345 found for variable DAKOTA_RC_2.  Corrected to 2.09899.
+17:40:08: quiet- NO_ID: Invalid value of 1.97469 found for variable DAKOTA_RC_3.  Corrected to 1.8751.
+17:40:08: quiet- NO_ID: Invalid value of 2.28773 found for variable DAKOTA_RC_5.  Corrected to 1.60573.
+17:40:08: quiet- NO_ID: Invalid value of 1.80412 found for variable DAKOTA_RC_2.  Corrected to 1.9394.
+17:40:08: quiet- NO_ID: Invalid value of 1.78592 found for variable DAKOTA_RC_8.  Corrected to 2.33568.
+17:40:08: quiet- NO_ID: Invalid value of 2.6092 found for variable DAKOTA_RC_9.  Corrected to 2.25163.
+17:40:08: quiet- NO_ID: Invalid value of 15.4938 found for variable DAKOTA_EP_2.  Corrected to 4.62609.
+17:40:08: quiet- NO_ID: Invalid value of 1.78949 found for variable DAKOTA_RC_2.  Corrected to 2.03825.
+17:40:08: quiet- NO_ID: Invalid value of 1.75725 found for variable DAKOTA_RC_8.  Corrected to 2.43514.
+17:40:08: quiet- NO_ID: Invalid value of 1.86888 found for variable DAKOTA_RC_2.  Corrected to 2.04494.
+17:40:08: quiet- NO_ID: Invalid value of 2.8212 found for variable DAKOTA_RC_8.  Corrected to 2.49299.
+17:40:08: quiet- NO_ID: Invalid value of 1.57478 found for variable DAKOTA_RC_5.  Corrected to 2.10142.
+17:40:08: quiet- NO_ID: Invalid value of 2.44241 found for variable DAKOTA_RC_7.  Corrected to 1.78971.
+17:40:08: quiet- NO_ID: Invalid value of 1.59065 found for variable DAKOTA_RC_7.  Corrected to 2.14063.
+17:40:08: quiet- NO_ID: Invalid value of 2.50603 found for variable DAKOTA_RC_1.  Corrected to 2.33526.
+17:40:08: quiet- NO_ID: Invalid value of 2.5225 found for variable DAKOTA_RC_1.  Corrected to 2.42003.
+17:40:08: quiet- NO_ID: Invalid value of 2.52603 found for variable DAKOTA_RC_1.  Corrected to 1.95755.
+17:40:08: quiet- NO_ID: Invalid value of 2.61134 found for variable DAKOTA_RC_1.  Corrected to 2.29119.
+17:40:08: quiet- NO_ID: Invalid value of 2.64299 found for variable DAKOTA_RC_1.  Corrected to 2.14054.
+17:40:08: quiet- NO_ID: Invalid value of 2.64343 found for variable DAKOTA_RC_1.  Corrected to 2.38683.
+17:40:08: quiet- NO_ID: Invalid value of 2.77545 found for variable DAKOTA_RC_1.  Corrected to 1.92869.
+17:40:08: verbose- duplicate_free: flushed 2 duplicate offspring designs after application of the variational operators.
+17:40:08: verbose- duplicate_free: flushed 1 offspring designs that duplicate existing population members.
+04:25:39: verbose- below_limit: Performed 499 total selections.
+04:25:39: verbose- NO_ID: 85 of 435 population members were not selected to continue.  109 of 258 offspring were immediately rejected.
+04:25:39: verbose- metric_tracker: Operating on 499 total designs and 145 "best fitness" designs.
+04:25:39: verbose- metric_tracker: Max "best fitness" expanse change of -0.181% found for objective "Non-Linear Minimize obj_fn_3".
+04:25:39: verbose- metric_tracker: Population density increased by 3.997%.
+04:25:39: verbose- metric_tracker: 27.536% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+04:25:39: verbose- metric_tracker: Pushed metric value of 0.317146 onto the convergence stack.
+04:25:39: verbose- metric_tracker: Current max percentage progress is 137.334%.
+04:25:39: quiet- duplicate_free: 14 generations so far.
+04:25:39: quiet- duplicate_free: 1632 evaluations so far.
+04:25:39: verbose- duplicate_free: 499 members in population so far.
+04:25:39: verbose- multi_point_parameterized_binary: 200 children created.
+04:25:39: quiet- offset_normal: Produced invalid  variable representation 2.23996. Mutation performed without corrective action.
+04:25:39: quiet- offset_normal: Produced invalid  variable representation -0.403309. Mutation performed without corrective action.
+04:25:39: quiet- offset_normal: Produced invalid  variable representation 2.53089. Mutation performed without corrective action.
+04:25:39: quiet- offset_normal: Produced invalid  variable representation 2.5547. Mutation performed without corrective action.
+04:25:39: verbose- offset_normal: Performed 100 total mutations.
+04:25:39: quiet- NO_ID: Invalid value of 1.85838 found for variable DAKOTA_RC_1.  Corrected to 2.0598.
+04:25:39: quiet- NO_ID: Invalid value of 2.33087 found for variable DAKOTA_RC_6.  Corrected to 2.0332.
+04:25:39: quiet- NO_ID: Invalid value of 2.20527 found for variable DAKOTA_RC_2.  Corrected to 1.93179.
+04:25:39: quiet- NO_ID: Invalid value of 1.65755 found for variable DAKOTA_RC_7.  Corrected to 2.09061.
+04:25:39: quiet- NO_ID: Invalid value of 1.83052 found for variable DAKOTA_RC_2.  Corrected to 2.10635.
+04:25:39: quiet- NO_ID: Invalid value of 1.81715 found for variable DAKOTA_RC_2.  Corrected to 2.1857.
+04:25:39: quiet- NO_ID: Invalid value of 0.673192 found for variable DAKOTA_RC_3.  Corrected to 1.89942.
+04:25:39: quiet- NO_ID: Invalid value of 2.23996 found for variable DAKOTA_RC_5.  Corrected to 1.80391.
+04:25:39: quiet- NO_ID: Invalid value of 2.20018 found for variable DAKOTA_RC_4.  Corrected to 1.70184.
+04:25:39: quiet- NO_ID: Invalid value of 1.55134 found for variable DAKOTA_RC_5.  Corrected to 1.94037.
+04:25:39: quiet- NO_ID: Invalid value of 2.28945 found for variable DAKOTA_RC_5.  Corrected to 1.89375.
+04:25:39: quiet- NO_ID: Invalid value of 1.65619 found for variable DAKOTA_RC_7.  Corrected to 1.96783.
+04:25:39: quiet- NO_ID: Invalid value of 2.59421 found for variable DAKOTA_RC_5.  Corrected to 2.13497.
+04:25:39: quiet- NO_ID: Invalid value of 1.58486 found for variable DAKOTA_RC_7.  Corrected to 1.77474.
+04:25:39: quiet- NO_ID: Invalid value of 2.369 found for variable DAKOTA_RC_5.  Corrected to 2.10309.
+04:25:39: quiet- NO_ID: Invalid value of 2.47585 found for variable DAKOTA_RC_7.  Corrected to 1.83286.
+04:25:39: quiet- NO_ID: Invalid value of 1.36084 found for variable DAKOTA_RC_9.  Corrected to 2.4006.
+04:25:39: quiet- NO_ID: Invalid value of 12.0373 found for variable DAKOTA_EP_2.  Corrected to 10.4873.
+04:25:39: quiet- NO_ID: Invalid value of 1.5835 found for variable DAKOTA_RC_4.  Corrected to 1.65031.
+04:25:39: quiet- NO_ID: Invalid value of 1.96768 found for variable DAKOTA_RC_3.  Corrected to 0.921897.
+04:25:39: quiet- NO_ID: Invalid value of 2.34532 found for variable DAKOTA_RC_7.  Corrected to 2.27457.
+04:25:39: quiet- NO_ID: Invalid value of 1.83232 found for variable DAKOTA_RC_2.  Corrected to 2.17298.
+04:25:39: quiet- NO_ID: Invalid value of 2.51164 found for variable DAKOTA_RC_9.  Corrected to 1.93242.
+04:25:39: quiet- NO_ID: Invalid value of -0.403309 found for variable DAKOTA_EP_1.  Corrected to 2.33043.
+04:25:39: quiet- NO_ID: Invalid value of 2.45992 found for variable DAKOTA_RC_7.  Corrected to 2.23732.
+04:25:39: quiet- NO_ID: Invalid value of 2.45279 found for variable DAKOTA_RC_7.  Corrected to 2.26419.
+04:25:39: quiet- NO_ID: Invalid value of 2.26309 found for variable DAKOTA_RC_2.  Corrected to 1.92272.
+04:25:39: quiet- NO_ID: Invalid value of 2.58058 found for variable DAKOTA_RC_9.  Corrected to 1.94935.
+04:25:39: quiet- NO_ID: Invalid value of 2.87776 found for variable DAKOTA_RC_9.  Corrected to 2.16809.
+04:25:39: quiet- NO_ID: Invalid value of 2.26248 found for variable DAKOTA_RC_2.  Corrected to 1.91632.
+04:25:39: quiet- NO_ID: Invalid value of 1.54292 found for variable DAKOTA_RC_7.  Corrected to 2.0668.
+04:25:39: quiet- NO_ID: Invalid value of 2.25413 found for variable DAKOTA_RC_2.  Corrected to 2.13765.
+04:25:39: quiet- NO_ID: Invalid value of 1.60057 found for variable DAKOTA_RC_7.  Corrected to 2.06584.
+04:25:39: quiet- NO_ID: Invalid value of 2.51851 found for variable DAKOTA_RC_8.  Corrected to 2.3021.
+04:25:39: quiet- NO_ID: Invalid value of 1.83231 found for variable DAKOTA_RC_2.  Corrected to 2.03296.
+04:25:39: quiet- NO_ID: Invalid value of 2.21221 found for variable DAKOTA_RC_2.  Corrected to 1.98927.
+04:25:39: quiet- NO_ID: Invalid value of 2.25007 found for variable DAKOTA_RC_2.  Corrected to 2.10088.
+04:25:39: quiet- NO_ID: Invalid value of 12.8747 found for variable DAKOTA_EP_2.  Corrected to 5.31141.
+04:25:39: quiet- NO_ID: Invalid value of 1.67991 found for variable DAKOTA_RC_8.  Corrected to 2.24618.
+04:25:39: quiet- NO_ID: Invalid value of 2.33648 found for variable DAKOTA_RC_7.  Corrected to 2.20361.
+04:25:39: quiet- NO_ID: Invalid value of 2.44304 found for variable DAKOTA_RC_7.  Corrected to 1.70594.
+04:25:39: quiet- NO_ID: Invalid value of 1.5917 found for variable DAKOTA_RC_4.  Corrected to 1.67619.
+04:25:39: quiet- NO_ID: Invalid value of 0.673349 found for variable DAKOTA_RC_3.  Corrected to 1.18573.
+04:25:39: quiet- NO_ID: Invalid value of 1.68895 found for variable DAKOTA_RC_7.  Corrected to 2.24091.
+04:25:39: quiet- NO_ID: Invalid value of 1.92515 found for variable DAKOTA_RC_3.  Corrected to 1.15156.
+04:25:39: quiet- NO_ID: Invalid value of 2.54989 found for variable DAKOTA_RC_9.  Corrected to 1.88695.
+04:25:39: quiet- NO_ID: Invalid value of 1.81235 found for variable DAKOTA_RC_2.  Corrected to 1.93689.
+04:25:39: quiet- NO_ID: Invalid value of 2.47539 found for variable DAKOTA_RC_7.  Corrected to 1.76574.
+04:25:39: quiet- NO_ID: Invalid value of 1.55018 found for variable DAKOTA_RC_4.  Corrected to 2.1989.
+04:25:39: quiet- NO_ID: Invalid value of 2.24705 found for variable DAKOTA_RC_4.  Corrected to 1.72409.
+04:25:39: quiet- NO_ID: Invalid value of 13.9355 found for variable DAKOTA_EP_2.  Corrected to 1.57749.
+04:25:39: quiet- NO_ID: Invalid value of 2.20899 found for variable DAKOTA_RC_3.  Corrected to 1.85578.
+04:25:39: quiet- NO_ID: Invalid value of 1.80998 found for variable DAKOTA_RC_2.  Corrected to 1.93502.
+04:25:39: quiet- NO_ID: Invalid value of 2.21219 found for variable DAKOTA_RC_2.  Corrected to 1.99619.
+04:25:39: quiet- NO_ID: Invalid value of 2.50091 found for variable DAKOTA_RC_1.  Corrected to 1.98999.
+04:25:39: quiet- NO_ID: Invalid value of 2.50712 found for variable DAKOTA_RC_1.  Corrected to 1.90737.
+04:25:39: quiet- NO_ID: Invalid value of 2.46182 found for variable DAKOTA_RC_5.  Corrected to 1.75656.
+04:25:39: quiet- NO_ID: Invalid value of 2.51221 found for variable DAKOTA_RC_1.  Corrected to 2.03543.
+04:25:39: quiet- NO_ID: Invalid value of 2.51236 found for variable DAKOTA_RC_1.  Corrected to 2.03538.
+04:25:39: quiet- NO_ID: Invalid value of 2.53089 found for variable DAKOTA_RC_1.  Corrected to 2.37207.
+04:25:39: quiet- NO_ID: Invalid value of 2.5547 found for variable DAKOTA_RC_1.  Corrected to 2.06806.
+04:25:39: quiet- NO_ID: Invalid value of 2.65358 found for variable DAKOTA_RC_1.  Corrected to 2.40218.
+04:25:39: quiet- NO_ID: Invalid value of 2.76198 found for variable DAKOTA_RC_1.  Corrected to 2.24738.
+04:25:39: quiet- NO_ID: Invalid value of 2.79605 found for variable DAKOTA_RC_8.  Corrected to 2.42288.
+04:25:39: quiet- NO_ID: Invalid value of 2.77412 found for variable DAKOTA_RC_1.  Corrected to 2.23256.
+04:25:39: quiet- NO_ID: Invalid value of 1.8869 found for variable DAKOTA_RC_2.  Corrected to 1.90665.
+17:04:00: verbose- below_limit: Performed 561 total selections.
+17:04:00: verbose- NO_ID: 90 of 499 population members were not selected to continue.  148 of 300 offspring were immediately rejected.
+17:04:00: verbose- metric_tracker: Operating on 561 total designs and 106 "best fitness" designs.
+17:04:00: verbose- metric_tracker: Max "best fitness" expanse change of 0.117% found for objective "Non-Linear Minimize obj_fn_3".
+17:04:00: verbose- metric_tracker: Population density increased by 22.027%.
+17:04:00: verbose- metric_tracker: 53.103% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+17:04:00: verbose- metric_tracker: Pushed metric value of 0.75248 onto the convergence stack.
+17:04:00: verbose- metric_tracker: Current max percentage progress is 137.334%.
+17:04:00: quiet- duplicate_free: 15 generations so far.
+17:04:00: quiet- duplicate_free: 1932 evaluations so far.
+17:04:00: verbose- duplicate_free: 561 members in population so far.
+17:04:00: verbose- multi_point_parameterized_binary: 224 children created.
+17:04:00: quiet- offset_normal: Produced invalid  variable representation 2.53787. Mutation performed without corrective action.
+17:04:00: quiet- offset_normal: Produced invalid  variable representation 1.74871. Mutation performed without corrective action.
+17:04:00: quiet- offset_normal: Produced invalid  variable representation 2.3074. Mutation performed without corrective action.
+17:04:00: verbose- offset_normal: Performed 112 total mutations.
+17:04:00: quiet- NO_ID: Invalid value of 2.31612 found for variable DAKOTA_RC_6.  Corrected to 2.16676.
+17:04:00: quiet- NO_ID: Invalid value of 2.23118 found for variable DAKOTA_RC_5.  Corrected to 1.89868.
+17:04:00: quiet- NO_ID: Invalid value of 2.53079 found for variable DAKOTA_RC_5.  Corrected to 1.93224.
+17:04:00: quiet- NO_ID: Invalid value of 2.20086 found for variable DAKOTA_RC_5.  Corrected to 1.68979.
+17:04:00: quiet- NO_ID: Invalid value of 1.70495 found for variable DAKOTA_RC_9.  Corrected to 1.83154.
+17:04:00: quiet- NO_ID: Invalid value of 0.677928 found for variable DAKOTA_RC_3.  Corrected to 1.72374.
+17:04:00: quiet- NO_ID: Invalid value of 1.65271 found for variable DAKOTA_RC_7.  Corrected to 1.96319.
+17:04:00: quiet- NO_ID: Invalid value of 1.76775 found for variable DAKOTA_RC_9.  Corrected to 2.06812.
+17:04:00: quiet- NO_ID: Invalid value of 0.779589 found for variable DAKOTA_RC_3.  Corrected to 1.41472.
+17:04:00: quiet- NO_ID: Invalid value of 2.4837 found for variable DAKOTA_RC_5.  Corrected to 1.64856.
+17:04:00: quiet- NO_ID: Invalid value of 1.40612 found for variable DAKOTA_RC_9.  Corrected to 2.04242.
+17:04:00: quiet- NO_ID: Invalid value of 1.65722 found for variable DAKOTA_RC_7.  Corrected to 1.70501.
+17:04:00: quiet- NO_ID: Invalid value of 1.93955 found for variable DAKOTA_RC_3.  Corrected to 0.962996.
+17:04:00: quiet- NO_ID: Invalid value of 2.59727 found for variable DAKOTA_RC_9.  Corrected to 2.25973.
+17:04:00: quiet- NO_ID: Invalid value of 2.53787 found for variable DAKOTA_RC_9.  Corrected to 2.13187.
+17:04:00: quiet- NO_ID: Invalid value of 1.74871 found for variable DAKOTA_RC_8.  Corrected to 1.85789.
+17:04:00: quiet- NO_ID: Invalid value of 1.65856 found for variable DAKOTA_RC_7.  Corrected to 2.27725.
+17:04:00: quiet- NO_ID: Invalid value of 1.56413 found for variable DAKOTA_RC_4.  Corrected to 1.60578.
+17:04:00: quiet- NO_ID: Invalid value of 2.4827 found for variable DAKOTA_RC_7.  Corrected to 2.2162.
+17:04:00: quiet- NO_ID: Invalid value of 2.48424 found for variable DAKOTA_RC_7.  Corrected to 2.19257.
+17:04:00: quiet- NO_ID: Invalid value of 1.81693 found for variable DAKOTA_RC_2.  Corrected to 2.15495.
+17:04:00: quiet- NO_ID: Invalid value of 0.680488 found for variable DAKOTA_RC_3.  Corrected to 0.943986.
+17:04:00: quiet- NO_ID: Invalid value of 1.73054 found for variable DAKOTA_RC_9.  Corrected to 2.08765.
+17:04:00: quiet- NO_ID: Invalid value of 2.5032 found for variable DAKOTA_RC_9.  Corrected to 2.10756.
+17:04:00: quiet- NO_ID: Invalid value of 2.44347 found for variable DAKOTA_RC_7.  Corrected to 2.25388.
+17:04:00: quiet- NO_ID: Invalid value of 1.78928 found for variable DAKOTA_RC_2.  Corrected to 1.92369.
+17:04:00: quiet- NO_ID: Invalid value of 2.23696 found for variable DAKOTA_RC_3.  Corrected to 0.913627.
+17:04:00: quiet- NO_ID: Invalid value of 2.80077 found for variable DAKOTA_RC_9.  Corrected to 2.178.
+17:04:00: quiet- NO_ID: Invalid value of 12.9694 found for variable DAKOTA_EP_2.  Corrected to 3.8498.
+17:04:00: quiet- NO_ID: Invalid value of 1.97457 found for variable DAKOTA_RC_3.  Corrected to 1.11945.
+17:04:00: quiet- NO_ID: Invalid value of 1.55184 found for variable DAKOTA_RC_5.  Corrected to 2.17869.
+17:04:00: quiet- NO_ID: Invalid value of 0.775749 found for variable DAKOTA_RC_3.  Corrected to 0.998757.
+17:04:00: quiet- NO_ID: Invalid value of 1.69379 found for variable DAKOTA_RC_7.  Corrected to 2.13035.
+17:04:00: quiet- NO_ID: Invalid value of 2.54049 found for variable DAKOTA_RC_9.  Corrected to 2.16275.
+17:04:00: quiet- NO_ID: Invalid value of 0.873768 found for variable DAKOTA_RC_3.  Corrected to 1.1484.
+17:04:00: quiet- NO_ID: Invalid value of 2.43366 found for variable DAKOTA_RC_5.  Corrected to 2.05738.
+17:04:00: quiet- NO_ID: Invalid value of 2.1844 found for variable DAKOTA_RC_3.  Corrected to 1.24196.
+17:04:00: quiet- NO_ID: Invalid value of 1.58811 found for variable DAKOTA_RC_4.  Corrected to 2.01223.
+17:04:00: quiet- NO_ID: Invalid value of 12.6324 found for variable DAKOTA_EP_2.  Corrected to 1.74405.
+17:04:00: quiet- NO_ID: Invalid value of 1.65615 found for variable DAKOTA_RC_7.  Corrected to 2.21401.
+17:04:00: quiet- NO_ID: Invalid value of 1.57042 found for variable DAKOTA_RC_5.  Corrected to 2.06079.
+17:04:00: quiet- NO_ID: Invalid value of 2.58353 found for variable DAKOTA_RC_9.  Corrected to 2.14416.
+17:04:00: quiet- NO_ID: Invalid value of 1.5499 found for variable DAKOTA_RC_5.  Corrected to 2.11902.
+17:04:00: quiet- NO_ID: Invalid value of 2.64721 found for variable DAKOTA_RC_9.  Corrected to 2.38169.
+17:04:00: quiet- NO_ID: Invalid value of 1.80821 found for variable DAKOTA_RC_2.  Corrected to 1.94452.
+17:04:00: quiet- NO_ID: Invalid value of 1.81204 found for variable DAKOTA_RC_2.  Corrected to 2.00174.
+17:04:00: quiet- NO_ID: Invalid value of 2.2394 found for variable DAKOTA_RC_2.  Corrected to 2.17411.
+17:04:00: quiet- NO_ID: Invalid value of 0.695556 found for variable DAKOTA_RC_3.  Corrected to 1.01051.
+17:04:00: quiet- NO_ID: Invalid value of 1.80873 found for variable DAKOTA_RC_2.  Corrected to 2.00463.
+17:04:00: quiet- NO_ID: Invalid value of 2.20235 found for variable DAKOTA_RC_2.  Corrected to 2.13221.
+17:04:00: quiet- NO_ID: Invalid value of 1.98295 found for variable DAKOTA_RC_3.  Corrected to 1.83145.
+17:04:00: quiet- NO_ID: Invalid value of 14.8082 found for variable DAKOTA_EP_2.  Corrected to 2.38318.
+17:04:00: quiet- NO_ID: Invalid value of 2.18115 found for variable DAKOTA_RC_3.  Corrected to 1.71801.
+17:04:00: quiet- NO_ID: Invalid value of 1.97457 found for variable DAKOTA_RC_3.  Corrected to 1.24238.
+17:04:00: quiet- NO_ID: Invalid value of 1.66144 found for variable DAKOTA_RC_9.  Corrected to 2.24658.
+17:04:00: quiet- NO_ID: Invalid value of 1.55005 found for variable DAKOTA_RC_5.  Corrected to 2.04468.
+17:04:00: quiet- NO_ID: Invalid value of 1.59581 found for variable DAKOTA_RC_5.  Corrected to 1.8528.
+17:04:00: quiet- NO_ID: Invalid value of 2.59419 found for variable DAKOTA_RC_9.  Corrected to 2.25612.
+17:04:00: quiet- NO_ID: Invalid value of 2.8113 found for variable DAKOTA_RC_9.  Corrected to 1.9968.
+17:04:00: quiet- NO_ID: Invalid value of 2.20353 found for variable DAKOTA_RC_2.  Corrected to 2.12265.
+17:04:00: quiet- NO_ID: Invalid value of 1.56817 found for variable DAKOTA_RC_5.  Corrected to 2.12263.
+17:04:00: quiet- NO_ID: Invalid value of 2.3074 found for variable DAKOTA_RC_7.  Corrected to 1.84738.
+17:04:00: quiet- NO_ID: Invalid value of 2.32266 found for variable DAKOTA_RC_5.  Corrected to 2.10455.
+17:04:00: quiet- NO_ID: Invalid value of 2.24085 found for variable DAKOTA_RC_2.  Corrected to 2.07649.
+17:04:00: quiet- NO_ID: Invalid value of 2.29002 found for variable DAKOTA_RC_5.  Corrected to 2.05831.
+17:04:00: quiet- NO_ID: Invalid value of 2.50123 found for variable DAKOTA_RC_1.  Corrected to 1.95359.
+17:04:00: quiet- NO_ID: Invalid value of 2.50686 found for variable DAKOTA_RC_1.  Corrected to 2.11036.
+17:04:00: quiet- NO_ID: Invalid value of 1.97456 found for variable DAKOTA_RC_3.  Corrected to 1.0058.
+17:04:00: quiet- NO_ID: Invalid value of 2.53378 found for variable DAKOTA_RC_1.  Corrected to 2.36582.
+08:13:22: verbose- below_limit: Performed 658 total selections.
+08:13:22: verbose- NO_ID: 92 of 561 population members were not selected to continue.  147 of 336 offspring were immediately rejected.
+08:13:22: verbose- metric_tracker: Operating on 658 total designs and 119 "best fitness" designs.
+08:13:22: verbose- metric_tracker: Max "best fitness" expanse change of 12.699% found for objective "Non-Linear Minimize obj_fn_2".
+08:13:22: verbose- metric_tracker: Population density increased by 15.277%.
+08:13:22: verbose- metric_tracker: 21.698% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+08:13:22: verbose- metric_tracker: Pushed metric value of 0.496741 onto the convergence stack.
+08:13:22: verbose- metric_tracker: Current max percentage progress is 137.334%.
+08:13:22: quiet- duplicate_free: 16 generations so far.
+08:13:22: quiet- duplicate_free: 2268 evaluations so far.
+08:13:22: verbose- duplicate_free: 658 members in population so far.
+08:13:22: verbose- multi_point_parameterized_binary: 264 children created.
+08:13:22: quiet- offset_normal: Produced invalid  variable representation 2.50324. Mutation performed without corrective action.
+08:13:22: quiet- offset_normal: Produced invalid  variable representation 2.50156. Mutation performed without corrective action.
+08:13:22: quiet- offset_normal: Produced invalid  variable representation 1.57446. Mutation performed without corrective action.
+08:13:22: quiet- offset_normal: Produced invalid  variable representation 1.57616. Mutation performed without corrective action.
+08:13:22: quiet- offset_normal: Produced invalid  variable representation 1.59396. Mutation performed without corrective action.
+08:13:22: quiet- offset_normal: Produced invalid  variable representation 2.50394. Mutation performed without corrective action.
+08:13:22: quiet- offset_normal: Produced invalid  variable representation 2.50975. Mutation performed without corrective action.
+08:13:22: verbose- offset_normal: Performed 132 total mutations.
+08:13:22: quiet- NO_ID: Invalid value of 1.65688 found for variable DAKOTA_RC_7.  Corrected to 1.72696.
+08:13:22: quiet- NO_ID: Invalid value of 2.23709 found for variable DAKOTA_RC_2.  Corrected to 2.16948.
+08:13:22: quiet- NO_ID: Invalid value of 2.21036 found for variable DAKOTA_RC_2.  Corrected to 1.93171.
+08:13:22: quiet- NO_ID: Invalid value of 1.78271 found for variable DAKOTA_RC_2.  Corrected to 1.93688.
+08:13:22: quiet- NO_ID: Invalid value of 12.3239 found for variable DAKOTA_EP_2.  Corrected to 1.1393.
+08:13:22: quiet- NO_ID: Invalid value of 2.20008 found for variable DAKOTA_RC_4.  Corrected to 1.63003.
+08:13:22: quiet- NO_ID: Invalid value of 2.78228 found for variable DAKOTA_RC_8.  Corrected to 2.25049.
+08:13:22: quiet- NO_ID: Invalid value of 1.88709 found for variable DAKOTA_RC_2.  Corrected to 2.10658.
+08:13:22: quiet- NO_ID: Invalid value of 2.25546 found for variable DAKOTA_RC_5.  Corrected to 2.14566.
+08:13:22: quiet- NO_ID: Invalid value of 1.65027 found for variable DAKOTA_RC_7.  Corrected to 1.96887.
+08:13:22: quiet- NO_ID: Invalid value of 1.6981 found for variable DAKOTA_RC_7.  Corrected to 2.29846.
+08:13:22: quiet- NO_ID: Invalid value of 2.25482 found for variable DAKOTA_RC_5.  Corrected to 1.798.
+08:13:22: quiet- NO_ID: Invalid value of 2.6254 found for variable DAKOTA_RC_8.  Corrected to 1.83158.
+08:13:22: quiet- NO_ID: Invalid value of 2.29698 found for variable DAKOTA_RC_5.  Corrected to 1.83407.
+08:13:22: quiet- NO_ID: Invalid value of 1.46104 found for variable DAKOTA_RC_7.  Corrected to 1.80562.
+08:13:22: quiet- NO_ID: Invalid value of 0.673064 found for variable DAKOTA_RC_3.  Corrected to 1.15918.
+08:13:22: quiet- NO_ID: Invalid value of 1.63162 found for variable DAKOTA_RC_7.  Corrected to 1.84151.
+08:13:22: quiet- NO_ID: Invalid value of 2.23006 found for variable DAKOTA_RC_5.  Corrected to 2.02093.
+08:13:22: quiet- NO_ID: Invalid value of 1.68043 found for variable DAKOTA_RC_7.  Corrected to 2.26341.
+08:13:22: quiet- NO_ID: Invalid value of 1.95989 found for variable DAKOTA_RC_3.  Corrected to 1.23865.
+08:13:22: quiet- NO_ID: Invalid value of 0.74606 found for variable DAKOTA_RC_3.  Corrected to 1.34905.
+08:13:22: quiet- NO_ID: Invalid value of 2.31159 found for variable DAKOTA_RC_7.  Corrected to 1.9088.
+08:13:22: quiet- NO_ID: Invalid value of 1.58473 found for variable DAKOTA_RC_7.  Corrected to 2.00091.
+08:13:22: quiet- NO_ID: Invalid value of 1.86914 found for variable DAKOTA_RC_2.  Corrected to 1.97317.
+08:13:22: quiet- NO_ID: Invalid value of 1.54998 found for variable DAKOTA_RC_5.  Corrected to 1.74085.
+08:13:22: quiet- NO_ID: Invalid value of 1.59726 found for variable DAKOTA_RC_4.  Corrected to 1.62398.
+08:13:22: quiet- NO_ID: Invalid value of 2.44465 found for variable DAKOTA_RC_7.  Corrected to 1.92294.
+08:13:22: quiet- NO_ID: Invalid value of 0.859436 found for variable DAKOTA_RC_3.  Corrected to 1.10258.
+08:13:22: quiet- NO_ID: Invalid value of 1.40183 found for variable DAKOTA_RC_9.  Corrected to 1.90073.
+08:13:22: quiet- NO_ID: Invalid value of 1.80872 found for variable DAKOTA_RC_2.  Corrected to 1.90894.
+08:13:22: quiet- NO_ID: Invalid value of 0.679208 found for variable DAKOTA_RC_3.  Corrected to 0.961816.
+08:13:22: quiet- NO_ID: Invalid value of 1.54989 found for variable DAKOTA_RC_5.  Corrected to 1.71331.
+08:13:22: quiet- NO_ID: Invalid value of 2.33595 found for variable DAKOTA_RC_7.  Corrected to 2.25684.
+08:13:22: quiet- NO_ID: Invalid value of 2.37779 found for variable DAKOTA_RC_7.  Corrected to 1.80051.
+08:13:22: quiet- NO_ID: Invalid value of 13.4189 found for variable DAKOTA_EP_2.  Corrected to 3.74127.
+08:13:22: quiet- NO_ID: Invalid value of 15.0666 found for variable DAKOTA_EP_2.  Corrected to 0.276016.
+08:13:22: quiet- NO_ID: Invalid value of 0.794912 found for variable DAKOTA_RC_3.  Corrected to 1.11757.
+08:13:22: quiet- NO_ID: Invalid value of 2.38777 found for variable DAKOTA_RC_7.  Corrected to 2.2732.
+08:13:22: quiet- NO_ID: Invalid value of 2.61318 found for variable DAKOTA_RC_8.  Corrected to 2.29813.
+08:13:22: quiet- NO_ID: Invalid value of 2.23989 found for variable DAKOTA_RC_2.  Corrected to 1.9381.
+08:13:22: quiet- NO_ID: Invalid value of 0.679109 found for variable DAKOTA_RC_3.  Corrected to 1.30344.
+08:13:22: quiet- NO_ID: Invalid value of 2.30361 found for variable DAKOTA_RC_5.  Corrected to 2.02543.
+08:13:22: quiet- NO_ID: Invalid value of 2.30642 found for variable DAKOTA_RC_7.  Corrected to 1.97421.
+08:13:22: quiet- NO_ID: Invalid value of 2.64718 found for variable DAKOTA_RC_9.  Corrected to 2.11398.
+08:13:22: quiet- NO_ID: Invalid value of 1.65277 found for variable DAKOTA_RC_7.  Corrected to 1.7595.
+08:13:22: quiet- NO_ID: Invalid value of 2.47673 found for variable DAKOTA_RC_7.  Corrected to 2.07983.
+08:13:22: quiet- NO_ID: Invalid value of 2.26308 found for variable DAKOTA_RC_2.  Corrected to 2.11232.
+08:13:22: quiet- NO_ID: Invalid value of 1.57446 found for variable DAKOTA_RC_5.  Corrected to 1.80101.
+08:13:22: quiet- NO_ID: Invalid value of 1.57616 found for variable DAKOTA_RC_5.  Corrected to 1.80076.
+08:13:22: quiet- NO_ID: Invalid value of 2.59876 found for variable DAKOTA_RC_9.  Corrected to 2.25272.
+08:13:22: quiet- NO_ID: Invalid value of 2.21543 found for variable DAKOTA_RC_3.  Corrected to 1.57366.
+08:13:22: quiet- NO_ID: Invalid value of 1.65603 found for variable DAKOTA_RC_7.  Corrected to 2.17019.
+08:13:22: quiet- NO_ID: Invalid value of 12.3291 found for variable DAKOTA_EP_2.  Corrected to 11.9369.
+08:13:22: quiet- NO_ID: Invalid value of 1.78558 found for variable DAKOTA_RC_2.  Corrected to 1.95255.
+08:13:22: quiet- NO_ID: Invalid value of 1.55923 found for variable DAKOTA_RC_5.  Corrected to 1.61653.
+08:13:22: quiet- NO_ID: Invalid value of 1.89576 found for variable DAKOTA_RC_2.  Corrected to 1.96885.
+08:13:22: quiet- NO_ID: Invalid value of 1.59396 found for variable DAKOTA_RC_4.  Corrected to 1.72909.
+08:13:22: quiet- NO_ID: Invalid value of 2.63417 found for variable DAKOTA_RC_9.  Corrected to 2.07939.
+08:13:22: quiet- NO_ID: Invalid value of 2.26747 found for variable DAKOTA_RC_2.  Corrected to 2.02962.
+08:13:22: quiet- NO_ID: Invalid value of 1.62774 found for variable DAKOTA_RC_7.  Corrected to 1.91543.
+08:13:22: quiet- NO_ID: Invalid value of 1.3467 found for variable DAKOTA_RC_9.  Corrected to 2.10025.
+08:13:22: quiet- NO_ID: Invalid value of 2.24234 found for variable DAKOTA_RC_3.  Corrected to 1.39389.
+08:13:22: quiet- NO_ID: Invalid value of 14.1401 found for variable DAKOTA_EP_2.  Corrected to 6.57484.
+08:13:22: quiet- NO_ID: Invalid value of 2.4528 found for variable DAKOTA_RC_7.  Corrected to 1.9142.
+08:13:22: quiet- NO_ID: Invalid value of 1.77146 found for variable DAKOTA_RC_2.  Corrected to 2.09842.
+08:13:22: quiet- NO_ID: Invalid value of 2.21629 found for variable DAKOTA_RC_2.  Corrected to 2.1579.
+08:13:22: quiet- NO_ID: Invalid value of 1.85686 found for variable DAKOTA_RC_2.  Corrected to 2.014.
+08:13:22: quiet- NO_ID: Invalid value of 2.50171 found for variable DAKOTA_RC_8.  Corrected to 2.41529.
+08:13:22: quiet- NO_ID: Invalid value of 1.8043 found for variable DAKOTA_RC_2.  Corrected to 2.1445.
+08:13:22: quiet- NO_ID: Invalid value of 2.52 found for variable DAKOTA_RC_8.  Corrected to 1.86412.
+08:13:22: quiet- NO_ID: Invalid value of 1.58128 found for variable DAKOTA_RC_5.  Corrected to 1.6036.
+08:13:22: quiet- NO_ID: Invalid value of 2.30473 found for variable DAKOTA_RC_7.  Corrected to 1.83107.
+08:13:22: quiet- NO_ID: Invalid value of 1.59883 found for variable DAKOTA_RC_7.  Corrected to 2.18039.
+08:13:22: quiet- NO_ID: Invalid value of 2.20548 found for variable DAKOTA_RC_5.  Corrected to 1.87781.
+08:13:22: quiet- NO_ID: Invalid value of 2.50072 found for variable DAKOTA_RC_1.  Corrected to 2.3002.
+08:13:22: quiet- NO_ID: Invalid value of 2.50156 found for variable DAKOTA_RC_1.  Corrected to 2.43989.
+08:13:22: quiet- NO_ID: Invalid value of 2.50324 found for variable DAKOTA_RC_1.  Corrected to 1.95764.
+08:13:22: quiet- NO_ID: Invalid value of 2.50394 found for variable DAKOTA_RC_1.  Corrected to 2.12484.
+08:13:22: quiet- NO_ID: Invalid value of 2.50406 found for variable DAKOTA_RC_1.  Corrected to 2.0409.
+08:13:22: quiet- NO_ID: Invalid value of 2.50445 found for variable DAKOTA_RC_1.  Corrected to 2.1584.
+08:13:22: quiet- NO_ID: Invalid value of 2.50975 found for variable DAKOTA_RC_1.  Corrected to 1.91288.
+08:13:22: quiet- NO_ID: Invalid value of 2.51703 found for variable DAKOTA_RC_1.  Corrected to 2.4451.
+01:02:18: verbose- below_limit: Performed 740 total selections.
+01:02:18: verbose- NO_ID: 134 of 658 population members were not selected to continue.  180 of 396 offspring were immediately rejected.
+01:02:18: verbose- metric_tracker: Operating on 740 total designs and 120 "best fitness" designs.
+01:02:18: verbose- metric_tracker: Max "best fitness" expanse change of -1.109% found for objective "Non-Linear Minimize obj_fn_1".
+01:02:18: verbose- metric_tracker: Population density decreased by 1.978%.
+01:02:18: verbose- metric_tracker: 37.815% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+01:02:18: verbose- metric_tracker: Pushed metric value of 0.409017 onto the convergence stack.
+01:02:18: verbose- metric_tracker: Current max percentage progress is 137.334%.
+01:02:18: quiet- duplicate_free: 17 generations so far.
+01:02:18: quiet- duplicate_free: 2664 evaluations so far.
+01:02:18: verbose- duplicate_free: 740 members in population so far.
+01:02:18: verbose- multi_point_parameterized_binary: 296 children created.
+01:02:18: quiet- offset_normal: Produced invalid  variable representation 1.89865. Mutation performed without corrective action.
+01:02:18: quiet- offset_normal: Produced invalid  variable representation 1.89581. Mutation performed without corrective action.
+01:02:18: quiet- offset_normal: Produced invalid  variable representation 2.51329. Mutation performed without corrective action.
+01:02:18: quiet- offset_normal: Produced invalid  variable representation 2.50539. Mutation performed without corrective action.
+01:02:18: quiet- offset_normal: Produced invalid  variable representation 1.59439. Mutation performed without corrective action.
+01:02:18: verbose- offset_normal: Performed 148 total mutations.
+01:02:18: quiet- NO_ID: Invalid value of 1.6847 found for variable DAKOTA_RC_7.  Corrected to 2.02663.
+01:02:18: quiet- NO_ID: Invalid value of 1.65312 found for variable DAKOTA_RC_7.  Corrected to 1.88489.
+01:02:18: quiet- NO_ID: Invalid value of 0.679265 found for variable DAKOTA_RC_3.  Corrected to 1.50435.
+01:02:18: quiet- NO_ID: Invalid value of 2.90988 found for variable DAKOTA_RC_8.  Corrected to 2.29388.
+01:02:18: quiet- NO_ID: Invalid value of 1.56855 found for variable DAKOTA_RC_5.  Corrected to 2.05453.
+01:02:18: quiet- NO_ID: Invalid value of 2.49177 found for variable DAKOTA_RC_7.  Corrected to 1.72132.
+01:02:18: quiet- NO_ID: Invalid value of 1.55084 found for variable DAKOTA_RC_4.  Corrected to 2.19164.
+01:02:18: quiet- NO_ID: Invalid value of 2.57795 found for variable DAKOTA_RC_5.  Corrected to 1.96817.
+01:02:18: quiet- NO_ID: Invalid value of 2.28001 found for variable DAKOTA_RC_5.  Corrected to 1.60815.
+01:02:18: quiet- NO_ID: Invalid value of 2.29359 found for variable DAKOTA_RC_5.  Corrected to 2.14873.
+01:02:18: quiet- NO_ID: Invalid value of 2.30346 found for variable DAKOTA_RC_5.  Corrected to 1.68185.
+01:02:18: quiet- NO_ID: Invalid value of 2.30346 found for variable DAKOTA_RC_5.  Corrected to 1.6475.
+01:02:18: quiet- NO_ID: Invalid value of 1.66587 found for variable DAKOTA_RC_7.  Corrected to 2.19345.
+01:02:18: quiet- NO_ID: Invalid value of 2.38701 found for variable DAKOTA_RC_7.  Corrected to 2.2708.
+01:02:18: quiet- NO_ID: Invalid value of 2.50826 found for variable DAKOTA_RC_8.  Corrected to 2.14697.
+01:02:18: quiet- NO_ID: Invalid value of 2.62218 found for variable DAKOTA_RC_8.  Corrected to 2.1128.
+01:02:18: quiet- NO_ID: Invalid value of 0.673128 found for variable DAKOTA_RC_3.  Corrected to 1.55739.
+01:02:18: quiet- NO_ID: Invalid value of 1.6816 found for variable DAKOTA_RC_7.  Corrected to 1.89653.
+01:02:18: quiet- NO_ID: Invalid value of 12.1613 found for variable DAKOTA_EP_1.  Corrected to 1.68898.
+01:02:18: quiet- NO_ID: Invalid value of 1.89865 found for variable DAKOTA_RC_2.  Corrected to 2.10791.
+01:02:18: quiet- NO_ID: Invalid value of 1.7843 found for variable DAKOTA_RC_2.  Corrected to 2.1324.
+01:02:18: quiet- NO_ID: Invalid value of 1.89581 found for variable DAKOTA_RC_2.  Corrected to 2.12.
+01:02:18: quiet- NO_ID: Invalid value of 1.57719 found for variable DAKOTA_RC_5.  Corrected to 2.09844.
+01:02:18: quiet- NO_ID: Invalid value of 2.48476 found for variable DAKOTA_RC_7.  Corrected to 1.75506.
+01:02:18: quiet- NO_ID: Invalid value of 2.20659 found for variable DAKOTA_RC_5.  Corrected to 1.88673.
+01:02:18: quiet- NO_ID: Invalid value of 1.5449 found for variable DAKOTA_RC_7.  Corrected to 2.12143.
+01:02:18: quiet- NO_ID: Invalid value of 2.2407 found for variable DAKOTA_RC_2.  Corrected to 1.96367.
+01:02:18: quiet- NO_ID: Invalid value of 1.67855 found for variable DAKOTA_RC_7.  Corrected to 2.15882.
+01:02:18: quiet- NO_ID: Invalid value of 1.6799 found for variable DAKOTA_RC_7.  Corrected to 2.27443.
+01:02:18: quiet- NO_ID: Invalid value of 1.57757 found for variable DAKOTA_RC_4.  Corrected to 1.97364.
+01:02:18: quiet- NO_ID: Invalid value of 1.93927 found for variable DAKOTA_RC_3.  Corrected to 1.3618.
+01:02:18: quiet- NO_ID: Invalid value of 2.73599 found for variable DAKOTA_RC_8.  Corrected to 2.15123.
+01:02:18: quiet- NO_ID: Invalid value of 2.45468 found for variable DAKOTA_RC_4.  Corrected to 2.15853.
+01:02:18: quiet- NO_ID: Invalid value of 2.47536 found for variable DAKOTA_RC_7.  Corrected to 1.73969.
+01:02:18: quiet- NO_ID: Invalid value of 2.43468 found for variable DAKOTA_RC_5.  Corrected to 1.72438.
+01:02:18: quiet- NO_ID: Invalid value of 2.45899 found for variable DAKOTA_RC_7.  Corrected to 2.11306.
+01:02:18: quiet- NO_ID: Invalid value of 2.65429 found for variable DAKOTA_RC_8.  Corrected to 1.87118.
+01:02:18: quiet- NO_ID: Invalid value of 2.78841 found for variable DAKOTA_RC_9.  Corrected to 1.93536.
+01:02:18: quiet- NO_ID: Invalid value of 1.58851 found for variable DAKOTA_RC_4.  Corrected to 1.78124.
+01:02:18: quiet- NO_ID: Invalid value of 2.36015 found for variable DAKOTA_RC_4.  Corrected to 1.66916.
+01:02:18: quiet- NO_ID: Invalid value of 0.67962 found for variable DAKOTA_RC_3.  Corrected to 1.00792.
+01:02:18: quiet- NO_ID: Invalid value of 12.4295 found for variable DAKOTA_EP_2.  Corrected to 5.26164.
+01:02:18: quiet- NO_ID: Invalid value of 2.22974 found for variable DAKOTA_RC_2.  Corrected to 1.95833.
+01:02:18: quiet- NO_ID: Invalid value of 1.58517 found for variable DAKOTA_RC_5.  Corrected to 2.1582.
+01:02:18: quiet- NO_ID: Invalid value of 2.44304 found for variable DAKOTA_RC_7.  Corrected to 1.93388.
+01:02:18: quiet- NO_ID: Invalid value of 1.59439 found for variable DAKOTA_RC_4.  Corrected to 2.01406.
+01:02:18: quiet- NO_ID: Invalid value of 2.52229 found for variable DAKOTA_RC_9.  Corrected to 2.06403.
+01:02:18: quiet- NO_ID: Invalid value of 2.20754 found for variable DAKOTA_RC_5.  Corrected to 1.62832.
+01:02:18: quiet- NO_ID: Invalid value of 2.76125 found for variable DAKOTA_RC_8.  Corrected to 1.81235.
+01:02:18: quiet- NO_ID: Invalid value of 2.41264 found for variable DAKOTA_RC_4.  Corrected to 1.91076.
+01:02:18: quiet- NO_ID: Invalid value of 2.51358 found for variable DAKOTA_RC_8.  Corrected to 2.31815.
+01:02:18: quiet- NO_ID: Invalid value of 2.20291 found for variable DAKOTA_RC_3.  Corrected to 1.69232.
+01:02:18: quiet- NO_ID: Invalid value of 2.08952 found for variable DAKOTA_RC_3.  Corrected to 1.15128.
+01:02:18: quiet- NO_ID: Invalid value of 1.974 found for variable DAKOTA_RC_3.  Corrected to 1.47095.
+01:02:18: quiet- NO_ID: Invalid value of 1.59755 found for variable DAKOTA_RC_9.  Corrected to 2.41886.
+01:02:18: quiet- NO_ID: Invalid value of 2.21549 found for variable DAKOTA_RC_3.  Corrected to 1.62918.
+01:02:18: quiet- NO_ID: Invalid value of 1.56599 found for variable DAKOTA_RC_9.  Corrected to 1.99133.
+01:02:18: quiet- NO_ID: Invalid value of 1.57574 found for variable DAKOTA_RC_5.  Corrected to 1.65779.
+01:02:18: quiet- NO_ID: Invalid value of 1.76998 found for variable DAKOTA_RC_9.  Corrected to 2.14571.
+01:02:18: quiet- NO_ID: Invalid value of 2.91805 found for variable DAKOTA_RC_9.  Corrected to 1.9615.
+01:02:18: quiet- NO_ID: Invalid value of 1.55012 found for variable DAKOTA_RC_5.  Corrected to 2.03143.
+01:02:18: quiet- NO_ID: Invalid value of 1.92247 found for variable DAKOTA_RC_3.  Corrected to 1.85568.
+01:02:18: quiet- NO_ID: Invalid value of 0.679976 found for variable DAKOTA_RC_3.  Corrected to 1.63246.
+01:02:18: quiet- NO_ID: Invalid value of 2.50379 found for variable DAKOTA_RC_1.  Corrected to 2.28996.
+01:02:18: quiet- NO_ID: Invalid value of 2.50539 found for variable DAKOTA_RC_1.  Corrected to 1.9131.
+01:02:18: quiet- NO_ID: Invalid value of 2.50712 found for variable DAKOTA_RC_1.  Corrected to 2.46386.
+01:02:18: quiet- NO_ID: Invalid value of 2.51238 found for variable DAKOTA_RC_1.  Corrected to 2.10302.
+01:02:18: quiet- NO_ID: Invalid value of 2.51329 found for variable DAKOTA_RC_1.  Corrected to 1.97411.
+01:02:18: quiet- NO_ID: Invalid value of 2.53071 found for variable DAKOTA_RC_1.  Corrected to 1.97988.
+01:02:18: quiet- NO_ID: Invalid value of 2.53859 found for variable DAKOTA_RC_1.  Corrected to 2.28426.
+01:02:18: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+01:02:18: verbose- duplicate_free: flushed 1 offspring designs that duplicate existing population members.

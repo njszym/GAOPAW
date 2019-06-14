@@ -1,0 +1,7 @@
+# Input file for GAOPAW
+elements: ['Sb','Sb']
+lattice_type: ['FCC','BCC']
+lattice_constant: [4.805,3.807]
+template_dir: '/home/szymansk/Elem_Optimization/Sb/Input'
+# End file
+

@@ -1,0 +1,43 @@
+Au 79
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+6 6 5 4 0 0
+6 0 1
+6 1 0
+0 0 0
+c
+c
+c
+c
+c
+v
+c
+c
+c
+c
+v
+c
+c
+v
+c
+2
+2.421653483 2.018044569 2.095189814 2.04218735
+y
+0.8301525641
+n
+y
+4.097522603       
+n
+y
+10.9156133
+n                                         
+custom rrkj vanderbiltortho     ! Scheme for PS partial waves and projectors
+bessel
+2.426848745
+2.079162887
+2.094499038
+2.181409818
+2.499086011
+2.610339417
+3
+0
+

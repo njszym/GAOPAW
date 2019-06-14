@@ -1,0 +1,7 @@
+# Input file for GAOPAW
+elements: ['Mo','Mo']
+lattice_type: ['FCC','BCC']
+lattice_constant: [4.007,3.166]
+template_dir: '/home/szymansk/Elem_Optimization/Mo/Input'
+# End file
+

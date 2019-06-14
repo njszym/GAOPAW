@@ -1,0 +1,114 @@
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Thu Jun 13 15:01:22 2019
+
+Global Log initialized using "verbose" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+15:01:22: quiet- JEGA Front End: Random seed = 1560512482
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_1 added.  1 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_2 added.  2 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_3 added.  3 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_4 added.  4 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_5 added.  5 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_6 added.  6 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_7 added.  7 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_8 added.  8 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_RC_9 added.  9 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_EP_1 added.  10 design variables now in target.
+15:01:22: verbose- Design Target: Design variable DAKOTA_EP_2 added.  11 design variables now in target.
+15:01:22: verbose- Design Target: Objective Non-Linear Minimize obj_fn_1 added.  1 objectives now in target.
+15:01:22: verbose- Design Target: Objective Non-Linear Minimize obj_fn_2 added.  2 objectives now in target.
+15:01:22: verbose- Design Target: Objective Non-Linear Minimize obj_fn_3 added.  3 objectives now in target.
+15:01:22: verbose- JEGA Front End: Creating a MOGA
+15:01:22: debug-  Matching Group: Trying "Domination Count Operator Group".
+15:01:22: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
+15:01:22: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
+15:01:22: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
+15:01:22: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
+15:01:22: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
+15:01:22: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
+15:01:22: verbose- Domination Count Operator Group: Contains Selector "below_limit".
+15:01:22: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
+15:01:22: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
+15:01:22: debug-  Matching Group: "Domination Count Operator Group" match succeeded.
+15:01:22: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+15:01:22: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
+15:01:22: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
+15:01:22: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
+15:01:22: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
+15:01:22: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
+15:01:22: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
+15:01:22: verbose- Domination Count Operator Group: Contains Selector "below_limit".
+15:01:22: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
+15:01:22: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
+15:01:22: verbose- NO_ID: The name of this GA is now NO_ID
+15:01:22: verbose- NO_ID: The print each population flag is now set to 0
+15:01:22: verbose- NO_ID: The print final data flag is now set to 1
+15:01:22: verbose- NO_ID: The print discards flag is now set to 1
+15:01:22: verbose- NO_ID: The name of the file to which final data will be written is now finaldata1.dat
+15:01:22: verbose- NO_ID: The data directory is now set to ./
+15:01:22: verbose- metric_tracker: Number of generations tracked now = 10
+15:01:22: verbose- metric_tracker: Max allowable % change now = 1
+15:01:22: verbose- metric_tracker: Maximum allowable generations now = 100
+15:01:22: verbose- metric_tracker: Maximum allowable evaluations now = 20000
+15:01:22: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+15:01:22: verbose- metric_tracker: The maximum allowable amount of time was not found in the parameter database.  Using the current value of 1.79769e+308
+15:01:22: verbose- metric_tracker: Maximum allowable time now = 1.79769e+308 seconds 
+15:01:22: quiet- Error encountered while retrieving parameter named "method.jega.num_cross_points" of type "St6vectorIiSaIiEE" from parameter database reading: Parameter not found for tag: method.jega.num_cross_points
+15:01:22: verbose- multi_point_parameterized_binary: The number of crossover points for each variable were not found in the parameter database.  Checking for a single value.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points now = 2
+15:01:22: verbose- multi_point_parameterized_binary: Crossover rate now = 0.4
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_1" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_2" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_3" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_4" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_5" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_6" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_7" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_8" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_9" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_1" now = 2.
+15:01:22: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_2" now = 2.
+15:01:22: verbose- DAKOTA JEGA Evaluator: Maximum allowable evaluations now = 20000
+15:01:22: verbose- DAKOTA JEGA Evaluator: The evaluation concurrency is now 1
+15:01:22: verbose- unique_random: Desired initial population size now = 250
+15:01:22: verbose- null_niching: Niched design caching now set to true.
+15:01:22: quiet- Error encountered while retrieving parameter named "method.jega.max_niche_cache_size" of type "m" from parameter database reading: Parameter not found for tag: method.jega.max_niche_cache_size
+15:01:22: verbose- null_niching: The max niche cache size value was not found in the parameter database.  Using the current value of 1
+15:01:22: verbose- null_niching: Niched design caching max size now set to 18446744073709551615.
+15:01:22: verbose- offset_normal: Offset range now = 0.05
+15:01:22: verbose- offset_normal: Mutation rate now = 0.2
+15:01:22: verbose- below_limit: Limiting value now = 6
+15:01:22: verbose- below_limit: Shrinkage percentage now = 0.3
+15:01:22: verbose- below_limit: Minimum selections now = 2
+15:01:22: verbose- NO_ID: About to perform algorithm execution.
+15:01:22: verbose- unique_random: 250 unique random designs created.
+09:23:22: verbose- below_limit: Performed 75 total selections.
+09:23:22: verbose- NO_ID: 175 of 250 population members were not selected to continue.  0 of 0 offspring were immediately rejected.
+09:23:22: verbose- metric_tracker: Operating on 75 total designs and 8 "best fitness" designs.
+09:23:22: verbose- metric_tracker: Pushed metric value of 0 onto the convergence stack.
+09:23:22: quiet- duplicate_free: 1 generation so far.
+09:23:22: quiet- duplicate_free: 250 evaluations so far.
+09:23:22: verbose- duplicate_free: 75 members in population so far.
+09:23:22: verbose- multi_point_parameterized_binary: 30 children created.
+09:23:22: quiet- offset_normal: Produced invalid  variable representation 1.64136. Mutation performed without corrective action.
+09:23:22: quiet- offset_normal: Produced invalid  variable representation 12.8971. Mutation performed without corrective action.
+09:23:22: verbose- offset_normal: Performed 15 total mutations.
+09:23:22: quiet- NO_ID: Invalid value of 2.08389 found for variable DAKOTA_RC_7.  Corrected to 1.76812.
+09:23:22: quiet- NO_ID: Invalid value of 2.23769 found for variable DAKOTA_RC_7.  Corrected to 1.63493.
+09:23:22: quiet- NO_ID: Invalid value of 1.32293 found for variable DAKOTA_RC_7.  Corrected to 1.46798.
+09:23:22: quiet- NO_ID: Invalid value of 2.42964 found for variable DAKOTA_RC_4.  Corrected to 1.79265.
+09:23:22: quiet- NO_ID: Invalid value of 1.64136 found for variable DAKOTA_RC_4.  Corrected to 2.07591.
+09:23:22: quiet- NO_ID: Invalid value of 2.30128 found for variable DAKOTA_RC_4.  Corrected to 1.84564.
+09:23:22: quiet- NO_ID: Invalid value of 12.1176 found for variable DAKOTA_EP_1.  Corrected to 8.73604.
+09:23:22: quiet- NO_ID: Invalid value of 12.8971 found for variable DAKOTA_EP_1.  Corrected to 11.8931.
+09:23:22: quiet- NO_ID: Invalid value of 1.60595 found for variable DAKOTA_RC_4.  Corrected to 1.82843.
+09:23:22: quiet- NO_ID: Invalid value of 12.1517 found for variable DAKOTA_EP_1.  Corrected to 6.55663.
+09:23:22: quiet- NO_ID: Invalid value of 1.77234 found for variable DAKOTA_RC_2.  Corrected to 2.14568.
+09:23:22: quiet- NO_ID: Invalid value of 1.24859 found for variable DAKOTA_RC_6.  Corrected to 1.99638.
+09:23:22: quiet- NO_ID: Invalid value of 2.46574 found for variable DAKOTA_RC_4.  Corrected to 2.03392.
+09:23:22: quiet- NO_ID: Invalid value of 2.47444 found for variable DAKOTA_RC_1.  Corrected to 2.25203.
+09:23:22: quiet- NO_ID: Invalid value of 1.27588 found for variable DAKOTA_RC_7.  Corrected to 1.96987.
+09:23:22: quiet- NO_ID: Invalid value of 2.53808 found for variable DAKOTA_RC_1.  Corrected to 2.33499.
+09:23:22: quiet- NO_ID: Invalid value of 2.60123 found for variable DAKOTA_RC_1.  Corrected to 2.29217.
+09:23:22: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.

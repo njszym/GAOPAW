@@ -1,0 +1,40 @@
+W 74
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+6 6 5 4 0 0                                 ! Max. n per angular momentum: 4s 3p 3d
+5 2 4.0
+6 0 2.
+6 1 0.
+0 0 0
+c
+c
+c
+c
+v
+v
+c
+c
+c
+v
+v
+c
+c
+v
+c
+2
+2.587876 2.156563333 1.677133 1.844361
+n
+n
+y
+2.540429
+n
+custom polynom2 4 10.0 vanderbiltortho
+3 -0.47 ultrasoft
+2.48154015
+2.092552
+2.346971
+2.516538
+2.16784
+2.093962
+3
+0
+

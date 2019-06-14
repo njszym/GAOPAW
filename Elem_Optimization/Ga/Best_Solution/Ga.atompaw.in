@@ -1,0 +1,35 @@
+Ga 31
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+4 4 3 0 0 0 
+4 1 1
+0 0 0 
+c
+c
+c
+v
+c
+c
+v
+v
+2
+2.236204 1.863503333 1.801041 1.896965
+y
+4.349246
+n
+y
+2.605983
+n
+y
+0.141233
+n
+custom polynom2 7 10. vanderbiltortho besselshape
+3 0.0 ultrasoft
+2.297377
+2.226301
+1.971976
+1.814958
+1.63356
+2.19893
+3
+0
+

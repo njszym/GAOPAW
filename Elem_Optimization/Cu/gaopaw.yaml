@@ -1,0 +1,7 @@
+# Input file for GAOPAW
+elements: ['Cu','Cu']
+lattice_type: ['FCC','BCC']
+lattice_constant: [3.638,2.855]
+template_dir: '/home/szymansk/Elem_Optimization/Cu/Input'
+# End file
+

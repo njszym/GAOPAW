@@ -1,0 +1,7 @@
+# Input file for GAOPAW
+elements: ['Zr','Zr']
+lattice_type: ['FCC','BCC']
+lattice_constant: [4.522,3.569]
+template_dir: '/home/szymansk/Elem_Optimization/Zr/Input'
+# End file
+

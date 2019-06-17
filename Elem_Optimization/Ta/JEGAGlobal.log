@@ -1,83 +1,83 @@
 JEGA Genetic Algorithm Optimization Software v2.7.0
-Run started Thu Jun 13 15:20:44 2019
+Run started Mon Jun 17 16:21:06 2019
 
 Global Log initialized using "verbose" as default level.
 Global Log logging to file JEGAGlobal.log
 Global Log logging to console window
-15:20:44: quiet- JEGA Front End: Random seed = 1560513644
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_1 added.  1 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_2 added.  2 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_3 added.  3 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_4 added.  4 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_5 added.  5 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_6 added.  6 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_7 added.  7 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_8 added.  8 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_RC_9 added.  9 design variables now in target.
-15:20:44: verbose- Design Target: Design variable DAKOTA_EP_1 added.  10 design variables now in target.
-15:20:44: verbose- Design Target: Objective Non-Linear Minimize obj_fn_1 added.  1 objectives now in target.
-15:20:44: verbose- Design Target: Objective Non-Linear Minimize obj_fn_2 added.  2 objectives now in target.
-15:20:44: verbose- Design Target: Objective Non-Linear Minimize obj_fn_3 added.  3 objectives now in target.
-15:20:44: verbose- JEGA Front End: Creating a MOGA
-15:20:44: debug-  Matching Group: Trying "Domination Count Operator Group".
-15:20:44: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
-15:20:44: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
-15:20:44: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
-15:20:44: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
-15:20:44: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
-15:20:44: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
-15:20:44: verbose- Domination Count Operator Group: Contains Selector "below_limit".
-15:20:44: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
-15:20:44: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
-15:20:44: debug-  Matching Group: "Domination Count Operator Group" match succeeded.
-15:20:44: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
-15:20:44: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
-15:20:44: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
-15:20:44: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
-15:20:44: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
-15:20:44: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
-15:20:44: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
-15:20:44: verbose- Domination Count Operator Group: Contains Selector "below_limit".
-15:20:44: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
-15:20:44: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
-15:20:44: verbose- NO_ID: The name of this GA is now NO_ID
-15:20:44: verbose- NO_ID: The print each population flag is now set to 0
-15:20:44: verbose- NO_ID: The print final data flag is now set to 1
-15:20:44: verbose- NO_ID: The print discards flag is now set to 1
-15:20:44: verbose- NO_ID: The name of the file to which final data will be written is now finaldata1.dat
-15:20:44: verbose- NO_ID: The data directory is now set to ./
-15:20:44: verbose- metric_tracker: Number of generations tracked now = 10
-15:20:44: verbose- metric_tracker: Max allowable % change now = 1
-15:20:44: verbose- metric_tracker: Maximum allowable generations now = 100
-15:20:44: verbose- metric_tracker: Maximum allowable evaluations now = 20000
-15:20:44: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
-15:20:44: verbose- metric_tracker: The maximum allowable amount of time was not found in the parameter database.  Using the current value of 1.79769e+308
-15:20:44: verbose- metric_tracker: Maximum allowable time now = 1.79769e+308 seconds 
-15:20:44: quiet- Error encountered while retrieving parameter named "method.jega.num_cross_points" of type "St6vectorIiSaIiEE" from parameter database reading: Parameter not found for tag: method.jega.num_cross_points
-15:20:44: verbose- multi_point_parameterized_binary: The number of crossover points for each variable were not found in the parameter database.  Checking for a single value.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points now = 2
-15:20:44: verbose- multi_point_parameterized_binary: Crossover rate now = 0.4
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_1" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_2" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_3" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_4" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_5" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_6" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_7" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_8" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_9" now = 2.
-15:20:44: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_1" now = 2.
-15:20:44: verbose- DAKOTA JEGA Evaluator: Maximum allowable evaluations now = 20000
-15:20:44: verbose- DAKOTA JEGA Evaluator: The evaluation concurrency is now 1
-15:20:44: verbose- unique_random: Desired initial population size now = 250
-15:20:44: verbose- null_niching: Niched design caching now set to true.
-15:20:44: quiet- Error encountered while retrieving parameter named "method.jega.max_niche_cache_size" of type "m" from parameter database reading: Parameter not found for tag: method.jega.max_niche_cache_size
-15:20:44: verbose- null_niching: The max niche cache size value was not found in the parameter database.  Using the current value of 1
-15:20:44: verbose- null_niching: Niched design caching max size now set to 18446744073709551615.
-15:20:44: verbose- offset_normal: Offset range now = 0.05
-15:20:44: verbose- offset_normal: Mutation rate now = 0.2
-15:20:44: verbose- below_limit: Limiting value now = 6
-15:20:44: verbose- below_limit: Shrinkage percentage now = 0.3
-15:20:44: verbose- below_limit: Minimum selections now = 2
-15:20:44: verbose- NO_ID: About to perform algorithm execution.
-15:20:44: verbose- unique_random: 250 unique random designs created.
+16:21:06: quiet- JEGA Front End: Random seed = 1560872866
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_1 added.  1 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_2 added.  2 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_3 added.  3 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_4 added.  4 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_5 added.  5 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_6 added.  6 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_7 added.  7 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_8 added.  8 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_RC_9 added.  9 design variables now in target.
+16:21:06: verbose- Design Target: Design variable DAKOTA_EP_1 added.  10 design variables now in target.
+16:21:06: verbose- Design Target: Objective Non-Linear Minimize obj_fn_1 added.  1 objectives now in target.
+16:21:06: verbose- Design Target: Objective Non-Linear Minimize obj_fn_2 added.  2 objectives now in target.
+16:21:06: verbose- Design Target: Objective Non-Linear Minimize obj_fn_3 added.  3 objectives now in target.
+16:21:06: verbose- JEGA Front End: Creating a MOGA
+16:21:06: debug-  Matching Group: Trying "Domination Count Operator Group".
+16:21:06: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
+16:21:06: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
+16:21:06: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
+16:21:06: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
+16:21:06: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
+16:21:06: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
+16:21:06: verbose- Domination Count Operator Group: Contains Selector "below_limit".
+16:21:06: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
+16:21:06: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
+16:21:06: debug-  Matching Group: "Domination Count Operator Group" match succeeded.
+16:21:06: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+16:21:06: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
+16:21:06: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
+16:21:06: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
+16:21:06: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
+16:21:06: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
+16:21:06: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
+16:21:06: verbose- Domination Count Operator Group: Contains Selector "below_limit".
+16:21:06: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
+16:21:06: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
+16:21:06: verbose- NO_ID: The name of this GA is now NO_ID
+16:21:06: verbose- NO_ID: The print each population flag is now set to 0
+16:21:06: verbose- NO_ID: The print final data flag is now set to 1
+16:21:06: verbose- NO_ID: The print discards flag is now set to 1
+16:21:06: verbose- NO_ID: The name of the file to which final data will be written is now finaldata1.dat
+16:21:06: verbose- NO_ID: The data directory is now set to ./
+16:21:06: verbose- metric_tracker: Number of generations tracked now = 10
+16:21:06: verbose- metric_tracker: Max allowable % change now = 1
+16:21:06: verbose- metric_tracker: Maximum allowable generations now = 100
+16:21:06: verbose- metric_tracker: Maximum allowable evaluations now = 20000
+16:21:06: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+16:21:06: verbose- metric_tracker: The maximum allowable amount of time was not found in the parameter database.  Using the current value of 1.79769e+308
+16:21:06: verbose- metric_tracker: Maximum allowable time now = 1.79769e+308 seconds 
+16:21:06: quiet- Error encountered while retrieving parameter named "method.jega.num_cross_points" of type "St6vectorIiSaIiEE" from parameter database reading: Parameter not found for tag: method.jega.num_cross_points
+16:21:06: verbose- multi_point_parameterized_binary: The number of crossover points for each variable were not found in the parameter database.  Checking for a single value.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points now = 2
+16:21:06: verbose- multi_point_parameterized_binary: Crossover rate now = 0.4
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_1" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_2" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_3" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_4" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_5" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_6" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_7" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_8" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_9" now = 2.
+16:21:06: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_1" now = 2.
+16:21:06: verbose- DAKOTA JEGA Evaluator: Maximum allowable evaluations now = 20000
+16:21:06: verbose- DAKOTA JEGA Evaluator: The evaluation concurrency is now 1
+16:21:06: verbose- unique_random: Desired initial population size now = 250
+16:21:06: verbose- null_niching: Niched design caching now set to true.
+16:21:06: quiet- Error encountered while retrieving parameter named "method.jega.max_niche_cache_size" of type "m" from parameter database reading: Parameter not found for tag: method.jega.max_niche_cache_size
+16:21:06: verbose- null_niching: The max niche cache size value was not found in the parameter database.  Using the current value of 1
+16:21:06: verbose- null_niching: Niched design caching max size now set to 18446744073709551615.
+16:21:06: verbose- offset_normal: Offset range now = 0.05
+16:21:06: verbose- offset_normal: Mutation rate now = 0.2
+16:21:06: verbose- below_limit: Limiting value now = 6
+16:21:06: verbose- below_limit: Shrinkage percentage now = 0.3
+16:21:06: verbose- below_limit: Minimum selections now = 2
+16:21:06: verbose- NO_ID: About to perform algorithm execution.
+16:21:06: verbose- unique_random: 250 unique random designs created.

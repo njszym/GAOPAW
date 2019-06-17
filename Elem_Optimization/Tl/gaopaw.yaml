@@ -1,0 +1,7 @@
+# Input file for GAOPAW
+elements: ['Tl','Tl']
+lattice_type: ['FCC','BCC']
+lattice_constant: [4.996,3.977]
+template_dir: '/home/szymansk/Elem_Optimization/Tl/Input'
+# End file
+

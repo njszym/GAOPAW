@@ -345,3 +345,31 @@ Global Log logging to console window
 09:58:51: quiet- NO_ID: Invalid value of 2.70722 found for variable DAKOTA_RC_1.  Corrected to 2.60259.
 09:58:51: quiet- NO_ID: Invalid value of 2.76038 found for variable DAKOTA_RC_1.  Corrected to 2.31977.
 09:58:51: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+13:24:17: verbose- below_limit: Performed 319 total selections.
+13:24:17: verbose- NO_ID: 88 of 316 population members were not selected to continue.  97 of 188 offspring were immediately rejected.
+13:24:17: verbose- metric_tracker: Operating on 319 total designs and 94 "best fitness" designs.
+13:24:17: verbose- metric_tracker: Max "best fitness" expanse change of 0.011% found for objective "Non-Linear Minimize obj_fn_2".
+13:24:17: verbose- metric_tracker: Population density increased by 4.049%.
+13:24:17: verbose- metric_tracker: 11.842% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+13:24:17: verbose- metric_tracker: Pushed metric value of 0.159021 onto the convergence stack.
+13:24:17: verbose- metric_tracker: Current max percentage progress is 77.634%.
+13:24:17: verbose- metric_tracker: Convergence attained.
+13:24:17: quiet- duplicate_free: 10 generations so far.
+13:24:17: quiet- duplicate_free: 1140 evaluations so far.
+13:24:17: verbose- duplicate_free: 319 members in population so far.
+13:24:17: verbose- NO_ID: Reclaimed 0 optimal designs from the discards.
+13:24:17: quiet- NO_ID: Reclaimed 0 optimal designs that had been selected out.
+13:24:17: verbose- NO_ID: Flushed 225 dominated designs from the population.
+13:24:17: quiet- NO_ID: Ran 10 total generations.
+13:24:17: quiet- NO_ID: Final population size = 94
+13:24:17: verbose- NO_ID: Wrote designs file ".//finaldata1.dat".
+13:24:17: verbose- NO_ID: Wrote designs file ".//discards.dat".
+13:24:17: quiet- JEGA Front End: NO_ID execution took 14.35 seconds.
+13:24:17: quiet- JEGA Front End: Execution took 14.35 seconds.
+13:24:17: verbose- NO_ID: algorithm execution completed. 94 solutions found. Passing them back to DAKOTA.
+13:24:17: quiet- NO_ID: find optimum completed and all results have been passed back to DAKOTA.
+
+
+13:24:17: quiet- NO_ID: goodbye!
+
+

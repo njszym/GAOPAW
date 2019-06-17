@@ -16,7 +16,7 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
 
 (iii) Create a template directory (path specified in gaopaw.yaml) containing all AtomPAW and QE input files.
 
-(iv) Write a dakota.in file containing all control parameters for the genetic algorithm as implemented in Dakota (see https://dakota.sandia.gov/documentation.html).
+(iv) Write a dakota.in file containing all control parameters for the genetic algorithm as implemented in Dakota. An example dakota.in file with (roughly) optimized parameters may be found in the "Dakota_Template" folder. For details, see https://dakota.sandia.gov/documentation.html.
 
 (v) Execute the Dakota through the following command: "dakota dakota.in".
 

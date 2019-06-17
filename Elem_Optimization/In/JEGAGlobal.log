@@ -552,3 +552,31 @@ Global Log logging to console window
 08:30:28: quiet- NO_ID: Invalid value of 1.41491 found for variable DAKOTA_RC_8.  Corrected to 1.68456.
 08:30:28: quiet- NO_ID: Invalid value of 1.79724 found for variable DAKOTA_RC_6.  Corrected to 2.02914.
 08:30:28: quiet- NO_ID: Invalid value of 1.57897 found for variable DAKOTA_RC_9.  Corrected to 2.02014.
+10:57:45: verbose- below_limit: Performed 150 total selections.
+10:57:45: verbose- NO_ID: 30 of 149 population members were not selected to continue.  59 of 90 offspring were immediately rejected.
+10:57:45: verbose- metric_tracker: Operating on 150 total designs and 59 "best fitness" designs.
+10:57:45: verbose- metric_tracker: No "best fitness" expansion or contraction occurred this generation.
+10:57:45: verbose- metric_tracker: Population density increased by 0.671%.
+10:57:45: verbose- metric_tracker: 4.167% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+10:57:45: verbose- metric_tracker: Pushed metric value of 0.0483781 onto the convergence stack.
+10:57:45: verbose- metric_tracker: Current max percentage progress is 76.036%.
+10:57:45: verbose- metric_tracker: Convergence attained.
+10:57:45: quiet- duplicate_free: 21 generations so far.
+10:57:45: quiet- duplicate_free: 1366 evaluations so far.
+10:57:45: verbose- duplicate_free: 150 members in population so far.
+10:57:45: verbose- NO_ID: Reclaimed 0 optimal designs from the discards.
+10:57:45: quiet- NO_ID: Reclaimed 0 optimal designs that had been selected out.
+10:57:45: verbose- NO_ID: Flushed 91 dominated designs from the population.
+10:57:45: quiet- NO_ID: Ran 21 total generations.
+10:57:45: quiet- NO_ID: Final population size = 59
+10:57:45: verbose- NO_ID: Wrote designs file ".//finaldata1.dat".
+10:57:45: verbose- NO_ID: Wrote designs file ".//discards.dat".
+10:57:45: quiet- JEGA Front End: NO_ID execution took 17.22 seconds.
+10:57:45: quiet- JEGA Front End: Execution took 17.22 seconds.
+10:57:45: verbose- NO_ID: algorithm execution completed. 59 solutions found. Passing them back to DAKOTA.
+10:57:45: quiet- NO_ID: find optimum completed and all results have been passed back to DAKOTA.
+
+
+10:57:45: quiet- NO_ID: goodbye!
+
+

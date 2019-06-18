@@ -548,8 +548,13 @@ def unique(list):
     """
     unique_list = []   
     for x in list:
-        if x not in unique_list: 
-            unique_list.append(x) 
+        try:
+            value = round(float(x),3)
+            if value not in unique_list:
+                unique_list.append(value)
+        except:
+            if x not in unique_list: 
+                unique_list.append(x) 
     return unique_list
 
 def compare_atoms(elem,lat_type,template_path):

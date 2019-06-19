@@ -312,7 +312,7 @@ def main():
                                	QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
                                	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                                	lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                            if cmpd_lat_type in ['tetrag','hex']:
+                            if cmpd_lat_type in ['tetrag','hex','WZ']:
                                	QE_a, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
                                	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                                	lat_diff = compare_lat(AE_lat[0],QE_a)
@@ -483,7 +483,7 @@ def get_lattice_constant(elem,lat_type):
     if lat_type == 'ortho':
         unique_lat_list = sorted(params[:3])
         return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2]
-    if lat_type == 'hex':
+    if lat_type == 'hex' or lat_type == 'WZ':
         unique_lat_list = sorted(unique(params[:3]))
         return unique_lat_list[0], unique_lat_list[1]
     if lat_type == 'rhomb':

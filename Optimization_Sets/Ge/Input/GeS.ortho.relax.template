@@ -1,0 +1,42 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=8
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='none'
+/
+ATOMIC_SPECIES
+  Ge 0.0 Ge.GGA-PBE-paw.UPF
+  S 0.0 S.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 4 0 0 0
+ATOMIC_POSITIONS crystal
+Ge 0.125707 0.750000 0.635328
+Ge 0.874293 0.250000 0.364672
+Ge 0.374293 0.250000 0.135328
+Ge 0.625707 0.750000 0.864672
+S 0.152755 0.250000 0.997851
+S 0.847245 0.750000 0.002149
+S 0.347245 0.750000 0.497851
+S 0.652755 0.250000 0.502149
+CELL_PARAMETERS angstrom
+10.769622 0.000000 0.000000
+0.000000 3.665881 0.000000
+0.000000 0.000000 4.454533

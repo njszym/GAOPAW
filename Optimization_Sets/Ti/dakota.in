@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 40
+	continuous_design = 53
   	  initial_point    
   	  lower_bounds     
   	  upper_bounds     
-  	  descriptors     'DAKOTA_Sr_RC_1' 'DAKOTA_Sr_RC_2' 'DAKOTA_Sr_RC_3' 'DAKOTA_Sr_RC_4' 'DAKOTA_Sr_RC_5' 'DAKOTA_Sr_RC_6' 'DAKOTA_Sr_RC_7' 'DAKOTA_Sr_RC_8' 'DAKOTA_Sr_RC_9' 'DAKOTA_Sr_EP_1' 'DAKOTA_Sr_EP_2' 'DAKOTA_Ti_RC_1' 'DAKOTA_Ti_RC_2' 'DAKOTA_Ti_RC_3' 'DAKOTA_Ti_RC_4' 'DAKOTA_Ti_RC_5' 'DAKOTA_Ti_RC_6' 'DAKOTA_Ti_RC_7' 'DAKOTA_Ti_RC_8' 'DAKOTA_Ti_RC_9' 'DAKOTA_Ti_EP_1' 'DAKOTA_Ti_EP_2' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2'
+  	  descriptors     'DAKOTA_Ti_RC_1' 'DAKOTA_Ti_RC_2' 'DAKOTA_Ti_RC_3' 'DAKOTA_Ti_RC_4' 'DAKOTA_Ti_RC_5' 'DAKOTA_Ti_RC_6' 'DAKOTA_Ti_RC_7' 'DAKOTA_Ti_RC_8' 'DAKOTA_Ti_RC_9' 'DAKOTA_Ti_EP_1' 'DAKOTA_Ti_EP_2' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2' 'DAKOTA_Co_RC_1' 'DAKOTA_Co_RC_2' 'DAKOTA_Co_RC_3' 'DAKOTA_Co_RC_4' 'DAKOTA_Co_RC_5' 'DAKOTA_Co_RC_6' 'DAKOTA_Co_RC_7' 'DAKOTA_Co_RC_8' 'DAKOTA_Co_RC_9' 'DAKOTA_Co_EP_1' 'DAKOTA_Co_EP_2' 'DAKOTA_Sb_RC_1' 'DAKOTA_Sb_RC_2' 'DAKOTA_Sb_RC_3' 'DAKOTA_Sb_RC_4' 'DAKOTA_Sb_RC_5' 'DAKOTA_Sb_RC_6' 'DAKOTA_Sb_RC_7' 'DAKOTA_Sb_RC_8' 'DAKOTA_Sb_RC_9' 'DAKOTA_Sb_EP_1' 'DAKOTA_Sb_EP_2' 'DAKOTA_Sb_EP_3'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -43,9 +43,9 @@ interface
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp' file_save directory_save
+          named 'workdir_pp'
 
 responses
-	num_objective_functions = 19 ## Set this accordingly based on your calculation
+	num_objective_functions = 21 ## Set this accordingly based on your calculation
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

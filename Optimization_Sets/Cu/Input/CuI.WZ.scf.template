@@ -1,0 +1,32 @@
+&control
+  calculation='scf'
+  prefix='CuI.WZ.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=4
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=54
+  use_all_frac=.TRUE.
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  Cu 0.0 Cu.GGA-PBE-paw.UPF
+  I 0.0 I.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  6 6 3 1 1 1
+CELL_PARAMETERS angstrom
+4.258682 0.000000 0.000000
+-2.129341 3.688127 0.000000
+0.000000 0.000000 7.007329
+ATOMIC_POSITIONS crystal
+Cu 0.333333 0.666667 0.374472
+Cu 0.666667 0.333333 0.874472
+I 0.333333 0.666667 0.000528
+I 0.666667 0.333333 0.500528

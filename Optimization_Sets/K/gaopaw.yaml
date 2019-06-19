@@ -1,0 +1,15 @@
+# Input file for GAOPAW
+elements: ['K','K','Cl','Cl','Mg','Mg','F','F']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [6.684,5.294,4.409,3.501,4.526,3.581,3.447,2.730]
+template_dir: '/home/szymansk/Optimization_Sets/K/Input'
+cmpd_formula: ['KCl','KMgF3']
+cmpd_lattice_type: ['RS','per']
+test_lattice: [True,True]
+cmpd_lattice_constant: [6.391,4.059]
+test_bulk: [False,True]
+bulk_modulus: [0.00,66.807]
+test_gap: [False,True]
+band_gap: [0.00,7.20]
+test_phonon: [True,True]
+# End file

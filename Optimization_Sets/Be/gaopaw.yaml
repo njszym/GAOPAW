@@ -1,0 +1,14 @@
+# Input file for GAOPAW
+elements: ['Be','Be','O','O','S','S','Al','Al','B','B']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [3.166,2.506,3.178,2.511,3.994,3.182,4.043,3.242,2.872,2.323]
+template_dir: '/home/szymansk/Optimization_Sets/Be/Input'
+cmpd_formula: ['BeO','BeS','AlBeB']
+cmpd_lattice_type: ['RS','ZB','HH']
+test_lattice: [True,False,True]
+cmpd_lattice_constant: [3.650,0.00,4.963]
+test_delta: [False,True,False]
+test_gap: [True,False,False]
+band_gap: [8.273,0.00,0.00]
+test_phonon: [False,True,False]
+# End file

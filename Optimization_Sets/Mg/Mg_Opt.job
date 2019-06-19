@@ -16,5 +16,5 @@ export LD_LIBRARY_PATH=$dakota_path/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$dakota_path/bin:$LD_LIBRARY_PATH
 export PYTHONPATH=/home/szymansk/Programs/dakota-6.9.0.Linux.x86_64/share/dakota/Python:$PYTHONPATH
 
-cd /home/szymansk/Optimization_Sets/Si/
+cd /home/szymansk/Optimization_Sets/Mg/
 dakota dakota.in >> log

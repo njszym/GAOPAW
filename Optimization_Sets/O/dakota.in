@@ -4,9 +4,9 @@ environment
 
 variables
 	continuous_design = 71
-  	  initial_point    
-  	  lower_bounds     
-  	  upper_bounds     
+  	  initial_point    2.500  1.913  1.204  1.642  1.764  1.183  2.175  1.912  2.373  2.343  6.604  
+  	  lower_bounds     2.400  1.813  1.104  1.542  1.664  1.083  2.075  1.812  2.273  1.843  5.504  
+  	  upper_bounds     2.550  2.013  1.304  1.742  1.864  1.283  2.275  2.012  2.473  2.843  7.704  
   	  descriptors   'DAKOTA_Sr_RC_1' 'DAKOTA_Sr_RC_2' 'DAKOTA_Sr_RC_3' 'DAKOTA_Sr_RC_4' 'DAKOTA_Sr_RC_5' 'DAKOTA_Sr_RC_6' 'DAKOTA_Sr_RC_7' 'DAKOTA_Sr_RC_8' 'DAKOTA_Sr_RC_9' 'DAKOTA_Sr_EP_1' 'DAKOTA_Sr_EP_2' 'DAKOTA_Ti_RC_1' 'DAKOTA_Ti_RC_2' 'DAKOTA_Ti_RC_3' 'DAKOTA_Ti_RC_4' 'DAKOTA_Ti_RC_5' 'DAKOTA_Ti_RC_6' 'DAKOTA_Ti_RC_7' 'DAKOTA_Ti_RC_8' 'DAKOTA_Ti_RC_9' 'DAKOTA_Ti_EP_1' 'DAKOTA_Ti_EP_2' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_V_RC_1' 'DAKOTA_V_RC_2' 'DAKOTA_V_RC_3' 'DAKOTA_V_RC_4' 'DAKOTA_V_RC_5' 'DAKOTA_V_RC_6' 'DAKOTA_V_RC_7' 'DAKOTA_V_RC_8' 'DAKOTA_V_RC_9' 'DAKOTA_V_EP_1' 'DAKOTA_V_EP_2' 'DAKOTA_Mg_RC_1' 'DAKOTA_Mg_RC_2' 'DAKOTA_Mg_RC_3' 'DAKOTA_Mg_RC_4' 'DAKOTA_Mg_RC_5' 'DAKOTA_Mg_RC_6' 'DAKOTA_Mg_RC_7' 'DAKOTA_Zn_RC_1' 'DAKOTA_Zn_RC_2' 'DAKOTA_Zn_RC_3' 'DAKOTA_Zn_RC_4' 'DAKOTA_Zn_RC_5' 'DAKOTA_Zn_RC_6' 'DAKOTA_Zn_RC_7' 'DAKOTA_Zn_RC_8' 'DAKOTA_Zn_RC_9' 'DAKOTA_Zn_EP_1' 'DAKOTA_Zn_EP_2' 'DAKOTA_Zn_EP_3' 'DAKOTA_Zn_EP_4' 'DAKOTA_C_RC_1' 'DAKOTA_C_RC_2' 'DAKOTA_C_RC_3' 'DAKOTA_C_RC_4' 'DAKOTA_C_RC_5' 'DAKOTA_C_RC_6' 'DAKOTA_C_RC_7' 'DAKOTA_C_EP_1' 'DAKOTA_C_EP_2'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
@@ -40,10 +40,10 @@ interface
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp' file_save directory_save
+          named 'workdir_pp'
 
 responses
-        num_objective_functions = 28 ## Set this accordingly based on your calculation
+        num_objective_functions = 27 ## Set this accordingly based on your calculation
         no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
 

@@ -1,0 +1,14 @@
+# Input file for GAOPAW
+elements: ['Ge','Ge','O','O','Si','Si','Sr','Sr','S','S']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [4.283,3.397,3.178,2.511,3.857,3.080,6.030,4.756,3.994,3.182]
+template_dir: '/home/szymansk/Optimization_Sets/Ge/Input'
+cmpd_formula: ['GeO','GeSi','SiGe','SrGeO3','GeS']
+cmpd_lattice_type: ['RS','ZB','hex','per','ortho']
+test_lattice: [True,False,True,True,False]
+cmpd_lattice_constant: [4.773,0.00,[3.8984,6.433],3.855,0.00]
+test_delta: [False,True,False,False,False]
+test_gap: [False,False,False,False,True]
+band_gap: [0.0,0.0,0.0,0.0,1.10]
+test_phonon: [False,False,True,False,False]
+# End file

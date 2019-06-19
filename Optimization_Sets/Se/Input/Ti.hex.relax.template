@@ -1,0 +1,36 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=2
+  ntyp=1
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+  use_all_frac=.TRUE.
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  Ti 0.0 Ti.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 1 1 1
+CELL_PARAMETERS angstrom
+    1.4683200000    -2.5432048418     0.0000000000
+    1.4683200000     2.5432048418     0.0000000000
+    0.0000000000     0.0000000000     4.6519300000
+ATOMIC_POSITIONS angstrom
+Ti       1.4683200000     4.2386832136     3.4889475000
+Ti       1.4683200000     0.8477264699     1.1629825000

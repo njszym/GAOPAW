@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 41
+	continuous_design = 42
   	  initial_point    1.356  1.276  1.151  1.348  1.324  1.421  1.481  3.710  1.726  1.693  1.478  1.378  1.560  1.297  1.504  1.697  1.508  2.539  1.336
   	  lower_bounds     1.256  1.176  1.051  1.248  1.224  1.321  1.381  3.210  1.226  1.593  1.378  1.278  1.460  1.197  1.404  1.597  1.408  2.039  0.836
   	  upper_bounds     1.456  1.376  1.251  1.448  1.424  1.521  1.581  4.210  2.226  1.793  1.578  1.478  1.660  1.397  1.604  1.797  1.608  3.039  1.836
-  	  descriptors     'DAKOTA_F_RC_1' 'DAKOTA_F_RC_2' 'DAKOTA_F_RC_3' 'DAKOTA_F_RC_4' 'DAKOTA_F_RC_5' 'DAKOTA_F_RC_6' 'DAKOTA_F_RC_7' 'DAKOTA_F_EP_1' 'DAKOTA_F_EP_2' 'DAKOTA_Li_RC_1' 'DAKOTA_Li_RC_2' 'DAKOTA_Li_RC_3' 'DAKOTA_Li_RC_4' 'DAKOTA_Li_RC_5' 'DAKOTA_Li_RC_6' 'DAKOTA_Li_RC_7' 'DAKOTA_Li_RC_8' 'DAKOTA_Li_EP_1' 'DAKOTA_Li_EP_2' 'DAKOTA_Na_RC_1' 'DAKOTA_Na_RC_2' 'DAKOTA_Na_RC_3' 'DAKOTA_Na_RC_4' 'DAKOTA_Na_RC_5' 'DAKOTA_Na_RC_6' 'DAKOTA_Na_RC_7' 'DAKOTA_K_RC_1' 'DAKOTA_K_RC_2' 'DAKOTA_K_RC_3' 'DAKOTA_K_RC_4' 'DAKOTA_K_RC_5' 'DAKOTA_K_RC_6' 'DAKOTA_K_RC_7' 'DAKOTA_K_RC_8' 'DAKOTA_K_EP_1' 'DAKOTA_Mg_RC_1' 'DAKOTA_Mg_RC_2' 'DAKOTA_Mg_RC_3' 'DAKOTA_Mg_RC_4' 'DAKOTA_Mg_RC_5' 'DAKOTA_Mg_RC_6'
+  	  descriptors     'DAKOTA_F_RC_1' 'DAKOTA_F_RC_2' 'DAKOTA_F_RC_3' 'DAKOTA_F_RC_4' 'DAKOTA_F_RC_5' 'DAKOTA_F_RC_6' 'DAKOTA_F_RC_7' 'DAKOTA_F_EP_1' 'DAKOTA_F_EP_2' 'DAKOTA_Li_RC_1' 'DAKOTA_Li_RC_2' 'DAKOTA_Li_RC_3' 'DAKOTA_Li_RC_4' 'DAKOTA_Li_RC_5' 'DAKOTA_Li_RC_6' 'DAKOTA_Li_RC_7' 'DAKOTA_Li_RC_8' 'DAKOTA_Li_EP_1' 'DAKOTA_Li_EP_2' 'DAKOTA_Na_RC_1' 'DAKOTA_Na_RC_2' 'DAKOTA_Na_RC_3' 'DAKOTA_Na_RC_4' 'DAKOTA_Na_RC_5' 'DAKOTA_Na_RC_6' 'DAKOTA_Na_RC_7' 'DAKOTA_K_RC_1' 'DAKOTA_K_RC_2' 'DAKOTA_K_RC_3' 'DAKOTA_K_RC_4' 'DAKOTA_K_RC_5' 'DAKOTA_K_RC_6' 'DAKOTA_K_RC_7' 'DAKOTA_K_RC_8' 'DAKOTA_K_EP_1' 'DAKOTA_Mg_RC_1' 'DAKOTA_Mg_RC_2' 'DAKOTA_Mg_RC_3' 'DAKOTA_Mg_RC_4' 'DAKOTA_Mg_RC_5' 'DAKOTA_Mg_RC_6' 'DAKOTA_Mg_RC_7'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -43,7 +43,7 @@ interface
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp' file_save directory_save
+          named 'workdir_pp'
 
 responses
 	num_objective_functions = 22 ## Set this accordingly based on your calculation

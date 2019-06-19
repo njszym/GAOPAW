@@ -1,0 +1,47 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=12
+  ntyp=3
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  Zr 0.0 Zr.GGA-PBE-paw.UPF
+  Ni 0.0 Ni.GGA-PBE-paw.UPF
+  H 0.0 H.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  7 2 6 0 0 0
+ATOMIC_POSITIONS crystal
+Zr 0.000000 0.142670 0.750000
+Zr 0.000000 0.857330 0.250000
+Zr 0.500000 0.642670 0.750000
+Zr 0.500000 0.357330 0.250000
+Ni 0.000000 0.427442 0.750000
+Ni 0.000000 0.572558 0.250000
+Ni 0.500000 0.927442 0.750000
+Ni 0.500000 0.072558 0.250000
+H 0.000000 0.217249 0.250000
+H 0.000000 0.782751 0.750000
+H 0.500000 0.717249 0.250000
+H 0.500000 0.282751 0.750000
+CELL_PARAMETERS angstrom
+3.322189 0.000000 0.000000
+0.000000 10.262972 0.000000
+0.000000 0.000000 4.067926

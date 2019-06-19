@@ -1,0 +1,25 @@
+&control
+  calculation='scf'
+  prefix='GaAs.ZB.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=2
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=36
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  As 0.0 As.GGA-PBE-paw.UPF
+  Ga 0.0 Ga.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 0 0 0
+ATOMIC_POSITIONS (crystal)
+  As 0.0 0.0 0.0
+  Ga 0.25 0.25 0.25

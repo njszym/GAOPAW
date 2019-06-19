@@ -1,0 +1,33 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+/
+&system
+  ibrav=2
+  celldm(1)=11.15
+  nat=2
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+K_POINTS (automatic)
+  8 8 8 0 0 0
+ATOMIC_SPECIES
+  Li 0.0 Li.GGA-PBE-paw.UPF
+  Br 0.0 Br.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (crystal)
+  Li 0.0 0.0 0.0
+  Br 0.25 0.25 0.25

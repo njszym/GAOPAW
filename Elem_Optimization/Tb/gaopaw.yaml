@@ -1,0 +1,7 @@
+# Input file for GAOPAW
+elements: ['Tb']
+lattice_type: ['RS']
+lattice_constant: [4.907536]
+template_dir: '/home/szymansk/Elem_Optimization/Tb/Input'
+# End file
+

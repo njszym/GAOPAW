@@ -306,7 +306,7 @@ def main():
                             QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff_list.append(compare_lat(AE_lat,QE_lat))
-                        if cmpd_lat_type in ['tetrag','hex']:
+                        if cmpd_lat_type in ['tetrag','hex','WZ']:
                             QE_a, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff = compare_lat(AE_lat[0],QE_a)
@@ -476,7 +476,7 @@ def get_lattice_constant(elem,lat_type):
     if lat_type == 'ortho':
         unique_lat_list = sorted(params[:3])
         return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2]
-    if lat_type == 'hex':
+    if lat_type == 'hex' or lat_type == 'WZ':
         unique_lat_list = sorted(unique(params[:3]))
         return unique_lat_list[0], unique_lat_list[1]
     if lat_type == 'rhomb':
@@ -535,14 +535,19 @@ def compare_log():
         total_diff += net_diff
     return total_diff/sum_log
 
-def unique(list): 
+def unique(list):
     """
     Get list of unique elements to be tested
     """
-    unique_list = []   
+    unique_list = []
     for x in list:
-        if x not in unique_list: 
-            unique_list.append(x) 
+        try:
+            value = round(float(x),3)
+            if value not in unique_list:
+       	       	unique_list.append(value)
+       	except:
+            if x not in unique_list:
+                unique_list.append(x)
     return unique_list
 
 def compare_atoms(elem,lat_type,template_path):

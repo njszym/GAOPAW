@@ -186,6 +186,13 @@ def main():
                 os.chdir('../')
     if len(lat_diff_list) == len(lat_type_list):
         try:
+            PAW_list = input_settings['PAWs']
+            UPF_list = [elem_name+'.GGA-PBE-paw.UPF' for elem_name in PAW_list]
+            for UPF in UPF_list:
+                copyfile(template_dir+'/'+UPF,'./'+UPF)
+        except:
+            pass
+        try:
             cmpd_index = 0
             cmpd_formula_list = input_settings['cmpd_formula']
             cmpd_lat_type_list = input_settings['cmpd_lattice_type']
@@ -471,7 +478,7 @@ def get_lattice_constant(elem,lat_type):
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = xtal.get_params_from_chorus(cparams)
-    if lat_type == 'FCC' or lat_type == 'RS' or lat_type == 'ZB' or lat_type == 'HH' or lat_tye == 'diamond':
+    if lat_type == 'FCC' or lat_type == 'RS' or lat_type == 'ZB' or lat_type == 'HH' or lat_type == 'diamond':
         return math.sqrt(2)*params[0]
     if lat_type == 'BCC':
         return (2./3.)*math.sqrt(3)*params[0]

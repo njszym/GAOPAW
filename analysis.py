@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 from scipy.signal import argrelextrema
 from scipy.optimize import curve_fit as cf
@@ -367,20 +368,21 @@ def main():
                     lat_type_list.append('bad_run')
                 cmpd_index += 1
             if 'bad_run' not in lat_type_list:
+                update_best_result(lat_diff_list)
                 update_dakota(element_list,lat_diff_list)
-                update_best_result()
             else:
                 lat_type_list = [value for value in lat_type_list if value != 'bad_run']
                 for i in range(len(num_tests)):
                     lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
         except:
+            update_best_result(lat_diff_list)
             update_dakota(element_list,lat_diff_list)
-            update_best_result()
     else:
         for i in range(len(num_tests)):
             lat_type_list.append('placeholder')
         bad_run(element_list,lat_type_list)
+
 
 def check_UPF():
     """
@@ -1048,7 +1050,7 @@ def get_coh_energy(elem_list,lat_type,template_path):
     coh_energy = cmpd_energy - sum_energies
     return coh_energy
 
-def update_best_result():
+def update_best_result(obj_fn_list):
     """
     Parse dakota results and check overall fitness with
     respect to previous best solution. If current solution
@@ -1056,6 +1058,10 @@ def update_best_result():
     Note that fitness is normalized per the highest error
     for a given objective function.
     """
+    f = open('OBJ_FN','w+')
+    for value in obj_fn_list:
+        f.write(str(value)+'\n')
+    f.close()
     UPF_files = []
     files_in_folder = os.listdir('.')
     for file in files_in_folder:
@@ -1072,7 +1078,7 @@ def update_best_result():
     f = open('../Best_Solution/WAIT','w+')
     f.write('wait to start until previous finishes')
     f.close()
-    results_df = pd.read_table('results.out',sep='\s+',header=None)
+    results_df = pd.read_table('OBJ_FN',sep='\s+',header=None)
     obj_fn_list = [float(value) for value in list(results_df[0])]
     if 'results.out' in os.listdir('../Best_Solution/'):
         last_results_df = pd.read_table('../Best_Solution/results.out',sep='\s+',header=None)
@@ -1124,7 +1130,7 @@ def update_best_result():
                 files_to_del.append(file)
         for filename in files_to_del:
             os.remove('../Best_Solution/'+filename)
-        copyfile('results.out','../Best_Solution/results.out')
+        copyfile('OBJ_FN','../Best_Solution/results.out')
         for (file_1,file_2) in zip(atompaw_files,UPF_files):
             copyfile(file_1,'../Best_Solution/'+file_1)
        	    copyfile(file_2,'../Best_Solution/'+file_2)

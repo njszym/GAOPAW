@@ -1,0 +1,35 @@
+Ge 32
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+4 4 3 0 0 0 
+4 1 2
+0 0 0 
+c
+c
+c
+v
+c
+c
+v
+v
+2
+2.24686 1.872383333 1.75936 1.881154
+y
+6.156086
+n
+y
+2.757315
+n
+y
+5.807453
+n
+custom rrkj vanderbiltortho
+3 0.0
+1.837653
+1.889689
+2.649519
+2.266872
+1.821476719
+2.000955
+3
+0
+

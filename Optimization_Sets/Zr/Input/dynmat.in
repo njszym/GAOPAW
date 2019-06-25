@@ -1,0 +1,6 @@
+&input
+  fildyn='matdyn.dyn',
+  prefix='dynmat',
+  asr='simple'
+/
+

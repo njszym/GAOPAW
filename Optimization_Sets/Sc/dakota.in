@@ -4,9 +4,9 @@ environment
 
 variables
 	continuous_design = 53
-  	  initial_point    
-  	  lower_bounds     
-  	  upper_bounds     
+  	  initial_point    2.372  1.615  0.816  1.695  1.643  1.976  1.917  2.167  2.105  5.904  1.408  1.382  1.095  0.916  1.144  1.164  1.001  1.155  2.153  2.680  1.979  1.784  1.235  1.708  1.747  1.922  2.046  4.339  10.998  
+  	  lower_bounds     2.272  1.515  0.716  1.595  1.543  1.876  1.817  2.067  2.005  5.404  0.908  1.282  0.995  0.816  1.044  1.064  0.901  1.055  1.653  2.180  1.879  1.684  1.135  1.608  1.647  1.822  1.946  3.839  9.9980  
+  	  upper_bounds     2.472  1.715  0.916  1.795  1.743  2.076  2.017  2.267  2.205  6.404  1.908  1.482  1.195  1.016  1.244  1.264  1.101  1.255  2.653  3.180  2.079  1.884  1.335  1.808  1.847  2.022  2.146  4.839  11.998  
   	  descriptors     'DAKOTA_Sc_RC_1' 'DAKOTA_Sc_RC_2' 'DAKOTA_Sc_RC_3' 'DAKOTA_Sc_RC_4' 'DAKOTA_Sc_RC_5' 'DAKOTA_Sc_RC_6' 'DAKOTA_Sc_RC_7' 'DAKOTA_Sc_RC_8' 'DAKOTA_Sc_RC_9' 'DAKOTA_Sc_EP_1' 'DAKOTA_Sc_EP_2' 'DAKOTA_N_RC_1' 'DAKOTA_N_RC_2' 'DAKOTA_N_RC_3' 'DAKOTA_N_RC_4' 'DAKOTA_N_RC_5' 'DAKOTA_N_RC_6' 'DAKOTA_N_RC_7' 'DAKOTA_N_EP_1' 'DAKOTA_N_EP_2' 'DAKOTA_P_RC_1' 'DAKOTA_P_RC_2' 'DAKOTA_P_RC_3' 'DAKOTA_P_RC_4' 'DAKOTA_P_RC_5' 'DAKOTA_P_RC_6' 'DAKOTA_P_RC_7' 'DAKOTA_P_EP_1' 'DAKOTA_P_EP_2' 'DAKOTA_Sb_RC_1' 'DAKOTA_Sb_RC_2' 'DAKOTA_Sb_RC_3' 'DAKOTA_Sb_RC_4' 'DAKOTA_Sb_RC_5' 'DAKOTA_Sb_RC_6' 'DAKOTA_Sb_RC_7' 'DAKOTA_Sb_RC_8' 'DAKOTA_Sb_RC_9' 'DAKOTA_Sb_EP_1' 'DAKOTA_Sb_EP_2' 'DAKOTA_Sb_EP_3' 'DAKOTA_Pt_RC_1' 'DAKOTA_Pt_RC_2' 'DAKOTA_Pt_RC_3' 'DAKOTA_Pt_RC_4' 'DAKOTA_Pt_RC_5' 'DAKOTA_Pt_RC_6' 'DAKOTA_Pt_RC_7' 'DAKOTA_Pt_RC_8' 'DAKOTA_Pt_RC_9' 'DAKOTA_Pt_EP_1' 'DAKOTA_Pt_EP_2' 'DAKOTA_Pt_EP_3'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables

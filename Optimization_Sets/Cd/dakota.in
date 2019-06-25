@@ -1,0 +1,51 @@
+environment
+  graphics
+  tabular_data ## output variable and objective function values to dakota_tabular.dat
+
+variables
+	continuous_design = 59
+  	  initial_point    2.259  2.206  1.991  2.253  2.453  2.305  2.300  1.683  1.856  3.723  2.025  9.7470  1.604  1.203  1.316  1.444  1.391  1.352  1.566  4.463  5.822  1.769  1.764  1.162  1.787  1.939  1.717  1.822  2.175  1.243  2.494  2.177  1.840  2.383  2.009  2.150  2.031  2.630  7.007  2.500  1.913  1.204  1.642  1.764  2.183  2.175  1.912  2.373  2.343  6.604  1.797  1.617  1.617  1.910  2.092  1.988  1.980  6.728  2.167
+  	  lower_bounds     2.159  2.106  1.891  2.153  2.353  2.205  2.200  1.583  1.756  3.223  1.525  8.7470  1.504  1.103  1.216  1.344  1.291  1.252  1.466  3.963  5.322  1.669  1.664  1.062  1.687  1.839  1.617  1.722  1.675  0.743  2.394  2.077  1.740  2.283  1.909  2.050  1.931  2.130  6.007  2.400  1.813  1.104  1.542  1.664  2.083  2.075  1.812  2.273  1.843  5.504  1.697  1.517  1.517  1.810  1.992  1.888  1.880  5.728  1.667
+  	  upper_bounds     2.359  2.306  2.091  2.353  2.553  2.405  2.400  1.783  1.956  4.223  2.525  10.747  1.704  1.303  1.416  1.544  1.491  1.452  1.666  4.963  6.322  1.869  1.864  1.262  1.878  2.039  1.817  1.922  2.675  1.743  2.594  2.277  1.940  2.483  2.109  2.250  2.131  3.130  8.007  2.550  2.013  1.304  1.742  1.864  2.283  2.275  2.012  2.473  2.843  7.704  1.897  1.717  1.717  2.010  2.192  2.088  2.080  7.728  2.667
+  	  descriptors     'DAKOTA_Cd_RC_1' 'DAKOTA_Cd_RC_2' 'DAKOTA_Cd_RC_3' 'DAKOTA_Cd_RC_4' 'DAKOTA_Cd_RC_5' 'DAKOTA_Cd_RC_6' 'DAKOTA_Cd_RC_7' 'DAKOTA_Cd_RC_8' 'DAKOTA_Cd_RC_9' 'DAKOTA_Cd_EP_1' 'DAKOTA_Cd_EP_2' 'DAKOTA_Cd_EP_3' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2' 'DAKOTA_Te_RC_1' 'DAKOTA_Te_RC_2' 'DAKOTA_Te_RC_3' 'DAKOTA_Te_RC_4' 'DAKOTA_Te_RC_5' 'DAKOTA_Te_RC_6' 'DAKOTA_Te_RC_7' 'DAKOTA_Te_EP_1' 'DAKOTA_Te_EP_2' 'DAKOTA_Sr_RC_1' 'DAKOTA_Sr_RC_2' 'DAKOTA_Sr_RC_3' 'DAKOTA_Sr_RC_4' 'DAKOTA_Sr_RC_5' 'DAKOTA_Sr_RC_6' 'DAKOTA_Sr_RC_7' 'DAKOTA_Sr_RC_8' 'DAKOTA_Sr_RC_9' 'DAKOTA_Sr_EP_1' 'DAKOTA_Sr_EP_2' 'DAKOTA_Si_RC_1' 'DAKOTA_Si_RC_2' 'DAKOTA_Si_RC_3' 'DAKOTA_Si_RC_4' 'DAKOTA_Si_RC_5' 'DAKOTA_Si_RC_6' 'DAKOTA_Si_RC_7' 'DAKOTA_Si_EP_1' 'DAKOTA_Si_EP_2'
+
+## You should have reasonable guesses for the lower and upper bounds of the variables
+## Otherwise, algorithm may converge very slowly
+## For single elements, a wide range of values may be tested and algorithm should converge at a reasonable rate
+## However, for binaries (hence many variables), you should use a more narrow range
+## Initial estimates may be taken from previously optimized values of constituent elements
+
+method
+        moga ## Multi-Objective Genetic Algorithm
+        max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
+        population_size = 250 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 5000 ## Default, max number of chromosomes tested
+        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
+        crossover_type ## How is crossover of parents performed to generate offspring
+          multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
+          crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
+        mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
+          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
+          mutation_rate = 0.2  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+        fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
+        replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
+          shrinkage_fraction = 0.30  ## Next generation must be at least 30% the size of the previous generation, small values work best here
+        convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
+          percent_change = 1 num_generations = 10 ## Convergence acheived if less than 1% change occurs over ten consecutive generations (default)
+        final_solutions = 10 ## Give 10 best solutions once run finishes, optimum value may depend on your problem, how many local minima exist
+        output verbose ## Write details to log
+
+interface
+        asynchronous 
+          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
+        system
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
+          parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
+          results_file    = 'results.out' ## In each work directory, write values of objective functions
+        work_directory directory_tag 
+          named 'workdir_pp'
+
+responses
+	num_objective_functions = 25 ## Set this accordingly based on your calculation
+	no_gradients ## No gradients needed for genetic algorithm
+        no_hessians ## No hessians needed for genetic algorithm

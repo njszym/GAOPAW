@@ -1,0 +1,16 @@
+# Input file for GAOPAW
+elements: ['Mo','Mo','O','O','S','S','Sr','Sr']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [4.007,3.166,3.178,2.511,3.994,3.182,6.030,4.756]
+template_dir: '/home/szymansk/Optimization_Sets/Mo/Input'
+cmpd_formula: ['MoO','MoS','MoS2','SrMoO3','MoS2']
+cmpd_lattice_type: ['RS','ZB','rhomb','per','hex']
+test_lattice: [True,False,True,True,True]
+cmpd_lattice_constant: [4.419,0.00,[7.341,25.103],4.002,[3.19,14.8]]
+test_delta: [False,True,False,False,False]
+test_gap: [False,False,False,False,True]
+band_gap: [0.00,0.00,0.00,0.00,1.32]
+test_phonon: [False,False,True,False,False]
+test_magnetization: [True,False,False,False,False]
+magnetization: [0.42,0.00,0.00,0.00,0.00]
+# End file

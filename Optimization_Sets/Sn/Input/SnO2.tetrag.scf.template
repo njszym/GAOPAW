@@ -1,0 +1,33 @@
+&control
+  calculation='scf'
+  prefix='SnO2.tetrag.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=6
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=48
+/
+&electrons
+  conv_thr=1.d-8
+/
+K_POINTS (automatic)
+  6 6 9 0 0 0
+ATOMIC_SPECIES
+  Sn 0.0 Sn.GGA-PBE-paw.UPF
+  O 0.0 O.GGA-PBE-paw.UPF
+CELL_PARAMETERS (angstrom)
+4.832336 0.000000 0.000000
+0.000000 4.832336 0.000000
+0.000000 0.000000 3.243221
+ATOMIC_POSITIONS (crystal)
+Sn 0.000000 0.000000 0.000000
+Sn 0.500000 0.500000 0.500000
+O 0.193448 0.806552 0.500000
+O 0.806552 0.193448 0.500000
+O 0.693448 0.693448 0.000000
+O 0.306552 0.306552 0.000000

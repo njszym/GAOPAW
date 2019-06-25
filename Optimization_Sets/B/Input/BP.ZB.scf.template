@@ -22,7 +22,7 @@
   cell_dynamics='bfgs'
 /
 K_POINTS (automatic)
-  8 8 8 0 0 0
+  8 8 8 1 1 1
 ATOMIC_SPECIES
   B 0.0 B.GGA-PBE-paw.UPF
   P 0.0 P.GGA-PBE-paw.UPF

@@ -1,0 +1,31 @@
+&control
+  calculation='scf'
+  prefix='CuI.rhomb.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=2
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=84
+  use_all_frac=.TRUE.
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  Cu 0.0 Cu.GGA-PBE-paw.UPF
+  I 0.0 I.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 1 1 1
+CELL_PARAMETERS angstrom
+2.095274 1.209707 3.418469
+-2.095274 1.209707 3.418469
+-0.000000 -2.419413 3.418469
+ATOMIC_POSITIONS crystal
+Cu 0.277544 0.277544 0.277544
+I 0.027456 0.027456 0.027456
+

@@ -1,0 +1,14 @@
+# Input file for GAOPAW
+elements: ['Zr','Zr','O','O','S','S','Cl','Cl','Sr','Sr']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [4.522,3.569,3.178,2.511,3.994,3.182,4.409,3.501,6.030,4.756]
+template_dir: '/home/szymansk/Optimization_Sets/Zr/Input'
+cmpd_formula: ['ZrO','ZrS','ZrO2','ZrCl2','SrZrO3']
+cmpd_lattice_type: ['RS','ZB','FCC','rhomb','per']
+test_lattice: [True,False,True,True,True]
+cmpd_lattice_constant: [4.608,0.00,5.139,[7.182,27.522],4.176]
+test_delta: [False,True,False,False,False]
+test_gap: [False,False,True,False,False]
+band_gap: [0.00,0.00,3.09,0.00,0.00]
+test_phonon: [False,False,False,True,False]
+# End file

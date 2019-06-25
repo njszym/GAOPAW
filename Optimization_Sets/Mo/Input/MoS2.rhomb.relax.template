@@ -1,0 +1,38 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=3
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+  use_all_frac=.TRUE.
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  Mo 0.0 Mo.GGA-PBE-paw.UPF
+  S 0.0 S.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 1 1 1
+CELL_PARAMETERS angstrom
+3.114390 0.000000 6.647568
+1.480008 2.740256 6.647568
+0.000000 0.000000 7.340953
+ATOMIC_POSITIONS crystal
+Mo 0.000223 0.000223 0.000223
+S 0.593465 0.593465 0.593465
+S 0.740312 0.740312 0.740312

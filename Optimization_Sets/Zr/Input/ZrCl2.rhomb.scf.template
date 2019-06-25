@@ -1,0 +1,31 @@
+&control
+  calculation='scf'
+  prefix='ZrCl2.rhomb.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=3
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=36
+  use_all_frac=.TRUE.
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  Zr 0.0 Zr.GGA-PBE-paw.UPF
+  Cl 0.0 Cl.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 1 1 1
+CELL_PARAMETERS angstrom
+3.318713 0.000000 6.369247
+1.559834 2.929295 6.369247
+0.000000 0.000000 7.182003
+ATOMIC_POSITIONS crystal
+Zr 0.999923 0.999923 0.999923
+Cl 0.583544 0.583544 0.583544
+Cl 0.749633 0.749633 0.749633

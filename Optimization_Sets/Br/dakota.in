@@ -3,10 +3,10 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 57
-  	  initial_point   
-  	  lower_bounds    
-  	  upper_bounds    
+	continuous_design = 56
+  	  initial_point   2.317  1.958  1.145  2.254  2.206  1.644  1.964  3.538  2.044  1.693  1.478  1.378  1.560  1.300  1.504  1.697  1.508  2.539  1.337  2.385  1.918  1.902  1.982  1.729  1.416  1.833  1.938  1.810  7.016  10.807  2.345  1.832  1.528  1.661  1.643  2.452  2.107  2.317  2.680  2.360  2.391  4.878  5.897  6.112  2.483  2.075  1.754  2.073  1.764  2.098  2.351  2.086  2.270  5.406  10.823  5.217
+  	  lower_bounds    2.217  1.858  1.045  2.154  2.106  1.544  1.864  3.038  1.544  1.593  1.378  1.278  1.460  1.200  1.404  1.597  1.408  2.039  0.837  2.285  1.818  1.802  1.882  1.629  1.316  1.733  1.838  1.710  6.016  9.8070  2.245  1.732  1.428  1.561  1.543  2.352  2.007  2.217  2.580  2.260  2.291  4.378  5.397  5.612  2.383  1.975  1.654  1.973  1.664  1.998  2.251  1.986  2.170  4.906  9.8230  4.717
+  	  upper_bounds    2.417  2.058  1.245  2.354  2.306  1.744  2.064  4.038  2.544  1.793  1.578  1.478  1.660  1.400  1.604  1.797  1.608  3.039  1.837  2.485  2.018  2.002  2.082  1.829  1.516  1.933  2.038  1.910  8.016  11.807  2.445  1.932  1.628  1.761  1.743  2.552  2.207  2.417  2.780  2.460  2.491  5.378  6.397  6.612  2.583  2.175  1.854  2.173  1.864  2.198  2.451  2.186  2.370  5.906  11.823  5.717
   	  descriptors    'DAKOTA_Br_RC_1' 'DAKOTA_Br_RC_2' 'DAKOTA_Br_RC_3' 'DAKOTA_Br_RC_4' 'DAKOTA_Br_RC_5' 'DAKOTA_Br_RC_6' 'DAKOTA_Br_RC_7' 'DAKOTA_Br_EP_1' 'DAKOTA_Br_EP_2' 'DAKOTA_Li_RC_1' 'DAKOTA_Li_RC_2' 'DAKOTA_Li_RC_3' 'DAKOTA_Li_RC_4' 'DAKOTA_Li_RC_5' 'DAKOTA_Li_RC_6' 'DAKOTA_Li_RC_7' 'DAKOTA_Li_RC_8' 'DAKOTA_Li_EP_1' 'DAKOTA_Li_EP_2' 'DAKOTA_Cs_RC_1' 'DAKOTA_Cs_RC_2' 'DAKOTA_Cs_RC_3' 'DAKOTA_Cs_RC_4' 'DAKOTA_Cs_RC_5' 'DAKOTA_Cs_RC_6' 'DAKOTA_Cs_RC_7' 'DAKOTA_Cs_RC_8' 'DAKOTA_Cs_RC_9' 'DAKOTA_Cs_EP_1' 'DAKOTA_Cs_EP_2' 'DAKOTA_La_RC_1' 'DAKOTA_La_RC_2' 'DAKOTA_La_RC_3' 'DAKOTA_La_RC_4' 'DAKOTA_La_RC_5' 'DAKOTA_La_RC_6' 'DAKOTA_La_RC_7' 'DAKOTA_La_RC_8' 'DAKOTA_La_RC_9' 'DAKOTA_La_RC_10' 'DAKOTA_La_RC_11' 'DAKOTA_La_EP_1' 'DAKOTA_La_EP_2' 'DAKOTA_La_EP_3' 'DAKOTA_Pb_RC_1' 'DAKOTA_Pb_RC_2' 'DAKOTA_Pb_RC_3' 'DAKOTA_Pb_RC_4' 'DAKOTA_Pb_RC_5' 'DAKOTA_Pb_RC_6' 'DAKOTA_Pb_RC_7' 'DAKOTA_Pb_RC_8' 'DAKOTA_Pb_RC_9' 'DAKOTA_Pb_EP_1' 'DAKOTA_Pb_EP_2' 'DAKOTA_Pb_EP_3'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
@@ -46,6 +46,6 @@ interface
           named 'workdir_pp'
 
 responses
-	num_objective_functions =  ## Set this accordingly based on your calculation
+	num_objective_functions = 21 ## Set this accordingly based on your calculation
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

@@ -1,0 +1,34 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+/
+&system
+  ibrav=2
+  celldm=9.72
+  nat=3
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  Zr 0.0 Zr.GGA-PBE-paw.UPF
+  O 0.0 O.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (alat)
+  Zr 0.0 0.0 0.0
+  O 0.25 0.25 0.25
+  O 0.75 0.75 0.75
+K_POINTS (automatic)
+  8 8 8 0 0 0

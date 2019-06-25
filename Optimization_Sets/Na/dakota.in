@@ -4,9 +4,9 @@ environment
 
 variables
 	continuous_design = 46
-  	  initial_point    
-  	  lower_bounds     
-  	  upper_bounds     
+  	  initial_point    1.620  1.575  1.492  1.640  1.698  1.411  1.446  1.579  1.088  1.010  1.501  1.662  1.779  1.599  10.849  2.421  2.317  1.958  1.145  2.254  2.206  1.644  1.964  3.538  2.044  2.098  1.744  1.718  1.876  1.823  2.039  1.828  3.177  3.507  2.199  1.775  1.837  1.903  1.828  2.586  2.318  1.833  1.943  6.290  2.547  5.808
+  	  lower_bounds     1.520  1.475  1.392  1.540  1.598  1.311  1.346  1.479  0.988  0.910  1.401  1.562  1.679  1.499  9.8490  1.921  2.217  1.858  1.045  2.154  2.106  1.544  1.864  3.038  1.544  1.990  1.644  1.618  1.776  1.723  1.939  1.728  2.677  3.007  2.099  1.675  1.737  1.803  1.728  2.486  2.218  1.733  1.843  5.790  2.047  5.308
+  	  upper_bounds     1.720  1.675  1.592  1.740  1.798  1.511  1.546  1.679  1.188  1.110  1.601  1.762  1.879  1.699  11.849  2.921  2.417  2.058  1.245  2.354  2.306  1.744  2.064  4.038  2.544  2.198  1.844  1.818  1.976  1.923  2.139  1.928  3.677  4.007  2.299  1.875  1.937  2.003  1.928  2.686  2.418  1.933  2.043  6.790  3.047  6.308
   	  descriptors     'DAKOTA_Na_RC_1' 'DAKOTA_Na_RC_2' 'DAKOTA_Na_RC_3' 'DAKOTA_Na_RC_4' 'DAKOTA_Na_RC_5' 'DAKOTA_Na_RC_6' 'DAKOTA_Na_RC_7' 'DAKOTA_Cl_RC_1' 'DAKOTA_Cl_RC_2' 'DAKOTA_Cl_RC_3' 'DAKOTA_Cl_RC_4' 'DAKOTA_Cl_RC_5' 'DAKOTA_Cl_RC_6' 'DAKOTA_Cl_RC_7' 'DAKOTA_Cl_EP_1' 'DAKOTA_Cl_EP_2' 'DAKOTA_Br_RC_1' 'DAKOTA_Br_RC_2' 'DAKOTA_Br_RC_3' 'DAKOTA_Br_RC_4' 'DAKOTA_Br_RC_5' 'DAKOTA_Br_RC_6' 'DAKOTA_Br_RC_7' 'DAKOTA_Br_EP_1' 'DAKOTA_Br_EP_2' 'DAKOTA_Al_RC_1' 'DAKOTA_Al_RC_2' 'DAKOTA_Al_RC_3' 'DAKOTA_Al_RC_4' 'DAKOTA_Al_RC_5' 'DAKOTA_Al_RC_6' 'DAKOTA_Al_RC_7' 'DAKOTA_Al_EP_1' 'DAKOTA_Al_EP_2' 'DAKOTA_Ge_RC_1' 'DAKOTA_Ge_RC_2' 'DAKOTA_Ge_RC_3' 'DAKOTA_Ge_RC_4' 'DAKOTA_Ge_RC_5' 'DAKOTA_Ge_RC_6' 'DAKOTA_Ge_RC_7' 'DAKOTA_Ge_RC_8' 'DAKOTA_Ge_RC_9' 'DAKOTA_Ge_EP_1' 'DAKOTA_Ge_EP_2' 'DAKOTA_Ge_EP_3'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables

@@ -19,7 +19,7 @@ ATOMIC_SPECIES
   As 0.0 As.GGA-PBE-paw.UPF
   Al 0.0 Al.GGA-PBE-paw.UPF
 K_POINTS (automatic)
-  8 8 8 0 0 0
+  8 8 8 1 1 1
 ATOMIC_POSITIONS (crystal)
   As 0.0 0.0 0.0
   Al 0.25 0.25 0.25

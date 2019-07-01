@@ -1,0 +1,34 @@
+&control
+  calculation='scf'
+  prefix='TaSbRu.HH.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=2
+  celldm=11.7
+  nat=3
+  ntyp=3
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=42
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  Ta 0.0 Ta.GGA-PBE-paw.UPF
+  Sb 0.0 Sb.GGA-PBE-paw.UPF
+  Ru 0.0 Ru.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 1 1 1
+ATOMIC_POSITIONS (crystal)
+Ta 0.5 0.5 0.5
+Sb 0.25 0.25 0.25
+Ru 0.75 0.75 0.75

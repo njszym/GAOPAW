@@ -1,0 +1,34 @@
+&control
+  calculation='scf'
+  prefix='Ta2O5.ortho.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=7
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=56
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  V 0.0 V.GGA-PBE-paw.UPF
+  O 0.0 O.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  16 16 8 0 0 0
+ATOMIC_POSITIONS crystal
+Ta 0.000000 0.000000 0.500000
+Ta 0.500000 0.000000 0.000000
+O 0.000000 0.000000 0.179655
+O 0.000000 0.000000 0.820345
+O 0.000000 0.500000 0.500000
+O 0.500000 0.000000 0.500000
+O 0.500000 0.500000 0.000000
+CELL_PARAMETERS angstrom
+3.700412 0.000000 0.000000
+0.000000 3.892094 0.000000
+0.000000 0.000000 6.526749

@@ -1,0 +1,33 @@
+&control
+  calculation='scf'
+  prefix='BaTiO3.per.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=5
+  ntyp=3
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=48
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  Ba 0.0 Ba.GGA-PBE-paw.UPF
+  Ti 0.0 Ti.GGA-PBE-paw.UPF
+  O 0.0 O.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  16 16 16 0 0 0
+ATOMIC_POSITIONS (crystal)
+Ba 0.0 0.0 0.0
+Ti 0.5 0.5 0.5
+O 0.0 0.5 0.5
+O 0.5 0.5 0.0
+O 0.5 0.0 0.5
+CELL_PARAMETERS angstrom
+    4.1451300000     0.0000000000     0.0000000000
+    0.0000000000     4.1451300000     0.0000000000
+    0.0000000000     0.0000000000     4.1451300000

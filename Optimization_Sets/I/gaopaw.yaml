@@ -1,0 +1,14 @@
+# Input file for GAOPAW
+elements: ['I','I','Li','Li','Na','Na','Cu','Cu','Sr','Sr','Cs','Cs','Pb','Pb']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [5.201,4.149,4.335,3.427,5.294,4.199,3.638,2.855,6.030,4.756,7.821,6.172,4.996,3.977]
+template_dir: '/home/szymansk/Optimization_Sets/I/Input'
+cmpd_formula: ['LiI','NaI','CuI','CsPbI3']
+cmpd_lattice_type: ['RS','ZB','WZ','per']
+test_lattice: [True,False,True,True]
+cmpd_lattice_constant: [6.038,0.00,[4.30,7.181],6.383]
+test_delta: [False,True,False,False]
+test_gap: [False,False,True,False]
+band_gap: [0.00,0.00,2.00,0.00]
+test_phonon: [True,False,False,False]
+# End file

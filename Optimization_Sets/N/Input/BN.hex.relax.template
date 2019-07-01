@@ -5,8 +5,8 @@
 /
 &system
   ibrav=0
-  nat=2
-  ntyp=1
+  nat=4
+  ntyp=2
   ecutwfc=40
   ecutrho=200
   smearing='fermi-dirac'
@@ -27,7 +27,7 @@ ATOMIC_SPECIES
   B 0.0 B.GGA-PBE-paw.UPF
   N 0.0 N.GGA-PBE-paw.UPF
 K_POINTS (automatic)
-  10 10 2 1 1 1
+  12 12 4 1 1 1
 CELL_PARAMETERS angstrom
 2.515945 0.000000 0.000000
 -1.257972 2.178872 0.000000

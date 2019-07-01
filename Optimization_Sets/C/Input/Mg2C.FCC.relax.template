@@ -27,7 +27,7 @@ ATOMIC_SPECIES
   Mg 0.0 Mg.GGA-PBE-paw.UPF
   C 0.0 C.GGA-PBE-paw.UPF
 K_POINTS (automatic)
-  8 8 8 0 0 0
+  12 12 12 0 0 0
 ATOMIC_POSITIONS (crystal)
 Mg 0.25 0.25 0.25
 Mg 0.75 0.75 0.75

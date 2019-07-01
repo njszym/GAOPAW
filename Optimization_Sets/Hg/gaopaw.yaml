@@ -1,0 +1,14 @@
+# Input file for GAOPAW
+elements: ['Hg','O','O','S','S','K','K','F','F','Cl','Cl']
+lattice_type: ['tetrag','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [[3.54831,4.10305],3.178,2.511,3.994,3.182,6.684,5.294,3.447,2.730,4.409,3.501]
+template_dir: '/home/szymansk/Optimization_Sets/Hg/Input'
+cmpd_formula: ['HgO','HgS','HgO','KHgF3','HgCl']
+cmpd_lattice_type: ['RS','ZB','ortho','per','tetrag']
+test_lattice: [True,False,False,True,True]
+cmpd_lattice_constant: [4.929,0.00,0.00,4.594,4.40136]
+test_delta: [False,True,False,False,False]
+test_gap: [False,False,True,False,False]
+band_gap: [0.00,0.00,1.00,0.00,0.00]
+test_phonon: [False,False,False,False,True]
+# End file

@@ -4,7 +4,7 @@
 #$ -o sleeper/out.$JOB_ID
 #$ -S /bin/bash
 #$ -V
-#$ -pe one_node 4
+#$ -pe one_node 32
 #$ -l cpuonly
 
 export SCHRODINGER=/nfs/working/releases/suite2019-2

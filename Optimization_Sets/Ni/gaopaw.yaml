@@ -12,4 +12,6 @@ test_phonon: [False,False,False,True]
 test_magnetization: [True,False,False,False]
 magnetization: [1.82,0.00,0.00,0.00]
 test_magnetic_moment: [False,True,False,False]
+test_gap: [False,True,False,False]
+band_gap: [0.0,1.40,0.00,0.00]
 # End file

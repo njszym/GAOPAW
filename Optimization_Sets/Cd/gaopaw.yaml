@@ -11,6 +11,4 @@ test_delta: [False,True,False,False]
 test_gap: [False,False,True,False]
 band_gap: [0.00,0.00,0.52,0.00]
 test_phonon: [False,False,True,False]
-test_bulk: [False,False,True,False]
-bulk_modulus: [0.00,0.00,37.440,0.00]
 # End file

@@ -1,0 +1,7 @@
+# Input file for GAOPAW
+elements: ['Hg']
+lattice_type: ['tetrag']
+lattice_constant: [[3.54831,4.10305]]
+template_dir: '/home/szymansk/Elem_Optimization/Hg/Input'
+# End file
+

@@ -37,9 +37,9 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 8 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/Be/analysis.py $PWD' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 

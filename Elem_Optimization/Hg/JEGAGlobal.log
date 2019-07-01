@@ -1,0 +1,251 @@
+JEGA Genetic Algorithm Optimization Software v2.7.0
+Run started Thu Jun 27 15:37:48 2019
+
+Global Log initialized using "verbose" as default level.
+Global Log logging to file JEGAGlobal.log
+Global Log logging to console window
+15:37:48: quiet- JEGA Front End: Random seed = 1561764268
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_1 added.  1 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_2 added.  2 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_3 added.  3 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_4 added.  4 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_5 added.  5 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_6 added.  6 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_7 added.  7 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_8 added.  8 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_RC_9 added.  9 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_EP_1 added.  10 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_EP_2 added.  11 design variables now in target.
+15:37:48: verbose- Design Target: Design variable DAKOTA_EP_3 added.  12 design variables now in target.
+15:37:48: verbose- Design Target: Objective Non-Linear Minimize obj_fn_1 added.  1 objectives now in target.
+15:37:48: verbose- Design Target: Objective Non-Linear Minimize obj_fn_2 added.  2 objectives now in target.
+15:37:48: verbose- JEGA Front End: Creating a MOGA
+15:37:48: debug-  Matching Group: Trying "Domination Count Operator Group".
+15:37:48: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
+15:37:48: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
+15:37:48: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
+15:37:48: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
+15:37:48: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
+15:37:48: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
+15:37:48: verbose- Domination Count Operator Group: Contains Selector "below_limit".
+15:37:48: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
+15:37:48: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
+15:37:48: debug-  Matching Group: "Domination Count Operator Group" match succeeded.
+15:37:48: quiet- : Matched new set to a group that is not the current group.  Adopting the new group.
+15:37:48: verbose- Domination Count Operator Group: Contains Converger "metric_tracker".
+15:37:48: verbose- Domination Count Operator Group: Contains Crosser "multi_point_parameterized_binary".
+15:37:48: verbose- Domination Count Operator Group: Contains FitnessAssessor "domination_count".
+15:37:48: verbose- Domination Count Operator Group: Contains Initializer "unique_random".
+15:37:48: verbose- Domination Count Operator Group: Contains MainLoop "duplicate_free".
+15:37:48: verbose- Domination Count Operator Group: Contains Mutator "offset_normal".
+15:37:48: verbose- Domination Count Operator Group: Contains Selector "below_limit".
+15:37:48: verbose- Domination Count Operator Group: Contains PostProcessor "null_postprocessor".
+15:37:48: verbose- Domination Count Operator Group: Contains NichePressureApplicator "null_niching".
+15:37:48: verbose- NO_ID: The name of this GA is now NO_ID
+15:37:48: verbose- NO_ID: The print each population flag is now set to 0
+15:37:48: verbose- NO_ID: The print final data flag is now set to 1
+15:37:48: verbose- NO_ID: The print discards flag is now set to 1
+15:37:48: verbose- NO_ID: The name of the file to which final data will be written is now finaldata1.dat
+15:37:48: verbose- NO_ID: The data directory is now set to ./
+15:37:48: verbose- metric_tracker: Number of generations tracked now = 10
+15:37:48: verbose- metric_tracker: Max allowable % change now = 1
+15:37:48: verbose- metric_tracker: Maximum allowable generations now = 100
+15:37:48: verbose- metric_tracker: Maximum allowable evaluations now = 20000
+15:37:48: quiet- Error encountered while retrieving parameter named "method.max_time" of type "d" from parameter database reading: Parameter not found for tag: method.max_time
+15:37:48: verbose- metric_tracker: The maximum allowable amount of time was not found in the parameter database.  Using the current value of 1.79769e+308
+15:37:48: verbose- metric_tracker: Maximum allowable time now = 1.79769e+308 seconds 
+15:37:48: quiet- Error encountered while retrieving parameter named "method.jega.num_cross_points" of type "St6vectorIiSaIiEE" from parameter database reading: Parameter not found for tag: method.jega.num_cross_points
+15:37:48: verbose- multi_point_parameterized_binary: The number of crossover points for each variable were not found in the parameter database.  Checking for a single value.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points now = 2
+15:37:48: verbose- multi_point_parameterized_binary: Crossover rate now = 0.4
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_1" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_2" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_3" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_4" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_5" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_6" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_7" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_8" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_RC_9" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_1" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_2" now = 2.
+15:37:48: verbose- multi_point_parameterized_binary: Number of crossover points for variable "DAKOTA_EP_3" now = 2.
+15:37:48: verbose- DAKOTA JEGA Evaluator: Maximum allowable evaluations now = 20000
+15:37:48: verbose- DAKOTA JEGA Evaluator: The evaluation concurrency is now 1
+15:37:48: verbose- unique_random: Desired initial population size now = 250
+15:37:48: verbose- null_niching: Niched design caching now set to true.
+15:37:48: quiet- Error encountered while retrieving parameter named "method.jega.max_niche_cache_size" of type "m" from parameter database reading: Parameter not found for tag: method.jega.max_niche_cache_size
+15:37:48: verbose- null_niching: The max niche cache size value was not found in the parameter database.  Using the current value of 1
+15:37:48: verbose- null_niching: Niched design caching max size now set to 18446744073709551615.
+15:37:48: verbose- offset_normal: Offset range now = 0.05
+15:37:48: verbose- offset_normal: Mutation rate now = 0.2
+15:37:48: verbose- below_limit: Limiting value now = 6
+15:37:48: verbose- below_limit: Shrinkage percentage now = 0.3
+15:37:48: verbose- below_limit: Minimum selections now = 2
+15:37:48: verbose- NO_ID: About to perform algorithm execution.
+15:37:48: verbose- unique_random: 250 unique random designs created.
+23:59:56: verbose- below_limit: Performed 75 total selections.
+23:59:56: verbose- NO_ID: 175 of 250 population members were not selected to continue.  0 of 0 offspring were immediately rejected.
+23:59:56: verbose- metric_tracker: Operating on 75 total designs and 6 "best fitness" designs.
+23:59:56: verbose- metric_tracker: Pushed metric value of 0 onto the convergence stack.
+23:59:56: quiet- duplicate_free: 1 generation so far.
+23:59:56: quiet- duplicate_free: 250 evaluations so far.
+23:59:56: verbose- duplicate_free: 75 members in population so far.
+23:59:56: verbose- multi_point_parameterized_binary: 30 children created.
+23:59:56: verbose- offset_normal: Performed 15 total mutations.
+23:59:56: quiet- NO_ID: Invalid value of 2.71856 found for variable DAKOTA_RC_9.  Corrected to 2.5.
+23:59:56: quiet- NO_ID: Invalid value of 13.3531 found for variable DAKOTA_EP_2.  Corrected to 7.75541.
+23:59:56: quiet- NO_ID: Invalid value of 1.99895 found for variable DAKOTA_RC_7.  Corrected to 2.54436.
+23:59:56: quiet- NO_ID: Invalid value of 2.41538 found for variable DAKOTA_RC_2.  Corrected to 1.85927.
+23:59:56: quiet- NO_ID: Invalid value of 2.71362 found for variable DAKOTA_RC_9.  Corrected to 2.23678.
+23:59:56: quiet- NO_ID: Invalid value of 1.70423 found for variable DAKOTA_RC_9.  Corrected to 2.58678.
+23:59:56: quiet- NO_ID: Invalid value of 1.81636 found for variable DAKOTA_RC_3.  Corrected to 2.12617.
+23:59:56: quiet- NO_ID: Invalid value of 1.94881 found for variable DAKOTA_RC_4.  Corrected to 2.04115.
+23:59:56: quiet- NO_ID: Invalid value of 2.70969 found for variable DAKOTA_RC_1.  Corrected to 2.63612.
+09:03:43: verbose- below_limit: Performed 37 total selections.
+09:03:43: verbose- NO_ID: 51 of 75 population members were not selected to continue.  32 of 45 offspring were immediately rejected.
+09:03:43: verbose- metric_tracker: Operating on 37 total designs and 9 "best fitness" designs.
+09:03:43: verbose- metric_tracker: No "best fitness" expansion or contraction occurred this generation.
+09:03:43: verbose- metric_tracker: Population density decreased by 37.151%.
+09:03:43: verbose- metric_tracker: No "best fitness" designs from the previous population are dominated by "best fitness" designs in the current population.
+09:03:43: verbose- metric_tracker: Pushed metric value of 0.371505 onto the convergence stack.
+09:03:43: quiet- duplicate_free: 2 generations so far.
+09:03:43: quiet- duplicate_free: 295 evaluations so far.
+09:03:43: verbose- duplicate_free: 37 members in population so far.
+09:03:43: verbose- multi_point_parameterized_binary: 14 children created.
+09:03:43: verbose- offset_normal: Performed 7 total mutations.
+09:03:43: quiet- NO_ID: Invalid value of 1.982 found for variable DAKOTA_RC_6.  Corrected to 2.57375.
+09:03:43: quiet- NO_ID: Invalid value of 2.26799 found for variable DAKOTA_RC_2.  Corrected to 1.65073.
+09:03:43: quiet- NO_ID: Invalid value of 1.8624 found for variable DAKOTA_RC_3.  Corrected to 2.04356.
+09:03:43: quiet- NO_ID: Invalid value of 1.82611 found for variable DAKOTA_RC_4.  Corrected to 2.29291.
+09:03:43: quiet- NO_ID: Invalid value of 2.70371 found for variable DAKOTA_RC_4.  Corrected to 2.10172.
+09:03:43: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+12:48:24: verbose- below_limit: Performed 35 total selections.
+12:48:24: verbose- NO_ID: 10 of 37 population members were not selected to continue.  12 of 20 offspring were immediately rejected.
+12:48:24: verbose- metric_tracker: Operating on 35 total designs and 10 "best fitness" designs.
+12:48:24: verbose- metric_tracker: No "best fitness" expansion or contraction occurred this generation.
+12:48:24: verbose- metric_tracker: Population density decreased by 5.405%.
+12:48:24: verbose- metric_tracker: No "best fitness" designs from the previous population are dominated by "best fitness" designs in the current population.
+12:48:24: verbose- metric_tracker: Pushed metric value of 0.0540541 onto the convergence stack.
+12:48:24: quiet- duplicate_free: 3 generations so far.
+12:48:24: quiet- duplicate_free: 315 evaluations so far.
+12:48:24: verbose- duplicate_free: 35 members in population so far.
+12:48:24: verbose- multi_point_parameterized_binary: 14 children created.
+12:48:24: verbose- offset_normal: Performed 7 total mutations.
+12:48:24: quiet- NO_ID: Invalid value of 1.94978 found for variable DAKOTA_RC_6.  Corrected to 2.47129.
+12:48:24: quiet- NO_ID: Invalid value of 1.93912 found for variable DAKOTA_RC_9.  Corrected to 2.32935.
+12:48:24: quiet- NO_ID: Invalid value of 2.71213 found for variable DAKOTA_RC_7.  Corrected to 2.0078.
+12:48:24: quiet- NO_ID: Invalid value of 2.71479 found for variable DAKOTA_RC_7.  Corrected to 2.09608.
+12:48:24: quiet- NO_ID: Invalid value of 1.72514 found for variable DAKOTA_RC_5.  Corrected to 2.58887.
+15:32:16: verbose- below_limit: Performed 36 total selections.
+15:32:16: verbose- NO_ID: 5 of 35 population members were not selected to continue.  15 of 21 offspring were immediately rejected.
+15:32:16: verbose- metric_tracker: Operating on 36 total designs and 10 "best fitness" designs.
+15:32:16: verbose- metric_tracker: No "best fitness" expansion or contraction occurred this generation.
+15:32:16: verbose- metric_tracker: Population density increased by 2.857%.
+15:32:16: verbose- metric_tracker: No "best fitness" designs from the previous population are dominated by "best fitness" designs in the current population.
+15:32:16: verbose- metric_tracker: Pushed metric value of 0.0285714 onto the convergence stack.
+15:32:16: quiet- duplicate_free: 4 generations so far.
+15:32:16: quiet- duplicate_free: 336 evaluations so far.
+15:32:16: verbose- duplicate_free: 36 members in population so far.
+15:32:16: verbose- multi_point_parameterized_binary: 14 children created.
+15:32:16: verbose- offset_normal: Performed 7 total mutations.
+15:32:16: quiet- NO_ID: Invalid value of 2.19981 found for variable DAKOTA_RC_1.  Corrected to 2.62077.
+15:32:16: quiet- NO_ID: Invalid value of 15.6231 found for variable DAKOTA_EP_3.  Corrected to 0.197508.
+15:32:16: quiet- NO_ID: Invalid value of 1.83866 found for variable DAKOTA_RC_5.  Corrected to 2.20311.
+15:32:16: quiet- NO_ID: Invalid value of 1.68593 found for variable DAKOTA_RC_7.  Corrected to 2.00446.
+15:32:16: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+18:51:47: verbose- below_limit: Performed 41 total selections.
+18:51:47: verbose- NO_ID: 7 of 36 population members were not selected to continue.  8 of 20 offspring were immediately rejected.
+18:51:47: verbose- metric_tracker: Operating on 41 total designs and 14 "best fitness" designs.
+18:51:47: verbose- metric_tracker: Max "best fitness" expanse change of 17.531% found for objective "Non-Linear Minimize obj_fn_1".
+18:51:47: verbose- metric_tracker: Population density decreased by 4.062%.
+18:51:47: verbose- metric_tracker: 10% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+18:51:47: verbose- metric_tracker: Pushed metric value of 0.315933 onto the convergence stack.
+18:51:47: quiet- duplicate_free: 5 generations so far.
+18:51:47: quiet- duplicate_free: 356 evaluations so far.
+18:51:47: verbose- duplicate_free: 41 members in population so far.
+18:51:47: verbose- multi_point_parameterized_binary: 16 children created.
+18:51:47: verbose- offset_normal: Performed 8 total mutations.
+18:51:47: quiet- NO_ID: Invalid value of 2.22127 found for variable DAKOTA_RC_2.  Corrected to 2.07766.
+18:51:47: quiet- NO_ID: Invalid value of 1.38326 found for variable DAKOTA_RC_2.  Corrected to 2.07745.
+18:51:47: quiet- NO_ID: Invalid value of 1.99588 found for variable DAKOTA_RC_5.  Corrected to 2.55709.
+18:51:47: quiet- NO_ID: Invalid value of 2.71419 found for variable DAKOTA_RC_7.  Corrected to 2.0697.
+18:51:47: quiet- NO_ID: Invalid value of 2.71378 found for variable DAKOTA_RC_9.  Corrected to 2.48123.
+18:51:47: quiet- NO_ID: Invalid value of 1.99153 found for variable DAKOTA_RC_7.  Corrected to 2.23334.
+18:51:47: quiet- NO_ID: Invalid value of 1.99221 found for variable DAKOTA_RC_6.  Corrected to 2.00394.
+23:42:15: verbose- below_limit: Performed 46 total selections.
+23:42:15: verbose- NO_ID: 7 of 41 population members were not selected to continue.  12 of 24 offspring were immediately rejected.
+23:42:15: verbose- metric_tracker: Operating on 46 total designs and 13 "best fitness" designs.
+23:42:15: verbose- metric_tracker: Max "best fitness" expanse change of 1.287% found for objective "Non-Linear Minimize obj_fn_1".
+23:42:15: verbose- metric_tracker: Population density increased by 10.737%.
+23:42:15: verbose- metric_tracker: 42.857% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+23:42:15: verbose- metric_tracker: Pushed metric value of 0.548815 onto the convergence stack.
+23:42:15: quiet- duplicate_free: 6 generations so far.
+23:42:15: quiet- duplicate_free: 380 evaluations so far.
+23:42:15: verbose- duplicate_free: 46 members in population so far.
+23:42:15: verbose- multi_point_parameterized_binary: 18 children created.
+23:42:15: verbose- offset_normal: Performed 9 total mutations.
+23:42:15: quiet- NO_ID: Invalid value of 1.75411 found for variable DAKOTA_RC_4.  Corrected to 2.58716.
+23:42:15: quiet- NO_ID: Invalid value of 2.71195 found for variable DAKOTA_RC_5.  Corrected to 2.5528.
+23:42:15: quiet- NO_ID: Invalid value of 1.99154 found for variable DAKOTA_RC_7.  Corrected to 2.19651.
+23:42:15: quiet- NO_ID: Invalid value of 1.83951 found for variable DAKOTA_RC_5.  Corrected to 2.05719.
+23:42:15: quiet- NO_ID: Invalid value of 1.77491 found for variable DAKOTA_RC_3.  Corrected to 2.05374.
+23:42:15: quiet- NO_ID: Invalid value of 1.83215 found for variable DAKOTA_RC_5.  Corrected to 2.57946.
+23:42:15: quiet- NO_ID: Invalid value of 14.6554 found for variable DAKOTA_EP_1.  Corrected to 6.63474.
+04:26:01: verbose- below_limit: Performed 46 total selections.
+04:26:01: verbose- NO_ID: 8 of 46 population members were not selected to continue.  19 of 27 offspring were immediately rejected.
+04:26:01: verbose- metric_tracker: Operating on 46 total designs and 13 "best fitness" designs.
+04:26:01: verbose- metric_tracker: Max "best fitness" expanse change of 43.223% found for objective "Non-Linear Minimize obj_fn_1".
+04:26:01: verbose- metric_tracker: Population density decreased by 0.557%.
+04:26:01: verbose- metric_tracker: 30.769% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+04:26:01: verbose- metric_tracker: Pushed metric value of 0.745488 onto the convergence stack.
+04:26:01: quiet- duplicate_free: 7 generations so far.
+04:26:01: quiet- duplicate_free: 407 evaluations so far.
+04:26:01: verbose- duplicate_free: 46 members in population so far.
+04:26:01: verbose- multi_point_parameterized_binary: 18 children created.
+04:26:01: verbose- offset_normal: Performed 9 total mutations.
+04:26:01: quiet- NO_ID: Invalid value of 1.85888 found for variable DAKOTA_RC_3.  Corrected to 2.10231.
+04:26:01: quiet- NO_ID: Invalid value of 2.71412 found for variable DAKOTA_RC_9.  Corrected to 2.16586.
+04:26:01: quiet- NO_ID: Invalid value of 1.99984 found for variable DAKOTA_RC_6.  Corrected to 2.54826.
+04:26:01: quiet- NO_ID: Invalid value of 1.97298 found for variable DAKOTA_RC_6.  Corrected to 2.37195.
+08:52:53: verbose- below_limit: Performed 57 total selections.
+08:52:53: verbose- NO_ID: 2 of 46 population members were not selected to continue.  14 of 27 offspring were immediately rejected.
+08:52:53: verbose- metric_tracker: Operating on 57 total designs and 14 "best fitness" designs.
+08:52:53: verbose- metric_tracker: No "best fitness" expansion or contraction occurred this generation.
+08:52:53: verbose- metric_tracker: Population density increased by 23.913%.
+08:52:53: verbose- metric_tracker: 15.385% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+08:52:53: verbose- metric_tracker: Pushed metric value of 0.392977 onto the convergence stack.
+08:52:53: quiet- duplicate_free: 8 generations so far.
+08:52:53: quiet- duplicate_free: 434 evaluations so far.
+08:52:53: verbose- duplicate_free: 57 members in population so far.
+08:52:53: verbose- multi_point_parameterized_binary: 22 children created.
+08:52:53: verbose- offset_normal: Performed 11 total mutations.
+08:52:53: quiet- NO_ID: Invalid value of 2.70606 found for variable DAKOTA_RC_7.  Corrected to 2.1725.
+08:52:53: quiet- NO_ID: Invalid value of 2.2458 found for variable DAKOTA_RC_2.  Corrected to 2.16746.
+08:52:53: quiet- NO_ID: Invalid value of 1.9269 found for variable DAKOTA_RC_6.  Corrected to 2.66069.
+08:52:53: quiet- NO_ID: Invalid value of 2.22159 found for variable DAKOTA_RC_2.  Corrected to 1.64679.
+08:52:53: quiet- NO_ID: Invalid value of 1.96818 found for variable DAKOTA_RC_8.  Corrected to 2.61016.
+08:52:53: quiet- NO_ID: Invalid value of 2.70261 found for variable DAKOTA_RC_1.  Corrected to 2.27777.
+08:52:53: quiet- NO_ID: Invalid value of 1.9903 found for variable DAKOTA_RC_7.  Corrected to 2.00871.
+08:52:53: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.
+14:27:17: verbose- below_limit: Performed 65 total selections.
+14:27:17: verbose- NO_ID: 2 of 57 population members were not selected to continue.  22 of 32 offspring were immediately rejected.
+14:27:17: verbose- metric_tracker: Operating on 65 total designs and 15 "best fitness" designs.
+14:27:17: verbose- metric_tracker: Max "best fitness" expanse change of -18.543% found for objective "Non-Linear Minimize obj_fn_2".
+14:27:17: verbose- metric_tracker: Population density increased by 11.772%.
+14:27:17: verbose- metric_tracker: 28.571% of the previous "best fitness" population is dominated by designs in the current "best fitness" population.
+14:27:17: verbose- metric_tracker: Pushed metric value of 0.588867 onto the convergence stack.
+14:27:17: quiet- duplicate_free: 9 generations so far.
+14:27:17: quiet- duplicate_free: 466 evaluations so far.
+14:27:17: verbose- duplicate_free: 65 members in population so far.
+14:27:17: verbose- multi_point_parameterized_binary: 26 children created.
+14:27:17: verbose- offset_normal: Performed 13 total mutations.
+14:27:17: quiet- NO_ID: Invalid value of 1.9483 found for variable DAKOTA_RC_7.  Corrected to 2.46481.
+14:27:17: quiet- NO_ID: Invalid value of 2.71277 found for variable DAKOTA_RC_9.  Corrected to 2.6861.
+14:27:17: quiet- NO_ID: Invalid value of 1.94747 found for variable DAKOTA_RC_7.  Corrected to 2.6236.
+14:27:17: quiet- NO_ID: Invalid value of 1.93919 found for variable DAKOTA_RC_9.  Corrected to 2.59189.
+14:27:17: quiet- NO_ID: Invalid value of 1.77556 found for variable DAKOTA_RC_6.  Corrected to 2.2693.
+14:27:17: quiet- NO_ID: Invalid value of 1.82723 found for variable DAKOTA_RC_5.  Corrected to 2.27101.
+14:27:17: quiet- NO_ID: Invalid value of 1.98524 found for variable DAKOTA_RC_7.  Corrected to 2.499.
+14:27:17: quiet- NO_ID: Invalid value of 2.74625 found for variable DAKOTA_RC_1.  Corrected to 2.5545.
+14:27:17: verbose- duplicate_free: flushed 1 duplicate offspring designs after application of the variational operators.

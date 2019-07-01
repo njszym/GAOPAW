@@ -28,7 +28,7 @@ ATOMIC_SPECIES
   Sb 0.0 Sb.GGA-PBE-paw.UPF
   Fe 0.0 Fe.GGA-PBE-paw.UPF
 K_POINTS (automatic)
-  8 8 8 1 1 1
+  8 8 8 0 0 0 
 ATOMIC_POSITIONS (crystal)
 V 0.5 0.5 0.5
 Sb 0.25 0.25 0.25

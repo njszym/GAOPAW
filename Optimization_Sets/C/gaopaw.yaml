@@ -5,9 +5,9 @@ lattice_constant: [3.103,2.366,4.526,3.581,3.857,3.080,4.335,3.427,4.240,3.364,3
 template_dir: '/home/szymansk/Optimization_Sets/C/Input'
 cmpd_formula: ['C','Mg2C','SiC','LiCGa','CO2']
 cmpd_lattice_type: ['hex','FCC','ZB','HH','SC']
-test_lattice: [False,True,False,True,True]
-cmpd_lattice_constant: [0.00,5.445,0.00,5.088,6.070]
-test_delta: [True,False,True,False,False]
+test_lattice: [True,True,False,True,True]
+cmpd_lattice_constant: [[2.464,8.800],5.445,0.00,5.088,6.070]
+test_delta: [False,False,True,False,False]
 test_gap: [False,False,True,False,False]
 band_gap: [0.00,0.00,1.24,0.00,0.00]
 test_phonon: [False,False,True,False,False]

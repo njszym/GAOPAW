@@ -5,8 +5,8 @@
 /
 &system
   ibrav=0
-  nat=2
-  ntyp=1
+  nat=4
+  ntyp=2
   ecutwfc=40
   ecutrho=200
   occupations='fixed'
@@ -26,4 +26,4 @@ ATOMIC_SPECIES
   B 0.0 B.GGA-PBE-paw.UPF
   N 0.0 N.GGA-PBE-paw.UPF
 K_POINTS (automatic)
-  10 10 2 1 1 1
+  12 12 4 1 1 1

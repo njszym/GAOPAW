@@ -1,0 +1,6 @@
+# Input file for GAOPAW
+elements: ['Po']
+lattice_type: ['SC']
+lattice_constant: [3.34975]
+template_dir: '/home/szymansk/Elem_Optimization/Po/Input'
+# End file

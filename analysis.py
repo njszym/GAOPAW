@@ -611,7 +611,7 @@ def compare_mag_mom(elem,lat_type,template_path):
     for line in lines:
         if 'magn:' in line.split():
             QE_mag_mom.append(line.split()[5])
-    QE_mag_mom = [float(value) for value in mag_mom]
+    QE_mag_mom = [float(value) for value in QE_mag_mom]
     with open(template_path+'/AE_mag.'+elem+'.'+lat_type) as f:
         lines = f.readlines()
     AE_mag_mom = []
@@ -622,7 +622,10 @@ def compare_mag_mom(elem,lat_type,template_path):
             pass
     rel_diff = []
     for (QE,AE) in zip(QE_mag_mom,AE_mag_mom):
-        rel_diff.append(abs((QE-AE)/AE))
+        if float(AE) != 0.0:
+            rel_diff.append(abs((QE-AE)/AE))
+        else:
+            pass
     net_diff = sum(rel_diff)/len(rel_diff)
     return float(net_diff)
 

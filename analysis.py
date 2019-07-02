@@ -268,7 +268,7 @@ def main():
                             V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
                             QE_EOS_data, AE_EOS_data = read_eos(cmpd,cmpd_lat_type,template_dir)
                             delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
-                            lat_diff_list.append(delta_factor)
+                            lat_diff_list.append(delta_factor[0])
                        	else:
                             lat_type_list.append('bad_run')
                     if test_phonon == True: ## Testing required

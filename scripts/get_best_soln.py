@@ -7,6 +7,10 @@ from shutil import copyfile
 import sys
 
 
+### Post analysis script for finding best solution
+### Usage: python get_best_soln.py (number of variables in dakota run)
+### Be sure to run in file containing dakota_tabular.dat
+
 num_var = sys.argv[-1]
 begin_obj_fn = int(num_var)+2
 df = pd.read_table('dakota_tabular.dat',sep='\s+',header=None)

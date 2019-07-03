@@ -1,0 +1,30 @@
+&control
+  calculation='scf'
+  prefix='TiBeIr2.RS.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=2
+  celldm(1)=11.25
+  nat=4
+  ntyp=3
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  Ti 0.0 Ti.GGA-PBE-paw.UPF
+  Be 0.0 Be.GGA-PBE-paw.UPF
+  Ir 0.0 Ir.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 1 1 1
+ATOMIC_POSITIONS (crystal)
+Ti 0.75 0.75 0.75
+Be 0.25 0.25 0.25
+Ir 0.00 0.00 0.00
+Ir 0.50 0.50 0.50

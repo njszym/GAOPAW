@@ -39,13 +39,13 @@ interface
         asynchronous 
           evaluation_concurrency = 8 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/Si/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
           named 'workdir_pp'
 
 responses
-	num_objective_functions = 20 ## Set this accordingly based on your calculation
+	num_objective_functions = 19 ## Set this accordingly based on your calculation
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

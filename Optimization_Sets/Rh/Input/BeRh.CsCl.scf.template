@@ -1,0 +1,26 @@
+&control
+  calculation='scf'
+  prefix='BeRh.CsCl.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=2
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+K_POINTS (automatic)
+  10 10 10 1 1 1
+ATOMIC_SPECIES
+  Be 0.0 Be.GGA-PBE-paw.UPF
+  Rh 0.0 Rh.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (crystal)
+  Be 0.0 0.0 0.0
+  Rh 0.5 0.5 0.5

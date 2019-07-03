@@ -1,0 +1,51 @@
+environment
+  graphics
+  tabular_data ## output variable and objective function values to dakota_tabular.dat
+
+variables
+	continuous_design = 73
+  	  initial_point    
+  	  lower_bounds     
+  	  upper_bounds     
+  	  descriptors     'DAKOTA_Cr_RC_1' 'DAKOTA_Cr_RC_2' 'DAKOTA_Cr_RC_3' 'DAKOTA_Cr_RC_4' 'DAKOTA_Cr_RC_5' 'DAKOTA_Cr_RC_6' 'DAKOTA_Cr_RC_7' 'DAKOTA_Cr_RC_8' 'DAKOTA_Cr_RC_9' 'DAKOTA_Cr_EP_1' 'DAKOTA_Cr_EP_2' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2' 'DAKOTA_Sr_RC_1' 'DAKOTA_Sr_RC_2' 'DAKOTA_Sr_RC_3' 'DAKOTA_Sr_RC_4' 'DAKOTA_Sr_RC_5' 'DAKOTA_Sr_RC_6' 'DAKOTA_Sr_RC_7' 'DAKOTA_Sr_RC_8' 'DAKOTA_Sr_RC_9' 'DAKOTA_Sr_EP_1' 'DAKOTA_Sr_EP_2'
+
+## You should have reasonable guesses for the lower and upper bounds of the variables
+## Otherwise, algorithm may converge very slowly
+## For single elements, a wide range of values may be tested and algorithm should converge at a reasonable rate
+## However, for binaries (hence many variables), you should use a more narrow range
+## Initial estimates may be taken from previously optimized values of constituent elements
+
+method
+        moga ## Multi-Objective Genetic Algorithm
+        max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
+        population_size = 250 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 5000 ## Default, max number of chromosomes tested
+        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
+        crossover_type ## How is crossover of parents performed to generate offspring
+          multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
+          crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
+        mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
+          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
+          mutation_rate = 0.2  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+        fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
+        replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
+          shrinkage_fraction = 0.30  ## Next generation must be at least 30% the size of the previous generation, small values work best here
+        convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
+          percent_change = 1 num_generations = 10 ## Convergence acheived if less than 1% change occurs over ten consecutive generations (default)
+        final_solutions = 10 ## Give 10 best solutions once run finishes, optimum value may depend on your problem, how many local minima exist
+        output verbose ## Write details to log
+
+interface
+        asynchronous 
+          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
+        system
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
+          parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
+          results_file    = 'results.out' ## In each work directory, write values of objective functions
+        work_directory directory_tag 
+          named 'workdir_pp'
+
+responses
+	num_objective_functions = 16 ## Set this accordingly based on your calculation
+	no_gradients ## No gradients needed for genetic algorithm
+        no_hessians ## No hessians needed for genetic algorithm

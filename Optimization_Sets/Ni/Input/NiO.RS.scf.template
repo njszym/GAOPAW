@@ -18,6 +18,7 @@
 /
 &electrons
   conv_thr=1.d-8
+  mixing_beta=0.4
 /
 K_POINTS (automatic)
   8 8 8 0 0 0

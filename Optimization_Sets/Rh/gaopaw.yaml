@@ -1,0 +1,14 @@
+# Input file for GAOPAW
+elements: ['Rh','Rh','O','O','S','S','Be','Be','Sr','Sr']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [3.836,3.071,3.178,2.511,3.994,3.182,3.166,2.506,6.030,4.756]
+template_dir: '/home/szymansk/Optimization_Sets/Rh/Input'
+cmpd_formula: ['RhO','RhS','BeRh','SrRhO3']
+cmpd_lattice_type: ['RS','ZB','CsCl','per']
+test_lattice: [True,False,True,True]
+cmpd_lattice_constant: [4.450,0.00,2.7498,3.982]
+test_delta: [False,True,False,False]
+test_phonon: [False,False,True,False]
+test_magnetization: [True,False,False,False]
+magnetization: [0.36,0.00,0.00,0.00]
+# End file

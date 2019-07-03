@@ -9,7 +9,7 @@
   ntyp=2
   ecutwfc=40
   ecutrho=200
-  occupations='smearing'
+  occupations='fixed'
   nbnd=32
 /
 &electrons

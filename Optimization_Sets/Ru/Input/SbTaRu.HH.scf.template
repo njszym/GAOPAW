@@ -1,0 +1,27 @@
+&control
+  calculation='scf'
+  prefix='SbTaRu.HH.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=3
+  ntyp=3
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=32
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  Sb 0.0 Sb.GGA-PBE-paw.UPF
+  Ta 0.0 Ta.GGA-PBE-paw.UPF
+  Ru 0.0 Ru.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 1 1 1
+ATOMIC_POSITIONS (crystal)
+Sb 0.5 0.5 0.5
+Ta 0.25 0.25 0.25
+Ru 0.75 0.75 0.75

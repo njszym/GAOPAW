@@ -1,0 +1,41 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=5
+  ntyp=3
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  Sr 0.0 Sr.GGA-PBE-paw.UPF
+  Cr 0.0 Cr.GGA-PBE-paw.UPF
+  O 0.0 O.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 8 0 0 0
+ATOMIC_POSITIONS (crystal)
+Sr 0.0 0.0 0.0
+Cr 0.5 0.5 0.5
+O 0.0 0.5 0.5
+O 0.5 0.5 0.0
+O 0.5 0.0 0.5
+CELL_PARAMETERS angstrom
+    3.8251300000     0.0000000000     0.0000000000
+    0.0000000000     3.8251300000     0.0000000000
+    0.0000000000     0.0000000000     3.8251300000
+

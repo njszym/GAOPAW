@@ -1,0 +1,13 @@
+# Input file for GAOPAW
+elements: ['Hf','Hf','O','O','S','S','Mg','Mg','Zn','Zn']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [4.488,3.551,3.178,2.511,3.994,3.182,4.526,3.581,3.936,3.128]
+template_dir: '/home/szymansk/Optimization_Sets/Hf/Input'
+cmpd_formula: ['HfO','HfS','HfO2','MgZnHf']
+cmpd_lattice_type: ['RS','ZB','FCC','HH']
+test_lattice: [True,False,True,True]
+cmpd_lattice_constant: [4.611,0.00,5.075,6.579]
+test_delta: [False,True,False,False]
+test_gap: [False,False,True,False]
+band_gap: [0.00,0.00,3.78,0.00]
+# End file

@@ -1,0 +1,49 @@
+&control
+  calculation='scf'
+  prefix='NiO.SC.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=16
+  ntyp=3
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+  nspin=2
+  starting_magnetization(1)=1.4
+  starting_magnetization(2)=-1.4
+  starting_magnetization(3)=0.0
+/
+&electrons
+  conv_thr=1.d-8
+/
+K_POINTS (automatic)
+  4 4 4 0 0 0
+ATOMIC_SPECIES
+  Ni1 0.0 Ni.GGA-PBE-paw.UPF
+  Ni2 0.0 Ni.GGA-PBE-paw.UPF
+  O 0.0 O.GGA-PBE-paw.UPF
+CELL_PARAMETERS angstrom
+4.204259 4.204259 0.000000
+4.204259 0.000000 -4.204259
+0.000000 4.204259 -4.204259
+ATOMIC_POSITIONS (crystal)
+Ni1 0.000000 0.000000 0.000000
+Ni1 0.000000 0.500000 0.500000
+Ni1 0.500000 0.000000 0.500000 
+Ni1 0.500000 0.500000 0.000000
+Ni2 0.000000 0.000000 0.500000
+Ni2 0.000000 0.500000 0.000000
+Ni2 0.500000 0.000000 0.000000
+Ni2 0.500000 0.500000 0.500000
+O 0.250000 0.250000 0.250000
+O 0.250000 0.250000 0.750000
+O 0.250000 0.750000 0.250000
+O 0.250000 0.750000 0.750000
+O 0.750000 0.250000 0.250000
+O 0.750000 0.250000 0.750000
+O 0.750000 0.750000 0.250000
+O 0.750000 0.750000 0.750000

@@ -94,13 +94,6 @@ def main():
                     num_tests.append('placeholder')
         except:
             test_lat_list = [False]*len(cmpd_formula_list)
-        try:
-            test_coh_list = input_settings['test_coh_energy']
-            for TF_val in test_coh_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_coh_list = [False]*len(cmpd_formula_list)
     except:
         pass
     lat_diff_list = []
@@ -247,16 +240,6 @@ def main():
                         if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                             QE_gap = get_gap(cmpd,cmpd_lat_type)
                             lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
-                       	else:
-                            lat_type_list.append('bad_run')
-                    if test_coh == True:
-                       	if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                            write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                            run_QE(cmpd,cmpd_lat_type,'relax')
-                       	if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
-                            AE_coh = input_settings['cohesive_energy'][cmpd_index]
-                            QE_coh = get_coh_energy(unique_elem_list,cmpd_lat_type,template_dir) ## deprecated
-                            lat_diff_list.append(abs(QE_coh-AE_coh)/AE_coh)
                        	else:
                             lat_type_list.append('bad_run')
                     if test_delta == True:
@@ -1008,50 +991,6 @@ def write_cell(elem,lat_type,cell):
     f.write(v2)
     f.write(v3)
     f.close()
-
-def get_coh_energy(elem_list,lat_type,template_path):
-    """
-    Parse final energy from converged relaxation calculation
-    for given cmpd, then for each constituent element in cmpd,
-    perform scf run on the "atom in a box", obtain final energies
-    per atom, and compute the difference, i.e., cohesive energy.
-    Remains untested! Deprecated formatting (use of element_list)
-    """
-    cmpd = ''
-    cmpd = cmpd.join(elem_list)
-    with open(cmpd+'.'+lat_type+'.relax.out') as f:
-        lines = f.readlines()
-    index = 0
-    for line in lines:
-        if '!    total energy              =' in line:
-            cmpd_energy = float(line.split()[4])
-        if 'ATOMIC_POSITIONS' in line:
-            start = index+1
-        index += 1
-    elems_in_cmpd = []
-    for line in lines[start:]:
-        if 'End' in line:
-            break
-        else:
-            elems_in_cmpd.append(line.split()[0])
-    formula = {}
-    for elem in elems_in_cmpd:
-        if elem in formula:
-            formula[elem] += 1
-        else:
-            formula[elem] = 1
-    elem_energies = {}
-    for elem in elem_list:
-        write_QE_input(elem,'atom','scf',template_path)
-        run_QE(elem,'atom','scf')
-        with open(elem+'.atom.scf.out') as f:
-            if '!    total energy              =' in line:
-                elem_energies[elem] = float(line.split()[4])
-    sum_energies = 0
-    for elem in elem_list:
-        sum_energies += formula[elem]*elem_energies[elem]
-    coh_energy = cmpd_energy - sum_energies
-    return coh_energy
 
 def update_best_result(obj_fn_list):
     """

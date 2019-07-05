@@ -51,7 +51,7 @@ def main():
                 test_param_list.append([[False]*len(cmpd_formula_list)])
     except:
         pass
-    lat_diff_list = []
+    diff_list = []
     lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
     check_error = False
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
@@ -71,7 +71,7 @@ def main():
                             QE_lat = get_lattice_constant(elem,lat_type)
                             AE_lat = lat_const
                             if check_convergence(elem,lat_type,'relax') == True:
-                                lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                                diff_list.append(compare_lat(AE_lat,QE_lat))
                                 copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                                 if elem == 'N':
                                     copyfile('N.SC.relax.out','../N.SC.relax.out')
@@ -84,7 +84,7 @@ def main():
                             lat_diff += compare_lat(AE_lat[1],QE_c)
                             lat_diff = lat_diff/2.
                             if check_convergence(elem,lat_type,'relax') == True:
-                                lat_diff_list.append(lat_diff)
+                                diff_list.append(lat_diff)
                                 copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                             else:
                                 check_error = True
@@ -96,7 +96,7 @@ def main():
                             lat_diff += compare_lat(AE_lat[2],QE_c)
        	               	    lat_diff = lat_diff/3.
                             if check_convergence(elem,lat_type,'relax') == True:
-                                lat_diff_list.append(lat_diff)
+                                diff_list.append(lat_diff)
                                 copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                                 if elem == 'P':
                                     copyfile('P.ortho.relax.out','../P.ortho.relax.out')
@@ -123,7 +123,7 @@ def main():
                         QE_lat = get_lattice_constant(elem+'N','RS')
                         AE_lat = lat_const
                         if check_convergence(elem+'N','RS','relax') == True:
-                            lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                            diff_list.append(compare_lat(AE_lat,QE_lat))
                             copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                             copyfile(elem+'N.RS.relax.out','../'+elem+'N.RS.relax.out')
                         else:
@@ -133,7 +133,7 @@ def main():
                 else:
                     check_error = True
                 os.chdir('../')
-    if len(lat_diff_list) == len(lat_type_list):
+    if len(diff_list) == len(lat_type_list):
         try:
             PAW_list = input_settings['PAWs']
             UPF_list = [elem_name+'.GGA-PBE-paw.UPF' for elem_name in PAW_list]
@@ -151,7 +151,7 @@ def main():
                             run_QE(cmpd,cmpd_lat_type,'relax')
                         if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
                             atom_diff = compare_atoms(cmpd,cmpd_lat_type,template_dir)
-                            lat_diff_list.append(atom_diff)
+                            diff_list.append(atom_diff)
                        	else:
                             lat_type_list.append('bad_run')
                     if test_mag == True:
@@ -165,7 +165,7 @@ def main():
                        	AE_mag = float(input_settings['magnetization'][cmpd_index])
                        	if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                             QE_mag = float(get_mag(cmpd,cmpd_lat_type))
-                            lat_diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
+                            diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
                        	else:
                             lat_type_list.append('bad_run')
                     if test_mag_mom == True:
@@ -178,7 +178,7 @@ def main():
                             run_QE(cmpd,cmpd_lat_type,'scf')
                        	if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                             mag_mom_diff = compare_mag_mom(cmpd,cmpd_lat_type,template_dir)
-                            lat_diff_list.append(mag_mom_diff)
+                            diff_list.append(mag_mom_diff)
                        	else:
                             lat_type_list.append('bad_run')
                     if test_gap == True:
@@ -192,7 +192,7 @@ def main():
                        	AE_gap = input_settings['band_gap'][cmpd_index]
                         if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
                             QE_gap = get_gap(cmpd,cmpd_lat_type)
-                            lat_diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
+                            diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
                        	else:
                             lat_type_list.append('bad_run')
                     if test_delta == True:
@@ -204,7 +204,7 @@ def main():
                             V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
                             QE_EOS_data, AE_EOS_data = read_eos(cmpd,cmpd_lat_type,template_dir)
                             delta_factor = calcDelta(QE_EOS_data,AE_EOS_data,[cmpd],False)
-                            lat_diff_list.append(delta_factor[0])
+                            diff_list.append(delta_factor[0])
                        	else:
                             lat_type_list.append('bad_run')
                     if test_phonon == True: ## Testing required
@@ -232,7 +232,7 @@ def main():
                             if phonon_diff == 'bad_run':
                                	lat_type_list.append('bad_run')
                             else:
-                               	lat_diff_list.append(phonon_diff)
+                               	diff_list.append(phonon_diff)
                        	else:
                             lat_type_list.append('bad_run')
                     if test_bulk == True:
@@ -244,7 +244,7 @@ def main():
                             V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
                             AE_bulk = input_settings['bulk_modulus'][cmpd_index]
                             bulk_diff = abs(AE_bulk-QE_bulk)/AE_bulk
-                            lat_diff_list.append(bulk_diff)
+                            diff_list.append(bulk_diff)
                        	else:
                             lat_type_list.append('bad_run')
                     if test_lat == True:
@@ -255,14 +255,14 @@ def main():
                             if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
                                	QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
                                	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
-                               	lat_diff_list.append(compare_lat(AE_lat,QE_lat))
+                               	diff_list.append(compare_lat(AE_lat,QE_lat))
                             if cmpd_lat_type in ['tetrag','hex','WZ']:
                                	QE_a, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
                                	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                                	lat_diff = compare_lat(AE_lat[0],QE_a)
                                	lat_diff += compare_lat(AE_lat[1],QE_c)
                                	lat_diff = lat_diff/2.
-                               	lat_diff_list.append(lat_diff)
+                               	diff_list.append(lat_diff)
                             if cmpd_lat_type == 'ortho':
                                	QE_a, QE_b, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
                                	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
@@ -270,14 +270,14 @@ def main():
                                	lat_diff += compare_lat(AE_lat[1],QE_b)
                                	lat_diff += compare_lat(AE_lat[2],QE_c)
                                 lat_diff = lat_diff/3.
-                               	lat_diff_list.append(lat_diff)
+                               	diff_list.append(lat_diff)
                             if cmpd_lat_type == 'rhomb':
                                	QE_a, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
                                	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
        	       	       	       	lat_diff = compare_lat(AE_lat[0],QE_a)
                                	lat_diff += compare_lat(AE_lat[1],QE_angle)
        	       	       	       	lat_diff = lat_diff/2.
-                               	lat_diff_list.append(lat_diff)
+                               	diff_list.append(lat_diff)
                             if cmpd_lat_type == 'monoclin':
                                	QE_a, QE_b, QE_c, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
                                	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
@@ -286,7 +286,7 @@ def main():
                                	lat_diff += compare_lat(AE_lat[2],QE_c)
                                	lat_diff += compare_lat(AE_lat[3],QE_angle)
                                	lat_diff = lat_diff/4.
-                               	lat_diff_list.append(lat_diff)
+                               	diff_list.append(lat_diff)
                             if cmpd_lat_type == 'triclin':
                                	QE_a, QE_b, QE_c, QE_angle_1, QE_angle_2, QE_angle_3 = get_lattice_constant(cmpd,cmpd_lat_type)
                                	AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
@@ -297,23 +297,23 @@ def main():
                                	lat_diff += compare_lat(AE_lat[4],QE_angle_2)
                                	lat_diff += compare_lat(AE_lat[5],QE_angle_3)
                                	lat_diff = lat_diff/6.
-                                lat_diff_list.append(lat_diff)
+                                diff_list.append(lat_diff)
                         else:
                        	    lat_type_list.append('bad_run')
                 except:
                     lat_type_list.append('bad_run')
                 cmpd_index += 1
             if 'bad_run' not in lat_type_list:
-                update_best_result(lat_diff_list)
-                update_dakota(element_list,lat_diff_list)
+                update_best_result(diff_list)
+                update_dakota(element_list,diff_list)
             else:
                 lat_type_list = [value for value in lat_type_list if value != 'bad_run']
                 for i in range(len(num_tests)):
                     lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
         except:
-            update_best_result(lat_diff_list)
-            update_dakota(element_list,lat_diff_list)
+            update_best_result(diff_list)
+            update_dakota(element_list,diff_list)
     else:
         for i in range(len(num_tests)):
             lat_type_list.append('placeholder')
@@ -353,7 +353,7 @@ def compare_lat(AE_lat,QE_lat):
     """
     return abs(AE_lat - QE_lat)/AE_lat
 
-def update_dakota(element_list,lat_diff_list):
+def update_dakota(element_list,diff_list):
     """
     Set the parameters and results files to be used by Dakota
     The objective function is equal to the difference between the lattice
@@ -367,9 +367,9 @@ def update_dakota(element_list,lat_diff_list):
         results[label].function = compare_log()
         os.chdir('../')
     add_index = len(unique_elem_list)+1
-    for index in range(len(lat_diff_list)):
+    for index in range(len(diff_list)):
         label = 'obj_fn_'+str(index+add_index)
-        results[label].function = lat_diff_list[index]
+        results[label].function = diff_list[index]
     results.write()
 
 def write_atompaw_input(elem,template_path):

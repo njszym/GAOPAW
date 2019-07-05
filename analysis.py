@@ -21,12 +21,13 @@ def main():
     """
     Main function which Dakota executes to carry out evaluations.
     Parse input from gaopaw.yaml contained in a subfolder.
-    For each element: write AtomPAW input, run AtomPAW and generate .UPF,
-    write QE input, run QE relaxation, parse equilibrium lattice constant,
-    compare with AE lattice constant and update objective function.
+    For each element: write AtomPAW input, run AtomPAW to generate .UPF,
+    write QE input, parse specified properties to be tested/optimized,
+    compare with known AE properties and update objective functions accordingly.
     Logarithmic derivatives (arctan) of exact and pseudized partial waves are compared.
     May also study binaries and ternaries, comparing the following:
-    lattice constants, atomic positions, magnetic moments, ...
+    lattice constants, atomic positions, net magnetization, individual magnetic moments,
+    band gaps, bulk moduli, phonon frequencies, and delta-factors.
     """
     working_dir = sys.argv[-3]
     with open(working_dir+'/../gaopaw.yaml') as f:
@@ -209,18 +210,7 @@ def main():
                         update_structure(cmpd,cmpd_lat_type,'scf')
                         error_check.append(run_QE(cmpd,cmpd_lat_type,'scf'))
                     if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        copyfile(template_dir+'/phonon.in','./phonon.in')
-                        if 'phonon.save' in os.listdir('.'):
-                            os.remove('phonon.out')
-                            shutil.rmtree('phonon.save')
-                            os.remove('phonon.save.qegz')
-                        os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+cmpd_lat_type+'.scf.save.qegz -MPICORES 4')
-                        copyfile(template_dir+'/dynmat.in','./dynmat.in')
-                        if 'dynmat.save' in os.listdir('.'):
-                            os.remove('dynmat.out')
-                            shutil.rmtree('dynmat.save')
-                            os.remove('dynmat.save.qegz')
-                        os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
+                        run_phonon(cmpd,cmpd_lat_type,template_dir)
                         phonon_diff = compare_phonon(cmpd,cmpd_lat_type,template_dir)
                         if phonon_diff == 'bad_run':
                             error_check.append(True)
@@ -248,14 +238,13 @@ def main():
                         if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
                             QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
-                            diff_list.append(compare_lat(AE_lat,QE_lat))
+                            lat_diff = compare_lat(AE_lat,QE_lat)
                         if cmpd_lat_type in ['tetrag','hex','WZ']:
                             QE_a, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                             lat_diff = compare_lat(AE_lat[0],QE_a)
                             lat_diff += compare_lat(AE_lat[1],QE_c)
                             lat_diff = lat_diff/2.
-                            diff_list.append(lat_diff)
                         if cmpd_lat_type == 'ortho':
                             QE_a, QE_b, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
@@ -263,14 +252,12 @@ def main():
                             lat_diff += compare_lat(AE_lat[1],QE_b)
                             lat_diff += compare_lat(AE_lat[2],QE_c)
                             lat_diff = lat_diff/3.
-                            diff_list.append(lat_diff)
                         if cmpd_lat_type == 'rhomb':
                             QE_a, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
        	       	       	    lat_diff = compare_lat(AE_lat[0],QE_a)
                             lat_diff += compare_lat(AE_lat[1],QE_angle)
        	       	       	    lat_diff = lat_diff/2.
-                            diff_list.append(lat_diff)
                         if cmpd_lat_type == 'monoclin':
                             QE_a, QE_b, QE_c, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
@@ -279,7 +266,6 @@ def main():
                             lat_diff += compare_lat(AE_lat[2],QE_c)
                             lat_diff += compare_lat(AE_lat[3],QE_angle)
                             lat_diff = lat_diff/4.
-                            diff_list.append(lat_diff)
                         if cmpd_lat_type == 'triclin':
                             QE_a, QE_b, QE_c, QE_angle_1, QE_angle_2, QE_angle_3 = get_lattice_constant(cmpd,cmpd_lat_type)
                             AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
@@ -290,7 +276,7 @@ def main():
                             lat_diff += compare_lat(AE_lat[4],QE_angle_2)
                             lat_diff += compare_lat(AE_lat[5],QE_angle_3)
                             lat_diff = lat_diff/6.
-                            diff_list.append(lat_diff)
+                        diff_list.append(lat_diff)
                     else:
                         error_check.append(True)
                 cmpd_index += 1
@@ -938,6 +924,23 @@ def write_cell(elem,lat_type,cell):
     f.write(v2)
     f.write(v3)
     f.close()
+
+def run_phonon(cmpd,cmpd_lat_type,template_dir):
+    """
+    Run QE phonon calculations using ph.x and dynmat.x.
+    """
+    copyfile(template_dir+'/phonon.in','./phonon.in')
+    if 'phonon.save' in os.listdir('.'):
+        os.remove('phonon.out')
+        shutil.rmtree('phonon.save')
+        os.remove('phonon.save.qegz')
+    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+cmpd_lat_type+'.scf.save.qegz -MPICORES 4')
+    copyfile(template_dir+'/dynmat.in','./dynmat.in')
+    if 'dynmat.save' in os.listdir('.'):
+        os.remove('dynmat.out')
+        shutil.rmtree('dynmat.save')
+        os.remove('dynmat.save.qegz')
+    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
 
 def update_best_result(obj_fn_list):
     """

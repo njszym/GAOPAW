@@ -38,62 +38,17 @@ def main():
     num_tests = []
     try:
         cmpd_formula_list = input_settings['cmpd_formula']
-        try:
-            test_atoms_list = input_settings['test_atomic_positions']
-            for TF_val in test_atoms_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_atoms_list = [False]*len(cmpd_formula_list)
-        try:
-            test_mag_list = input_settings['test_magnetization']
-            for TF_val in test_mag_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_mag_list = [False]*len(cmpd_formula_list)
-        try:
-            test_mag_mom_list = input_settings['test_magnetic_moment']
-            for TF_val in test_mag_mom_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_mag_mom_list = [False]*len(cmpd_formula_list)
-        try:
-            test_gap_list = input_settings['test_gap']
-            for TF_val in test_gap_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_gap_list = [False]*len(cmpd_formula_list)
-        try:
-            test_bulk_list = input_settings['test_bulk']
-            for TF_val in test_bulk_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_bulk_list = [False]*len(cmpd_formula_list)
-        try:
-            test_delta_list = input_settings['test_delta']
-            for TF_val in test_delta_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_delta_list = [False]*len(cmpd_formula_list)
-        try:
-            test_phonon_list = input_settings['test_phonon']
-            for TF_val in test_phonon_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_phonon_list = [False]*len(cmpd_formula_list)
-        try:
-            test_lat_list = input_settings['test_lattice']
-            for TF_val in test_lat_list:
-                if TF_val == True:
-                    num_tests.append('placeholder')
-        except:
-            test_lat_list = [False]*len(cmpd_formula_list)
+        cmpd_lat_type_list = input_settings['cmpd_lattice_type']
+        param_list = ['test_atomic_positions','test_magnetization','test_magnetic_moment','test_gap','test_bulk','test_delta','test_phonon','test_lattice']
+        test_param_list = [cmpd_formula_list,cmpd_lat_type_list]
+        for param in param_list:
+            try:
+                test_param_list.append(input_settings[param])
+                for boolean_val in input_settings[param]:
+                    if boolean_val == True:
+                        num_tests.append('placeholder')
+            except:
+                test_param_list.append([[False]*len(cmpd_formula_list)])
     except:
         pass
     lat_diff_list = []
@@ -188,9 +143,7 @@ def main():
             pass
         try:
             cmpd_index = 0
-            cmpd_formula_list = input_settings['cmpd_formula']
-            cmpd_lat_type_list = input_settings['cmpd_lattice_type']
-            for (cmpd,cmpd_lat_type,test_atoms,test_mag,test_mag_mom,test_gap,test_bulk,test_delta,test_phonon,test_lat,test_coh) in zip(cmpd_formula_list,cmpd_lat_type_list,test_atoms_list,test_mag_list,test_mag_mom_list,test_gap_list,test_bulk_list,test_delta_list,test_phonon_list,test_lat_list,test_coh_list):
+            for (cmpd,cmpd_lat_type,test_atoms,test_mag,test_mag_mom,test_gap,test_bulk,test_delta,test_phonon,test_lat) in zip(*test_param_list):
                 try:
                     if test_atoms == True:
                         if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):

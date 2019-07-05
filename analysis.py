@@ -38,6 +38,7 @@ def main():
     num_tests = []
     try:
         cmpd_formula_list = input_settings['cmpd_formula']
+        test_cmpds = True
         cmpd_lat_type_list = input_settings['cmpd_lattice_type']
         param_list = ['test_atomic_positions','test_magnetization','test_magnetic_moment','test_gap','test_bulk','test_delta','test_phonon','test_lattice']
         test_param_list = [cmpd_formula_list,cmpd_lat_type_list]
@@ -70,24 +71,13 @@ def main():
                         if lat_type in ['SC','RS','BCC','FCC','ZB','diamond','CsCl']:
                             QE_lat = get_lattice_constant(elem,lat_type)
                             AE_lat = lat_const
-                            if check_convergence(elem,lat_type,'relax') == True:
-                                diff_list.append(compare_lat(AE_lat,QE_lat))
-                                copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                                if elem == 'N':
-                                    copyfile('N.SC.relax.out','../N.SC.relax.out')
-                            else:
-                                check_error = True
+                            lat_diff = compare_lat(AE_lat,QE_lat)
                         if lat_type == 'tetrag':
                             QE_a, QE_c = get_lattice_constant(elem,lat_type)
                             AE_lat = lat_const
                             lat_diff = compare_lat(AE_lat[0],QE_a)
                             lat_diff += compare_lat(AE_lat[1],QE_c)
                             lat_diff = lat_diff/2.
-                            if check_convergence(elem,lat_type,'relax') == True:
-                                diff_list.append(lat_diff)
-                                copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                            else:
-                                check_error = True
        	                if lat_type == 'ortho':
                             QE_a, QE_b, QE_c = get_lattice_constant(elem,lat_type)
                             AE_lat = lat_const
@@ -95,14 +85,17 @@ def main():
        	                    lat_diff +=	compare_lat(AE_lat[1],QE_b)
                             lat_diff += compare_lat(AE_lat[2],QE_c)
        	               	    lat_diff = lat_diff/3.
-                            if check_convergence(elem,lat_type,'relax') == True:
-                                diff_list.append(lat_diff)
-                                copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                                if elem == 'P':
-                                    copyfile('P.ortho.relax.out','../P.ortho.relax.out')
-                                    copyfile('P.ortho.relax.in','../P.ortho.relax.in')
-                            else:
-       	       	       	        check_error = True
+                        if check_convergence(elem,lat_type,'relax') == True:
+                            diff_list.append(lat_diff)
+                            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                            if elem == 'N':
+                                copyfile('N.SC.relax.in','../N.SC.relax.in')
+                                copyfile('N.SC.relax.out','../N.SC.relax.out')
+                            if elem == 'P':
+                                copyfile('P.ortho.relax.out','../P.ortho.relax.out')
+                                copyfile('P.ortho.relax.in','../P.ortho.relax.in')
+                        else:
+                            check_error = True
                     except:
                         check_error = True
                 else:
@@ -141,7 +134,7 @@ def main():
                 copyfile(template_dir+'/'+UPF,'./'+UPF)
         except:
             pass
-        try:
+        if test_cmpds == True:
             cmpd_index = 0
             for (cmpd,cmpd_lat_type,test_atoms,test_mag,test_mag_mom,test_gap,test_bulk,test_delta,test_phonon,test_lat) in zip(*test_param_list):
                 try:
@@ -311,7 +304,7 @@ def main():
                 for i in range(len(num_tests)):
                     lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
-        except:
+        else:
             update_best_result(diff_list)
             update_dakota(element_list,diff_list)
     else:

@@ -272,6 +272,7 @@ def compare_lat(AE_lat,cmpd,cmpd_lat_type):
     """
     Compute difference between AE and PAW lattice constants
     """
+    lat_diff = 0
     if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
         QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
         lat_diff = abs(AE_lat - QE_lat)/AE_lat

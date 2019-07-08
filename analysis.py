@@ -731,7 +731,7 @@ def compare_phonon(elem,lat_type,template_path):
     AE_freq = sorted(AE_freq)
     rel_diff = []
     for (QE,AE) in zip(QE_freq,AE_freq):
-        rel_diff.append(abs((QE-AE)/AE))
+        rel_diff.append(abs(QE-AE))
     net_diff = sum(rel_diff)/len(rel_diff)
     return net_diff
 

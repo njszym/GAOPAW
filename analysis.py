@@ -50,20 +50,20 @@ def main():
                     if boolean_val == True:
                         num_tests += 1
             else:
-                test_param_list.append([[False]*len(cmpd_formula_list)])
+                test_param_list.append([False]*len(cmpd_formula_list))
     diff_list = []
     lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
     check_error = False
     for (elem,lat_type,lat_const) in zip(element_list,lat_type_list,lat_const_list):
         if check_error == False:
-            if elem not in lanthanides:
-                if elem not in os.listdir('.'):
-                    os.mkdir(elem)
-                write_atompaw_input(elem, template_dir)
-                copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
-                os.chdir(elem)
-                run_atompaw(elem)
-                if check_UPF() == True:
+            if elem not in os.listdir('.'):
+                os.mkdir(elem)
+            write_atompaw_input(elem, template_dir)
+            copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
+            os.chdir(elem)
+            run_atompaw(elem)
+            if check_UPF() == True:
+                if elem not in lanthanides:
                     check_error = run_QE(elem,lat_type,'relax',template_dir)
                     if check_convergence(elem,lat_type,'relax') == True and check_error == False:
                         lat_diff = compare_lat(lat_const,elem,lat_type)
@@ -76,29 +76,17 @@ def main():
                     else:
                         check_error = True
                 else:
-                    check_error = True
-                os.chdir('../')
-            else:
-                if elem not in os.listdir('.'):
-                    os.mkdir(elem)
-                write_atompaw_input(elem, template_dir)
-                copyfile('./'+elem+'.atompaw.in',elem+'/'+elem+'.atompaw.in')
-                os.chdir(elem)
-                run_atompaw(elem)
-                if check_UPF() == True:
                     copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
                     check_error = run_QE(elem+'N','RS','relax',template_dir)
                     if check_convergence(elem+'N','RS','relax') == True and check_error == False:
-                        QE_lat = get_lattice_constant(elem+'N','RS')
-                        AE_lat = lat_const
-                        diff_list.append(abs(AE_lat-QE_lat)/AE_lat)
+                        diff_list.append(compare_lat(lat_const,elem+'N','RS'))
                         copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                         copyfile(elem+'N.RS.relax.out','../'+elem+'N.RS.relax.out')
                     else:
                         check_error = True
-                else:
-                    check_error = True
-                os.chdir('../')
+            else:
+                check_error = True
+            os.chdir('../')
     if len(diff_list) == len(lat_type_list):
         if 'PAWs' in input_settings.keys():
             PAW_list = input_settings['PAWs']
@@ -296,7 +284,7 @@ def run_atompaw(elem):
 
 def run_QE(elem,lat_type,calc_type,template_dir):
     """
-    Run QE relaxation using (elem).(calc_type).in
+    Write and run QE using elem.lat_type.calc_type in template_dir.
     """
     if str(elem+'.'+lat_type+'.'+calc_type+'.out') not in os.listdir('.'):
         template_file = os.path.join(template_dir, elem+'.'+lat_type+'.'+calc_type+'.template')
@@ -965,5 +953,3 @@ def update_best_result(obj_fn_list):
 
 if __name__=='__main__':
     main()
-
-

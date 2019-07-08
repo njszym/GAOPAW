@@ -96,5 +96,5 @@ ax[3].set_ylim(0,max(phon_diff_list)+5)
 ax[3].set_title('Phonon Frequency',fontsize=20)
 
 plt.tight_layout()
-plt.savefig('Lattice_Constant.png',dpi=500)
+plt.savefig('Accuracy.png',dpi=500)
 plt.close()

@@ -22,10 +22,10 @@ def main():
     Main function which Dakota executes to carry out evaluations.
     Parse input from gaopaw.yaml contained in a subfolder.
     For each element: write AtomPAW input, run AtomPAW to generate .UPF,
-    write QE input, parse specified properties to be tested/optimized,
+    write and run QE input, parse specified properties to be tested/optimized,
     compare with known AE properties and update objective functions accordingly.
     Logarithmic derivatives (arctan) of exact and pseudized partial waves are compared.
-    May also study binaries and ternaries, comparing the following:
+    PAWs may be optimized based on the following properties:
     lattice constants, atomic positions, net magnetization, individual magnetic moments,
     band gaps, bulk moduli, phonon frequencies, and delta-factors.
     """
@@ -36,23 +36,21 @@ def main():
     template_dir = input_settings['template_dir']
     lat_type_list = input_settings['lattice_type']
     lat_const_list = input_settings['lattice_constant']
-    num_tests = []
-    try:
+    num_tests = 0
+    if 'cmpd_formula' in input_settings.keys():
         cmpd_formula_list = input_settings['cmpd_formula']
         test_cmpds = True
         cmpd_lat_type_list = input_settings['cmpd_lattice_type']
         param_list = ['test_atomic_positions','test_magnetization','test_magnetic_moment','test_gap','test_bulk','test_delta','test_phonon','test_lattice']
         test_param_list = [cmpd_formula_list,cmpd_lat_type_list]
         for param in param_list:
-            try:
+            if param in input_settings.keys():
                 test_param_list.append(input_settings[param])
                 for boolean_val in input_settings[param]:
                     if boolean_val == True:
-                        num_tests.append('placeholder')
-            except:
+                        num_tests += 1
+            else:
                 test_param_list.append([[False]*len(cmpd_formula_list)])
-    except:
-        pass
     diff_list = []
     lanthanides = ['Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu']
     check_error = False
@@ -72,10 +70,8 @@ def main():
                         diff_list.append(lat_diff)
                         copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
                         if elem == 'N':
-                            copyfile('N.SC.relax.in','../N.SC.relax.in')
                             copyfile('N.SC.relax.out','../N.SC.relax.out')
                         if elem == 'P':
-                            copyfile('P.ortho.relax.out','../P.ortho.relax.out')
                             copyfile('P.ortho.relax.in','../P.ortho.relax.in')
                     else:
                         check_error = True
@@ -104,13 +100,11 @@ def main():
                     check_error = True
                 os.chdir('../')
     if len(diff_list) == len(lat_type_list):
-        try:
+        if 'PAWs' in input_settings.keys():
             PAW_list = input_settings['PAWs']
             UPF_list = [elem_name+'.GGA-PBE-paw.UPF' for elem_name in PAW_list]
             for UPF in UPF_list:
                 copyfile(template_dir+'/'+UPF,'./'+UPF)
-        except:
-            pass
         if test_cmpds == True:
             cmpd_index = 0
             error_check = []
@@ -205,14 +199,14 @@ def main():
                 update_best_result(diff_list)
                 update_dakota(element_list,diff_list)
             else:
-                for i in range(len(num_tests)):
+                for i in range(num_tests):
                     lat_type_list.append('placeholder')
                 bad_run(element_list,lat_type_list)
         else:
             update_best_result(diff_list)
             update_dakota(element_list,diff_list)
     else:
-        for i in range(len(num_tests)):
+        for i in range(num_tests):
             lat_type_list.append('placeholder')
         bad_run(element_list,lat_type_list)
 
@@ -246,45 +240,20 @@ def bad_run(element_list,lat_type_list):
 
 def compare_lat(AE_lat,cmpd,cmpd_lat_type):
     """
-    Compute difference between AE and PAW lattice constants
+    Compute difference between AE and PAW lattice constants.
+    For cubic systems, a primitive cell is assumed.
+    For all other lattice types, a conventional cell is assumed.
     """
+    QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
     lat_diff = 0
     if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
-        QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
-        lat_diff = abs(AE_lat - QE_lat)/AE_lat
-    if cmpd_lat_type in ['tetrag','hex','WZ']:
-        QE_a, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
-        lat_diff += abs(AE_lat[0] - QE_a)/AE_lat[0]
-        lat_diff += abs(AE_lat[1] - QE_c)/AE_lat[1]
-        lat_diff = lat_diff/2.
-    if cmpd_lat_type == 'ortho':
-        QE_a, QE_b, QE_c = get_lattice_constant(cmpd,cmpd_lat_type)
-        lat_diff += abs(AE_lat[0] - QE_a)/AE_lat[0]
-        lat_diff += abs(AE_lat[1] - QE_b)/AE_lat[1]
-        lat_diff += abs(AE_lat[2] - QE_c)/AE_lat[2]
-        lat_diff = lat_diff/3.
-    if cmpd_lat_type == 'rhomb':
-        QE_a, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
-        lat_diff += abs(AE_lat[0] - QE_a)/AE_lat[0]
-        lat_diff += abs(AE_lat[1] - QE_angle)/AE_lat[1]
-        lat_diff = lat_diff/2.
-    if cmpd_lat_type == 'monoclin':
-        QE_a, QE_b, QE_c, QE_angle = get_lattice_constant(cmpd,cmpd_lat_type)
-        lat_diff += abs(AE_lat[0] - QE_a)/AE_lat[0]
-        lat_diff += abs(AE_lat[1] - QE_b)/AE_lat[1]
-        lat_diff += abs(AE_lat[2] - QE_c)/AE_lat[2]
-        lat_diff += abs(AE_lat[3] - QE_angle)/AE_lat[3]
-        lat_diff = lat_diff/4.
-    if cmpd_lat_type == 'triclin':
-        QE_a, QE_b, QE_c, QE_angle_1, QE_angle_2, QE_angle_3 = get_lattice_constant(cmpd,cmpd_lat_type)
-        lat_diff += abs(AE_lat[0] - QE_a)/AE_lat[0]
-        lat_diff += abs(AE_lat[1] - QE_b)/AE_lat[1]
-        lat_diff += abs(AE_lat[2] - QE_c)/AE_lat[2]
-        lat_diff += abs(AE_lat[3] - QE_angle_1)/AE_lat[3]
-        lat_diff += abs(AE_lat[4] - QE_angle_2)/AE_lat[4]
-        lat_diff += abs(AE_lat[5] - QE_angle_3)/AE_lat[5]
-        lat_diff = lat_diff/6.
-    return lat_diff
+        lat_diff = abs(QE_lat-AE_lat)/AE_lat
+        return lat_diff
+    else:
+        for (QE,AE) in zip(QE_lat,AE_lat):
+            lat_diff += abs(QE-AE)/AE
+        avg_lat_diff = lat_diff/len(AE_lat)
+        return avg_lat_diff
 
 def update_dakota(element_list,diff_list):
     """
@@ -305,14 +274,14 @@ def update_dakota(element_list,diff_list):
         results[label].function = diff_list[index]
     results.write()
 
-def write_atompaw_input(elem,template_path):
+def write_atompaw_input(elem,template_dir):
     """
-    Write AtomPAW input file based on some template specified in template_path
+    Write AtomPAW input file based on some template specified in template_dir
     """
     env = os.environ.copy()
     env['PATH'] = '/scr/fonari/dakota/bin:' + env['PATH']
     env['LD_LIBRARY_PATH'] = '/scr/fonari/dakota/bin:' + env['LD_LIBRARY_PATH']
-    template_file = os.path.join(template_path, elem+'.atompaw.template')
+    template_file = os.path.join(template_dir, elem+'.atompaw.template')
     new_input_file = elem+'.atompaw.in'
     subprocess.check_call(['run', 'dprepro.py', 'params.in', template_file, new_input_file], env=env)
 
@@ -325,12 +294,12 @@ def run_atompaw(elem):
     with open(elem+'.atompaw.in','r') as input_fin, open('log_atompaw', 'w') as log_fout: 
         subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, env=env)
 
-def run_QE(elem,lat_type,calc_type,template_path):
+def run_QE(elem,lat_type,calc_type,template_dir):
     """
     Run QE relaxation using (elem).(calc_type).in
     """
     if str(elem+'.'+lat_type+'.'+calc_type+'.out') not in os.listdir('.'):
-        template_file = os.path.join(template_path, elem+'.'+lat_type+'.'+calc_type+'.template')
+        template_file = os.path.join(template_dir, elem+'.'+lat_type+'.'+calc_type+'.template')
         new_input_file = elem+'.'+lat_type+'.'+calc_type+'.in'
         shutil.copy(template_file,new_input_file)
         if calc_type == 'scf':
@@ -345,7 +314,8 @@ def run_QE(elem,lat_type,calc_type,template_path):
 
 def get_lattice_constant(elem,lat_type):
     """
-    Get relaxed lattice constant from QE run
+    Get relaxed lattice constant from QE run.
+    Note some tolerance is allowed.
     """
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),'periodic_dft_gui_dir', 'qe2mae.py')
     qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
@@ -353,11 +323,11 @@ def get_lattice_constant(elem,lat_type):
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = xtal.get_params_from_chorus(cparams)
-    if lat_type == 'FCC' or lat_type == 'RS' or lat_type == 'ZB' or lat_type == 'HH' or lat_type == 'diamond':
+    if lat_type in ['FCC','ZB','RS','diamond','HH']:
         return math.sqrt(2)*params[0]
     if lat_type == 'BCC':
         return (2./3.)*math.sqrt(3)*params[0]
-    if lat_type == 'per' or lat_type == 'SC' or lat_type == 'CsCl':
+    if lat_type in ['per','SC','CsCl']:
         return params[0]
     if lat_type == 'tetrag':
         unique_lat_list = sorted(unique(params[:3]))
@@ -443,12 +413,12 @@ def unique(list):
                 unique_list.append(x) 
     return unique_list
 
-def compare_atoms(elem,lat_type,template_path):
+def compare_atoms(elem,lat_type,template_dir):
     """
     Compare atomic positions of QE-relaxed structure
     and those of the AE-relaxed structure...
     """
-    df_AE = pd.read_table(template_path+'/AE_Struct.'+elem+'.'+lat_type,sep='\s+',header=None)
+    df_AE = pd.read_table(template_dir+'/AE_Struct.'+elem+'.'+lat_type,sep='\s+',header=None)
     df_AE = df_AE.drop(0,1)
     df_AE = df_AE.transpose()
     distance_list = []
@@ -476,7 +446,7 @@ def get_mag(elem,lat_type):
             mag.append(line.split()[3])
     return float(mag[-1])
 
-def compare_mag_mom(elem,lat_type,template_path):
+def compare_mag_mom(elem,lat_type,template_dir):
     """
     Parse QE output (scf run) to obtain individual
     magnetic moments of atoms in given structure.
@@ -489,7 +459,7 @@ def compare_mag_mom(elem,lat_type,template_path):
         if 'magn:' in line.split():
             QE_mag_mom.append(line.split()[5])
     QE_mag_mom = [float(value) for value in QE_mag_mom]
-    with open(template_path+'/AE_mag.'+elem+'.'+lat_type) as f:
+    with open(template_dir+'/AE_mag.'+elem+'.'+lat_type) as f:
         lines = f.readlines()
     AE_mag_mom = []
     for line in lines:
@@ -556,7 +526,7 @@ def get_bulk(elem,lat_type):
     f.close()
     return float(volume), float(bulk), float(B_prime)
 
-def run_scale_lat(elem,lat_type,template_path):
+def run_scale_lat(elem,lat_type,template_dir):
     """
     Read in relaxed cell parameters from (elem).(lat_type).relax.out,
     scale this lattice constant from 94% to 106% (7 values created),
@@ -564,7 +534,7 @@ def run_scale_lat(elem,lat_type,template_path):
     and energies into E_V.txt (units of Bohr^3 and Ry^3)
     """
     scale_num = [0.94,0.96,0.98,1.0,1.02,1.04,1.06]
-    with open(template_path+'/'+elem+'.'+lat_type+'.relax.template') as f:
+    with open(template_dir+'/'+elem+'.'+lat_type+'.relax.template') as f:
         lines = f.readlines()
     relax_file = elem+'.'+lat_type+'.relax.in'
     UPF_files = []
@@ -603,7 +573,7 @@ def run_scale_lat(elem,lat_type,template_path):
         f.write(str(e)+' '+str(v)+'\n')
     f.close()
 
-def read_eos(elem,lat_type,template_path):
+def read_eos(elem,lat_type,template_dir):
     """
     Read in QE and AE equilibrium volume, bulk modulus, and dB/dP
     from QE_EOS.txt and AE_EOS.txt
@@ -611,7 +581,7 @@ def read_eos(elem,lat_type,template_path):
     with open('QE_EOS.txt') as f:
         lines = f.readlines()
     QE_data = [float(value) for value in lines[0].split()]
-    with open(template_path+'/AE_EOS.'+elem+'.'+lat_type) as f:
+    with open(template_dir+'/AE_EOS.'+elem+'.'+lat_type) as f:
         lines = f.readlines()
     AE_data = [float(value) for value in lines[0].split()]
     data_f = {'element': [elem], 'V0': [QE_data[0]], 'B0': [QE_data[1]], 'BP': [QE_data[2]]}
@@ -695,7 +665,7 @@ def calcDelta(data_f, data_w, eloverlap, useasymm):
                  / (v0w + v0f) / (b0w + b0f) * 4. * vref * bref
     return Delta ## Just return Delta-factor for now
 
-def compare_phonon(elem,lat_type,template_path):
+def compare_phonon(elem,lat_type,template_dir):
     """
     Parse optical phonon frequencies from QE run
     and compare with AE frequencies
@@ -720,7 +690,7 @@ def compare_phonon(elem,lat_type,template_path):
         except:
             check = False
     QE_freq = sorted([float(value) for value in freq])
-    with open(template_path+'/AE_freq.'+elem+'.'+lat_type) as f:
+    with open(template_dir+'/AE_freq.'+elem+'.'+lat_type) as f:
         lines = f.readlines()
     AE_freq = []
     for line in lines:

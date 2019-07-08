@@ -34,7 +34,7 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 2 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
         system
           analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py $PWD' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 

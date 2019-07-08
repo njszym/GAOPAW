@@ -66,22 +66,18 @@ def main():
                 os.chdir(elem)
                 run_atompaw(elem)
                 if check_UPF() == True:
-                    write_QE_input(elem,lat_type,'relax',template_dir)
-                    try:
-                        run_QE(elem,lat_type,'relax')
-                        if check_convergence(elem,lat_type,'relax') == True:
-                            lat_diff = compare_lat(lat_const,elem,lat_type)
-                            diff_list.append(lat_diff)
-                            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                            if elem == 'N':
-                                copyfile('N.SC.relax.in','../N.SC.relax.in')
-                                copyfile('N.SC.relax.out','../N.SC.relax.out')
-                            if elem == 'P':
-                                copyfile('P.ortho.relax.out','../P.ortho.relax.out')
-                                copyfile('P.ortho.relax.in','../P.ortho.relax.in')
-                        else:
-                            check_error = True
-                    except:
+                    check_error = run_QE(elem,lat_type,'relax',template_dir)
+                    if check_convergence(elem,lat_type,'relax') == True and check_error == False:
+                        lat_diff = compare_lat(lat_const,elem,lat_type)
+                        diff_list.append(lat_diff)
+                        copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                        if elem == 'N':
+                            copyfile('N.SC.relax.in','../N.SC.relax.in')
+                            copyfile('N.SC.relax.out','../N.SC.relax.out')
+                        if elem == 'P':
+                            copyfile('P.ortho.relax.out','../P.ortho.relax.out')
+                            copyfile('P.ortho.relax.in','../P.ortho.relax.in')
+                    else:
                         check_error = True
                 else:
                     check_error = True
@@ -95,18 +91,14 @@ def main():
                 run_atompaw(elem)
                 if check_UPF() == True:
                     copyfile(template_dir+'/N.GGA-PBE-paw.UPF','./N.GGA-PBE-paw.UPF')
-                    write_QE_input(elem+'N','RS','relax',template_dir)
-                    run_QE(elem+'N','RS','relax')
-                    try:
+                    check_error = run_QE(elem+'N','RS','relax',template_dir)
+                    if check_convergence(elem+'N','RS','relax') == True and check_error == False:
                         QE_lat = get_lattice_constant(elem+'N','RS')
                         AE_lat = lat_const
-                        if check_convergence(elem+'N','RS','relax') == True:
-                            diff_list.append(abs(AE_lat-QE_lat)/AE_lat)
-                            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
-                            copyfile(elem+'N.RS.relax.out','../'+elem+'N.RS.relax.out')
-                        else:
-                            check_error = True
-                    except:
+                        diff_list.append(abs(AE_lat-QE_lat)/AE_lat)
+                        copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+                        copyfile(elem+'N.RS.relax.out','../'+elem+'N.RS.relax.out')
+                    else:
                         check_error = True
                 else:
                     check_error = True
@@ -124,60 +116,50 @@ def main():
             error_check = []
             for (cmpd,cmpd_lat_type,test_atoms,test_mag,test_mag_mom,test_gap,test_bulk,test_delta,test_phonon,test_lat) in zip(*test_param_list):
                 if test_atoms == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'relax'))
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                    error_check.append(run_QE(cmpd,cmpd_lat_type,'relax',template_dir))
+                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True and True not in error_check:
                         atom_diff = compare_atoms(cmpd,cmpd_lat_type,template_dir)
                         diff_list.append(atom_diff)
                     else:
                         error_check.append(True)
                 if test_mag == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'relax'))
-                    if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type,'scf')
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'scf'))
-                    AE_mag = float(input_settings['magnetization'][cmpd_index])
-                    if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        QE_mag = float(get_mag(cmpd,cmpd_lat_type))
-                        diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
+                    error_check.append(run_QE(cmpd,cmpd_lat_type,'relax',template_dir))
+                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True and True not in error_check:
+                        error_check.append(run_QE(cmpd,cmpd_lat_type,'scf',template_dir))
+                        if check_convergence(cmpd,cmpd_lat_type,'scf') == True and True not in error_check:
+                            AE_mag = float(input_settings['magnetization'][cmpd_index])
+                            QE_mag = float(get_mag(cmpd,cmpd_lat_type))
+                            diff_list.append(abs(QE_mag-AE_mag)/AE_mag)
+                        else:
+                            error_check.append(True)
                     else:
                         error_check.append(True)
                 if test_mag_mom == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'relax'))
-                    if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type,'scf')
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'scf'))
-                    if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        mag_mom_diff = compare_mag_mom(cmpd,cmpd_lat_type,template_dir)
-                        diff_list.append(mag_mom_diff)
+                    error_check.append(run_QE(cmpd,cmpd_lat_type,'relax',template_dir))
+                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True and True not in error_check:
+                        error_check.append(run_QE(cmpd,cmpd_lat_type,'scf',template_dir))
+                        if check_convergence(cmpd,cmpd_lat_type,'scf') == True and True not in error_check:
+                            mag_mom_diff = compare_mag_mom(cmpd,cmpd_lat_type,template_dir)
+                            diff_list.append(mag_mom_diff)
+                        else:
+                            error_check.append(True)
                     else:
                         error_check.append(True)
                 if test_gap == True:
-       	            if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'relax'))
-                    if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type,'scf')
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'scf'))
-                    AE_gap = input_settings['band_gap'][cmpd_index]
-                    if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        QE_gap = get_gap(cmpd,cmpd_lat_type)
-                        diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
+       	            error_check.append(run_QE(cmpd,cmpd_lat_type,'relax',template_dir))
+                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True and True not in error_check:
+                        error_check.append(run_QE(cmpd,cmpd_lat_type,'scf',template_dir))
+                        if check_convergence(cmpd,cmpd_lat_type,'scf') == True and True not in error_check:
+                            AE_gap = input_settings['band_gap'][cmpd_index]
+                            QE_gap = get_gap(cmpd,cmpd_lat_type)
+                            diff_list.append(abs(QE_gap-AE_gap)/AE_gap)
+                        else:
+                            error_check.append(True)
                     else:
                         error_check.append(True)
                 if test_delta == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'relax'))
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                    error_check.append(run_QE(cmpd,cmpd_lat_type,'relax',template_dir))
+                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True and True not in error_check:
                         run_scale_lat(cmpd,cmpd_lat_type,template_dir)
                         V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
                         QE_EOS_data, AE_EOS_data = read_eos(cmpd,cmpd_lat_type,template_dir)
@@ -186,27 +168,23 @@ def main():
                     else:
                         error_check.append(True)
                 if test_phonon == True:
-       	            if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'relax'))
-                    if str(cmpd+'.'+cmpd_lat_type+'.scf.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'scf',template_dir)
-                        update_structure(cmpd,cmpd_lat_type,'scf')
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'scf'))
-                    if check_convergence(cmpd,cmpd_lat_type,'scf') == True:
-                        run_phonon(cmpd,cmpd_lat_type,template_dir)
-                        phonon_diff = compare_phonon(cmpd,cmpd_lat_type,template_dir)
-                        if phonon_diff == 'bad_run':
-                            error_check.append(True)
+                    error_check.append(run_QE(cmpd,cmpd_lat_type,'relax',template_dir))
+                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True and True not in error_check:
+                        error_check.append(run_QE(cmpd,cmpd_lat_type,'scf',template_dir))
+                        if check_convergence(cmpd,cmpd_lat_type,'scf') == True and True not in error_check:
+                            run_phonon(cmpd,cmpd_lat_type,template_dir)
+                            phonon_diff = compare_phonon(cmpd,cmpd_lat_type,template_dir)
+                            if phonon_diff == 'bad_run':
+                                error_check.append(True)
+                            else:
+                                diff_list.append(phonon_diff)
                         else:
                            diff_list.append(phonon_diff)
                     else:
                         error_check.append(True)
                 if test_bulk == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'relax'))
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                    error_check.append(run_QE(cmpd,cmpd_lat_type,'relax',template_dir))
+                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True and True not in error_check:
                         run_scale_lat(cmpd,cmpd_lat_type,template_dir)
                         V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
                         AE_bulk = input_settings['bulk_modulus'][cmpd_index]
@@ -215,10 +193,8 @@ def main():
                     else:
                         error_check.append(True)
                 if test_lat == True:
-                    if str(cmpd+'.'+cmpd_lat_type+'.relax.out') not in os.listdir('.'):
-                        write_QE_input(cmpd,cmpd_lat_type,'relax',template_dir)
-                        error_check.append(run_QE(cmpd,cmpd_lat_type,'relax'))
-                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True:
+                    error_check.append(run_QE(cmpd,cmpd_lat_type,'relax',template_dir))
+                    if check_convergence(cmpd,cmpd_lat_type,'relax') == True and True not in error_check:
                         AE_lat = input_settings['cmpd_lattice_constant'][cmpd_index]
                         lat_diff = compare_lat(AE_lat,cmpd,cmpd_lat_type)
                         diff_list.append(lat_diff)
@@ -345,27 +321,27 @@ def run_atompaw(elem):
     Run AtomPAW using (elem).atompaw.in
     """
     env = os.environ.copy()
-    env['PATH'] = '/scr/szymansk/atompaw-4.1.0.5/src:' + env['PATH']
+    env['PATH'] = '/scr/szymansk/atompaw-4.1.0.6/src:' + env['PATH']
     with open(elem+'.atompaw.in','r') as input_fin, open('log_atompaw', 'w') as log_fout: 
         subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, env=env)
 
-def write_QE_input(elem,lat_type,calc_type,template_path):
-    """
-    Write QE input file based on some template specified in template_path
-    """
-    template_file = os.path.join(template_path, elem+'.'+lat_type+'.'+calc_type+'.template')
-    new_input_file = elem+'.'+lat_type+'.'+calc_type+'.in'
-    shutil.copy(template_file,new_input_file)
-
-def run_QE(elem,lat_type,calc_type):
+def run_QE(elem,lat_type,calc_type,template_path):
     """
     Run QE relaxation using (elem).(calc_type).in
     """
-    try:
-        os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+elem+'.'+lat_type+'.'+calc_type+'.in -MPICORES 4')
-        return None
-    except:
-        return True
+    if str(elem+'.'+lat_type+'.'+calc_type+'.out') not in os.listdir('.'):
+        template_file = os.path.join(template_path, elem+'.'+lat_type+'.'+calc_type+'.template')
+        new_input_file = elem+'.'+lat_type+'.'+calc_type+'.in'
+        shutil.copy(template_file,new_input_file)
+        if calc_type == 'scf':
+            update_structure(elem,lat_type,'scf')
+        try:
+            os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+elem+'.'+lat_type+'.'+calc_type+'.in -MPICORES 4')
+            return False
+        except:
+            return True
+    else:
+        return False
 
 def get_lattice_constant(elem,lat_type):
     """
@@ -417,6 +393,8 @@ def check_convergence(elem,lat_type,calc_type):
         output = f.readlines()
     for line in output:
         if 'convergence NOT' in line:
+            check = False
+        if 'S matrix not positive definite' in line:
             check = False
     return check
 
@@ -739,7 +717,7 @@ def compare_phonon(elem,lat_type,template_path):
             freq_index += 1
         except:
             check = False
-    QE_freq = sorted([float(value) for value in freq[3:]])
+    QE_freq = sorted([float(value) for value in freq])
     with open(template_path+'/AE_freq.'+elem+'.'+lat_type) as f:
         lines = f.readlines()
     AE_freq = []

@@ -182,14 +182,14 @@ def main():
                 cmpd_index += 1
             if True not in error_check:
                 f = open('RESULTS','w+')
-       	        for value in lat_diff_list:
+       	        for value in diff_list:
        	       	    f.write(str(value)+'\n')
                 f.close()
             else:
                 raise Exception('Looks like your pseudopotential is not very good...')
         else:
             f = open('RESULTS','w+')
-            for value in lat_diff_list:
+            for value in diff_list:
        	        f.write(str(value)+'\n')
             f.close()
     else:

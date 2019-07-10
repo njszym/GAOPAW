@@ -13,7 +13,7 @@ def read_values(col_index,dataset):
         index += 3
     return diff_list
 
-elem_list = ['H','Li','Be','B','C','N','O','F']
+elem_list = ['H','Li','Be','B','C','N','O','F','Na','Mg','Al','Si','P','S','Cl']
 elem_index_list = [i for i in range(len(elem_list))]
 
 df = np.array(pd.read_csv('Accuracy.csv'))
@@ -81,7 +81,7 @@ ax[1].set_ylabel('Average Absolute Error',fontsize=16,labelpad=12.0)
 ax[3].set_ylabel('Average Absolute Error (THz)',fontsize=16,labelpad=12.0)
 
 ax[0].bar(lat_elem_index_list,lat_diff_list,zorder=3)
-ax[0].set_ylim(0,max(lat_diff_list)+1)
+ax[0].set_ylim(0,max(lat_diff_list)+0.5)
 ax[0].set_title('Lattice Constant',fontsize=21)
 
 ax[1].bar(delta_elem_index_list,delta_diff_list,zorder=3)
@@ -90,12 +90,19 @@ ax[1].set_title('Delta-Factor',fontsize=21)
 ax[1].set_ylim(0,max(delta_diff_list)+0.5)
 
 ax[2].bar(gap_elem_index_list,gap_diff_list,zorder=3)
-ax[2].set_ylim(0,max(gap_diff_list)+3)
+ax[2].set_ylim(0,max(gap_diff_list)+0.5)
 ax[2].set_title('Band Gap',fontsize=21)
 
 ax[3].bar(phon_elem_index_list,phon_diff_list,zorder=3)
-ax[3].set_ylim(0,max(phon_diff_list)+5)
+ax[3].set_ylim(0,max(phon_diff_list)+2)
 ax[3].set_title('Phonon Frequency',fontsize=21)
+
+## Manual y-limits
+
+ax[0].set_ylim(0,3)
+ax[1].set_ylim(0,1.2)
+ax[2].set_ylim(0,2.5)
+ax[3].set_ylim(0,14)
 
 plt.tight_layout()
 plt.savefig('Accuracy.png',dpi=500)

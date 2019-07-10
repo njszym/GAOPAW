@@ -354,7 +354,7 @@ def check_convergence(elem,lat_type,calc_type):
             check = False
         if 'S matrix not positive definite' in line:
             check = False
-        if 'stopping' in line:
+        if 'stopping ...' in line:
             check = False
     return check
 

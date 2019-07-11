@@ -4,6 +4,11 @@
             "formula": "SiO",
             "lattice_type": "RS",
             "lattice_constant": 4.616
+        },
+        {
+            "formula": "SiC",
+            "lattice_type": "ZB",
+            "lattice_constant": 4.380
         }
     ]
 }

@@ -22,7 +22,8 @@ from types import SimpleNamespace
 
 elemental_data = {
 'Si': {'FCC': 3.857, 'BCC': 3.080},
-'O': {'FCC': 3.178, 'BCC': 2.511}
+'O': {'FCC': 3.178, 'BCC': 2.511},
+'C': {'FCC': 3.103, 'BCC': 2.366}
 }
 
 def check_UPF():

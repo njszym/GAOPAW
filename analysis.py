@@ -18,10 +18,12 @@ def main():
     with open(working_dir+'/../input.json') as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
     cmpd_list = input_settings.compounds
+    element_list = []
     for cmpd in cmpd_list:
         cmpd = cmpd.__dict__
         formula = cmpd['formula']
-        element_list = parse_elems(formula)
+        element_list.extend(parse_elems(formula))
+    element_list = unique(element_list)
     elem_diff_dict, error_check = test_element_list(element_list,template_dir)
     if error_check:
         bad_run(elem_diff_dict)

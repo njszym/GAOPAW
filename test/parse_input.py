@@ -1,3 +1,4 @@
+from parse_elems import *
 import json
 from types import SimpleNamespace
 
@@ -10,5 +11,7 @@ cmpd_list = input_settings.compounds
 for cmpd in cmpd_list:
     cmpd = cmpd.__dict__
     formula = cmpd['formula']
-    property_list = [property for property in cmpd.keys() if property != 'formula']
-    for property in property_list:
+    element_list = parse_elems(formula)
+    print(element_list)
+#    property_list = [property for property in cmpd.keys() if property != 'formula']
+#    for property in property_list:

@@ -1,0 +1,27 @@
+&control
+  calculation='scf'
+  prefix='Na2Po.FCC.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=2
+  celldm=14.23
+  nat=3
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=24
+/
+&electrons
+  conv_thr=1.d-8
+/
+ATOMIC_SPECIES
+  Na 0.0 Na.GGA-PBE-paw.UPF
+  Po 0.0 Po.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  16 16 16 0 0 0
+ATOMIC_POSITIONS (crystal)
+Na 0.25 0.25 0.25
+Na 0.75 0.75 0.75
+Po 0.0 0.0 0.0

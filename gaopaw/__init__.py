@@ -16,7 +16,14 @@ import math
 import yaml
 import numpy as np
 from shutil import copyfile
+import json
+from types import SimpleNamespace
 
+
+elemental_data = {
+'Si': {'FCC': 3.857, 'BCC': 3.080},
+'O': {'FCC': 3.178, 'BCC': 2.511}
+}
 
 def check_UPF():
     """
@@ -747,3 +754,22 @@ def parse_elems(formula):
 
     return elems
 
+def test_element_list(elem_list,template_dir):
+    elem_diff_dict = {}
+    for elem in elem_list:
+        os.mkdir(elem)
+        copyfile('params.in',elem+'/params.in')
+        with fileutils.chdir(elem):
+            write_atompaw_input(elem,template_dir)
+            run_atompaw(elem)
+            if not check_UPF():
+                return
+            elem_diff_dict[elem] = {}
+            elem_diff_dict[elem]['log'] = compare_log()
+            for lat_type in ['FCC','BCC']:
+                run_QE(elem,lat_type,'relax',template_dir)
+                if not check_convergence(elem,lat_type,'relax'):
+                    return
+                ae_lat = elemental_data[elem][lat_type]
+                elem_diff_dict[elem][lat_type] = compare_lat(ae_lat,elem,lat_type)
+    return elem_diff_dict

@@ -198,16 +198,16 @@ def compare_log():
         total_diff += net_diff
     return total_diff/sum_log
 
-def unique(list): 
+def unique(value_list): 
     """
     Get list of unique elements to be tested
     """
     try: ## if list of numbers
-        list = [round(float(value),3) for value in list]
-    except: ## if list of strings
-        list = [str(value) for value in list]
+        value_list = [round(float(value),3) for value in value_list]
+    except ValueError: ## if list of strings
+        list = [str(value) for value in value_list]
     unique_list = []
-    for value in list:
+    for value in value_list:
         if value not in unique_list:
             unique_list.append(value)
     return unique_list
@@ -730,4 +730,20 @@ def update_best_result(obj_fn_list):
         f.write(str(rms_error))
         f.close()
     os.remove('../Best_Solution/WAIT')
+
+def parse_elems(formula):
+    """
+    Parse compound formula to obtain constituent elements
+    """
+    letters_only = ''.join([letter for letter in formula if not letter.isdigit()])
+    index = -1
+    elems = []
+    for letter in letters_only:
+        if letter.isupper():
+            elems.append(letter)
+            index += 1
+        else:
+            elems[index] += letter
+
+    return elems
 

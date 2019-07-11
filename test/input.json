@@ -1,0 +1,30 @@
+{
+    "compounds": [
+        {
+            "formula": "Si",
+            "lattice_type": "FCC",
+            "lattice_constant": 3.857
+        },
+        {
+            "formula": "Si",
+            "lattice_type": "BCC",
+            "lattice_constant": 3.080
+        },
+        {
+            "formula": "O",
+            "lattice_type": "FCC",
+            "lattice_constant": 3.178
+        },
+        {
+            "formula": "O",
+            "lattice_type": "BCC",
+            "lattice_constant": 2.511
+        },
+        {
+            "formula": "SiO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.616
+        }
+    ]
+}
+

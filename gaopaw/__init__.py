@@ -36,20 +36,18 @@ def check_UPF():
             check = True
     return check
 
-def bad_run(element_list,lat_type_list):
+def bad_run(diff_dict):
     """
     If something went wrong with the run, e.g., no .UPF file created or
     if running QE raised an error, set the objective function to 100
     """
     params, results = di.read_parameters_file('params.in','results.out')
-    unique_elem_list = unique(element_list)
-    for index in range(len(unique_elem_list)):
-        label = 'obj_fn_'+str(index+1)
-        results[label].function = 100.0
-    add_index = len(unique_elem_list)+1
-    for index in range(len(lat_type_list)):
-        label = 'obj_fn_'+str(index+add_index)
-        results[label].function = 100
+    label_index = 1
+    for elem in diff_dict.keys():
+        for sub_property in diff_dict[elem].keys():
+            label = 'obj_fn_'+str(label_index)
+            results[label].function = 100.0
+            label_index += 1
     results.write()
 
 def compare_lat(AE_lat,cmpd,cmpd_lat_type):
@@ -69,23 +67,19 @@ def compare_lat(AE_lat,cmpd,cmpd_lat_type):
         avg_lat_diff = lat_diff/len(AE_lat)
         return avg_lat_diff
 
-def update_dakota(element_list,diff_list):
+def update_dakota(diff_dict):
     """
     Set the parameters and results files to be used by Dakota
     The objective function is equal to the difference between the lattice
     constants of AE calculations and PAW calculations performed here
     """
     params, results = di.read_parameters_file('params.in','results.out')
-    unique_elem_list = unique(element_list)
-    for (index,elem) in zip(range(len(unique_elem_list)),unique_elem_list):
-        os.chdir(elem)
-        label = 'obj_fn_'+str(index+1)
-        results[label].function = compare_log()
-        os.chdir('../')
-    add_index = len(unique_elem_list)+1
-    for index in range(len(diff_list)):
-        label = 'obj_fn_'+str(index+add_index)
-        results[label].function = diff_list[index]
+    label_index = 1
+    for elem in diff_dict.keys():
+        for sub_property in diff_dict[elem].keys():
+            label = 'obj_fn_'+str(label_index)
+            results[label].function = diff_dict[elem][sub_property]
+            label_index += 1
     results.write()
 
 def write_atompaw_input(elem,template_dir):
@@ -757,19 +751,23 @@ def parse_elems(formula):
 def test_element_list(elem_list,template_dir):
     elem_diff_dict = {}
     for elem in elem_list:
+        elem_diff_dict[elem] = {}
+        elem_diff_dict[elem]['log'] = {}
+        for lat_type in ['FCC','BCC']:
+            elem_diff_dict[elem][lat_type] = {}
+    for elem in elem_list:
         os.mkdir(elem)
         copyfile('params.in',elem+'/params.in')
         with fileutils.chdir(elem):
             write_atompaw_input(elem,template_dir)
             run_atompaw(elem)
             if not check_UPF():
-                return
-            elem_diff_dict[elem] = {}
+                return elem_diff_dict, True
             elem_diff_dict[elem]['log'] = compare_log()
             for lat_type in ['FCC','BCC']:
                 run_QE(elem,lat_type,'relax',template_dir)
                 if not check_convergence(elem,lat_type,'relax'):
-                    return
+                    return elem_diff_dict, True
                 ae_lat = elemental_data[elem][lat_type]
                 elem_diff_dict[elem][lat_type] = compare_lat(ae_lat,elem,lat_type)
-    return elem_diff_dict
+    return elem_diff_dict, False

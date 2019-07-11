@@ -22,8 +22,11 @@ def main():
         cmpd = cmpd.__dict__
         formula = cmpd['formula']
         element_list = parse_elems(formula)
-    elem_diff_dict = test_element_list(element_list,template_dir)
-    
+    elem_diff_dict, error_check = test_element_list(element_list,template_dir)
+    if error_check:
+        bad_run(elem_diff_dict)
+    else:
+        update_dakota(elem_diff_dict)
 
 if __name__=='__main__':
     main()

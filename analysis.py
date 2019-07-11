@@ -25,10 +25,24 @@ def main():
         element_list.extend(parse_elems(formula))
     element_list = unique(element_list)
     elem_diff_dict, error_check = test_element_list(element_list,template_dir)
+    ## Note: Change this such that format is same as for cmpds
+    ## i.e., [elem][lat_type][property]
+    ## Basically just need to add the property key
     if error_check:
         bad_run(elem_diff_dict)
-    else:
-        update_dakota(elem_diff_dict)
+        return
+    cmpd_diff_dict = {}
+    for cmpd in cmpd_list:
+        cmpd_diff_dict[cmpd] = {}
+        cmpd = cmpd.__dict__
+        formula = cmpd['formula']
+        lat_type = cmpd['lattice_type']
+        cmpd_diff_dict[cmpd][lat_type] = {}
+        property_list = [property for property in cmpd if property not in [formula,lat_type]]
+        for property in property_list:
+            ae_value = cmpd[property]
+            ## some function to calculate and compare qe/ae values
+            cmpd_diff_dict[cmpd][lat_type][property] = {} ## put difference here
 
 if __name__=='__main__':
     main()

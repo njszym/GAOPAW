@@ -748,7 +748,8 @@ def test_element_list(elem_list,template_dir):
     elem_diff_dict = {}
     for elem in elem_list:
         elem_diff_dict[elem] = {}
-        elem_diff_dict[elem]['log'] = {}
+        elem_diff_dict[elem]['elemental'] = {}
+        elem_diff_dict[elem]['elemental']['log'] = {}
         for lat_type in ['FCC','BCC']:
             elem_diff_dict[elem][lat_type] = {}
             elem_diff_dict[elem][lat_type]['lattice_constant'] = {}
@@ -760,7 +761,8 @@ def test_element_list(elem_list,template_dir):
             run_atompaw(elem)
             if not check_UPF():
                 return elem_diff_dict, True
-            elem_diff_dict[elem]['log'] = compare_log()
+            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+            elem_diff_dict[elem]['elemental']['log'] = compare_log()
             for lat_type in ['FCC','BCC']:
                 run_QE(elem,lat_type,'relax',template_dir)
                 if not check_convergence(elem,lat_type,'relax'):
@@ -805,7 +807,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
             return None, True
         qe_gap = get_gap(cmpd,lat_type)
         return abs(ae_data-qe_data)/ae_data, False ## or maybe in eV?
-    if property = 'magnetization':
+    if property == 'magnetization':
         run_QE(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
@@ -816,3 +818,36 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         return compare_mag_mom(cmpd,lat_type,template_dir), False
+
+def form_cmpd_dict(cmpd_list):
+    """
+    Constructs empty dictionary of correct length for testing
+    """
+    cmpd_diff_dict = {}
+    for cmpd in cmpd_list:
+        cmpd = cmpd.__dict__
+        formula = cmpd['formula']
+        lat_type = cmpd['lattice_type']
+        property_list = [property for property in cmpd if property not in ['formula','lattice_type']]
+        cmpd_diff_dict[formula] = {}
+        cmpd_diff_dict[formula][lat_type] = {}
+        for property in property_list:
+            cmpd_diff_dict[formula][lat_type][property] = {}
+    return cmpd_diff_dict
+
+def test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir):
+    """
+    Perform property tests for all compounds
+    """
+    for cmpd in cmpd_list:
+        cmpd = cmpd.__dict__
+        formula = cmpd['formula']
+        lat_type = cmpd['lattice_type']
+        property_list = [property for property in cmpd if property not in ['formula','lattice_type']]
+        for property in property_list:
+            ae_value = cmpd[property]
+            cmpd_diff_dict[formula][lat_type][property], error_check = test_property(formula,lat_type,property,ae_value,cmpd_template_dir)
+            if error_check:
+                bad_run(cmpd_diff_dict)
+                return cmpd_diff_dict, True
+    return cmpd_diff_dict, False

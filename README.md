@@ -12,9 +12,9 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
 
 (i) Create a working directory under which all calculations will take place.
 
-(ii) Write a gaopaw.yaml file containing information on the elements, compounds, and properties to be tested.
+(ii) Write a input.json file containing information on the compounds and properties to be tested.
 
-(iii) Create a template directory (path specified in gaopaw.yaml) containing all AtomPAW and QE input files.
+(iii) Create a template directory (path specified in input.json) containing all AtomPAW and QE input files.
 
 (iv) Write a dakota.in file containing all control parameters for the genetic algorithm as implemented in Dakota. An example dakota.in file with (roughly) optimized parameters may be found in the "Dakota_Template" folder. For details, see https://dakota.sandia.gov/documentation.html.
 

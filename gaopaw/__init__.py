@@ -1,3 +1,4 @@
+import collections
 import time
 import pandas as pd
 from scipy.signal import argrelextrema
@@ -429,32 +430,32 @@ def calcDelta(data_f, data_w, eloverlap, useasymm):
                  / (v0w + v0f) / (b0w + b0f) * 4. * vref * bref
     return Delta ## Just return Delta-factor for now
 
-def compare_phonon(elem,lat_type,template_dir):
+def compare_phonon(elem,lat_type,ae_freq,template_dir):
     """
     Parse optical phonon frequencies from QE run
     and compare with AE frequencies
     """
-    index = 0
-    with open('dynmat.out') as dyn_output:
-        for line in dyn_output:
-            if 'mode' in line:
-                mode_line = index
-            index += 1
     with open(elem+'.'+lat_type+'.scf.in') as qe_input:
         for line in qe_input:
             if 'nat=' in line:
                 num_atoms = int(line.split('=')[1][:-1])
+    with open('dynmat.out') as dyn_output:
+        lines = dyn_output.readlines()
+    index = 0
+    for line in lines:
+        if 'mode' in line:
+            mode_line = index
+        index += 1
     num_freq = 3*num_atoms
     freq_index = mode_line + 1
     freq = []
     for i in range(num_freq):
         freq.append(lines[freq_index].split()[2])
         freq_index += 1
-    QE_freq = sorted([float(value) for value in freq])
-    AE_freq = sorted(np.loadtxt(template_dir+'/AE_freq.'+elem+'.'+lat_type))
+    qe_freq = sorted([float(value) for value in freq])
     rel_diff = []
-    for (QE,AE) in zip(QE_freq,AE_freq):
-        rel_diff.append(abs(QE-AE))
+    for (qe_val,ae_val) in zip(qe_freq,ae_freq):
+        rel_diff.append(abs(ae_val-qe_val))
     net_diff = sum(rel_diff)/len(rel_diff)
     return net_diff
 
@@ -543,19 +544,20 @@ def scale_cell(elem,lat_type,scale_factor):
     """
     Scale cell volume according to scale_factor
     """
-    index = 0
     with open(elem+'.'+lat_type+'.relax.out') as qe_output:
-        for line in qe_output:
-            if 'CELL_PARAMETERS' in line:
-                cell_index = [index+1,index+2,index+3]
-                split_line = line.split('=')
-                if 'alat' in line:
-                    alat = float(split_line[1][1:-2])
-                if 'angstrom' in line:
-                    alat = 1.88973 ## A to Bohr
-                if 'bohr' in line:
-                    alat = 1.00
-            index += 1
+        lines = qe_output.readlines()
+    index = 0
+    for line in lines:
+        if 'CELL_PARAMETERS' in line:
+            cell_index = [index+1,index+2,index+3]
+            split_line = line.split('=')
+            if 'alat' in line:
+                alat = float(split_line[1][1:-2])
+            if 'angstrom' in line:
+                alat = 1.88973 ## A to Bohr
+            if 'bohr' in line:
+                alat = 1.00
+        index += 1
     vectors = []
     for i in cell_index:
         v = lines[i].split()
@@ -649,6 +651,10 @@ def update_best_result(diff_dict):
         if 'band_gap' in label:
             f.write(label+':  '+str(value)+' eV\n')
         if 'log' in label:
+            f.write(label+':  '+str(value)+'\n')
+        if 'eos' in label:
+            f.write(label[:-3]+'delta_factor:  '+str(value)+'\n')
+        if 'phonon_frequency' in label:
             f.write(label+':  '+str(value)+'\n')
     f.close()
     UPF_files = []
@@ -800,7 +806,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
         return compare_lat(ae_data,cmpd,lat_type), False
     if property in ['eos','bulk_modulus']:
         run_scale_lat(cmpd,lat_type,template_dir)
-        V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
+        V0, QE_bulk, B_prime = get_bulk(cmpd,lat_type)
         if property == 'eos':
             qe_data = np.loadtxt('QE_EOS.txt')
             qe_eos = {'element': [cmpd], 'V0': [qe_data[0]], 'B0': [qe_data[1]], 'BP': [qe_data[2]]}
@@ -809,12 +815,12 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
             return delta_factor, False
         if property == 'bulk_modulus':
             bulk_diff = abs(QE_bulk - ae_data)/ae_data
-    if property == 'phonon_frequency': ## Probably just define AE freq in .json file
+    if property == 'phonon_frequency':
         run_QE(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         run_phonon(cmpd,lat_type,template_dir)
-        phonon_diff = compare_phonon(cmpd,lat_type,template_dir)
+        phonon_diff = compare_phonon(cmpd,lat_type,ae_data,template_dir)
         return phonon_diff, False
     if property == 'atomic_positions': ## Still use file?
         return compare_atoms(cmpd,lat_type,template_dir), False
@@ -890,3 +896,24 @@ def get_num_objs(cmpd_list,element_list):
             num_obj_fns += 3
     num_obj_fns += num_properties
     return int(num_obj_fns)
+
+def parse_num_objs(working_dir):
+    """
+    Read in number of objective functions defined in the dakota.in file
+    """
+    with open(working_dir+'/../dakota.in') as dakota_input:
+        for line in dakota_input:
+            if 'num_objective_functions' in line:
+                num_objs = line.split()[2]
+    return int(num_objs)
+
+def merge_dicts(dct, merge_dct):
+    """
+    Recursively merge two dictionaries
+    """
+    for k, v in merge_dct.items():
+        if (k in dct and isinstance(dct[k], dict) and isinstance(merge_dct[k], collections.Mapping)):
+            merge_dicts(dct[k], merge_dct[k])
+        else:
+            dct[k] = merge_dct[k]
+    return dct

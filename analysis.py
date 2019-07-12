@@ -13,9 +13,8 @@ def main():
     lattice constants, atomic positions, net magnetization, individual magnetic moments,
     band gaps, bulk moduli, phonon frequencies, and delta-factors.
     """
-    working_dir = sys.argv[-4]
-    num_obj_fns = int(sys.argv[-3])
-    ## Can we automate variable values in dakota input? Would save time...
+    working_dir = sys.argv[-3]
+    num_obj_fns = parse_num_objs(working_dir)
     with open(working_dir+'/../input.json') as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
     template_settings = input_settings.directories[0].__dict__
@@ -29,7 +28,8 @@ def main():
         formula = cmpd['formula']
         element_list.extend(parse_elems(formula))
     element_list = unique(element_list)
-    assert num_obj_fns == get_num_objs(cmpd_list,element_list), 'Wrong number of objective functions specified'
+    assert num_obj_fns == get_num_objs(cmpd_list,element_list), \
+        'Wrong number of objective functions specified, should be '+str(get_num_objs(cmpd_list,element_list))
     elem_diff_dict, error_check = test_element_list(element_list,elem_template_dir)
     if error_check:
         bad_run(num_obj_fns)
@@ -39,7 +39,7 @@ def main():
         update_best_result(elem_diff_dict)
         return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
-    cmpd_diff_dict.update(elem_diff_dict)
+    cmpd_diff_dict = merge_dicts(elem_diff_dict,cmpd_diff_dict)
     cmpd_diff_dict, error_check = test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir)
     if error_check:
         bad_run(num_obj_fns)

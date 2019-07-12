@@ -8,7 +8,8 @@
         {
             "formula": "SiC",
             "lattice_type": "ZB",
-            "lattice_constant": 4.380
+            "lattice_constant": 4.380,
+            "band_gap": 1.240
         }
     ]
 }

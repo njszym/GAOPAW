@@ -20,12 +20,6 @@ import json
 from types import SimpleNamespace
 
 
-elemental_data = {
-'Si': {'FCC': 3.857, 'BCC': 3.080},
-'O': {'FCC': 3.178, 'BCC': 2.511},
-'C': {'FCC': 3.103, 'BCC': 2.366}
-}
-
 def check_UPF():
     """
     Check if a .UPF file was succesfully created by AtomPAW
@@ -635,7 +629,7 @@ def run_phonon(cmpd,cmpd_lat_type,template_dir):
         os.remove('dynmat.save.qegz')
     os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
 
-def update_best_result(obj_fn_list):
+def update_best_result(diff_dict):
     """
     Parse dakota results and check overall fitness with
     respect to previous best solution. If current solution
@@ -643,9 +637,23 @@ def update_best_result(obj_fn_list):
     Note that fitness is normalized per the highest error
     for a given objective function.
     """
+    obj_fn_list = []
+    obj_fn_labels = []
+    for formula in diff_dict.keys():
+        for lat_type in diff_dict[formula].keys():
+            for property in diff_dict[formula][lat_type].keys():
+                obj_fn_labels.append(formula+'_'+lat_type+'_'+property)
+                obj_fn_list.append(diff_dict[formula][lat_type][property])
     f = open('OBJ_FN','w+')
-    for value in obj_fn_list:
-        f.write(str(value)+'\n')
+    for (value,label) in zip(obj_fn_list,obj_fn_labels):
+        value = round(float(value),6)
+        if 'lattice_constant' in label:
+            value = value*100
+            f.write(label+':  '+str(value)+'%\n')
+        if 'band_gap' in label:
+            f.write(label+':  '+str(value)+' eV\n')
+        if 'log' in label:
+            f.write(label+':  '+str(value)+'\n')
     f.close()
     UPF_files = []
     files_in_folder = os.listdir('.')
@@ -658,12 +666,7 @@ def update_best_result(obj_fn_list):
             atompaw_files.append(file)
     if 'Best_Solution' not in os.listdir('../'):
         os.mkdir('../Best_Solution')
-    while os.path.exists('../Best_Solution/WAIT'):
-        time.sleep(1)
-    f = open('../Best_Solution/WAIT','w+')
-    f.write('wait to start until previous finishes')
-    f.close()
-    results_df = pd.read_table('OBJ_FN',sep='\s+',header=None)
+    results_df = pd.read_table('results.out',sep='\s+',header=None)
     obj_fn_list = [float(value) for value in list(results_df[0])]
     if 'results.out' in os.listdir('../Best_Solution/'):
         last_results_df = pd.read_table('../Best_Solution/results.out',sep='\s+',header=None)
@@ -711,7 +714,7 @@ def update_best_result(obj_fn_list):
         files_in_dir = os.listdir('../Best_Solution/')
         files_to_del = []
         for file in files_in_dir:
-            if ('Max_Error' not in file) and ('WAIT' not in file):
+            if 'Max_Error' not in file:
                 files_to_del.append(file)
         for filename in files_to_del:
             os.remove('../Best_Solution/'+filename)
@@ -722,7 +725,6 @@ def update_best_result(obj_fn_list):
         f = open('../Best_Solution/rms_error','w+')
         f.write(str(rms_error))
         f.close()
-    os.remove('../Best_Solution/WAIT')
 
 def parse_elems(formula):
     """
@@ -739,6 +741,24 @@ def parse_elems(formula):
             elems[index] += letter
 
     return elems
+
+def get_element_info():
+    """
+    Read in AE data for elemental lattice constants
+    """
+    elemental_data = {}
+    df_FCC = pd.read_table(elem_template_dir+'/WIEN2k_FCC',sep='\s+',header=None)
+    for (elem,lat_const) in zip(df_FCC[0],df_FCC[1]):
+        elemental_data[elem] = {}
+        elemental_data[elem]['FCC'] = lat_const
+    df_BCC = pd.read_table(elem_template_dir+'/WIEN2k_BCC',sep='\s+',header=None)
+    for (elem,lat_const) in zip(df_BCC[0],df_BCC[1]):
+        elemental_data[elem]['BCC'] = lat_const
+    elemental_data['N'] = {}
+    elemental_data['N']['SC'] = 6.1902
+    elemental_data['P'] = {}
+    elemental_data['P']['ortho'] = [3.304659,4.573268,11.316935]
+    return elemental_data
 
 def test_element_list(elem_list,template_dir):
     """
@@ -767,6 +787,7 @@ def test_element_list(elem_list,template_dir):
                 run_QE(elem,lat_type,'relax',template_dir)
                 if not check_convergence(elem,lat_type,'relax'):
                     return elem_diff_dict, True
+                elemental_data = get_element_info()
                 ae_lat = elemental_data[elem][lat_type]
                 elem_diff_dict[elem][lat_type]['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
     return elem_diff_dict, False
@@ -806,7 +827,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         qe_gap = get_gap(cmpd,lat_type)
-        return abs(ae_data-qe_data)/ae_data, False ## or maybe in eV?
+        return abs(ae_data-qe_gap), False ## or maybe in eV?
     if property == 'magnetization':
         run_QE(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):

@@ -17,6 +17,7 @@ def main():
     elem_template_dir = '/scr/szymansk/gaopaw/Elem_Templates'
     cmpd_template_dir = working_dir+'/../Input/'
     ## Will probably define these as global vars and remove from function args
+    ## Pre-define num_obj_fns
     with open(working_dir+'/../input.json') as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
     cmpd_list = input_settings.compounds
@@ -33,6 +34,7 @@ def main():
             return
         else:
             update_dakota(elem_diff_dict)
+            update_best_result(elem_diff_dict)
             return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     cmpd_diff_dict.update(elem_diff_dict)
@@ -44,6 +46,7 @@ def main():
         bad_run(cmpd_diff_dict)
         return
     update_dakota(cmpd_diff_dict)
+    update_best_result(cmpd_diff_dict)
 
 if __name__=='__main__':
     main()

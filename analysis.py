@@ -14,8 +14,10 @@ def main():
     band gaps, bulk moduli, phonon frequencies, and delta-factors.
     """
     working_dir = sys.argv[-3]
-    template_dir = '/scr/szymansk/gaopaw/Elem_Templates'
-    ## Will probably define template_dir as a global and remove it from function args
+    elem_template_dir = '/scr/szymansk/gaopaw/Elem_Templates'
+    cmpd_template_dir = working_dir+'/../Input/'
+    ## Will probably define these as global vars and remove from function args
+    ## Note we need two separate template directories: elemental and cmpd
     with open(working_dir+'/../input.json') as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
     cmpd_list = input_settings.compounds
@@ -25,7 +27,7 @@ def main():
         formula = cmpd['formula']
         element_list.extend(parse_elems(formula))
     element_list = unique(element_list)
-    elem_diff_dict, error_check = test_element_list(element_list,template_dir)
+    elem_diff_dict, error_check = test_element_list(element_list,elem_template_dir)
     if len(element_list) == 1:
         if error_check:
             bad_run(cmpd_diff_dict)
@@ -50,7 +52,7 @@ def main():
         property_list = [property for property in cmpd if property not in [formula,lat_type]]
         for property in property_list:
             ae_value = cmpd[property]
-            cmpd_diff_dict[cmpd][lat_type][property], error_check = test_property(cmpd,lat_type,property,ae_value,template_dir)
+            cmpd_diff_dict[cmpd][lat_type][property], error_check = test_property(cmpd,lat_type,property,ae_value,cmpd_template_dir)
             if error_check:
                 bad_run(cmpd_diff_dict)
                 return

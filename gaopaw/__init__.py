@@ -362,17 +362,6 @@ def run_scale_lat(elem,lat_type,template_dir):
         ev_file.write(str(e)+' '+str(v)+'\n')
     ev_file.close()
 
-def read_eos(elem,lat_type,template_dir):
-    """
-    Read in QE and AE equilibrium volume, bulk modulus, and dB/dP
-    from QE_EOS.txt and AE_EOS.txt
-    """
-    qe_data = np.loadtxt('QE_EOS.txt')
-    ae_data = np.loadtxt(template_dir+'/AE_EOS.'+elem+'.'+lat_type)
-    data_f = {'element': [elem], 'V0': [qe_data[0]], 'B0': [qe_data[1]], 'BP': [qe_data[2]]}
-    data_w = {'element': [elem], 'V0': [ae_data[0]], 'B0': [ae_data[1]], 'BP': [ae_data[2]]}
-    return data_f, data_w
-
 def calcDelta(data_f, data_w, eloverlap, useasymm):
     """
     Calculate the Delta using the data in data_f, data_w on
@@ -780,14 +769,50 @@ def test_element_list(elem_list,template_dir):
                 elem_diff_dict[elem][lat_type]['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
     return elem_diff_dict, False
 
-def test_property(cmpd,lat_type,property,ae_value,template_dir):
+def test_property(cmpd,lat_type,property,ae_data,template_dir):
     """
     General function to calculate a property with QE
     and compare with corresponding AE value
     """
+    run_QE(cmpd,lat_type,'relax',template_dir)
+    if not check_convergence(cmpd,lat_type,'relax'):
+        return None, True
     if property == 'lattice_constant':
-        run_QE(cmpd,lat_type,'relax',template_dir)
-        if not check_convergence(cmpd,lat_type,'relax'):
+        return compare_lat(ae_data,cmpd,lat_type), False
+    if property in ['eos','bulk_modulus']:
+        run_scale_lat(cmpd,lat_type,template_dir)
+        V0, QE_bulk, B_prime = get_bulk(cmpd,cmpd_lat_type)
+        if property == 'eos':
+            qe_data = np.loadtxt('QE_EOS.txt')
+            qe_eos = {'element': [cmpd], 'V0': [qe_data[0]], 'B0': [qe_data[1]], 'BP': [qe_data[2]]}
+            ae_eos = {'element': [cmpd], 'V0': [ae_data[0]], 'B0': [ae_data[1]], 'BP': [ae_data[2]]}
+            delta_factor = calcDelta(qe_eos,ae_eos,[cmpd],False)
+            return delta_factor, False
+        if property == 'bulk_modulus':
+            bulk_diff = abs(QE_bulk - ae_data)/ae_data
+    if property == 'phonon_frequency': ## Probably just define AE freq in .json file
+        run_QE(cmpd,lat_type,'scf',template_dir)
+        if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
-        return compare_lat(ae_val,cmpd,lat_type), False
-
+        run_phonon(cmpd,lat_type,template_dir)
+        phonon_diff = compare_phonon(cmpd,lat_type,template_dir)
+        return phonon_diff, False
+    if property == 'atomic_positions': ## Still use file?
+        return compare_atoms(cmpd,lat_type,template_dir), False
+    if property == 'band_gap':
+        run_QE(cmpd,lat_type,'scf',template_dir)
+        if not check_convergence(cmpd,lat_type,'scf'):
+            return None, True
+        qe_gap = get_gap(cmpd,lat_type)
+        return abs(ae_data-qe_data)/ae_data, False ## or maybe in eV?
+    if property = 'magnetization':
+        run_QE(cmpd,lat_type,'scf',template_dir)
+        if not check_convergence(cmpd,lat_type,'scf'):
+            return None, True
+        qe_mag = get_mag(cmpd,lat_type)
+        return abs(ae_mag-qe_mag)/ae_mag, False
+    if property == 'magnetic_moment':
+        run_QE(cmpd,lat_type,'scf',template_dir)
+        if not check_convergence(cmpd,lat_type,'scf'):
+            return None, True
+        return compare_mag_mom(cmpd,lat_type,template_dir), False

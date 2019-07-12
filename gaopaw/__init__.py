@@ -45,10 +45,11 @@ def bad_run(diff_dict):
     params, results = di.read_parameters_file('params.in','results.out')
     label_index = 1
     for elem in diff_dict.keys():
-        for sub_property in diff_dict[elem].keys():
-            label = 'obj_fn_'+str(label_index)
-            results[label].function = 100.0
-            label_index += 1
+        for lat_type in diff_dict[elem].keys():
+            for property in diff_dict[elem][lat_type].keys():
+                label = 'obj_fn_'+str(label_index)
+                results[label].function = 100.0
+                label_index += 1
     results.write()
 
 def compare_lat(AE_lat,cmpd,cmpd_lat_type):
@@ -77,10 +78,11 @@ def update_dakota(diff_dict):
     params, results = di.read_parameters_file('params.in','results.out')
     label_index = 1
     for elem in diff_dict.keys():
-        for sub_property in diff_dict[elem].keys():
-            label = 'obj_fn_'+str(label_index)
-            results[label].function = diff_dict[elem][sub_property]
-            label_index += 1
+        for lat_type in diff_dict[elem].keys():
+            for property in diff_dict[elem][lat_type].keys():
+                label = 'obj_fn_'+str(label_index)
+                results[label].function = diff_dict[elem][lat_type][property]
+                label_index += 1
     results.write()
 
 def write_atompaw_input(elem,template_dir):
@@ -750,12 +752,17 @@ def parse_elems(formula):
     return elems
 
 def test_element_list(elem_list,template_dir):
+    """
+    Test the atompaw generation, compare QE with AE lattice constants,
+    and compare QE/AE log derivatives
+    """
     elem_diff_dict = {}
     for elem in elem_list:
         elem_diff_dict[elem] = {}
         elem_diff_dict[elem]['log'] = {}
         for lat_type in ['FCC','BCC']:
             elem_diff_dict[elem][lat_type] = {}
+            elem_diff_dict[elem][lat_type]['lattice_constant'] = {}
     for elem in elem_list:
         os.mkdir(elem)
         copyfile('params.in',elem+'/params.in')
@@ -770,5 +777,17 @@ def test_element_list(elem_list,template_dir):
                 if not check_convergence(elem,lat_type,'relax'):
                     return elem_diff_dict, True
                 ae_lat = elemental_data[elem][lat_type]
-                elem_diff_dict[elem][lat_type] = compare_lat(ae_lat,elem,lat_type)
+                elem_diff_dict[elem][lat_type]['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
     return elem_diff_dict, False
+
+def test_property(cmpd,lat_type,property,ae_value,template_dir):
+    """
+    General function to calculate a property with QE
+    and compare with corresponding AE value
+    """
+    if property == 'lattice_constant':
+        run_QE(cmpd,lat_type,'relax',template_dir)
+        if not check_convergence(cmpd,lat_type,'relax'):
+            return None, True
+        return compare_lat(ae_val,cmpd,lat_type), False
+

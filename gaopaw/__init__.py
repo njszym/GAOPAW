@@ -21,7 +21,7 @@ import json
 from types import SimpleNamespace
 
 
-def check_UPF():
+def check_upf():
     """
     Check if a .UPF file was succesfully created by AtomPAW
     """
@@ -43,21 +43,21 @@ def bad_run(num_obj_fns):
         results[label].function = 100.0
     results.write()
 
-def compare_lat(AE_lat,cmpd,cmpd_lat_type):
+def compare_lat(ae_lat,cmpd,cmpd_lat_type):
     """
     Compute difference between AE and PAW lattice constants.
     For cubic systems, a primitive cell is assumed.
     For all other lattice types, a conventional cell is assumed.
     """
-    QE_lat = get_lattice_constant(cmpd,cmpd_lat_type)
+    qe_lat = get_lattice_constant(cmpd,cmpd_lat_type)
     lat_diff = 0
     if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
-        lat_diff = abs(QE_lat-AE_lat)/AE_lat
+        lat_diff = abs(qe_lat-ae_lat)/ae_lat
         return lat_diff
     else:
-        for (QE,AE) in zip(QE_lat,AE_lat):
-            lat_diff += abs(QE-AE)/AE
-        avg_lat_diff = lat_diff/len(AE_lat)
+        for (qe_val,ae_val) in zip(qe_lat,ae_lat):
+            lat_diff += abs(qe_val-ae_val)/ae_val
+        avg_lat_diff = lat_diff/len(ae_lat)
         return avg_lat_diff
 
 def update_dakota(diff_dict):
@@ -81,8 +81,6 @@ def write_atompaw_input(elem,template_dir):
     Write AtomPAW input file based on some template specified in template_dir
     """
     env = os.environ.copy()
-    env['PATH'] = '/scr/fonari/dakota/bin:' + env['PATH']
-    env['LD_LIBRARY_PATH'] = '/scr/fonari/dakota/bin:' + env['LD_LIBRARY_PATH']
     template_file = os.path.join(template_dir, elem+'.atompaw.template')
     new_input_file = elem+'.atompaw.in'
     subprocess.check_call(['run', 'dprepro.py', 'params.in', template_file, new_input_file], env=env)
@@ -92,7 +90,6 @@ def run_atompaw(elem):
     Run AtomPAW using (elem).atompaw.in
     """
     env = os.environ.copy()
-    env['PATH'] = '/scr/szymansk/atompaw-4.1.0.6/src:' + env['PATH']
     with open(elem+'.atompaw.in','r') as input_fin, open('log_atompaw', 'w') as log_fout: 
         subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, env=env)
 
@@ -100,13 +97,14 @@ def run_QE(elem,lat_type,calc_type,template_dir):
     """
     Write and run QE using elem.lat_type.calc_type in template_dir.
     """
-    if str(elem+'.'+lat_type+'.'+calc_type+'.out') not in os.listdir('.'):
-        template_file = os.path.join(template_dir, elem+'.'+lat_type+'.'+calc_type+'.template')
-        new_input_file = elem+'.'+lat_type+'.'+calc_type+'.in'
-        shutil.copy(template_file,new_input_file)
-        if calc_type == 'scf':
-            update_structure(elem,lat_type,'scf')
-        os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+elem+'.'+lat_type+'.'+calc_type+'.in -MPICORES 4')
+    if str(elem+'.'+lat_type+'.'+calc_type+'.out') in os.listdir('.'):
+        return
+    template_file = os.path.join(template_dir, elem+'.'+lat_type+'.'+calc_type+'.template')
+    new_input_file = elem+'.'+lat_type+'.'+calc_type+'.in'
+    shutil.copy(template_file,new_input_file)
+    if calc_type == 'scf':
+        update_structure(elem,lat_type,'scf')
+    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+elem+'.'+lat_type+'.'+calc_type+'.in -MPICORES 4')
 
 def get_lattice_constant(elem,lat_type):
     """
@@ -656,6 +654,9 @@ def update_best_result(diff_dict):
             f.write(label[:-3]+'delta_factor:  '+str(value)+'\n')
         if 'phonon_frequency' in label:
             f.write(label+':  '+str(value)+'\n')
+        if 'magnetization' in label:
+            value = value*100
+            f.write(label+':  '+str(value)+'%\n')
     f.close()
     UPF_files = []
     files_in_folder = os.listdir('.')
@@ -781,7 +782,7 @@ def test_element_list(elem_list,template_dir):
         with fileutils.chdir(elem):
             write_atompaw_input(elem,template_dir)
             run_atompaw(elem)
-            if not check_UPF():
+            if not check_upf():
                 return elem_diff_dict, True
             copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
             elem_diff_dict[elem]['elemental']['log'] = compare_log()
@@ -835,7 +836,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         qe_mag = get_mag(cmpd,lat_type)
-        return abs(ae_mag-qe_mag)/ae_mag, False
+        return abs(ae_data-qe_mag)/ae_data, False
     if property == 'magnetic_moment':
         run_QE(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):

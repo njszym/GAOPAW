@@ -31,19 +31,15 @@ def check_UPF():
             check = True
     return check
 
-def bad_run(diff_dict):
+def bad_run(num_obj_fns):
     """
     If something went wrong with the run, e.g., no .UPF file created or
     if running QE raised an error, set the objective function to 100
     """
     params, results = di.read_parameters_file('params.in','results.out')
-    label_index = 1
-    for elem in diff_dict.keys():
-        for lat_type in diff_dict[elem].keys():
-            for property in diff_dict[elem][lat_type].keys():
-                label = 'obj_fn_'+str(label_index)
-                results[label].function = 100.0
-                label_index += 1
+    for num in range(1,num_obj_fns+1):
+        label = 'obj_fn_'+str(num)
+        results[label].function = 100.0
     results.write()
 
 def compare_lat(AE_lat,cmpd,cmpd_lat_type):
@@ -742,16 +738,16 @@ def parse_elems(formula):
 
     return elems
 
-def get_element_info():
+def get_element_info(template_dir):
     """
     Read in AE data for elemental lattice constants
     """
     elemental_data = {}
-    df_FCC = pd.read_table(elem_template_dir+'/WIEN2k_FCC',sep='\s+',header=None)
+    df_FCC = pd.read_table(template_dir+'/WIEN2k_FCC',sep='\s+',header=None)
     for (elem,lat_const) in zip(df_FCC[0],df_FCC[1]):
         elemental_data[elem] = {}
         elemental_data[elem]['FCC'] = lat_const
-    df_BCC = pd.read_table(elem_template_dir+'/WIEN2k_BCC',sep='\s+',header=None)
+    df_BCC = pd.read_table(template_dir+'/WIEN2k_BCC',sep='\s+',header=None)
     for (elem,lat_const) in zip(df_BCC[0],df_BCC[1]):
         elemental_data[elem]['BCC'] = lat_const
     elemental_data['N'] = {}
@@ -787,7 +783,7 @@ def test_element_list(elem_list,template_dir):
                 run_QE(elem,lat_type,'relax',template_dir)
                 if not check_convergence(elem,lat_type,'relax'):
                     return elem_diff_dict, True
-                elemental_data = get_element_info()
+                elemental_data = get_element_info(template_dir)
                 ae_lat = elemental_data[elem][lat_type]
                 elem_diff_dict[elem][lat_type]['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
     return elem_diff_dict, False
@@ -827,7 +823,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         qe_gap = get_gap(cmpd,lat_type)
-        return abs(ae_data-qe_gap), False ## or maybe in eV?
+        return abs(ae_data-qe_gap), False
     if property == 'magnetization':
         run_QE(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):
@@ -839,6 +835,8 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         return compare_mag_mom(cmpd,lat_type,template_dir), False
+    raise ValueError('Your property, '+property+', is not defined')
+    
 
 def form_cmpd_dict(cmpd_list):
     """
@@ -872,3 +870,23 @@ def test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir):
                 bad_run(cmpd_diff_dict)
                 return cmpd_diff_dict, True
     return cmpd_diff_dict, False
+
+def get_num_objs(cmpd_list,element_list):
+    """
+    Parse input.json and return total number of objective functions
+    """
+    num_elems = len(element_list)
+    cmpd_diff_dict = form_cmpd_dict(cmpd_list)
+    num_properties = 0
+    for cmpd in cmpd_diff_dict.keys():
+        for lat_type in cmpd_diff_dict[cmpd].keys():
+            for property in cmpd_diff_dict[cmpd][lat_type].keys():
+                num_properties += 1
+    num_obj_fns = 0
+    for elem in element_list:
+        if elem in ['N','P']:
+            num_obj_fns += 2
+        else:
+            num_obj_fns += 3
+    num_obj_fns += num_properties
+    return int(num_obj_fns)

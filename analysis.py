@@ -13,13 +13,15 @@ def main():
     lattice constants, atomic positions, net magnetization, individual magnetic moments,
     band gaps, bulk moduli, phonon frequencies, and delta-factors.
     """
-    working_dir = sys.argv[-3]
-    elem_template_dir = '/scr/szymansk/gaopaw/Elem_Templates'
-    cmpd_template_dir = working_dir+'/../Input/'
-    ## Will probably define these as global vars and remove from function args
-    ## Pre-define num_obj_fns
+    working_dir = sys.argv[-4]
+    num_obj_fns = int(sys.argv[-3])
+    ## Can we automate variable values in dakota input? Would save time...
     with open(working_dir+'/../input.json') as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
+    template_settings = input_settings.directories[0].__dict__
+    elem_template_dir = template_settings['elem_template_dir']
+    if 'cmpd_template_dir' in template_settings.keys():
+        cmpd_template_dir = template_settings['cmpd_template_dir']
     cmpd_list = input_settings.compounds
     element_list = []
     for cmpd in cmpd_list:
@@ -27,23 +29,20 @@ def main():
         formula = cmpd['formula']
         element_list.extend(parse_elems(formula))
     element_list = unique(element_list)
+    assert num_obj_fns == get_num_objs(cmpd_list,element_list), 'Wrong number of objective functions specified'
     elem_diff_dict, error_check = test_element_list(element_list,elem_template_dir)
+    if error_check:
+        bad_run(num_obj_fns)
+        return
     if len(element_list) == 1 and len(cmpd.keys()) == 1:
-        if error_check:
-            bad_run(elem_diff_dict)
-            return
-        else:
-            update_dakota(elem_diff_dict)
-            update_best_result(elem_diff_dict)
-            return
+        update_dakota(elem_diff_dict)
+        update_best_result(elem_diff_dict)
+        return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     cmpd_diff_dict.update(elem_diff_dict)
-    if error_check:
-        bad_run(cmpd_diff_dict)
-        return
     cmpd_diff_dict, error_check = test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir)
     if error_check:
-        bad_run(cmpd_diff_dict)
+        bad_run(num_obj_fns)
         return
     update_dakota(cmpd_diff_dict)
     update_best_result(cmpd_diff_dict)

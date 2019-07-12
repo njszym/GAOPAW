@@ -195,9 +195,9 @@ def unique(value_list):
     """
     Get list of unique elements to be tested
     """
-    try: ## if list of numbers
+    try:
         value_list = [round(float(value),3) for value in value_list]
-    except ValueError: ## if list of strings
+    except ValueError:
         list = [str(value) for value in value_list]
     unique_list = []
     for value in value_list:
@@ -210,19 +210,19 @@ def compare_atoms(elem,lat_type,template_dir):
     Compare atomic positions of QE-relaxed structure
     and those of the AE-relaxed structure...
     """
-    df_AE = pd.read_table(template_dir+'/AE_Struct.'+elem+'.'+lat_type,sep='\s+',header=None)
-    df_AE = df_AE.drop(0,1)
-    df_AE = df_AE.transpose()
+    df_ae = pd.read_table(template_dir+'/AE_Struct.'+elem+'.'+lat_type,sep='\s+',header=None)
+    df_ae = df_ae.drop(0,1)
+    df_ae = df_ae.transpose()
     distance_list = []
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),'periodic_dft_gui_dir', 'qe2mae.py')
     qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
     qe_reader = qe_reader_mod.QEOutputReader(elem+'.'+lat_type+'.relax.out')
     struct = qe_reader.structs[qe_reader.final_struct_id]
-    df_QE = struct.getXYZ()
-    for index in range(len(df_AE.keys())):
-        AE_position = np.array(df_AE[index])
-        QE_position = np.array(df_QE[index])
-        distance = np.linalg.norm(AE_position-QE_position)
+    df_qe = struct.getXYZ()
+    for index in range(len(df_ae.keys())):
+        ae_position = np.array(df_ae[index])
+        qe_position = np.array(df_qe[index])
+        distance = np.linalg.norm(ae_position-qe_position)
         distance_list.append(distance)
     return sum(distance_list)
 
@@ -773,9 +773,15 @@ def test_element_list(elem_list,template_dir):
         elem_diff_dict[elem] = {}
         elem_diff_dict[elem]['elemental'] = {}
         elem_diff_dict[elem]['elemental']['log'] = {}
-        for lat_type in ['FCC','BCC']:
-            elem_diff_dict[elem][lat_type] = {}
-            elem_diff_dict[elem][lat_type]['lattice_constant'] = {}
+        if elem in ['N','P']:
+            if elem == 'N':
+                elem_diff_dict[elem]['SC'] = {}
+            if elem == 'P':
+                elem_diff_dict[elem]['ortho'] = {}
+        else:
+            for lat_type in ['FCC','BCC']:
+                elem_diff_dict[elem][lat_type] = {}
+                elem_diff_dict[elem][lat_type]['lattice_constant'] = {}
     for elem in elem_list:
         os.mkdir(elem)
         copyfile('params.in',elem+'/params.in')
@@ -786,13 +792,28 @@ def test_element_list(elem_list,template_dir):
                 return elem_diff_dict, True
             copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
             elem_diff_dict[elem]['elemental']['log'] = compare_log()
-            for lat_type in ['FCC','BCC']:
-                run_QE(elem,lat_type,'relax',template_dir)
-                if not check_convergence(elem,lat_type,'relax'):
-                    return elem_diff_dict, True
-                elemental_data = get_element_info(template_dir)
-                ae_lat = elemental_data[elem][lat_type]
-                elem_diff_dict[elem][lat_type]['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
+            if elem in ['N','P']:
+                if elem == 'N':
+                    run_QE(elem,'SC','relax',template_dir)
+                    if not check_convergence(elem,'SC','relax'):
+                        return elem_diff_dict, True
+                    atom_diff = compare_atoms(elem,'SC',template_dir)
+                    return atom_diff, False
+                if elem == 'P':
+                    run_QE(elem,'ortho','relax',template_dir)
+                    if not check_convergence(elem,'ortho','relax'):
+                        return elem_diff_dict, True
+                    elemental_data = get_element_info(template_dir)
+                    ae_lat = elemental_data[elem][lat_type]
+                    elem_diff_dict[elem][lat_type]['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
+            else:
+                for lat_type in ['FCC','BCC']:
+                    run_QE(elem,lat_type,'relax',template_dir)
+                    if not check_convergence(elem,lat_type,'relax'):
+                        return elem_diff_dict, True
+                    elemental_data = get_element_info(template_dir)
+                    ae_lat = elemental_data[elem][lat_type]
+                    elem_diff_dict[elem][lat_type]['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
     return elem_diff_dict, False
 
 def test_property(cmpd,lat_type,property,ae_data,template_dir):

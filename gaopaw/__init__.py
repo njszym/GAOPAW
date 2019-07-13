@@ -904,6 +904,11 @@ def get_num_objs(cmpd_list,element_list):
     Parse input.json and return total number of objective functions
     """
     num_elems = len(element_list)
+    if num_elems == 1 and len(cmpd.keys()) == 1:
+        if element_list[0] in ['N','P']:
+            return 2
+        else:
+            return 3
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     num_properties = 0
     for cmpd in cmpd_diff_dict.keys():

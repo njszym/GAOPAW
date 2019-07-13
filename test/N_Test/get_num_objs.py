@@ -17,7 +17,7 @@ def main():
     element_list = unique(element_list)
     num_elems = len(element_list)
     if num_elems == 1 and len(cmpd.keys()) == 1:
-        if elem in ['N','P']:
+        if element_list[0] in ['N','P']:
             print('\n'+'Number of objective functions: 2\n')
         else:
             print('\n'+'Number of objective functions: 3\n')

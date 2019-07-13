@@ -657,6 +657,8 @@ def update_best_result(diff_dict):
         if 'magnetization' in label:
             value = value*100
             f.write(label+':  '+str(value)+'%\n')
+        if 'atomic_positions' in label:
+            f.write(label+':  '+str(value)+'\n')
     f.close()
     UPF_files = []
     files_in_folder = os.listdir('.')
@@ -776,8 +778,10 @@ def test_element_list(elem_list,template_dir):
         if elem in ['N','P']:
             if elem == 'N':
                 elem_diff_dict[elem]['SC'] = {}
+                elem_diff_dict[elem]['SC']['atomic_positions'] = {}
             if elem == 'P':
                 elem_diff_dict[elem]['ortho'] = {}
+                elem_diff_dict[elem]['ortho']['lattice_constant'] = {}
         else:
             for lat_type in ['FCC','BCC']:
                 elem_diff_dict[elem][lat_type] = {}
@@ -797,15 +801,15 @@ def test_element_list(elem_list,template_dir):
                     run_QE(elem,'SC','relax',template_dir)
                     if not check_convergence(elem,'SC','relax'):
                         return elem_diff_dict, True
-                    atom_diff = compare_atoms(elem,'SC',template_dir)
-                    return atom_diff, False
+                    elem_diff_dict[elem]['SC']['atomic_positions'] = compare_atoms(elem,'SC',template_dir)
+                    return elem_diff_dict, False
                 if elem == 'P':
                     run_QE(elem,'ortho','relax',template_dir)
                     if not check_convergence(elem,'ortho','relax'):
                         return elem_diff_dict, True
                     elemental_data = get_element_info(template_dir)
-                    ae_lat = elemental_data[elem][lat_type]
-                    elem_diff_dict[elem][lat_type]['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
+                    ae_lat = elemental_data[elem]['ortho']
+                    elem_diff_dict[elem]['ortho']['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
             else:
                 for lat_type in ['FCC','BCC']:
                     run_QE(elem,lat_type,'relax',template_dir)
@@ -904,7 +908,7 @@ def get_num_objs(cmpd_list,element_list):
     Parse input.json and return total number of objective functions
     """
     num_elems = len(element_list)
-    if num_elems == 1 and len(cmpd.keys()) == 1:
+    if num_elems == 1 and len(cmpd_list[0].__dict__.keys()) == 1:
         if element_list[0] in ['N','P']:
             return 2
         else:

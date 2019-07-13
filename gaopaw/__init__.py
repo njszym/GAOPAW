@@ -809,7 +809,7 @@ def test_element_list(elem_list,template_dir):
                         return elem_diff_dict, True
                     elemental_data = get_element_info(template_dir)
                     ae_lat = elemental_data[elem]['ortho']
-                    elem_diff_dict[elem]['ortho']['lattice_constant'] = compare_lat(ae_lat,elem,lat_type)
+                    elem_diff_dict[elem]['ortho']['lattice_constant'] = compare_lat(ae_lat,elem,'ortho')
             else:
                 for lat_type in ['FCC','BCC']:
                     run_QE(elem,lat_type,'relax',template_dir)

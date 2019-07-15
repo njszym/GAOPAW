@@ -13,7 +13,7 @@ def main():
     lattice constants, atomic positions, net magnetization, individual magnetic moments,
     band gaps, bulk moduli, phonon frequencies, and delta-factors.
     """
-    working_dir = sys.argv[-3]
+    working_dir = os.getcwd()
     num_obj_fns = parse_num_objs(working_dir)
     with open(working_dir+'/../input.json') as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))

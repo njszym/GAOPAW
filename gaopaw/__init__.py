@@ -19,18 +19,16 @@ import numpy as np
 from shutil import copyfile
 import json
 from types import SimpleNamespace
+import glob
 
 
 def check_upf():
     """
     Check if a .UPF file was succesfully created by AtomPAW
     """
-    files = os.listdir('./')
-    check = False
-    for file in files:
-        if file[-3:] == 'UPF':
-            check = True
-    return check
+    if len([fname for fname in glob.iglob('*UPF')]) != 0:
+        return True
+    return False
 
 def bad_run(num_obj_fns):
     """
@@ -43,22 +41,19 @@ def bad_run(num_obj_fns):
         results[label].function = 100.0
     results.write()
 
-def compare_lat(ae_lat,cmpd,cmpd_lat_type):
+def compare_lat(ae_lat,cmpd,lat_type):
     """
     Compute difference between AE and PAW lattice constants.
     For cubic systems, a primitive cell is assumed.
     For all other lattice types, a conventional cell is assumed.
     """
-    qe_lat = get_lattice_constant(cmpd,cmpd_lat_type)
+    qe_lat = get_lattice_constant(cmpd,lat_type)
+    if isinstance(ae_lat,list) == False:
+        return abs(qe_lat-ae_lat)/ae_lat
     lat_diff = 0
-    if cmpd_lat_type in ['SC','FCC','BCC','ZB','per','RS','diamond','CsCl','HH']:
-        lat_diff = abs(qe_lat-ae_lat)/ae_lat
-        return lat_diff
-    else:
-        for (qe_val,ae_val) in zip(qe_lat,ae_lat):
-            lat_diff += abs(qe_val-ae_val)/ae_val
-        avg_lat_diff = lat_diff/len(ae_lat)
-        return avg_lat_diff
+    for (qe_val,ae_val) in zip(qe_lat,ae_lat):
+        lat_diff += abs(qe_val-ae_val)/ae_val
+    return lat_diff/len(ae_lat)
 
 def update_dakota(diff_dict):
     """
@@ -80,40 +75,39 @@ def write_atompaw_input(elem,template_dir):
     """
     Write AtomPAW input file based on some template specified in template_dir
     """
-    env = os.environ.copy()
     template_file = os.path.join(template_dir, elem+'.atompaw.template')
     new_input_file = elem+'.atompaw.in'
-    subprocess.check_call(['run', 'dprepro.py', 'params.in', template_file, new_input_file], env=env)
+    subprocess.check_call(['run', 'dprepro.py', 'params.in', template_file, new_input_file], env=os.environ.copy())
 
 def run_atompaw(elem):
     """
     Run AtomPAW using (elem).atompaw.in
     """
-    env = os.environ.copy()
     with open(elem+'.atompaw.in','r') as input_fin, open('log_atompaw', 'w') as log_fout: 
-        subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, env=env)
+        subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, env=os.environ.copy())
 
-def run_QE(elem,lat_type,calc_type,template_dir):
+def run_QE(cmpd,lat_type,calc_type,template_dir):
     """
-    Write and run QE using elem.lat_type.calc_type in template_dir.
+    Write and run QE using cmpd.lat_type.calc_type in template_dir.
     """
-    if str(elem+'.'+lat_type+'.'+calc_type+'.out') in os.listdir('.'):
+    if os.path.exists(cmpd+'.'+lat_type+'.'+calc_type+'.out'):
         return
-    template_file = os.path.join(template_dir, elem+'.'+lat_type+'.'+calc_type+'.template')
-    new_input_file = elem+'.'+lat_type+'.'+calc_type+'.in'
+    template_file = os.path.join(template_dir, cmpd+'.'+lat_type+'.'+calc_type+'.template')
+    new_input_file = cmpd+'.'+lat_type+'.'+calc_type+'.in'
     shutil.copy(template_file,new_input_file)
     if calc_type == 'scf':
-        update_structure(elem,lat_type,'scf')
-    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+elem+'.'+lat_type+'.'+calc_type+'.in -MPICORES 4')
+        update_structure(cmpd,lat_type,'scf')
+    qe_input = cmpd+'.'+lat_type+'.'+calc_type+'.in'
+    subprocess.call(['run','periodic_dft_gui_dir/runner.py','pw.x',qe_input,'-MPICORES','4'], env=os.environ.copy())
 
-def get_lattice_constant(elem,lat_type):
+def get_lattice_constant(cmpd,lat_type):
     """
     Get relaxed lattice constant from QE run.
     Note some tolerance is allowed.
     """
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),'periodic_dft_gui_dir', 'qe2mae.py')
     qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
-    qe_reader = qe_reader_mod.QEOutputReader(elem+'.'+lat_type+'.relax.out')
+    qe_reader = qe_reader_mod.QEOutputReader(cmpd+'.'+lat_type+'.relax.out')
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = xtal.get_params_from_chorus(cparams)
@@ -123,15 +117,12 @@ def get_lattice_constant(elem,lat_type):
         return (2./3.)*math.sqrt(3)*params[0]
     if lat_type in ['per','SC','CsCl']:
         return params[0]
-    if lat_type == 'tetrag':
+    if lat_type in ['tetrag','hex','WZ']:
         unique_lat_list = sorted(unique(params[:3]))
         return unique_lat_list[0], unique_lat_list[1]
     if lat_type == 'ortho':
         unique_lat_list = sorted(params[:3])
         return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2]
-    if lat_type == 'hex' or lat_type == 'WZ':
-        unique_lat_list = sorted(unique(params[:3]))
-        return unique_lat_list[0], unique_lat_list[1]
     if lat_type == 'rhomb':
         lat = params[0]
         angle = params[4]
@@ -145,21 +136,15 @@ def get_lattice_constant(elem,lat_type):
     if lat_type == 'triclin':
         unique_lat_list = sorted(unique(params[:3]))
         unique_angle_list = sorted(unique(params[3:]))
-        all_params = unique_lat_list + unique_angle_list
-        return all_params
+        return unique_lat_list + unique_angle_list
 
-def check_convergence(elem,lat_type,calc_type):
+def check_convergence(cmpd,lat_type,calc_type):
     """
     Check if the QE run converged
     """
-    check = True
-    with open(elem+'.'+lat_type+'.'+calc_type+'.out') as qe_output:
+    with open(cmpd+'.'+lat_type+'.'+calc_type+'.out') as qe_output:
         for line in qe_output:
-            if 'convergence NOT' in line:
-                return False
-            if 'S matrix not positive definite' in line:
-                return False
-            if 'stopping ...' in line:
+            if 'convergence NOT' or 'S matrix not positive definite' or 'stopping ...' in line:
                 return False
     return True
 
@@ -171,11 +156,7 @@ def compare_log():
     Note that columns in logderiv.l correspond to:
     energy, exact logderiv, pseudized logderv, exact arctan, pseudized arctan
     """
-    files = os.listdir('./')
-    log_derivs = []
-    for file in files:
-        if file[:4] == 'logd':
-            log_derivs.append(file)
+    log_derivs = [fname for fname in glob.iglob('logd*')]
     sum_log = 0
     total_diff = 0
     for file in log_derivs[:-1]:
@@ -205,51 +186,48 @@ def unique(value_list):
             unique_list.append(value)
     return unique_list
 
-def compare_atoms(elem,lat_type,template_dir):
+def compare_atoms(cmpd,lat_type,template_dir):
     """
     Compare atomic positions of QE-relaxed structure
     and those of the AE-relaxed structure...
     """
-    df_ae = pd.read_table(template_dir+'/AE_Struct.'+elem+'.'+lat_type,sep='\s+',header=None)
-    df_ae = df_ae.drop(0,1)
-    df_ae = df_ae.transpose()
-    distance_list = []
+    df_ae = pd.read_table(template_dir+'/AE_Struct.'+cmpd+'.'+lat_type,sep='\s+',header=None)
+    df_ae = df_ae.drop(0,1).transpose()
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),'periodic_dft_gui_dir', 'qe2mae.py')
     qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
-    qe_reader = qe_reader_mod.QEOutputReader(elem+'.'+lat_type+'.relax.out')
+    qe_reader = qe_reader_mod.QEOutputReader(cmpd+'.'+lat_type+'.relax.out')
     struct = qe_reader.structs[qe_reader.final_struct_id]
     df_qe = struct.getXYZ()
+    distance_list = []
     for index in range(len(df_ae.keys())):
         ae_position = np.array(df_ae[index])
         qe_position = np.array(df_qe[index])
-        distance = np.linalg.norm(ae_position-qe_position)
-        distance_list.append(distance)
+        distance_list.append(np.linalg.norm(ae_position-qe_position))
     return sum(distance_list)
 
-def get_mag(elem,lat_type):
+def get_mag(cmpd,lat_type):
     """
     Parse QE output (scf run) to obtain total magnetization
     """
     mag = []
-    with open(elem+'.'+lat_type+'.scf.out') as qe_output:
+    with open(cmpd+'.'+lat_type+'.scf.out') as qe_output:
         for line in qe_output:
             if 'absolute' in line.split():
                 mag.append(line.split()[3])
     return float(mag[-1])
 
-def compare_mag_mom(elem,lat_type,template_dir):
+def compare_mag_mom(cmpd,lat_type,ae_mag_mom,template_dir):
     """
     Parse QE output (scf run) to obtain individual
     magnetic moments of atoms in given structure.
     Compare these with AE magnetic moments in AE_mag.
     """
     qe_mag_mom = []
-    with open(elem+'.'+lat_type+'.scf.out') as qe_output:
+    with open(cmpd+'.'+lat_type+'.scf.out') as qe_output:
         for line in qe_output:
             if 'magn:' in line.split():
                 qe_mag_mom.append(line.split()[5])
     qe_mag_mom = [float(value) for value in qe_mag_mom]
-    ae_mag_mom = np.loadtxt(template_dir+'/AE_mag.'+elem+'.'+lat_type)
     rel_diff = []
     for (qe_val,ae_val) in zip(qe_mag_mom,ae_mag_mom):
         if float(ae_val) != 0.0:
@@ -302,9 +280,8 @@ def get_bulk(elem,lat_type):
     volume = popt[0]/num_atoms ## A^3/atom
     bulk = popt[1]*160.2 ## GPa
     B_prime = popt[2] ## Dimensionless
-    eos_file = open('QE_EOS.txt','w+')
-    eos_file.write(str(volume)+' '+str(bulk)+' '+str(B_prime))
-    eos_file.close()
+    with open('QE_EOS.txt','w+') as eos_file:
+        eos_file.write(str(volume)+' '+str(bulk)+' '+str(B_prime))
     return float(volume), float(bulk), float(B_prime)
 
 def run_scale_lat(elem,lat_type,template_dir):
@@ -316,11 +293,7 @@ def run_scale_lat(elem,lat_type,template_dir):
     """
     scale_num = [0.94,0.96,0.98,1.0,1.02,1.04,1.06]
     relax_file = elem+'.'+lat_type+'.relax.in'
-    UPF_files = []
-    files_in_folder = os.listdir('.')
-    for file in files_in_folder:
-        if file[-3:] == 'UPF':
-            UPF_files.append(file)
+    UPF_files = [fname for fname in glob.iglob('*UPF')]
     energies = []
     volumes = []
     folder_index = 1
@@ -337,7 +310,7 @@ def run_scale_lat(elem,lat_type,template_dir):
         os.chdir(folder)
         update_structure(elem,lat_type,'relax')
         write_cell(elem,lat_type,new_cell_params)
-        os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py pw.x '+relax_file+' -MPICORES 4')
+        subprocess.call(['run','periodic_dft_gui_dir/runner.py','pw.x',relax_file,'-MPICORES','4'], env=os.environ.copy())
         all_energies = []
         with open(relax_file[:-2]+'out') as qe_output:
             for line in qe_output:
@@ -346,10 +319,9 @@ def run_scale_lat(elem,lat_type,template_dir):
         energies.append(all_energies[-1])
         os.chdir('../')
         folder_index += 1
-    ev_file = open('E_V.txt','w+')
-    for (e,v) in zip(energies,volumes):
-        ev_file.write(str(e)+' '+str(v)+'\n')
-    ev_file.close()
+    with open('E_V.txt','w+') as ev_file:
+        for (e,v) in zip(energies,volumes):
+            ev_file.write(str(e)+' '+str(v)+'\n')
 
 def calcDelta(data_f, data_w, eloverlap, useasymm):
     """
@@ -526,17 +498,13 @@ def update_structure(elem,lat_type,calc_type):
             if 'ATOMIC_POSITIONS' in line:
                 jump = natoms+1
                 line_index += jump
-    f = open(elem+'.'+lat_type+'.'+calc_type+'.in','w+')
-    for line in orig_struct:
-        f.write(line)
-    f.write(coords_header)
-    for line in coords:
-        f.write(line)
-    f.write(cell_header)
-    f.write(v1)
-    f.write(v2)
-    f.write(v3)
-    f.close()
+    with open(elem+'.'+lat_type+'.'+calc_type+'.in','w+') as qe_file:
+        for line in orig_struct:
+            qe_file.write(line)
+        qe_file.write(coords_header)
+        for line in coords:
+            qe_file.write(line)
+        qe_file.write(cell_header+v1+v2+v3)
 
 def scale_cell(elem,lat_type,scale_factor):
     """
@@ -599,31 +567,28 @@ def write_cell(elem,lat_type,cell):
             line_index += 1
         else:
             line_index += 4
-    f = open(elem+'.'+lat_type+'.relax.in','w+')
-    for line in orig_struct:
-        f.write(line)
-    f.write(cell_header)
-    f.write(v1)
-    f.write(v2)
-    f.write(v3)
-    f.close()
+    with open(elem+'.'+lat_type+'.relax.in','w+') as qe_file:
+        for line in orig_struct:
+            qe_file.write(line)
+        qe_file.write(cell_header+v1+v2+v3)
 
 def run_phonon(cmpd,cmpd_lat_type,template_dir):
     """
     Run QE phonon calculations using ph.x and dynmat.x.
     """
     copyfile(template_dir+'/phonon.in','./phonon.in')
-    if 'phonon.save' in os.listdir('.'):
+    if os.path.exists('phonon.save'):
         os.remove('phonon.out')
         shutil.rmtree('phonon.save')
         os.remove('phonon.save.qegz')
-    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py ph.x phonon.in -input_save '+cmpd+'.'+cmpd_lat_type+'.scf.save.qegz -MPICORES 4')
+    scf_savefile = cmpd+'.'+cmpd_lat_type+'.scf.save.qegz'
+    subprocess.call(['run','periodic_dft_gui_dir/runner.py','ph.x','phonon.in','-input_save',scf_savefile,'-MPICORES','4'], env=os.environ.copy())
     copyfile(template_dir+'/dynmat.in','./dynmat.in')
-    if 'dynmat.save' in os.listdir('.'):
+    if os.path.exists('dynmat.save'):
         os.remove('dynmat.out')
         shutil.rmtree('dynmat.save')
         os.remove('dynmat.save.qegz')
-    os.system('$SCHRODINGER/run periodic_dft_gui_dir/runner.py dynmat.x dynmat.in -input_save phonon.save.qegz -MPICORES 4')
+    subprocess.call(['run','periodic_dft_gui_dir/runner.py','dynmat.x','dynmat.in','-input_save','phonon.save.qegz','-MPICORES','4'], env=os.environ.copy())
 
 def update_best_result(diff_dict):
     """
@@ -640,40 +605,29 @@ def update_best_result(diff_dict):
             for property in diff_dict[formula][lat_type].keys():
                 obj_fn_labels.append(formula+'_'+lat_type+'_'+property)
                 obj_fn_list.append(diff_dict[formula][lat_type][property])
-    f = open('OBJ_FN','w+')
-    for (value,label) in zip(obj_fn_list,obj_fn_labels):
-        value = round(float(value),6)
-        if 'lattice_constant' in label:
-            value = value*100
-            f.write(label+':  '+str(value)+'%\n')
-        if 'band_gap' in label:
-            f.write(label+':  '+str(value)+' eV\n')
-        if 'log' in label:
-            f.write(label+':  '+str(value)+'\n')
-        if 'eos' in label:
-            f.write(label[:-3]+'delta_factor:  '+str(value)+'\n')
-        if 'phonon_frequency' in label:
-            f.write(label+':  '+str(value)+'\n')
-        if 'magnetization' in label:
-            value = value*100
-            f.write(label+':  '+str(value)+'%\n')
-        if 'atomic_positions' in label:
-            f.write(label+':  '+str(value)+'\n')
-    f.close()
-    UPF_files = []
-    files_in_folder = os.listdir('.')
-    for file in files_in_folder:
-        if file[-3:] == 'UPF':
-            UPF_files.append(file)
-    atompaw_files = []
-    for file in files_in_folder:
-        if 'atompaw' in file:
-            atompaw_files.append(file)
-    if 'Best_Solution' not in os.listdir('../'):
+    with open('OBJ_FN','w+') as obj_file:
+        for (value,label) in zip(obj_fn_list,obj_fn_labels):
+            value = round(float(value),6)
+            if 'lattice_constant' or 'magnetization' in label:
+                value = value*100
+                obj_file.write(label+':  '+str(value)+'%\n')
+            if 'log' in label:
+                obj_file.write(label+':  '+str(value)+'\n')
+            if 'band_gap' in label:
+                obj_file.write(label+':  '+str(value)+' eV\n')
+            if 'eos' in label:
+                obj_file.write(label[:-3]+'delta_factor:  '+str(value)+'\n')
+            if 'phonon_frequency' in label:
+                obj_file.write(label+':  '+str(value)+' THz\n')
+            if 'atomic_positions' in label:
+                obj_file.write(label+':  '+str(value)+' angstroms\n')
+    UPF_files = [fname for fname in glob.iglob('*UPF')]
+    atompaw_files = [fname for fname in glob.iglob('*atompaw*')]
+    if not os.path.isdir('Best_Solution'):
         os.mkdir('../Best_Solution')
     results_df = pd.read_table('results.out',sep='\s+',header=None)
     obj_fn_list = [float(value) for value in list(results_df[0])]
-    if 'results.out' in os.listdir('../Best_Solution/'):
+    if os.path.exists('../Best_Solution/results.out'):
         last_results_df = pd.read_table('../Best_Solution/results.out',sep='\s+',header=None)
         last_obj_fn_list = [float(value) for value in list(last_results_df[0])]
         index = 1
@@ -681,16 +635,14 @@ def update_best_result(diff_dict):
             last_max = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
             if obj_fn > last_max:
                 os.remove('../Best_Solution/Max_Error_'+str(index))
-                f = open('../Best_Solution/Max_Error_'+str(index),'w+')
-                f.write(str(obj_fn))
-                f.close()
+                with open('../Best_Solution/Max_Error_'+str(index),'w+') as error_file:
+                    error_file.write(str(obj_fn))
             index += 1
     else:
         index = 1
         for obj_fn in obj_fn_list:
-            f = open('../Best_Solution/Max_Error_'+str(index),'w+')
-            f.write(str(obj_fn))
-            f.close()
+            with open('../Best_Solution/Max_Error_'+str(index),'w+') as obj_file:
+                obj_file.write(str(obj_fn))
             index += 1
     index = 1
     norm_obj_fn_list = []
@@ -702,7 +654,7 @@ def update_best_result(diff_dict):
     for obj_fn in norm_obj_fn_list:
         rms_error += obj_fn**2
     rms_error = math.sqrt(rms_error/len(norm_obj_fn_list))
-    if 'results.out' in os.listdir('../Best_Solution/'):
+    if os.path.exists('../Best_Solution/results.out'):
         index = 1
         last_norm_obj_fn_list = []
         for obj_fn in last_obj_fn_list:
@@ -716,20 +668,15 @@ def update_best_result(diff_dict):
     else:
         last_rms_error = 999999999.0
     if rms_error < last_rms_error:
-        files_in_dir = os.listdir('../Best_Solution/')
-        files_to_del = []
-        for file in files_in_dir:
-            if 'Max_Error' not in file:
-                files_to_del.append(file)
-        for filename in files_to_del:
-            os.remove('../Best_Solution/'+filename)
+        for fname in os.listdir('../Best_Solution/'):
+            if 'Max_Error' not in fname:
+                os.remove('../Best_Solution/'+fname)
         copyfile('OBJ_FN','../Best_Solution/results.out')
         for (file_1,file_2) in zip(atompaw_files,UPF_files):
             copyfile(file_1,'../Best_Solution/'+file_1)
             copyfile(file_2,'../Best_Solution/'+file_2)
-        f = open('../Best_Solution/rms_error','w+')
-        f.write(str(rms_error))
-        f.close()
+        with open('../Best_Solution/rms_error','w+') as rms_file:
+            rms_file.write(str(rms_error))
 
 def parse_elems(formula):
     """

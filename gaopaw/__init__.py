@@ -46,7 +46,7 @@ def parse_elems(formula):
             index += 1
         else:
             elems[index] += letter
-    return elems
+    return unique(elems)
 
 def unique(value_list):
     """

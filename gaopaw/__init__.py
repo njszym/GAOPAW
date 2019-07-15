@@ -36,6 +36,7 @@ def parse_elems(formula):
     """
     Parse compound formula to obtain constituent elements
     """
+    assert formula[0].isupper(), 'First letter of cmpd formula should be capitalized'
     letters_only = ''.join([letter for letter in formula if not letter.isdigit()])
     index = -1
     elems = []
@@ -49,7 +50,7 @@ def parse_elems(formula):
 
 def unique(value_list):
     """
-    Get list of unique elements to be tested
+    Get list of unique elements/values to be tested
     """
     try:
         value_list = [round(float(value),3) for value in value_list]
@@ -108,12 +109,12 @@ def get_element_info(template_dir):
     Read in AE data for elemental lattice constants
     """
     elemental_data = {}
-    df_FCC = pd.read_table(template_dir+'/WIEN2k_FCC',sep='\s+',header=None)
-    for (elem,lat_const) in zip(df_FCC[0],df_FCC[1]):
+    df_fcc = pd.read_table(template_dir+'/WIEN2k_FCC',sep='\s+',header=None)
+    for (elem,lat_const) in zip(df_fcc[0],df_fcc[1]):
         elemental_data[elem] = {}
         elemental_data[elem]['FCC'] = lat_const
-    df_BCC = pd.read_table(template_dir+'/WIEN2k_BCC',sep='\s+',header=None)
-    for (elem,lat_const) in zip(df_BCC[0],df_BCC[1]):
+    df_bcc = pd.read_table(template_dir+'/WIEN2k_BCC',sep='\s+',header=None)
+    for (elem,lat_const) in zip(df_bcc[0],df_bcc[1]):
         elemental_data[elem]['BCC'] = lat_const
     elemental_data['N'] = {}
     elemental_data['N']['SC'] = 6.1902
@@ -200,7 +201,7 @@ def test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir):
 
 def merge_dicts(dct, merge_dct):
     """
-    Recursively merge two dictionaries
+    *Recursively* merge two dictionaries
     """
     for k, v in merge_dct.items():
         if (k in dct and isinstance(dct[k], dict) and \
@@ -224,12 +225,14 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
         run_scale_lat(cmpd,lat_type,template_dir)
         V0, QE_bulk, B_prime = get_bulk(cmpd,lat_type)
         if property == 'eos':
+            assert len(ae_data) == 3, \
+                'Three parameters required for EOS'
             qe_data = np.loadtxt('QE_EOS.txt')
             qe_eos = {'element': [cmpd], 'V0': [qe_data[0]],
                 'B0': [qe_data[1]], 'BP': [qe_data[2]]}
             ae_eos = {'element': [cmpd], 'V0': [ae_data[0]],
                 'B0': [ae_data[1]], 'BP': [ae_data[2]]}
-            delta_factor = calcDelta(qe_eos,ae_eos,[cmpd])
+            delta_factor = calcDelta(qe_eos,ae_eos,[cmpd])[0]
             return delta_factor, False
         if property == 'bulk_modulus':
             bulk_diff = abs(QE_bulk - ae_data)/ae_data
@@ -289,6 +292,8 @@ def compare_lat(ae_lat,cmpd,lat_type):
     qe_lat = get_lattice_constant(cmpd,lat_type)
     if isinstance(ae_lat,list) == False:
         return abs(qe_lat-ae_lat)/ae_lat
+    assert len(ae_lat) == len(qe_lat), \
+        'Wrong number of lattice parameters given for specified lattice type'
     lat_diff = 0
     for (qe_val,ae_val) in zip(qe_lat,ae_lat):
         lat_diff += abs(qe_val-ae_val)/ae_val
@@ -404,10 +409,9 @@ def compare_log():
     sum_log = 0
     total_diff = 0
     for file in log_derivs[:-1]:
-        df = pd.read_table(file,sep='\s+',header=None)
-        e = df[0]
-        log_exact = df[3]
-        log_pseudo = df[4]
+        log_data = np.loadtxt(file).transpose()
+        log_exact = log_data[3]
+        log_pseudo = log_data[4]
         sum_log += sum([abs(value) for value in log_exact])
         diff = []
         for (ps, ex) in zip(log_pseudo,log_exact):
@@ -496,10 +500,10 @@ def get_bulk(cmpd,lat_type):
     equilibrium volume, bulk modulus, and dB/dP...
     i.e., fit to Birch Murnaghan equation of state
     """
-    df = pd.read_table('E_V.txt',sep='\s+',header=None)
-    energy = list(df[0])
+    ev_data = np.loadtxt('E_V.txt').transpose()
+    energy = list(ev_data[0])
     energy = np.array([13.6056980659*value for value in energy]) ## Ry to eV
-    volume = list(df[1])
+    volume = list(ev_data[1])
     volume = np.array([0.14818453429566825*value for value in volume]) ## bohr^3 to A^3
     initial_parameters = [volume.mean(), 2.5, 4, energy.mean()]
     fit_eqn = eval('birch_murnaghan')
@@ -642,6 +646,8 @@ def compare_phonon(cmpd,lat_type,ae_freq,template_dir):
         freq.append(lines[freq_index].split()[2])
         freq_index += 1
     qe_freq = sorted([float(value) for value in freq])
+    assert len(ae_freq) == len(qe_freq), \
+        'Wrong number of phonon frequencies given'
     rel_diff = []
     for (qe_val,ae_val) in zip(qe_freq,ae_freq):
         rel_diff.append(abs(ae_val-qe_val))
@@ -828,6 +834,9 @@ def update_best_result(diff_dict):
             for property in diff_dict[formula][lat_type].keys():
                 obj_fn_labels.append(formula+'_'+lat_type+'_'+property)
                 obj_fn_list.append(diff_dict[formula][lat_type][property])
+    with open('last_data','w+') as datafile:
+        for value in obj_fn_list:
+            datafile.write(str(value)+'\n')
     with open('OBJ_FN','w+') as obj_file:
         for (value,label) in zip(obj_fn_list,obj_fn_labels):
             value = round(float(value),6)
@@ -851,9 +860,7 @@ def update_best_result(diff_dict):
     results_df = pd.read_table('results.out',sep='\s+',header=None)
     obj_fn_list = [float(value) for value in list(results_df[0])]
     if os.path.exists('../Best_Solution/results.out'):
-        last_results_df = pd.read_table('../Best_Solution/results.out',
-            sep='\s+',header=None)
-        last_obj_fn_list = [float(value) for value in list(last_results_df[0])]
+        last_obj_fn_list = np.loadtxt('last_data')
         index = 1
         for obj_fn in obj_fn_list:
             last_max = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
@@ -896,6 +903,7 @@ def update_best_result(diff_dict):
             if 'Max_Error' not in fname:
                 os.remove('../Best_Solution/'+fname)
         copyfile('OBJ_FN','../Best_Solution/results.out')
+        copyfile('last_data','../Best_Solution/last_data')
         for (file_atom,file_upf) in zip(atompaw_files,upf_files):
             copyfile(file_atom,'../Best_Solution/'+file_atom)
             copyfile(file_atom,'../Best_Solution/'+file_upf)

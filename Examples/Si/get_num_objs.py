@@ -16,6 +16,12 @@ def main():
         element_list.extend(parse_elems(formula))
     element_list = unique(element_list)
     num_elems = len(element_list)
+    if num_elems == 1 and len(cmpd.keys()) == 1:
+        if element_list[0] in ['N','P']:
+            print('\n'+'Number of objective functions: 2\n')
+        else:
+            print('\n'+'Number of objective functions: 3\n')
+        return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     num_properties = 0
     for cmpd in cmpd_diff_dict.keys():

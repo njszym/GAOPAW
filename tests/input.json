@@ -1,0 +1,29 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/scr/szymansk/gaopaw/Elem_Templates",
+            "cmpd_template_dir": "/scr/szymansk/gaopaw/Examples/Si/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "Si",
+            "lattice_type": "SC",
+            "lattice_constant": 3.080,
+            "phonon_frequency": [0.0,0.0,0.0,6.15,6.15,6.15]
+        },
+        {
+            "formula": "SiO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.616
+        },
+        {
+            "formula": "SiC",
+            "lattice_type": "ZB",
+            "lattice_constant": 4.380,
+            "band_gap": 1.240,
+            "eos": [10.50197,212.71678,3.692]
+        }
+    ]
+}
+

@@ -3,15 +3,9 @@ from gaopaw import *
 
 def main():
     """
-    Main function which Dakota executes to carry out evaluations.
-    Parse input from gaopaw.yaml contained in a subfolder.
-    For each element: write AtomPAW input, run AtomPAW to generate .UPF,
-    write and run QE input, parse specified properties to be tested/optimized,
-    compare with known AE properties and update objective functions accordingly.
-    Logarithmic derivatives (arctan) of exact and pseudized partial waves are compared.
-    PAWs may be optimized based on the following properties:
-    lattice constants, atomic positions, net magnetization, individual magnetic moments,
-    band gaps, bulk moduli, phonon frequencies, and delta-factors.
+    First test all constituent elements for compounds given in input.json, 
+    ensuring pseudopotential generation and associated QE runs proceed without error,
+    then test specified properties and optimize using genetical algorithm.
     """
     working_dir = os.getcwd()
     num_obj_fns = parse_num_objs(working_dir)

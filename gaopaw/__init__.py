@@ -855,12 +855,10 @@ def update_best_result(diff_dict):
                 obj_file.write(label+':  '+str(value)+' angstroms\n')
     upf_files = [fname for fname in glob.iglob('*UPF')]
     atompaw_files = [fname for fname in glob.iglob('*atompaw*')]
-    if not os.path.isdir('Best_Solution'):
+    if not os.path.isdir('../Best_Solution'):
         os.mkdir('../Best_Solution')
-    results_df = pd.read_table('results.out',sep='\s+',header=None)
-    obj_fn_list = [float(value) for value in list(results_df[0])]
     if os.path.exists('../Best_Solution/results.out'):
-        last_obj_fn_list = np.loadtxt('last_data')
+        last_obj_fn_list = np.loadtxt('../last_data')
         index = 1
         for obj_fn in obj_fn_list:
             last_max = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))

@@ -841,7 +841,8 @@ def update_best_result(diff_dict):
     with open('OBJ_FN','w+') as obj_file:
         for (value,label) in zip(obj_fn_list,obj_fn_labels):
             value = round(float(value),6)
-            if ('lattice_constant' in label) or ('magnetization' in label):
+            if ('lattice_constant' in label) or ('magnetization' in label) \
+            or ('magnetic_moment' in label):
                 value = value*100
                 obj_file.write(label+':  '+str(value)+'%\n')
             if 'log' in label:
@@ -878,7 +879,10 @@ def update_best_result(diff_dict):
     norm_obj_fn_list = []
     for obj_fn in obj_fn_list:
         max_value = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
-        norm_obj_fn_list.append(obj_fn/max_value)
+        if max_value == 0:
+            norm_obj_fn_list.append(obj_fn)
+        else:
+            norm_obj_fn_list.append(obj_fn/max_value)
         index += 1
     rms_error = 0
     for obj_fn in norm_obj_fn_list:
@@ -889,7 +893,10 @@ def update_best_result(diff_dict):
         last_norm_obj_fn_list = []
         for obj_fn in last_obj_fn_list:
             max_value = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
-            last_norm_obj_fn_list.append(obj_fn/max_value)
+            if max_value == 0:
+                last_norm_obj_fn_list.append(obj_fn)
+            else:
+                last_norm_obj_fn_list.append(obj_fn/max_value)
             index += 1
         last_rms_error = 0
         for obj_fn in last_norm_obj_fn_list:

@@ -148,6 +148,7 @@ def test_element_list(elem_list,template_dir):
         copyfile('params.in',elem+'/params.in')
         with fileutils.chdir(elem):
             write_atompaw_input(elem,template_dir)
+            copyfile(elem+'.atompaw.in','../'+elem+'.atompaw.in')
             run_atompaw(elem)
             if not check_upf():
                 return elem_diff_dict, True
@@ -858,7 +859,7 @@ def update_best_result(diff_dict):
     if not os.path.isdir('../Best_Solution'):
         os.mkdir('../Best_Solution')
     if os.path.exists('../Best_Solution/results.out'):
-        last_obj_fn_list = np.loadtxt('../last_data')
+        last_obj_fn_list = np.loadtxt('../Best_Solution/last_data')
         index = 1
         for obj_fn in obj_fn_list:
             last_max = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))

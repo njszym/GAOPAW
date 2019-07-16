@@ -153,3 +153,21 @@ def test_check_convergence():
     with gaopaw.fileutils.chdir(working_dir('Lattice')):
         assert gaopaw.check_convergence('Si','FCC','relax') == True
 
+def test_update_structure():
+    with gaopaw.fileutils.chdir(working_dir('Si')):
+        gaopaw.update_structure('Si','diamond','scf')
+
+def test_scale_cell():
+    with gaopaw.fileutils.chdir(working_dir('Si')):
+        scaled_cell = gaopaw.scale_cell('Si','diamond',0.9)
+        assert len(scaled_cell) == 3
+        for vec in scaled_cell:
+            assert len(vec) == 3
+        scaled_matrix = gaopaw.np.matrix(scaled_cell)
+        assert round(gaopaw.np.linalg.det(scaled_matrix),3) == 243.096
+
+def test_write_cell():
+    with gaopaw.fileutils.chdir(working_dir('Si')):
+        gaopaw.write_cell('Si','diamond',[[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]])
+        with open('Si.diamond.relax.in') as qe_input:
+            assert qe_input.readlines()[-1] == '0.0 0.0 1.0\n'

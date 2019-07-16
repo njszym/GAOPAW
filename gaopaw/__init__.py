@@ -614,7 +614,7 @@ def update_structure(cmpd,lat_type,calc_type):
         index += 1
     coords = []
     for line in lines[start:]:
-        if 'End' in line:
+        if ('End' in line) or (line == '\n'):
             break
         else:
             coords.append(line)
@@ -708,7 +708,9 @@ def scale_cell(cmpd,lat_type,scale_factor):
 
 def write_cell(cmpd,lat_type,cell):
     """
-    Write given cell to QE relaxation input
+    Write given cell to QE relaxation input.
+    Also keep cell volume fixed during relaxation;
+    to be used during equation of state calculations.
     """
     vectors = np.array(cell)
     v1 = str(vectors[0][0])+' '+str(vectors[0][1])+' '+str(vectors[0][2])+'\n'

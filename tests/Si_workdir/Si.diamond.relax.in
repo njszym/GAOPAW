@@ -1,0 +1,36 @@
+&control
+  calculation='relax'
+  prefix='Si.diamond.relax'
+  pseudo_dir='./'
+  nstep=1
+/
+&system
+  ibrav=0
+  nat=2
+  ntyp=1
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='none'
+/
+K_POINTS (automatic)
+  8 8 8 0 0 0
+ATOMIC_SPECIES
+  Si 0.0 Si.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (crystal)
+Si 0.0 0.0 0.0
+Si 0.25 0.25 0.25
+CELL_PARAMETERS bohr
+1.0 0.0 0.0
+0.0 1.0 0.0
+0.0 0.0 1.0

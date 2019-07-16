@@ -13,5 +13,8 @@
   "test_unit.py::test_bad_run",
   "test_unit.py::test_compare_lat",
   "test_unit.py::test_update_dakota",
-  "test_unit.py::test_check_convergence"
+  "test_unit.py::test_check_convergence",
+  "test_unit.py::test_update_structure",
+  "test_unit.py::test_scale_cell",
+  "test_unit.py::test_write_cell"
 ]

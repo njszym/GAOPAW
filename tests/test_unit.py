@@ -105,6 +105,15 @@ def test_test_property():
         with mock.patch.object(gaopaw, 'run_phonon') as run_mock:
             assert round(gaopaw.test_property('Be','SC','phonon_frequency',[0.0,0.0,0.0,1.0,1.0,1.0],gaopaw.os.getcwd())[0],3) == 12.666
             assert gaopaw.test_property('Be','SC','phonon_frequency',[0.0,0.0,0.0,1.0,1.0,1.0],gaopaw.os.getcwd())[1] == False
+    with gaopaw.fileutils.chdir(working_dir('N')):
+        assert round(gaopaw.test_property('N','SC','atomic_positions',1.0,elem_template_dir)[0],3) == 0.035
+        assert gaopaw.test_property('N','SC','atomic_positions',1.0,elem_template_dir)[1] == False
+    with gaopaw.fileutils.chdir(working_dir('FeO')):
+        assert round(gaopaw.test_property('FeO','RS','magnetization',1.0,gaopaw.os.getcwd())[0],3) == 2.83
+        assert gaopaw.test_property('FeO','RS','magnetization',1.0,gaopaw.os.getcwd())[1] == False
+        assert round(gaopaw.test_property('FeO','RS','magnetic_moment',[1.0,1.0],gaopaw.os.getcwd())[0],3) == 1.467
+        assert gaopaw.test_property('FeO','RS','magnetic_moment',[1.0,1.0],gaopaw.os.getcwd())[1] == False
+
 
 def test_check_upf():
     with gaopaw.fileutils.chdir(ex_template_dir+'/Empty'):
@@ -121,7 +130,26 @@ def test_bad_run():
             assert value == 100.0
 
 def test_compare_lat():
-    with gaopaw.fileutils.chdir(ex_template_dir+'/Si'):
+    with gaopaw.fileutils.chdir(working_dir('Lattice')):
         assert round(gaopaw.compare_lat(1.0,'Si','FCC'),3) == 2.857
         assert round(gaopaw.compare_lat(1.0,'Si','BCC'),3) == 2.079
+        assert round(gaopaw.compare_lat([1.0,1.0],'Si','tetrag'),3) == 2.694
+        assert round(gaopaw.compare_lat([1.0,1.0,1.0],'Si','ortho'),3) == 2.510
+        assert round(gaopaw.compare_lat([1.0,1.0],'Si','rhomb'),3) == 30.241
+        assert round(gaopaw.compare_lat([1.0,1.0,1.0,1.0],'Si','monoclin'),3) == 14.650
+        assert round(gaopaw.compare_lat([1.0,1.0,1.0,1.0,1.0,1.0],'Si','triclin'),3) == 22.142
+
+def test_update_dakota():
+    diff_dict = \
+    {'Si': {'SC': {'lattice_constant': 0.01, 'phonon_frequency': 0.2}},
+    'SiC': {'ZB': {'band_gap': 0.03}}}
+    with gaopaw.fileutils.chdir(working_dir('Si')):
+        gaopaw.update_dakota(diff_dict)
+        assert gaopaw.os.path.exists('results.out')
+
+def test_check_convergence():
+    with gaopaw.fileutils.chdir(working_dir('Conv')):
+        assert gaopaw.check_convergence('Si','FCC','relax') == False
+    with gaopaw.fileutils.chdir(working_dir('Lattice')):
+        assert gaopaw.check_convergence('Si','FCC','relax') == True
 

@@ -1,0 +1,33 @@
+&control
+  calculation='vc-relax'
+  prefix='relax'
+  pseudo_dir='./'
+  nstep=1
+/
+&system
+  ibrav=5
+  celldm(1)=3.0
+  celldm(4)=0.5
+  nat=1
+  ntyp=1
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  Si 28.0855 Si.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  1 1 1 0 0 0
+ATOMIC_POSITIONS (crystal)
+Si 0.0 0.0 0.0

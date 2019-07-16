@@ -5,5 +5,11 @@
   "test_unit.py::test_get_num_objs",
   "test_unit.py::test_form_cmpd_dict",
   "test_unit.py::test_get_element_info",
-  "test_unit.py::test_test_element_list"
+  "test_unit.py::test_test_element_list",
+  "test_unit.py::test_test_cmpd_list",
+  "test_unit.py::test_merge_dicts",
+  "test_unit.py::test_test_property",
+  "test_unit.py::test_check_upf",
+  "test_unit.py::test_bad_run",
+  "test_unit.py::test_compare_lat"
 ]

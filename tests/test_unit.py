@@ -2,11 +2,15 @@ import mock
 from types import SimpleNamespace
 import gaopaw
 
-working_dir = '/scr/szymansk/gaopaw/tests/sample_workdir'
-elem_template_dir = '/scr/szymansk/gaopaw/Elem_Templates'
+
+def working_dir(cmpd):
+    return gaopaw.os.getcwd()+'/'+cmpd+'_workdir'
+
+elem_template_dir = gaopaw.os.getcwd()+'/../Elem_Templates'
+ex_template_dir = gaopaw.os.getcwd()+'/ex_templates'
 
 def test_parse_num_objs():
-    assert gaopaw.parse_num_objs(working_dir) == 15
+    assert gaopaw.parse_num_objs(ex_template_dir+'/Empty') == 15
 
 def test_parse_elems():
     assert gaopaw.parse_elems('O') == ['O']
@@ -52,20 +56,72 @@ def test_get_element_info():
     assert round(gaopaw.get_element_info(elem_template_dir)['Zr']['FCC'],3) == 4.522
     assert round(gaopaw.get_element_info(elem_template_dir)['Zr']['BCC'],3) == 3.569
 
-@mock.patch.object(gaopaw,'run_atompaw')
-def test_test_element_list(run_atompaw_mock):
-    with gaopaw.fileutils.chdir(working_dir):
-        if gaopaw.os.path.isdir('Si'):
-            gaopaw.shutil.rmtree('Si')
-        if gaopaw.os.path.exists('Si.atompaw.in'):
-            gaopaw.os.remove('Si.atompaw.in')
-        assert gaopaw.test_element_list(['Si'], elem_template_dir)[1] == False
+def run_atompaw_mock(elem):
+    for fname in gaopaw.os.listdir(ex_template_dir+'/'+elem+'/'):
+        gaopaw.shutil.copyfile(ex_template_dir+'/'+elem+'/'+fname,'./'+fname)
 
-#@mock.patch.object(gaopaw.os, 'mkdir')
-#def test_element_list(mkdir_mock):
-#    assert gaopaw.test_element_list(['Si'], elem_template_dir)
+def test_test_element_list():
+    for elem in ['Si','N','Be']:
+        with gaopaw.fileutils.chdir(working_dir(elem)):
+            if gaopaw.os.path.isdir(elem):
+                gaopaw.shutil.rmtree(elem)
+            with mock.patch.object(gaopaw, 'run_atompaw') as run_mock:
+                run_mock.side_effect = run_atompaw_mock
+                if elem == 'Be':
+                    assert gaopaw.test_element_list([elem], elem_template_dir)[1] == True
+                else:
+                    assert gaopaw.test_element_list([elem], elem_template_dir)[1] == False
 
-#def test_mock():
-#    with mock.patch.object(gaopaw, 'run_QE') as run_QE_mock:
-#        run_QE_mock.return_value = False
-#        print(gaopaw.test_element_mock())
+def test_test_cmpd_list():
+    cmpd_list = \
+    [SimpleNamespace(formula='Si', lattice_constant=3.08, lattice_type='SC', phonon_frequency=[0.0, 0.0, 0.0, 6.15, 6.15, 6.15]),
+    SimpleNamespace(formula='SiO', lattice_constant=4.616, lattice_type='RS'),
+    SimpleNamespace(band_gap=1.24, eos=[10.50197, 212.71678, 3.692], formula='SiC', lattice_constant=4.38, lattice_type='ZB')]
+    cmpd_diff_dict = \
+    {'Si': {'SC': {'lattice_constant': {}, 'phonon_frequency': {}}},
+    'SiC': {'ZB': {'band_gap': {}, 'eos': {}, 'lattice_constant': {}}},
+    'SiO': {'RS': {'lattice_constant': {}}}}
+    with mock.patch.object(gaopaw, 'test_property') as run_mock:
+        run_mock.return_value = [0,False]
+        assert gaopaw.test_cmpd_list(cmpd_list,cmpd_diff_dict,None)[1] == False
+
+def test_merge_dicts():
+    assert gaopaw.merge_dicts({'A': 1}, {'B': 2}) == {'A': 1, 'B': 2}
+    assert gaopaw.merge_dicts({'A': {'B': 1}}, {'A': {'C': 2}}) == {'A': {'B': 1, 'C': 2}}
+
+def test_test_property():
+    with gaopaw.fileutils.chdir(working_dir('BeO')):
+        assert round(gaopaw.test_property('BeO','RS','lattice_constant',1.0,gaopaw.os.getcwd())[0],3) == 2.625
+        assert gaopaw.test_property('BeO','RS','lattice_constant',1.0,gaopaw.os.getcwd())[1] == False
+        assert round(gaopaw.test_property('BeO','RS','band_gap',1.0,gaopaw.os.getcwd())[0],3) == 7.364
+        assert gaopaw.test_property('BeO','RS','band_gap',1.0,gaopaw.os.getcwd())[1] == False
+    with gaopaw.fileutils.chdir(working_dir('BeS')):
+        with mock.patch.object(gaopaw, 'run_scale_lat') as run_mock:
+            assert round(gaopaw.test_property('BeS','ZB','eos',[1.0,1.0,1.0],gaopaw.os.getcwd())[0],3) == 2571.411
+            assert gaopaw.test_property('BeS','ZB','eos',[1.0,1.0,1.0],gaopaw.os.getcwd())[1] == False
+            assert round(gaopaw.test_property('BeS','ZB','bulk_modulus',1.0,gaopaw.os.getcwd())[0],3) == 91.903
+            assert gaopaw.test_property('BeS','ZB','bulk_modulus',1.0,gaopaw.os.getcwd())[1] == False
+    with gaopaw.fileutils.chdir(working_dir('Be.SC')):
+        with mock.patch.object(gaopaw, 'run_phonon') as run_mock:
+            assert round(gaopaw.test_property('Be','SC','phonon_frequency',[0.0,0.0,0.0,1.0,1.0,1.0],gaopaw.os.getcwd())[0],3) == 12.666
+            assert gaopaw.test_property('Be','SC','phonon_frequency',[0.0,0.0,0.0,1.0,1.0,1.0],gaopaw.os.getcwd())[1] == False
+
+def test_check_upf():
+    with gaopaw.fileutils.chdir(ex_template_dir+'/Empty'):
+        assert gaopaw.check_upf() == False
+    with gaopaw.fileutils.chdir(ex_template_dir+'/Si'):
+        assert gaopaw.check_upf() == True
+
+def test_bad_run():
+    with gaopaw.fileutils.chdir(ex_template_dir+'/bad_run_ex'):
+        gaopaw.bad_run(3)
+        results = gaopaw.pd.read_table('results.out',sep='\s+',header=None)[0]
+        assert len(results) == 3
+        for value in results:
+            assert value == 100.0
+
+def test_compare_lat():
+    with gaopaw.fileutils.chdir(ex_template_dir+'/Si'):
+        assert round(gaopaw.compare_lat(1.0,'Si','FCC'),3) == 2.857
+        assert round(gaopaw.compare_lat(1.0,'Si','BCC'),3) == 2.079
+

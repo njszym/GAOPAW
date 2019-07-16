@@ -238,6 +238,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
             return delta_factor, False
         if property == 'bulk_modulus':
             bulk_diff = abs(QE_bulk - ae_data)/ae_data
+            return bulk_diff, False
     if property == 'phonon_frequency':
         run_QE(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):

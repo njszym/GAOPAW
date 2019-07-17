@@ -157,14 +157,14 @@ def test_element_list(elem_list,template_dir):
             elem_diff_dict[elem]['elemental']['log'] = compare_log()
             if elem in ['N','P']:
                 if elem == 'N':
-                    run_QE(elem,'SC','relax',template_dir)
+                    run_qe(elem,'SC','relax',template_dir)
                     if not check_convergence(elem,'SC','relax'):
                         return elem_diff_dict, True
                     elem_diff_dict[elem]['SC']['atomic_positions'] = \
                          compare_atoms(elem,'SC',template_dir)
                     return elem_diff_dict, False
                 if elem == 'P':
-                    run_QE(elem,'ortho','relax',template_dir)
+                    run_qe(elem,'ortho','relax',template_dir)
                     if not check_convergence(elem,'ortho','relax'):
                         return elem_diff_dict, True
                     elemental_data = get_element_info(template_dir)
@@ -173,7 +173,7 @@ def test_element_list(elem_list,template_dir):
                         compare_lat(ae_lat,elem,'ortho')
             else:
                 for lat_type in ['FCC','BCC']:
-                    run_QE(elem,lat_type,'relax',template_dir)
+                    run_qe(elem,lat_type,'relax',template_dir)
                     if not check_convergence(elem,lat_type,'relax'):
                         return elem_diff_dict, True
                     elemental_data = get_element_info(template_dir)
@@ -218,7 +218,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
     General function to calculate a property with QE
     and compare with corresponding AE value
     """
-    run_QE(cmpd,lat_type,'relax',template_dir)
+    run_qe(cmpd,lat_type,'relax',template_dir)
     if not check_convergence(cmpd,lat_type,'relax'):
         return None, True
     if property == 'lattice_constant':
@@ -240,7 +240,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
             bulk_diff = abs(QE_bulk - ae_data)/ae_data
             return bulk_diff, False
     if property == 'phonon_frequency':
-        run_QE(cmpd,lat_type,'scf',template_dir)
+        run_qe(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         run_phonon(cmpd,lat_type,template_dir)
@@ -249,19 +249,19 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
     if property == 'atomic_positions':
         return compare_atoms(cmpd,lat_type,template_dir), False
     if property == 'band_gap':
-        run_QE(cmpd,lat_type,'scf',template_dir)
+        run_qe(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         qe_gap = get_gap(cmpd,lat_type)
         return abs(ae_data-qe_gap), False
     if property == 'magnetization':
-        run_QE(cmpd,lat_type,'scf',template_dir)
+        run_qe(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         qe_mag = get_mag(cmpd,lat_type)
         return abs(ae_data-qe_mag)/ae_data, False
     if property == 'magnetic_moment':
-        run_QE(cmpd,lat_type,'scf',template_dir)
+        run_qe(cmpd,lat_type,'scf',template_dir)
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         return compare_mag_mom(cmpd,lat_type,ae_data,template_dir), False
@@ -335,7 +335,7 @@ def run_atompaw(elem):
         subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, 
             env=os.environ.copy())
 
-def run_QE(cmpd,lat_type,calc_type,template_dir):
+def run_qe(cmpd,lat_type,calc_type,template_dir):
     """
     Write and run QE using cmpd.lat_type.calc_type in template_dir.
     """

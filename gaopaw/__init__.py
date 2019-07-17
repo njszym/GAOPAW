@@ -759,13 +759,10 @@ def run_phonon(cmpd,cmpd_lat_type,template_dir):
     subprocess.call(['run','periodic_dft_gui_dir/runner.py','dynmat.x','dynmat.in',
         '-input_save','phonon.save.qegz','-MPICORES','4'], env=os.environ.copy())
 
-def update_best_result(diff_dict):
+def dict_to_list(diff_dict):
     """
-    Parse dakota results and check overall fitness with
-    respect to previous best solution. If current solution
-    is better, replace old solution with current one.
-    Note that fitness is normalized per the highest error
-    for a given objective function.
+    Convert a detailed dictionary of cmpds, lattice types, and properties
+    into lists of objective function values and labels.
     """
     obj_fn_list = []
     obj_fn_labels = []
@@ -774,10 +771,18 @@ def update_best_result(diff_dict):
             for property in diff_dict[formula][lat_type].keys():
                 obj_fn_labels.append(formula+'_'+lat_type+'_'+property)
                 obj_fn_list.append(diff_dict[formula][lat_type][property])
-    with open('last_data','w+') as datafile:
-        for value in obj_fn_list:
-            datafile.write(str(value)+'\n')
-    with open('OBJ_FN','w+') as obj_file:
+    return obj_fn_list, obj_fn_labels
+
+def update_obj_file(diff_dict):
+    """
+    Write objective functions to two files:
+    Detailed_Results is placed in the working directory
+    and contains labels and values of obj fns.
+    Obj_Fn_Data is placed in parent directory and
+    contains only numeric data to be parsed later on.
+    """
+    obj_fn_list, obj_fn_labels = dict_to_list(diff_dict)
+    with open('Detailed_Results','w+') as obj_file:
         for (value,label) in zip(obj_fn_list,obj_fn_labels):
             value = round(float(value),6)
             if ('lattice_constant' in label) or ('magnetization' in label) \
@@ -794,66 +799,78 @@ def update_best_result(diff_dict):
                 obj_file.write(label+':  '+str(value)+' THz\n')
             if 'atomic_positions' in label:
                 obj_file.write(label+':  '+str(value)+' angstroms\n')
+    if not os.path.exists('../Obj_Fn_Data'):
+        obj_file = open('../Obj_Fn_Data','w+')
+        obj_file.close()
+    with open('../Obj_Fn_Data','a') as obj_file:
+        obj_file.write('\n')
+        for obj_fn in obj_fn_list:
+            obj_file.write(str(obj_fn)+' ')
+
+def calc_obj_fn(obj_fn_list):
+    """
+    Calculate the composite objective function which is to be
+    given to dakota for minimization.
+    The weighted sum approach, for which results are compared
+    to the utopian and nadir points, is employed to normalize
+    each individual objective function.
+    The final/composite objective function is defined
+    as the mean absolute error among all normalized
+    objective functions.
+    """
+    obj_fn_matrix = np.loadtxt('../Obj_Fn_Data').transpose()
+    min_values = []
+    max_values = []
+    for all_objs in obj_fn_matrix:
+        if isinstance(all_objs,np.ndarray):
+            min_values.append(min(all_objs))
+            max_values.append(max(all_objs))
+        else:
+            return 0.0
+    norm_objs = []
+    for (obj,utopia,nadir) in zip(obj_fn_list,min_values,max_values):
+        if nadir - utopia != 0:
+            norm_objs.append( abs( (obj - utopia)/(nadir - utopia) ) )
+        else:
+            norm_objs.append(0.0)
+    return sum(norm_objs)/len(norm_objs)
+
+def update_best_result(obj_fn_list):
+    """
+    If current solution is better than all previous solutions,
+    update the Best_Result folder accordingly.
+    """
+    current_obj_fn = calc_obj_fn(obj_fn_list)
     upf_files = [fname for fname in glob.iglob('*UPF')]
     atompaw_files = [fname for fname in glob.iglob('*atompaw*')]
     if not os.path.isdir('../Best_Solution'):
         os.mkdir('../Best_Solution')
-    while os.path.exists('../Best_Solution/WAIT'):
-        time.sleep(1) ## to ensure no overlap between parallel jobs
-    with open('../Best_Solution/WAIT','w+') as wait_file:
-        f.write('wait to start until previous finishes')
-    if os.path.exists('../Best_Solution/results.out'):
-        last_obj_fn_list = np.loadtxt('../Best_Solution/last_data')
-        index = 1
-        for obj_fn in obj_fn_list:
-            last_max = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
-            if obj_fn > last_max:
-                os.remove('../Best_Solution/Max_Error_'+str(index))
-                with open('../Best_Solution/Max_Error_'+str(index),'w+') as error_file:
-                    error_file.write(str(obj_fn))
-            index += 1
+        for fname in upf_files:
+            copyfile(fname,'../Best_Solution/'+fname)
+        for fname in atompaw_files:
+            copyfile(fname,'../Best_Solution/'+fname)
+        with open('../Best_Solution/Obj_Fn','w+') as obj_file:
+            obj_file.write(str(current_obj_fn))
+        with open('../Best_Solution/data','w+') as data_file:
+            for obj in obj_fn_list:
+                data_file.write(str(obj)+' ')
+        copyfile('Detailed_Results','../Best_Solution/Detailed_Results')
+        return
+    last_data = np.loadtxt('../Best_Solution/data')
+    last_obj_fn = calc_obj_fn(last_data)
+    if current_obj_fn < last_obj_fn:
+        for fname in upf_files:
+            copyfile(fname,'../Best_Solution/'+fname)
+        for fname in atompaw_files:
+            copyfile(fname,'../Best_Solution/'+fname)
+        with open('../Best_Solution/Obj_Fn','w+') as obj_file:
+            obj_file.write(str(current_obj_fn))
+        with open('../Best_Solution/data','w+') as data_file:
+            for obj in obj_fn_list:
+                data_file.write(str(obj)+' ')
+        copyfile('Detailed_Results','../Best_Solution/Detailed_Results')
     else:
-        index = 1
-        for obj_fn in obj_fn_list:
-            with open('../Best_Solution/Max_Error_'+str(index),'w+') as obj_file:
-                obj_file.write(str(obj_fn))
-            index += 1
-    index = 1
-    norm_obj_fn_list = []
-    for obj_fn in obj_fn_list:
-        max_value = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
-        if max_value == 0:
-            norm_obj_fn_list.append(obj_fn)
-        else:
-            norm_obj_fn_list.append(obj_fn/max_value)
-        index += 1
-    rms_error = 0
-    for obj_fn in norm_obj_fn_list:
-        rms_error += obj_fn**2
-    rms_error = math.sqrt(rms_error/len(norm_obj_fn_list))
-    if os.path.exists('../Best_Solution/results.out'):
-        index = 1
-        last_norm_obj_fn_list = []
-        for obj_fn in last_obj_fn_list:
-            max_value = float(np.loadtxt('../Best_Solution/Max_Error_'+str(index)))
-            if max_value == 0:
-                last_norm_obj_fn_list.append(obj_fn)
-            else:
-                last_norm_obj_fn_list.append(obj_fn/max_value)
-            index += 1
-        last_rms_error = 0
-        for obj_fn in last_norm_obj_fn_list:
-            last_rms_error += obj_fn**2
-        last_rms_error = math.sqrt(last_rms_error/len(last_norm_obj_fn_list))
-    else:
-        last_rms_error = 999999999.0
-    if rms_error < last_rms_error:
-        copyfile('OBJ_FN','../Best_Solution/results.out')
-        copyfile('last_data','../Best_Solution/last_data')
-        for (file_atom,file_upf) in zip(atompaw_files,upf_files):
-            copyfile(file_atom,'../Best_Solution/'+file_atom)
-            copyfile(file_atom,'../Best_Solution/'+file_upf)
-        with open('../Best_Solution/rms_error','w+') as rms_file:
-            rms_file.write(str(rms_error))
-    os.remove('../Best_Solution/WAIT')
+        with open('../Best_Solution/Obj_Fn','w+') as obj_file:
+            obj_file.write(str(last_obj_fn))
+
 

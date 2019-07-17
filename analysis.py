@@ -29,8 +29,11 @@ def main():
         bad_run(num_obj_fns)
         return
     if len(element_list) == 1 and len(cmpd.keys()) == 1:
+        update_obj_file(elem_diff_dict)
+        obj_fn_list = dict_to_list(elem_diff_dict)[0]
+        norm_obj = calc_obj_fn(obj_fn_list)
+        update_best_result(obj_fn_list)
         update_dakota(elem_diff_dict)
-        update_best_result(elem_diff_dict)
         return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     cmpd_diff_dict = merge_dicts(elem_diff_dict,cmpd_diff_dict)
@@ -38,8 +41,11 @@ def main():
     if error_check:
         bad_run(num_obj_fns)
         return
+    update_obj_file(cmpd_diff_dict)
+    obj_fn_list = dict_to_list(cmpd_diff_dict)[0]
+    norm_obj = calc_obj_fn(obj_fn_list)
+    update_best_result(obj_fn_list)
     update_dakota(cmpd_diff_dict)
-    update_best_result(cmpd_diff_dict)
 
 if __name__=='__main__':
     main()

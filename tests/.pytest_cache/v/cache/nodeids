@@ -16,5 +16,9 @@
   "test_unit.py::test_check_convergence",
   "test_unit.py::test_update_structure",
   "test_unit.py::test_scale_cell",
-  "test_unit.py::test_write_cell"
+  "test_unit.py::test_write_cell",
+  "test_unit.py::test_dict_to_list",
+  "test_unit.py::test_update_obj_file",
+  "test_unit.py::test_calc_obj_fn",
+  "test_unit.py::test_update_best_result"
 ]

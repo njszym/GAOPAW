@@ -798,6 +798,10 @@ def update_best_result(diff_dict):
     atompaw_files = [fname for fname in glob.iglob('*atompaw*')]
     if not os.path.isdir('../Best_Solution'):
         os.mkdir('../Best_Solution')
+    while os.path.exists('../Best_Solution/WAIT'):
+        time.sleep(1) ## to ensure no overlap between parallel jobs
+    with open('../Best_Solution/WAIT','w+') as wait_file:
+        f.write('wait to start until previous finishes')
     if os.path.exists('../Best_Solution/results.out'):
         last_obj_fn_list = np.loadtxt('../Best_Solution/last_data')
         index = 1
@@ -844,9 +848,6 @@ def update_best_result(diff_dict):
     else:
         last_rms_error = 999999999.0
     if rms_error < last_rms_error:
-        for fname in os.listdir('../Best_Solution/'):
-            if 'Max_Error' not in fname:
-                os.remove('../Best_Solution/'+fname)
         copyfile('OBJ_FN','../Best_Solution/results.out')
         copyfile('last_data','../Best_Solution/last_data')
         for (file_atom,file_upf) in zip(atompaw_files,upf_files):
@@ -854,3 +855,5 @@ def update_best_result(diff_dict):
             copyfile(file_atom,'../Best_Solution/'+file_upf)
         with open('../Best_Solution/rms_error','w+') as rms_file:
             rms_file.write(str(rms_error))
+    os.remove('../Best_Solution/WAIT')
+

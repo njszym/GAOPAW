@@ -354,6 +354,8 @@ def get_lattice_constant(cmpd,lat_type):
     """
     Get relaxed lattice constant from QE run.
     Note some tolerance is allowed.
+    * Standard oriention of primitive cells (see QE docs) assumed. *
+    * Must use unique axis c for base-centered lattices. *
     """
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),
         'periodic_dft_gui_dir', 'qe2mae.py')
@@ -362,29 +364,100 @@ def get_lattice_constant(cmpd,lat_type):
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = xtal.get_params_from_chorus(cparams)
-    if lat_type in ['FCC','ZB','RS','diamond','HH']:
-        return math.sqrt(2)*params[0]
-    if lat_type == 'BCC':
-        return (2./3.)*math.sqrt(3)*params[0]
-    if lat_type in ['per','SC','CsCl']:
+    if lat_type in ['FCC','ZB','RS','diamond','HH']: ## face-centered (F)
+        assert len(unique(params[:3])) == 1, \
+            'Input lattice is incorrect, does not match '+lat_type
+        if all(round(value,3) == 60.0 for value in params[3:]):
+            return math.sqrt(2)*params[0]
+        if all(round(value,3) == 90.0 for value in params[3:]):
+            return params[0]
+        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+    if lat_type == 'BCC': ## body-centered (I)
+        assert len(unique(params[:3])) == 1, \
+            'Input lattice is incorrect, does not match '+lat_type
+        if len(unique(params[3:])) == 2:
+            return (2./3.)*math.sqrt(3)*params[0]
+        if len(unique(params[3:])) == 1:
+            return params[0]
+        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+    if lat_type in ['per','SC','CsCl']: ## conv (P)
+        assert all(round(value,3) == 90.0 for value in params[3:]) \
+            and len(unique(params[:3])) == 1, \
+            'Input lattice is incorrect, does not match '+lat_type
         return params[0]
-    if lat_type in ['tetrag','hex','WZ']:
+    if lat_type in ['hex','WZ']: ## conv (P)
+        assert len(unique(params[:3])) == 2 \
+            and len(unique(params[3:])) == 2 \
+            and sorted(unique(params[3:])[0]) == 90.0 \
+            and sorted(unique(params[3:])[0]) == 120.0, \
+            'Input lattice is incorrect, does not match '+lat_type
         unique_lat_list = sorted(unique(params[:3]))
         return unique_lat_list[0], unique_lat_list[1]
-    if lat_type == 'ortho':
-        unique_lat_list = sorted(params[:3])
-        return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2]
-    if lat_type == 'rhomb':
+    if lat_type == 'rhomb': ## trig (R)
+        assert len(unique(params[:3])) == 1 \
+            and len(unique(params[3:])) == 1, \
+            'Input lattice is incorrect, does not match '+lat_type
         lat = params[0]
         angle = params[4]
         return lat, angle
+    if lat_type == 'tetrag':
+        if len(unique(params[:3])) == 1 and len(unique(params[3:])) == 2: ## body-centered (I)
+            cell_vecs = get_cell(cmpd,lat_type,'relax')
+            abs_vec = [abs(value) for value in cell_vecs[0]]
+            prim_lengths = sorted(unique(abs_vec))
+            conv_lengths = [2*value for value in prim_lengths]
+            return conv_lengths[0], conv_lengths[1]
+        if len(unique(params[:3])) == 2 and all(round(value,3) == 90.0 for value in params[3:]): ## conv (P)
+            unique_lat_list = sorted(unique(params[:3]))
+            return unique_lat_list[0], unique_lat_list[1]
+        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+    if lat_type == 'ortho':
+        if len(unique(params[:3])) == 3 and len(unique(params[3:])) == 1: ## conv (P)
+            assert all(round(value,3) == 90.0 for value in params[3:]), \
+                'Input lattice is incorrect, does not match '+lat_type
+            unique_lat_list = sorted(params[:3])
+            return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2]
+        if len(unique(params[:3])) == 2 and len(unique(params[3:])) == 2: ## base-centered (C)
+            assert [round(value,3) for value in params[3:]].count(90.0) == 2, \
+                'Input lattice is incorrect, does not match '+lat_type
+            cell_vecs = get_cell(cmpd,lat_type,'relax')
+            a_lat = round(cell_vecs[0][0]*2,3)
+            b_lat = round(cell_vecs[0][1]*2,3)
+            c_lat = round(cell_vecs[2][2],3)
+            conv_lengths = sorted([a_lat,b_lat,c_lat])
+            return conv_lengths[0], conv_lengths[1], conv_lengths[2]
+        if len(unique(params[:3])) == 3 and len(unique(params[3:])) == 3: ## face-centered (F)
+            cell_vecs = np.array(get_cell(cmpd,lat_type,'relax'))
+            components = [abs(value) for value in cell_vecs.flatten()]
+            prim_lengths = sorted(unique(components))[1:]
+            conv_lengths = [2*value for value in prim_lengths]
+            return conv_lengths[0], conv_lengths[1], conv_lengths[2]
+        if len(unique(params[:3])) == 1 and len(unique(params[3:])) == 3: ## body-centered (I)
+            cell_vecs = np.array(get_cell(cmpd,lat_type,'relax'))
+            components = [abs(value) for value in cell_vecs.flatten()]
+            prim_lengths = sorted(unique(components))
+            conv_lengths = [2*value for value in prim_lengths]
+            return conv_lengths[0], conv_lengths[1], conv_lengths[2]
+        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
     if lat_type == 'monoclin':
-        unique_lat_list = sorted(unique(params[:3]))
-        for value in params[3:]:
-            if (value > 90.01) or (value < 89.99):
-                angle = value
-        return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2], angle
-    if lat_type == 'triclin':
+        if [round(value,3) for value in params[3:]].count(90.0) == 2: ## conv (P)
+            unique_lat_list = sorted(unique(params[:3]))
+            for value in params[3:]:
+                if round(value,2) != 90.0:
+                    angle = value
+            return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2], angle
+        if len(unique(params[:3])) == 2 and len(unique(params[3:])) == 2: ## base-centered (C)
+            cell_vecs = np.array(get_cell(cmpd,lat_type,'relax'))
+            a_lat = round(cell_vecs[0][0]*2,3)
+            c_lat = round(cell_vecs[2][2]*2,3)
+            compon_1 = round(cell_vecs[1][0]*2,3)
+            compon_2 = round(cell_vecs[1][1]*2,3)
+            b_lat = round(math.sqrt(compon_1**2 + compon_2**2),3)
+            conv_lengths = sorted([a_lat,b_lat,c_lat])
+            angle = round(math.degrees(math.acos(compon_1/b_lat)),3)
+            return conv_lengths[0], conv_lengths[1], conv_lengths[2], angle
+        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+    if lat_type == 'triclin': ## conv (P)
         unique_lat_list = sorted(unique(params[:3]))
         unique_angle_list = sorted(unique(params[3:]))
         return unique_lat_list + unique_angle_list
@@ -591,6 +664,33 @@ def compare_phonon(cmpd,lat_type,ae_freq,template_dir):
         rel_diff.append(abs(ae_val-qe_val))
     net_diff = sum(rel_diff)/len(rel_diff)
     return net_diff
+
+def get_cell(cmpd,lat_type,calc_type):
+    """
+    Parse cell from QE output and write to 3x3 array
+    consisting of lattice vectors in angstroms or bohrs.
+    """
+    with open(cmpd+'.'+lat_type+'.relax.out') as f:
+        lines = f.readlines()
+    index = 0
+    for line in lines:
+        if 'CELL_PARAMETERS' in line:
+            cell_index = [index+1,index+2,index+3]
+            split_line = line.split('=')
+            if 'alat' in line: ## assumes Bohr
+                alat = float(split_line[1][1:-2])
+            if 'angstrom' in line:
+                alat = 1.88973 ## A to Bohr
+            if 'bohr' in line:
+                alat = 1.00
+        index += 1
+    vectors = []
+    for i in cell_index:
+        v = lines[i].split()
+        v = [float(value) for value in v]
+        v = [alat*value for value in v]
+        vectors.append(v)
+    return vectors
 
 def update_structure(cmpd,lat_type,calc_type):
     """

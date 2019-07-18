@@ -421,8 +421,8 @@ def get_lattice_constant(cmpd,lat_type):
             assert [round(value,3) for value in params[3:]].count(90.0) == 2, \
                 'Input lattice is incorrect, does not match '+lat_type
             cell_vecs = get_cell(cmpd,lat_type,'relax')
-            a_lat = round(cell_vecs[0][0]*2,3)
-            b_lat = round(cell_vecs[0][1]*2,3)
+            a_lat = round(cell_vecs[0][0]*2.,3)
+            b_lat = round(cell_vecs[0][1]*2.,3)
             c_lat = round(cell_vecs[2][2],3)
             conv_lengths = sorted([a_lat,b_lat,c_lat])
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
@@ -453,8 +453,9 @@ def get_lattice_constant(cmpd,lat_type):
             compon_1 = round(cell_vecs[1][0]*2,3)
             compon_2 = round(cell_vecs[1][1]*2,3)
             b_lat = round(math.sqrt(compon_1**2 + compon_2**2),3)
-            conv_lengths = sorted([a_lat,b_lat,c_lat])
             angle = round(math.degrees(math.acos(compon_1/b_lat)),3)
+            b_lat = round(b_lat/2.,3) ## Not sure why yet
+            conv_lengths = sorted([a_lat,b_lat,c_lat])
             return conv_lengths[0], conv_lengths[1], conv_lengths[2], angle
         raise ValueError('Input lattice is incorrect, does not match '+lat_type)
     if lat_type == 'triclin': ## conv (P)

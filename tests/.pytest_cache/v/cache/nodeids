@@ -12,6 +12,7 @@
   "test_unit.py::test_check_upf",
   "test_unit.py::test_bad_run",
   "test_unit.py::test_compare_lat",
+  "test_unit.py::test_get_lattice_constant",
   "test_unit.py::test_update_dakota",
   "test_unit.py::test_check_convergence",
   "test_unit.py::test_update_structure",

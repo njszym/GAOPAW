@@ -139,6 +139,30 @@ def test_compare_lat():
         assert round(gaopaw.compare_lat([1.0,1.0,1.0,1.0],'Si','monoclin'),3) == 14.650
         assert round(gaopaw.compare_lat([1.0,1.0,1.0,1.0,1.0,1.0],'Si','triclin'),3) == 22.142
 
+def test_get_lattice_constant():
+    with gaopaw.fileutils.chdir('Conv_Tests/Si_BCC_2'):
+        assert round(gaopaw.get_lattice_constant('Si','BCC'),3) == 3.085
+    with gaopaw.fileutils.chdir('Prim_tests/Tetrag_I'):
+        assert gaopaw.get_lattice_constant('Si','tetrag')[0] == 3.0
+        assert gaopaw.get_lattice_constant('Si','tetrag')[1] == 3.3
+    with gaopaw.fileutils.chdir('Prim_tests/Monoclin_C'):
+        assert gaopaw.get_lattice_constant('Si','monoclin')[0] == 3.0
+        assert gaopaw.get_lattice_constant('Si','monoclin')[1] == 3.3
+        assert gaopaw.get_lattice_constant('Si','monoclin')[2] == 3.6
+        assert gaopaw.get_lattice_constant('Si','monoclin')[3] == 60.0
+    with gaopaw.fileutils.chdir('Prim_tests/Ortho_C'):
+        assert gaopaw.get_lattice_constant('Si','ortho')[0] == 6.0
+        assert gaopaw.get_lattice_constant('Si','ortho')[1] == 6.6
+        assert gaopaw.get_lattice_constant('Si','ortho')[2] == 7.2
+    with gaopaw.fileutils.chdir('Prim_tests/Ortho_F'):
+        assert gaopaw.get_lattice_constant('Si','ortho')[0] == 6.0
+        assert gaopaw.get_lattice_constant('Si','ortho')[1] == 6.6
+        assert gaopaw.get_lattice_constant('Si','ortho')[2] == 7.2
+    with gaopaw.fileutils.chdir('Prim_tests/Ortho_I'):
+        assert gaopaw.get_lattice_constant('Si','ortho')[0] == 6.0
+        assert gaopaw.get_lattice_constant('Si','ortho')[1] == 6.6
+        assert gaopaw.get_lattice_constant('Si','ortho')[2] == 7.2
+
 def test_update_dakota():
     diff_dict = \
     {'Si': {'SC': {'lattice_constant': 0.01, 'phonon_frequency': 0.2}},

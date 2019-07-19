@@ -32,7 +32,10 @@ def main():
         elem_var_labels = ['DAKOTA_'+elem+'_'+label for label in elem_var_labels.split()]
         elem_var_labels = ' '.join(elem_var_labels)
         var_labels.append(elem_var_labels)
-    init_pts = np.loadtxt(vars).flatten()
+    temp_pts = []
+    for elem_set in vars:
+        temp_pts.append([float(value) for value in elem_set.split()])
+    init_pts = np.concatenate(temp_pts)
     num_vars = len(init_pts)
     var_labels = ' '.join(var_labels)
     lower_bounds = [round(0.9*value,3) for value in init_pts]

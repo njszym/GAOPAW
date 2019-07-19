@@ -36,6 +36,13 @@ def main():
     num_vars = len(init_pts)
     var_labels = ' '.join(var_labels)
     lower_bounds = [round(0.9*value,3) for value in init_pts]
+    check_lower = []
+    for value in lower_bounds:
+        if value < 0:
+            check_lower.append(0.0)
+        else:
+            check_lower.append(value)
+    lower_bounds = check_lower
     upper_bounds = [round(1.1*value,3) for value in init_pts]
     init_pts = ' '.join([str(value) for value in init_pts])
     lower_bounds = ' '.join([str(value) for value in lower_bounds])

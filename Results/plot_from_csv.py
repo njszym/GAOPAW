@@ -80,6 +80,7 @@ for i in range(4):
 
 ax[1].set_ylabel('Average Absolute Error',fontsize=16,labelpad=12.0)
 ax[2].set_ylabel('Average Absolute Error (THz)',fontsize=16,labelpad=12.0)
+ax[3].set_ylabel('Average Absolute Error (eV)',fontsize=16,labelpad=12.0)
 
 ax[0].bar(lat_elem_index_list,lat_diff_list,zorder=3)
 ax[0].set_ylim(0,max(lat_diff_list)+0.5)
@@ -91,11 +92,11 @@ ax[1].set_title('Delta-Factor',fontsize=21)
 ax[1].set_ylim(0,max(delta_diff_list)+0.5)
 
 ax[2].bar(gap_elem_index_list,gap_diff_list,zorder=3)
-ax[2].set_ylim(0,max(gap_diff_list)+0.5)
+ax[2].set_ylim(0,max(phon_diff_list)+0.5)
 ax[2].set_title('Phonon Frequency',fontsize=21)
 
 ax[3].bar(phon_elem_index_list,phon_diff_list,zorder=3)
-ax[3].set_ylim(0,max(phon_diff_list)+2)
+ax[3].set_ylim(0,max(gap_diff_list)+0.05)
 ax[3].set_title('Band gap',fontsize=21)
 
 ## Manual y-limits
@@ -103,8 +104,8 @@ ax[3].set_title('Band gap',fontsize=21)
 ax[0].set_ylim(0,3)
 ax[1].set_ylim(0,1.2)
 ax[2].set_ylim(0,3.5)
-ax[3].set_ylim(0,18)
+ax[3].set_ylim(0,0.3)
 
 plt.tight_layout()
-plt.savefig('Accuracy.png',dpi=500)
+plt.savefig('Accuracy.png',dpi=600)
 plt.close()

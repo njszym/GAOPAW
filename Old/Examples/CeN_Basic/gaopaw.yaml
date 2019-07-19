@@ -1,6 +1,0 @@
-# Input file for GAOPAW
-elements: ['Ce']
-lattice_type: ['RS']
-lattice_constant: [5.05956915]
-template_dir: '/scr/szymansk/gaopaw/Examples/CeN_Basic/Input'
-# End file

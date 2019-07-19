@@ -1,6 +1,0 @@
-# Input file for GAOPAW
-elements: ['Er']
-lattice_type: ['RS']
-lattice_constant: [4.84943288]
-template_dir: '/home/szymansk/Elem_Optimization/Er/Input'
-# End file

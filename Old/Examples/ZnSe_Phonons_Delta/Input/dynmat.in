@@ -1,7 +1,0 @@
-&input
-  fildyn='matdyn.dyn',
-  prefix='dynmat',
-  q(1)=1,q(2)=0,q(3)=0,
-  asr='simple'
-/
-

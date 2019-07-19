@@ -1,6 +1,0 @@
-# Input file for GAOPAW
-elements: ['Yb']
-lattice_type: ['RS']
-lattice_constant: [4.80466449]
-template_dir: '/home/szymansk/Elem_Optimization/Yb/Input'
-# End file

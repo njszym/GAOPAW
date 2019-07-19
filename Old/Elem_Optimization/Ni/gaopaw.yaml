@@ -1,7 +1,0 @@
-# Input file for GAOPAW
-elements: ['Ni','Ni']
-lattice_type: ['FCC','BCC']
-lattice_constant: [3.515,2.793]
-template_dir: '/home/szymansk/Elem_Optimization/Ni/Input'
-# End file
-

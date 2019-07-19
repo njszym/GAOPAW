@@ -1,7 +1,0 @@
-# Input file for GAOPAW
-elements: ['V','V']
-lattice_type: ['FCC','BCC']
-lattice_constant: [3.822,3.006]
-template_dir: '/home/szymansk/Elem_Optimization/V/Input'
-# End file
-

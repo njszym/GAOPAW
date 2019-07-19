@@ -1,6 +1,0 @@
-# Input file for GAOPAW
-elements: ['Ta','Ta']
-lattice_type: ['FCC','BCC']
-lattice_constant: [4.235,3.333]
-template_dir: '/scr/szymansk/gaopaw/Test_Elems/Input'
-# End file

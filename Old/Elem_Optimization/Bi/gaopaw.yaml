@@ -1,6 +1,0 @@
-# Input file for GAOPAW
-elements: ['Bi','Bi']
-lattice_type: ['FCC','BCC']
-lattice_constant: [5.038,3.984]
-template_dir: '/home/szymansk/Elem_Optimization/Bi/Input'
-# End file

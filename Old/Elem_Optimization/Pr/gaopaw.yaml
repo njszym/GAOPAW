@@ -1,7 +1,0 @@
-# Input file for GAOPAW
-elements: ['Pr']
-lattice_type: ['RS']
-lattice_constant: [5.0737511]
-template_dir: '/home/szymansk/Elem_Optimization/Pr/Input'
-# End file
-

@@ -8,8 +8,7 @@
     "compounds": [
         {
             "formula": "Si",
-            "lattice_type": "SC",
-            "lattice_constant": 3.080,
+            "lattice_type": "BCC",
             "phonon_frequency": [0.0,0.0,0.0,6.15,6.15,6.15]
         },
         {

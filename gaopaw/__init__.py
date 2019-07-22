@@ -99,7 +99,10 @@ def form_cmpd_dict(cmpd_list):
         lat_type = cmpd['lattice_type']
         property_list = [property for property in \
             cmpd if property not in ['formula','lattice_type']]
-        cmpd_diff_dict[formula] = {}
+        try:
+            cmpd_diff_dict[formula]
+        except KeyError:
+            cmpd_diff_dict[formula] = {}
         cmpd_diff_dict[formula][lat_type] = {}
         for property in property_list:
             cmpd_diff_dict[formula][lat_type][property] = {}

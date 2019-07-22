@@ -21,3 +21,5 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
 (v) Execute Dakota optimization through "dakota dakota.in" (or submit using job script).
 
 (vi) As the calculations take place, non-error objective functions will be continuously placed in the Obj_Fn_Data file and the best result (calculated using mean absolute error with a weighted sum approach) will be continuously updated in the "Best_Result" folder along with the relevant input parameters. Also in this folder, detailed values for each objective function are written to Detailed_Results and the compositive objective function is written to Obj_Fn. Alternatively, post-process selection of the best results may be found using the get_best_soln.py script which parses the dakota_tabular.dat file.
+
+(vii) Upon obtaining a set of optimized pseudopotentials, a final test may be carried out using the test_PP.py script. The procedure follows same as usual according to the input.json file, however, no dakota settings are necessary. Additionally, a new directory containing the .UPF files must be created and should be specified in the header of the test_PP.py code.

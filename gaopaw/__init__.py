@@ -617,6 +617,8 @@ def run_scale_lat(cmpd,lat_type,template_dir):
     scale this lattice constant from 94% to 106% (7 values created),
     write input and run QE at each value, write corresponding volumes
     and energies into E_V.txt (units of Bohr^3 and Ry^3)
+    Note that crystal coords are preferred in QE input, otherwise
+    atomic positions will not be scaled with the cell.
     """
     scale_num = [0.94,0.96,0.98,1.0,1.02,1.04,1.06]
     relax_file = cmpd+'.'+lat_type+'.relax.in'

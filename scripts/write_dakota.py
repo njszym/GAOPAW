@@ -81,7 +81,7 @@ def update_vars(cmpd_list):
                     break
                 index += 1
         vars.append(elem_vars)
-        elem_var_labels = ['DAKOTA_'+elem+'_'+label for label in elem_var_labels.split()]
+        elem_var_labels = ['"'+'DAKOTA_'+elem+'_'+label+'"' for label in elem_var_labels.split()]
         elem_var_labels = ' '.join(elem_var_labels)
         var_labels.append(elem_var_labels)
     temp_pts = []

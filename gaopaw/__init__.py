@@ -391,8 +391,8 @@ def get_lattice_constant(cmpd,lat_type):
     if lat_type in ['hex','WZ']: ## conv (P)
         assert len(unique(params[:3])) == 2 \
             and len(unique(params[3:])) == 2 \
-            and sorted(unique(params[3:])[0]) == 90.0 \
-            and sorted(unique(params[3:])[0]) == 120.0, \
+            and sorted(unique(params[3:]))[0] == 90.0 \
+            and sorted(unique(params[3:]))[1] == 120.0, \
             'Input lattice is incorrect, does not match '+lat_type
         unique_lat_list = sorted(unique(params[:3]))
         return unique_lat_list[0], unique_lat_list[1]

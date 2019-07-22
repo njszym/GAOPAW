@@ -131,6 +131,7 @@ def test_bad_run():
 
 def test_compare_lat():
     with gaopaw.fileutils.chdir(working_dir('Lattice')):
+        assert round(gaopaw.compare_lat([1.0,1.0],'H','hex'),3) == 3.494
         assert round(gaopaw.compare_lat(1.0,'Si','FCC'),3) == 2.857
         assert round(gaopaw.compare_lat(1.0,'Si','BCC'),3) == 2.079
         assert round(gaopaw.compare_lat([1.0,1.0],'Si','tetrag'),3) == 2.694

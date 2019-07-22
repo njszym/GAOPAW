@@ -29,8 +29,6 @@ def main():
         return
     if len(element_list) == 1 and len(cmpd.keys()) == 1:
         update_obj_file(elem_diff_dict)
-        obj_fn_list = dict_to_list(elem_diff_dict)[0]
-        update_best_result(obj_fn_list)
         return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     cmpd_diff_dict = merge_dicts(elem_diff_dict,cmpd_diff_dict)
@@ -39,8 +37,6 @@ def main():
         raise ValueError('Your pseudopotential caused some issues')
         return
     update_obj_file(cmpd_diff_dict)
-    obj_fn_list = dict_to_list(cmpd_diff_dict)[0]
-    update_best_result(obj_fn_list)
 
 def test_elem_structs(elem_list,template_dir,UPF_dir):
     """

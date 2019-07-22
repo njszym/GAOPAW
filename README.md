@@ -2,9 +2,9 @@
 
 Workflow designed to utilize AtomPAW, Quantum Espresso (QE), and Dakota to generate optimized PAW potentials through implementation of genetic algorithms.
 
-Objective functions, defined as differences between calculated (with QE) and known all-electron (with WIEN2k) data, are minimized for a given element.
+Objective functions, defined as differences between calculated (with QE) and known all-electron (with WIEN2k) data, are minimized for a given element (as an elemental state and/or as a constituent element of a compositie system).
 
-Elements or compounds of any periodic, ordered structure maybe tested.
+Several elements or compounds of any periodic, ordered structure may be tested.
 
 Currently supported properties include lattice constants, band gaps, Delta-factor (see https://molmod.ugent.be/deltacodesdft), bulk modulus, atomic positions, total magnetization, individual magnetic moments, and phonon frequencies.
 
@@ -14,10 +14,10 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
 
 (ii) Write a input.json file containing information on the compounds and properties to be tested.
 
-(iii) Create a template directory (path specified in input.json) containing all AtomPAW and QE input files.
+(iii) Create a template directory (path specified in input.json) containing all AtomPAW and QE input files for the compounds specified in the input.json file. Filenames follow the general format of (compound formula).(lattice type).(calculation type).template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
 
-(iv) Write a dakota.in file containing all control parameters for the genetic algorithm as implemented in Dakota. An example dakota.in file with (roughly) optimized parameters may be found in the "Dakota_Template" folder. For details, see https://dakota.sandia.gov/documentation.html.
+(iv) Create a template dakota.in file (may take from Examples/ folder) in current directory. Use the write_vars.py code from the scripts/ folder to parse input.json for elements and write the corresponding variable bounds to dakota.in. Use the get_num_objs.py code to obtain the correct number of objective functions, which should be written to the dakota.in file manually under the num_objective_functions tag. For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html.
 
-(v) Execute the Dakota through the following command: "dakota dakota.in".
+(v) Execute Dakota optimization through "dakota dakota.in" (or submit using job script).
 
-(vi) As the calculations take place, the best result will be continuously updated and placed in the "Best_Result" folder along with the relevant input parameters.
+(vi) As the calculations take place, non-error objective functions will be continuously placed in the Obj_Fn_Data file and the best result (calculated using mean absolute error with a weighted sum approach) will be continuously updated in the "Best_Result" folder along with the relevant input parameters. Also in this folder, detailed values for each objective function are written to Detailed_Results and the compositive objective function is written to Obj_Fn. Alternatively, post-process selection of the best results may be found using the get_best_soln.py script which parses the dakota_tabular.dat file.

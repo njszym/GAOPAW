@@ -38,7 +38,7 @@ def main():
     init_pts = np.concatenate(temp_pts)
     num_vars = len(init_pts)
     var_labels = ' '.join(var_labels)
-    lower_bounds = [round(0.9*value,3) for value in init_pts]
+    lower_bounds = [round(0.95*value,3) for value in init_pts] ## May be tuned
     check_lower = []
     for value in lower_bounds:
         if value < 0:
@@ -46,7 +46,7 @@ def main():
         else:
             check_lower.append(value)
     lower_bounds = check_lower
-    upper_bounds = [round(1.1*value,3) for value in init_pts]
+    upper_bounds = [round(1.05*value,3) for value in init_pts] ## May be tuned
     init_pts = ' '.join([str(value) for value in init_pts])
     lower_bounds = ' '.join([str(value) for value in lower_bounds])
     upper_bounds = ' '.join([str(value) for value in upper_bounds])

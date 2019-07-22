@@ -31,7 +31,6 @@ def main():
     if len(element_list) == 1 and len(cmpd.keys()) == 1:
         update_obj_file(elem_diff_dict)
         obj_fn_list = dict_to_list(elem_diff_dict)[0]
-        norm_obj = calc_obj_fn(obj_fn_list)
         update_best_result(obj_fn_list)
         update_dakota(elem_diff_dict)
         return
@@ -43,7 +42,6 @@ def main():
         return
     update_obj_file(cmpd_diff_dict)
     obj_fn_list = dict_to_list(cmpd_diff_dict)[0]
-    norm_obj = calc_obj_fn(obj_fn_list)
     update_best_result(obj_fn_list)
     update_dakota(cmpd_diff_dict)
 

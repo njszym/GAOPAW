@@ -197,7 +197,6 @@ def test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir):
             cmpd_diff_dict[formula][lat_type][property], error_check = \
                 test_property(formula,lat_type,property,ae_value,cmpd_template_dir)
             if error_check:
-                bad_run(cmpd_diff_dict)
                 return cmpd_diff_dict, True
     return cmpd_diff_dict, False
 

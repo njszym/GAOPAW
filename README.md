@@ -12,7 +12,7 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
 
 (i) Create a working directory under which all calculations will take place.
 
-(ii) Write a input.json file containing information on the compounds and properties to be tested.
+(ii) Write the input.json file containing information on the compounds and properties to be tested. See the Examples/ folder for information regarding parameter names and formatting guidelines.
 
 (iii) Create a template directory (path specified in input.json) containing all AtomPAW and QE input files for the compounds specified in the input.json file. Filenames follow the general format of (compound formula).(lattice type).(calculation type).template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
 

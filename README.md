@@ -16,7 +16,7 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
 
 (iii) Create a template directory (path specified in input.json) containing all AtomPAW and QE input files for the compounds specified in the input.json file. Filenames follow the general format of (compound formula).(lattice type).(calculation type).template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
 
-(iv) Create a template dakota.in file (may take from Examples/ folder) in current directory. Use the write_vars.py code from the scripts/ folder to parse input.json for elements and write the corresponding variable bounds to dakota.in. Use the get_num_objs.py code to obtain the correct number of objective functions, which should be written to the dakota.in file manually under the num_objective_functions tag. For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html.
+(iv) Create a template dakota.in file (may take from Examples/ folder) in current directory. Use the write_dakota.py code from the scripts/ folder to parse input.json file and write information regarding elemental variable bounds (optimal values for each element taken from Elem_Templates/) and total number of objective functions to the dakota.in file. For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html.
 
 (v) Execute Dakota optimization through "dakota dakota.in" (or submit using job script).
 

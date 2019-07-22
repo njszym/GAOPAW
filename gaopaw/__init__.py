@@ -129,7 +129,10 @@ def test_element_list(elem_list,template_dir):
     and compare QE/AE log derivatives
     """
     elem_diff_dict = {}
+    elemental_data = get_element_info(template_dir)
     for elem in elem_list:
+        assert elem in elemental_data.keys(), \
+            'No AE data available for your element: '+elem
         elem_diff_dict[elem] = {}
         elem_diff_dict[elem]['elemental'] = {}
         elem_diff_dict[elem]['elemental']['log'] = {}
@@ -167,7 +170,6 @@ def test_element_list(elem_list,template_dir):
                     run_qe(elem,'ortho','relax',template_dir)
                     if not check_convergence(elem,'ortho','relax'):
                         return elem_diff_dict, True
-                    elemental_data = get_element_info(template_dir)
                     ae_lat = elemental_data[elem]['ortho']
                     elem_diff_dict[elem]['ortho']['lattice_constant'] = \
                         compare_lat(ae_lat,elem,'ortho')
@@ -176,7 +178,6 @@ def test_element_list(elem_list,template_dir):
                     run_qe(elem,lat_type,'relax',template_dir)
                     if not check_convergence(elem,lat_type,'relax'):
                         return elem_diff_dict, True
-                    elemental_data = get_element_info(template_dir)
                     ae_lat = elemental_data[elem][lat_type]
                     elem_diff_dict[elem][lat_type]['lattice_constant'] = \
                         compare_lat(ae_lat,elem,lat_type)
@@ -288,8 +289,10 @@ def bad_run(num_obj_fns):
 def compare_lat(ae_lat,cmpd,lat_type):
     """
     Compute difference between AE and PAW lattice constants.
-    For cubic systems, a primitive cell is assumed.
-    For all other lattice types, a conventional cell is assumed.
+    AE values must be given in terms of a conventional unit cell.
+    However, a primitive cell may be used in the calculations;
+    the relaxed parameters will automatically be converted into
+    the conventional setting.
     """
     qe_lat = get_lattice_constant(cmpd,lat_type)
     if isinstance(ae_lat,list) == False:
@@ -328,7 +331,7 @@ def write_atompaw_input(elem,template_dir):
 
 def run_atompaw(elem):
     """
-    Run AtomPAW using (elem).atompaw.in
+    Run AtomPAW using elem.atompaw.in
     """
     with open(elem+'.atompaw.in','r') as input_fin, open('log_atompaw', 'w') as log_fout: 
         subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, 
@@ -336,7 +339,7 @@ def run_atompaw(elem):
 
 def run_qe(cmpd,lat_type,calc_type,template_dir):
     """
-    Write and run QE using cmpd.lat_type.calc_type in template_dir.
+    Write and run QE using cmpd.lat_type.calc_type from template_dir.
     """
     if os.path.exists(cmpd+'.'+lat_type+'.'+calc_type+'.out'):
         return
@@ -351,8 +354,9 @@ def run_qe(cmpd,lat_type,calc_type,template_dir):
 
 def get_lattice_constant(cmpd,lat_type):
     """
-    Get relaxed lattice constant from QE run.
-    Note some tolerance is allowed.
+    Parse relaxed lattice parameters from QE relaxation run.
+    Note some tolerance in parameters is allowed (e.g., 89.9999 ~ 90.0).
+    Values are converted to those of a conventional unit cell.
     * Standard oriention of primitive cells (see QE docs) assumed. *
     * Must use unique axis c for base-centered lattices. *
     """
@@ -464,7 +468,8 @@ def get_lattice_constant(cmpd,lat_type):
 
 def check_convergence(cmpd,lat_type,calc_type):
     """
-    Check if the QE run converged
+    Check if the QE calculation ran succesfully
+    (i.e., w/o error and convergence acheived)
     """
     with open(cmpd+'.'+lat_type+'.'+calc_type+'.out') as qe_output:
         for line in qe_output:
@@ -499,7 +504,8 @@ def compare_log():
 def compare_atoms(cmpd,lat_type,template_dir):
     """
     Compare atomic positions of QE-relaxed structure
-    and those of the AE-relaxed structure...
+    and those of the AE-relaxed structure.
+    Return sum of the distances.
     """
     df_ae = pd.read_table(template_dir+'/AE_Struct.'+cmpd+'.'+lat_type,
         sep='\s+',header=None)
@@ -526,6 +532,8 @@ def get_mag(cmpd,lat_type):
         for line in qe_output:
             if 'absolute' in line.split():
                 mag.append(line.split()[3])
+    assert len(mag) != 0, """No magnetization found, 
+        spin-polarization must be considered in SCF calculation"""
     return float(mag[-1])
 
 def compare_mag_mom(cmpd,lat_type,ae_mag_mom,template_dir):
@@ -539,6 +547,8 @@ def compare_mag_mom(cmpd,lat_type,ae_mag_mom,template_dir):
         for line in qe_output:
             if 'magn:' in line.split():
                 qe_mag_mom.append(line.split()[5])
+    assert len(qe_mag_mom) != 0, """No magnetization found, 
+        spin-polarization must be considered in SCF calculation"""
     qe_mag_mom = [float(value) for value in qe_mag_mom]
     rel_diff = []
     for (qe_val,ae_val) in zip(qe_mag_mom,ae_mag_mom):
@@ -559,6 +569,12 @@ def get_gap(cmpd,lat_type):
         for line in qe_output:
             if 'highest' and 'lowest' in line.split():
                 band_gap = (float(line.split()[7]) - float(line.split()[6]))
+    try:
+        band_gap
+    except NameError:
+        err = """Energies of highest occupied and lowest unoccupied 
+            states could not be found; ensure occupation is fixed"""
+        raise NameError(err)
     return float(band_gap)
 
 def birch_murnaghan(vol, vol_equil, bulk, bulk_prime, energy_equil):

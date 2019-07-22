@@ -168,7 +168,6 @@ def test_element_list(elem_list,template_dir):
                         return elem_diff_dict, True
                     elem_diff_dict[elem]['SC']['atomic_positions'] = \
                          compare_atoms(elem,'SC',template_dir)
-                    return elem_diff_dict, False
                 if elem == 'P':
                     run_qe(elem,'ortho','relax',template_dir)
                     if not check_convergence(elem,'ortho','relax'):

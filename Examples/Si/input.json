@@ -1,10 +1,9 @@
 {
-    "directories": [
+    "directories":
         {
             "elem_template_dir": "/scr/szymansk/gaopaw/Elem_Templates",
             "cmpd_template_dir": "/scr/szymansk/gaopaw/Examples/Si/Input"
-        }
-    ],
+        },
     "compounds": [
         {
             "formula": "Si",

@@ -127,8 +127,8 @@ def test_bad_run():
 def test_compare_lat():
     with gaopaw.fileutils.chdir(working_dir('Lattice')):
         assert round(gaopaw.compare_lat([1.0,1.0],'H','hex'),3) == 3.494
-        assert round(gaopaw.compare_lat(1.0,'Si','FCC'),3) == 2.857
-        assert round(gaopaw.compare_lat(1.0,'Si','BCC'),3) == 2.079
+        assert round(gaopaw.compare_lat(1.0,'Si','FCC'),3) == 2.858
+        assert round(gaopaw.compare_lat(1.0,'Si','BCC'),3) == 2.078
         assert round(gaopaw.compare_lat([1.0,1.0],'Si','tetrag'),3) == 2.694
         assert round(gaopaw.compare_lat([1.0,1.0,1.0],'Si','ortho'),3) == 2.510
         assert round(gaopaw.compare_lat([1.0,1.0],'Si','rhomb'),3) == 30.241

@@ -11,24 +11,21 @@ def main():
     num_obj_fns = parse_num_objs(working_dir)
     with open(os.path.join(working_dir,os.pardir,'input.json')) as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
-    template_settings = input_settings.directories[0].__dict__
-    elem_template_dir = template_settings['elem_template_dir']
-    if 'cmpd_template_dir' in template_settings.keys():
-        cmpd_template_dir = template_settings['cmpd_template_dir']
+    elem_template_dir = input_settings.directories.elem_template_dir
+    if hasattr(input_settings.directories,'cmpd_template_dir'):
+        cmpd_template_dir = input_settings.directories.cmpd_template_dir
     cmpd_list = input_settings.compounds
     element_list = []
     for cmpd in cmpd_list:
-        cmpd = cmpd.__dict__
-        formula = cmpd['formula']
-        element_list.extend(parse_elems(formula))
-    element_list = unique(element_list)
+        element_list.extend(parse_elems(cmpd.formula))
+    element_list = list(set(element_list))
     assert num_obj_fns == get_num_objs(cmpd_list,element_list), \
         'Wrong number of objective functions specified, should be '+str(get_num_objs(cmpd_list,element_list))
     elem_diff_dict, error_check = test_element_list(element_list,elem_template_dir)
     if error_check:
         bad_run(num_obj_fns)
         return
-    if len(element_list) == 1 and len(cmpd.keys()) == 1:
+    if len(cmpd_list) == 1 and len(element_list) == 1 and len(vars(cmpd_list[0])) == 1:
         update_obj_file(elem_diff_dict)
         obj_fn_list = dict_to_list(elem_diff_dict)[0]
         update_best_result(obj_fn_list)

@@ -9,7 +9,7 @@ def main():
     """
     working_dir = os.getcwd()
     num_obj_fns = parse_num_objs(working_dir)
-    with open(working_dir+'/../input.json') as input:
+    with open(os.path.join(working_dir,os.pardir,'input.json')) as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
     template_settings = input_settings.directories[0].__dict__
     elem_template_dir = template_settings['elem_template_dir']

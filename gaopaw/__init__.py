@@ -27,7 +27,7 @@ def parse_num_objs(working_dir):
     """
     Read in number of objective functions defined in the dakota.in file
     """
-    with open(working_dir+'/../dakota.in') as dakota_input:
+    with open(os.path.join(working_dir,os.pardir,'dakota.in')) as dakota_input:
         for line in dakota_input:
             if 'num_objective_functions' in line:
                 num_objs = line.split()[2]
@@ -113,11 +113,11 @@ def get_element_info(template_dir):
     Read in AE data for elemental lattice constants
     """
     elemental_data = {}
-    df_fcc = pd.read_table(template_dir+'/WIEN2k_FCC',sep='\s+',header=None)
+    df_fcc = pd.read_table(os.path.join(template_dir,'WIEN2k_FCC'),sep='\s+',header=None)
     for (elem,lat_const) in zip(df_fcc[0],df_fcc[1]):
         elemental_data[elem] = {}
         elemental_data[elem]['FCC'] = lat_const
-    df_bcc = pd.read_table(template_dir+'/WIEN2k_BCC',sep='\s+',header=None)
+    df_bcc = pd.read_table(os.path.join(template_dir,'WIEN2k_BCC'),sep='\s+',header=None)
     for (elem,lat_const) in zip(df_bcc[0],df_bcc[1]):
         elemental_data[elem]['BCC'] = lat_const
     elemental_data['N'] = {}
@@ -155,11 +155,11 @@ def test_element_list(elem_list,template_dir):
         copyfile('params.in',elem+'/params.in')
         with fileutils.chdir(elem):
             write_atompaw_input(elem,template_dir)
-            copyfile(elem+'.atompaw.in','../'+elem+'.atompaw.in')
+            copyfile(elem+'.atompaw.in',os.path.join(os.pardir,elem+'.atompaw.in'))
             run_atompaw(elem)
             if not check_upf():
                 return elem_diff_dict, True
-            copyfile(elem+'.GGA-PBE-paw.UPF','../'+elem+'.GGA-PBE-paw.UPF')
+            copyfile(elem+'.GGA-PBE-paw.UPF',os.path.join(os.pardir,elem+'.GGA-PBE-paw.UPF'))
             elem_diff_dict[elem]['elemental']['log'] = compare_log()
             if elem in ['N','P']:
                 if elem == 'N':
@@ -509,8 +509,8 @@ def compare_atoms(cmpd,lat_type,template_dir):
     and those of the AE-relaxed structure.
     Return sum of the distances.
     """
-    df_ae = pd.read_table(template_dir+'/AE_Struct.'+cmpd+'.'+lat_type,
-        sep='\s+',header=None)
+    df_ae = pd.read_table(os.path.join(template_dir,
+        'AE_Struct.'+cmpd+'.'+lat_type), sep='\s+', header=None)
     df_ae = df_ae.drop(0,1).transpose()
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),
         'periodic_dft_gui_dir', 'qe2mae.py')
@@ -635,9 +635,9 @@ def run_scale_lat(cmpd,lat_type,template_dir):
         volumes.append(np.linalg.det(new_cell_matrix))
         os.mkdir(folder)
         for file in UPF_files:
-            copyfile(file,folder+'/'+file)
-        copyfile(relax_file,folder+'/'+relax_file)
-        copyfile(relax_file[:-2]+'out',folder+'/'+relax_file[:-2]+'out')
+            copyfile(file,os.path.join(folder,file))
+        copyfile(relax_file,os.path.join(folder,relax_file))
+        copyfile(relax_file[:-2]+'out',os.path.join(folder,relax_file[:-2]+'out'))
         with fileutils.chdir(folder):
             update_structure(cmpd,lat_type,'relax')
             write_cell(cmpd,lat_type,new_cell_params)
@@ -863,7 +863,7 @@ def run_phonon(cmpd,cmpd_lat_type,template_dir):
     """
     Run QE phonon calculations using ph.x and dynmat.x.
     """
-    copyfile(template_dir+'/phonon.in','./phonon.in')
+    copyfile(os.path.join(template_dir,'phonon.in'),'phonon.in')
     if os.path.exists('phonon.save'):
         os.remove('phonon.out')
         shutil.rmtree('phonon.save')
@@ -871,7 +871,7 @@ def run_phonon(cmpd,cmpd_lat_type,template_dir):
     scf_savefile = cmpd+'.'+cmpd_lat_type+'.scf.save.qegz'
     subprocess.call(['run','periodic_dft_gui_dir/runner.py','ph.x','phonon.in',
         '-input_save',scf_savefile,'-MPICORES','4'], env=os.environ.copy())
-    copyfile(template_dir+'/dynmat.in','./dynmat.in')
+    copyfile(os.path.join(template_dir,'dynmat.in'),'dynmat.in')
     if os.path.exists('dynmat.save'):
         os.remove('dynmat.out')
         shutil.rmtree('dynmat.save')
@@ -919,10 +919,10 @@ def update_obj_file(diff_dict):
                 obj_file.write(label+':  '+str(value)+' THz\n')
             if 'atomic_positions' in label:
                 obj_file.write(label+':  '+str(value)+' angstroms\n')
-    if not os.path.exists('../Obj_Fn_Data'):
-        obj_file = open('../Obj_Fn_Data','w+')
+    if not os.path.exists(os.path.join(os.pardir,'Obj_Fn_Data')):
+        obj_file = open(os.path.join(os.pardir,'Obj_Fn_Data'),'w+')
         obj_file.close()
-    with open('../Obj_Fn_Data','a') as obj_file:
+    with open(os.path.join(os.pardir,'Obj_Fn_Data'),'a') as obj_file:
         obj_file.write('\n')
         for obj_fn in obj_fn_list:
             obj_file.write(str(obj_fn)+' ')
@@ -938,7 +938,7 @@ def calc_obj_fn(obj_fn_list):
     as the mean absolute error among all normalized
     objective functions.
     """
-    obj_fn_matrix = np.loadtxt('../Obj_Fn_Data').transpose()
+    obj_fn_matrix = np.loadtxt(os.path.join(os.pardir,'Obj_Fn_Data')).transpose()
     min_values = []
     max_values = []
     for all_objs in obj_fn_matrix:
@@ -963,34 +963,30 @@ def update_best_result(obj_fn_list):
     current_obj_fn = calc_obj_fn(obj_fn_list)
     upf_files = [fname for fname in glob.iglob('*UPF')]
     atompaw_files = [fname for fname in glob.iglob('*atompaw*')]
-    if not os.path.isdir('../Best_Solution'):
-        os.mkdir('../Best_Solution')
-        for fname in upf_files:
-            copyfile(fname,'../Best_Solution/'+fname)
-        for fname in atompaw_files:
-            copyfile(fname,'../Best_Solution/'+fname)
-        with open('../Best_Solution/Obj_Fn','w+') as obj_file:
+    if not os.path.isdir(os.path.join(os.pardir,'Best_Solution')):
+        os.mkdir(os.path.join(os.pardir,'Best_Solution'))
+        for fname in upf_files + atompaw_files:
+            copyfile(fname,os.path.join(os.pardir,'Best_Solution',fname))
+        with open(os.path.join(os.pardir,'Best_Solution','Obj_Fn'),'w+') as obj_file:
             obj_file.write(str(current_obj_fn))
-        with open('../Best_Solution/data','w+') as data_file:
+        with open(os.path.join(os.pardir,'Best_Solution','data'),'w+') as data_file:
             for obj in obj_fn_list:
                 data_file.write(str(obj)+' ')
-        copyfile('Detailed_Results','../Best_Solution/Detailed_Results')
+        copyfile('Detailed_Results',os.path.join(os.pardir,'Best_Solution','Detailed_Results'))
         return
-    last_data = np.loadtxt('../Best_Solution/data')
+    last_data = np.loadtxt(os.path.join(os.pardir,'Best_Solution','data'))
     last_obj_fn = calc_obj_fn(last_data)
     if current_obj_fn < last_obj_fn:
-        for fname in upf_files:
-            copyfile(fname,'../Best_Solution/'+fname)
-        for fname in atompaw_files:
-            copyfile(fname,'../Best_Solution/'+fname)
-        with open('../Best_Solution/Obj_Fn','w+') as obj_file:
+        for fname in upf_files + atompaw_files:
+            copyfile(fname,os.path.join(os.pardir,'Best_Solution',fname))
+        with open(os.path.join(os.pardir,'Best_Solution','Obj_Fn'),'w+') as obj_file:
             obj_file.write(str(current_obj_fn))
-        with open('../Best_Solution/data','w+') as data_file:
+        with open(os.path.join(os.pardir,'Best_Solution','data'),'w+') as data_file:
             for obj in obj_fn_list:
                 data_file.write(str(obj)+' ')
-        copyfile('Detailed_Results','../Best_Solution/Detailed_Results')
+        copyfile('Detailed_Results',os.path.join(os.pardir,'Best_Solution','Detailed_Results'))
     else:
-        with open('../Best_Solution/Obj_Fn','w+') as obj_file:
+        with open(os.path.join(os.pardir,'Best_Solution','Obj_Fn'),'w+') as obj_file:
             obj_file.write(str(last_obj_fn))
 
 

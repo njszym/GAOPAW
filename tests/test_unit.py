@@ -190,7 +190,7 @@ def test_write_cell():
     with gaopaw.fileutils.chdir(working_dir('Si')):
         gaopaw.write_cell('Si','diamond',[[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]])
         with open('Si.diamond.relax.in') as qe_input:
-            assert qe_input.readlines()[-1] == '0.0 0.0 1.0\n'
+            assert qe_input.readlines()[-1] == '0.0 0.0 1.0 \n'
 
 def test_dict_to_list():
     diff_dict = \

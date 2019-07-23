@@ -120,7 +120,7 @@ def test_element_list(elem_list,template_dir):
     elemental_data = get_element_info(template_dir)
     for elem in elem_list:
         assert elem in elemental_data.keys(), \
-            'No AE data available for your element: '+elem
+            'No AE data available for your element: %s' % elem
         elem_diff_dict[elem] = {}
         elem_diff_dict[elem]['elemental'] = {}
         elem_diff_dict[elem]['elemental']['log'] = {}
@@ -137,14 +137,14 @@ def test_element_list(elem_list,template_dir):
                 elem_diff_dict[elem][lat_type]['lattice_constant'] = {}
     for elem in elem_list:
         os.mkdir(elem)
-        copyfile('params.in',elem+'/params.in')
+        copyfile('params.in',os.path.join(elem,'params.in'))
         with fileutils.chdir(elem):
             write_atompaw_input(elem,template_dir)
-            copyfile('%s.atompaw.in' % elem, os.path.join(os.pardir,elem+'.atompaw.in'))
+            copyfile('%s.atompaw.in' % elem, os.path.join(os.pardir,'%s.atompaw.in' % elem))
             run_atompaw(elem)
             if not check_upf():
                 return elem_diff_dict, True
-            copyfile(elem+'.GGA-PBE-paw.UPF',os.path.join(os.pardir,'%s.GGA-PBE-paw.UPF' % elem))
+            copyfile('%s.GGA-PBE-paw.UPF' % elem,os.path.join(os.pardir,'%s.GGA-PBE-paw.UPF' % elem))
             elem_diff_dict[elem]['elemental']['log'] = compare_log()
             if elem in ['N','P']:
                 if elem == 'N':
@@ -251,7 +251,7 @@ def test_property(cmpd,lat_type,property,ae_data,template_dir):
         if not check_convergence(cmpd,lat_type,'scf'):
             return None, True
         return compare_mag_mom(cmpd,lat_type,ae_data,template_dir), False
-    raise ValueError('Your property, '+property+', is not defined')
+    raise ValueError('Your property, %s , is not defined' % property)
 
 def check_upf():
     """
@@ -268,7 +268,7 @@ def bad_run(num_obj_fns):
     """
     params, results = di.read_parameters_file('params.in','results.out')
     for num in range(1,num_obj_fns+1):
-        label = 'obj_fn_'+str(num)
+        label = 'obj_fn_%s' % num
         results[label].function = 100.0
     results.write()
 
@@ -441,10 +441,11 @@ def check_convergence(cmpd,lat_type,calc_type):
     Check if the QE calculation ran succesfully
     (i.e., w/o error and convergence acheived)
     """
-    with open(cmpd+'.'+lat_type+'.'+calc_type+'.out') as qe_output:
+    qe_error_signs = \
+        ['convergence NOT','S matrix not positive definite','stopping ...']
+    with open('%s.%s.%s.out' % (cmpd,lat_type,calc_type)) as qe_output:
         for line in qe_output:
-            if any(error in line for error in \
-            ['convergence NOT','S matrix not positive definite','stopping ...']):
+            if any(error in line for error in qe_error_signs):
                 return False
     return True
 
@@ -477,13 +478,13 @@ def compare_atoms(cmpd,lat_type,template_dir):
     and those of the AE-relaxed structure.
     Return sum of the distances.
     """
-    df_ae = pd.read_table(os.path.join(template_dir,
-        'AE_Struct.'+cmpd+'.'+lat_type), sep='\s+', header=None)
+    df_ae = pd.read_table(os.path.join(template_dir, 
+        'AE_Struct.%s.%s' % (cmpd, lat_type)), sep='\s+', header=None)
     df_ae = df_ae.drop(0,1).transpose()
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),
         'periodic_dft_gui_dir', 'qe2mae.py')
     qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
-    qe_reader = qe_reader_mod.QEOutputReader(cmpd+'.'+lat_type+'.relax.out')
+    qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
     struct = qe_reader.structs[qe_reader.final_struct_id]
     df_qe = struct.getXYZ()
     distance_list = []
@@ -498,7 +499,7 @@ def get_mag(cmpd,lat_type):
     Parse QE output (scf run) to obtain total magnetization
     """
     mag = []
-    with open(cmpd+'.'+lat_type+'.scf.out') as qe_output:
+    with open('%s.%s.scf.out' % (cmpd,lat_type)) as qe_output:
         for line in qe_output:
             if 'absolute' in line.split():
                 mag.append(line.split()[3])
@@ -513,7 +514,7 @@ def compare_mag_mom(cmpd,lat_type,ae_mag_mom,template_dir):
     Compare these with AE magnetic moments in AE_mag.
     """
     qe_mag_mom = []
-    with open(cmpd+'.'+lat_type+'.scf.out') as qe_output:
+    with open('%s.%s.scf.out' % (cmpd,lat_type)) as qe_output:
         for line in qe_output:
             if 'magn:' in line.split():
                 qe_mag_mom.append(line.split()[5])
@@ -535,7 +536,7 @@ def get_gap(cmpd,lat_type):
     Note that unoccupied bands need to be included
     and occupations need to be fixed in the scf run.
     """
-    with open(cmpd+'.'+lat_type+'.scf.out') as qe_output:
+    with open('%s.%s.scf.out' % (cmpd,lat_type)) as qe_output:
         for line in qe_output:
             if 'highest' and 'lowest' in line.split():
                 band_gap = (float(line.split()[7]) - float(line.split()[6]))
@@ -570,7 +571,7 @@ def get_bulk(cmpd,lat_type):
     initial_parameters = [volume.mean(), 2.5, 4, energy.mean()]
     fit_eqn = eval('birch_murnaghan')
     popt, pcov = cf(fit_eqn, volume, energy, initial_parameters)
-    with open(cmpd+'.'+lat_type+'.relax.in') as qe_output:
+    with open('%s.%s.relax.in' % (cmpd,lat_type)) as qe_output:
         for line in qe_output:
             if 'nat=' in line:
                 num_atoms = float(line.split('=')[1][:-1])
@@ -578,7 +579,7 @@ def get_bulk(cmpd,lat_type):
     bulk = popt[1]*160.2 ## GPa
     bulk_prime = popt[2] ## Dimensionless
     with open('QE_EOS.txt','w+') as eos_file:
-        eos_file.write(str(volume)+' '+str(bulk)+' '+str(bulk_prime))
+        eos_file.write('%s %s %s' % (volume, bulk, bulk_prime))
     return volume, bulk, bulk_prime
 
 def run_scale_lat(cmpd,lat_type,template_dir):
@@ -591,28 +592,29 @@ def run_scale_lat(cmpd,lat_type,template_dir):
     atomic positions will not be scaled with the cell.
     """
     scale_num = [0.94,0.96,0.98,1.0,1.02,1.04,1.06]
-    relax_file = cmpd+'.'+lat_type+'.relax.in'
+    relax_in = '%s.%s.relax.in' % (cmpd, lat_type)
+    relax_out = '%s.%s.relax.out' % (cmpd, lat_type)
     UPF_files = [fname for fname in glob.iglob('*UPF')]
     energies = []
     volumes = []
     folder_index = 1
     for value in scale_num:
-        folder = cmpd+'_'+str(folder_index)
+        folder = '%s_%s' % (cmpd, folder_index)
         new_cell_params = scale_cell(cmpd,lat_type,value)
         new_cell_matrix = np.matrix(new_cell_params)
         volumes.append(np.linalg.det(new_cell_matrix))
         os.mkdir(folder)
         for file in UPF_files:
             copyfile(file,os.path.join(folder,file))
-        copyfile(relax_file,os.path.join(folder,relax_file))
-        copyfile(relax_file[:-2]+'out',os.path.join(folder,relax_file[:-2]+'out'))
+        copyfile(relax_in,os.path.join(folder,relax_in))
+        copyfile(relax_out, os.path.join(folder, relax_out))
         with fileutils.chdir(folder):
             update_structure(cmpd,lat_type,'relax')
             write_cell(cmpd,lat_type,new_cell_params)
-            subprocess.call(['run','periodic_dft_gui_dir/runner.py','pw.x',relax_file,
+            subprocess.call(['run','periodic_dft_gui_dir/runner.py','pw.x',relax_in,
                 '-MPICORES','4'], env=os.environ.copy())
             all_energies = []
-            with open(relax_file[:-2]+'out') as qe_output:
+            with open(relax_out) as qe_output:
                 for line in qe_output:
                     if '!    total energy              =' in line:
                         all_energies.append(line.split()[4])
@@ -620,14 +622,14 @@ def run_scale_lat(cmpd,lat_type,template_dir):
         folder_index += 1
     with open('E_V.txt','w+') as ev_file:
         for (e,v) in zip(energies,volumes):
-            ev_file.write(str(e)+' '+str(v)+'\n')
+            ev_file.write('%s %s \n' % (e,v))
 
 def compare_phonon(cmpd,lat_type,ae_freq,template_dir):
     """
     Parse optical phonon frequencies from QE run
     and compare with AE frequencies
     """
-    with open(cmpd+'.'+lat_type+'.scf.in') as qe_input:
+    with open('%s.%s.scf.in' % (cmpd, lat_type)) as qe_input:
         for line in qe_input:
             if 'nat=' in line:
                 num_atoms = int(line.split('=')[1][:-1])
@@ -658,7 +660,7 @@ def get_cell(cmpd,lat_type,calc_type):
     Parse cell from QE output and write to 3x3 array
     consisting of lattice vectors in angstroms or bohrs.
     """
-    with open(cmpd+'.'+lat_type+'.relax.out') as f:
+    with open('%s.%s.relax.out' % (cmpd,lat_type)) as f:
         lines = f.readlines()
     index = 0
     for line in lines:
@@ -685,7 +687,7 @@ def update_structure(cmpd,lat_type,calc_type):
     Parse equilibrium structure from completed relaxation
     and update the corresponding calculation input file.
     """
-    with open(cmpd+'.'+lat_type+'.relax.out') as f:
+    with open('%s.%s.relax.out' % (cmpd, lat_type)) as f:
         lines = f.readlines()
     index = 0
     for line in lines:
@@ -706,7 +708,7 @@ def update_structure(cmpd,lat_type,calc_type):
             break
         else:
             coords.append(line)
-    coords_header = 'ATOMIC_POSITIONS '+coord_type+'\n'
+    coords_header = 'ATOMIC_POSITIONS %s \n' % coord_type
     index = 0
     for line in lines:
         if 'CELL_PARAMETERS' in line:
@@ -726,10 +728,10 @@ def update_structure(cmpd,lat_type,calc_type):
         v = [alat*value for value in v]
         vectors.append(v)
     cell_header = 'CELL_PARAMETERS bohr\n'
-    v1 = str(vectors[0][0])+' '+str(vectors[0][1])+' '+str(vectors[0][2])+'\n'
-    v2 = str(vectors[1][0])+' '+str(vectors[1][1])+' '+str(vectors[1][2])+'\n'
-    v3 = str(vectors[2][0])+' '+str(vectors[2][1])+' '+str(vectors[2][2])+'\n'
-    with open(cmpd+'.'+lat_type+'.'+calc_type+'.in') as qe_input:
+    v1 = '%s %s %s \n' % tuple(vectors[0])
+    v2 = '%s %s %s \n' % tuple(vectors[1])
+    v3 = '%s %s %s \n' % tuple(vectors[2])
+    with open('%s.%s.%s.in' % (cmpd, lat_type, calc_type)) as qe_input:
         lines = qe_input.readlines()
     orig_struct = []
     line_index = 0
@@ -751,19 +753,19 @@ def update_structure(cmpd,lat_type,calc_type):
             if 'ATOMIC_POSITIONS' in line:
                 jump = natoms+1
                 line_index += jump
-    with open(cmpd+'.'+lat_type+'.'+calc_type+'.in','w+') as qe_file:
+    with open('%s.%s.%s.in' % (cmpd,lat_type,calc_type),'w+') as qe_file:
         for line in orig_struct:
             qe_file.write(line)
         qe_file.write(coords_header)
         for line in coords:
             qe_file.write(line)
-        qe_file.write(cell_header+v1+v2+v3)
+        qe_file.write('%s%s%s%s' % (cell_header,v1,v2,v3))
 
 def scale_cell(cmpd,lat_type,scale_factor):
     """
     Scale cell volume according to scale_factor
     """
-    with open(cmpd+'.'+lat_type+'.relax.out') as qe_output:
+    with open('%s.%s.relax.out' % (cmpd, lat_type)) as qe_output:
         lines = qe_output.readlines()
     index = 0
     for line in lines:
@@ -801,11 +803,11 @@ def write_cell(cmpd,lat_type,cell):
     to be used during equation of state calculations.
     """
     vectors = np.array(cell)
-    v1 = str(vectors[0][0])+' '+str(vectors[0][1])+' '+str(vectors[0][2])+'\n'
-    v2 = str(vectors[1][0])+' '+str(vectors[1][1])+' '+str(vectors[1][2])+'\n'
-    v3 = str(vectors[2][0])+' '+str(vectors[2][1])+' '+str(vectors[2][2])+'\n'
+    v1 = '%s %s %s \n' % tuple(vectors[0])
+    v2 = '%s %s %s \n' % tuple(vectors[1])
+    v3 = '%s %s %s \n' % tuple(vectors[2])
     cell_header = 'CELL_PARAMETERS bohr\n'
-    with open(cmpd+'.'+lat_type+'.relax.in') as qe_input:
+    with open('%s.%s.relax.in' % (cmpd, lat_type)) as qe_input:
         lines = qe_input.readlines()
     orig_struct = []
     line_index = 0
@@ -816,18 +818,18 @@ def write_cell(cmpd,lat_type,cell):
                 if 'ibrav' in line:
                     orig_struct.append('  ibrav=0\n')
                 if 'vc-relax' in line:
-                    orig_struct.append("""  calculation='relax'\n""")
+                    orig_struct.append("  calculation='relax'\n")
             else:
                 orig_struct.append(line)
             line_index += 1
         else:
             line_index += 4
-    with open(cmpd+'.'+lat_type+'.relax.in','w+') as qe_file:
+    with open('%s.%s.relax.in' % (cmpd, lat_type),'w+') as qe_file:
         for line in orig_struct:
             qe_file.write(line)
-        qe_file.write(cell_header+v1+v2+v3)
+        qe_file.write('%s%s%s%s' % (cell_header,v1,v2,v3))
 
-def run_phonon(cmpd,cmpd_lat_type,template_dir):
+def run_phonon(cmpd,lat_type,template_dir):
     """
     Run QE phonon calculations using ph.x and dynmat.x.
     """
@@ -836,7 +838,7 @@ def run_phonon(cmpd,cmpd_lat_type,template_dir):
         os.remove('phonon.out')
         shutil.rmtree('phonon.save')
         os.remove('phonon.save.qegz')
-    scf_savefile = cmpd+'.'+cmpd_lat_type+'.scf.save.qegz'
+    scf_savefile = '%s.%s.scf.save.qegz' % (cmpd,lat_type)
     subprocess.call(['run','periodic_dft_gui_dir/runner.py','ph.x','phonon.in',
         '-input_save',scf_savefile,'-MPICORES','4'], env=os.environ.copy())
     copyfile(os.path.join(template_dir,'dynmat.in'),'dynmat.in')
@@ -857,7 +859,7 @@ def dict_to_list(diff_dict):
     for formula in diff_dict.keys():
         for lat_type in diff_dict[formula].keys():
             for property in diff_dict[formula][lat_type].keys():
-                obj_fn_labels.append(formula+'_'+lat_type+'_'+property)
+                obj_fn_labels.append('%s_%s_%s' % (formula, lat_type, property))
                 obj_fn_list.append(diff_dict[formula][lat_type][property])
     return obj_fn_list, obj_fn_labels
 
@@ -876,24 +878,24 @@ def update_obj_file(diff_dict):
             if ('lattice_constant' in label) or ('magnetization' in label) \
             or ('magnetic_moment' in label):
                 value = value*100
-                obj_file.write(label+':  '+str(value)+'%\n')
+                obj_file.write('%s: %s%%\n' % (label, value))
             if 'log' in label:
-                obj_file.write(label+':  '+str(value)+'\n')
+                obj_file.write('%s: %s\n' % (label, value))
             if 'band_gap' in label:
-                obj_file.write(label+':  '+str(value)+' eV\n')
+                obj_file.write('%s: %s eV\n' % (label, value))
             if 'eos' in label:
-                obj_file.write(label[:-3]+'delta_factor:  '+str(value)+'\n')
+                obj_file.write('%sdelta_factor: %s\n' % (label[:-3], value))
             if 'phonon_frequency' in label:
-                obj_file.write(label+':  '+str(value)+' THz\n')
+                obj_file.write('%s: %s THz\n' % (label, value))
             if 'atomic_positions' in label:
-                obj_file.write(label+':  '+str(value)+' angstroms\n')
+                obj_file.write('%s: %s angstroms\n' % (label, value))
     if not os.path.exists(os.path.join(os.pardir,'Obj_Fn_Data')):
         obj_file = open(os.path.join(os.pardir,'Obj_Fn_Data'),'w+')
         obj_file.close()
     with open(os.path.join(os.pardir,'Obj_Fn_Data'),'a') as obj_file:
         obj_file.write('\n')
         for obj_fn in obj_fn_list:
-            obj_file.write(str(obj_fn)+' ')
+            obj_file.write('%s ' % obj_fn)
 
 def calc_obj_fn(obj_fn_list):
     """
@@ -939,7 +941,7 @@ def update_best_result(obj_fn_list):
             obj_file.write(str(current_obj_fn))
         with open(os.path.join(os.pardir,'Best_Solution','data'),'w+') as data_file:
             for obj in obj_fn_list:
-                data_file.write(str(obj)+' ')
+                data_file.write('%s ' % obj)
         copyfile('Detailed_Results',os.path.join(os.pardir,'Best_Solution','Detailed_Results'))
         return
     last_data = np.loadtxt(os.path.join(os.pardir,'Best_Solution','data'))
@@ -951,7 +953,7 @@ def update_best_result(obj_fn_list):
             obj_file.write(str(current_obj_fn))
         with open(os.path.join(os.pardir,'Best_Solution','data'),'w+') as data_file:
             for obj in obj_fn_list:
-                data_file.write(str(obj)+' ')
+                data_file.write('%s ' % obj)
         copyfile('Detailed_Results',os.path.join(os.pardir,'Best_Solution','Detailed_Results'))
     else:
         with open(os.path.join(os.pardir,'Best_Solution','Obj_Fn'),'w+') as obj_file:

@@ -140,11 +140,11 @@ def test_element_list(elem_list,template_dir):
         copyfile('params.in',elem+'/params.in')
         with fileutils.chdir(elem):
             write_atompaw_input(elem,template_dir)
-            copyfile(elem+'.atompaw.in',os.path.join(os.pardir,elem+'.atompaw.in'))
+            copyfile('%s.atompaw.in' % elem, os.path.join(os.pardir,elem+'.atompaw.in'))
             run_atompaw(elem)
             if not check_upf():
                 return elem_diff_dict, True
-            copyfile(elem+'.GGA-PBE-paw.UPF',os.path.join(os.pardir,elem+'.GGA-PBE-paw.UPF'))
+            copyfile(elem+'.GGA-PBE-paw.UPF',os.path.join(os.pardir,'%s.GGA-PBE-paw.UPF' % elem))
             elem_diff_dict[elem]['elemental']['log'] = compare_log()
             if elem in ['N','P']:
                 if elem == 'N':
@@ -310,8 +310,8 @@ def write_atompaw_input(elem,template_dir):
     """
     Write AtomPAW input file based on some template specified in template_dir
     """
-    template_file = os.path.join(template_dir, elem+'.atompaw.template')
-    new_input_file = elem+'.atompaw.in'
+    template_file = os.path.join(template_dir, '%s.atompaw.template' % elem)
+    new_input_file = '%s.atompaw.in' % elem
     subprocess.check_call(['run', 'dprepro.py', 'params.in', template_file, 
         new_input_file], env=os.environ.copy())
 
@@ -319,7 +319,7 @@ def run_atompaw(elem):
     """
     Run AtomPAW using elem.atompaw.in
     """
-    with open(elem+'.atompaw.in','r') as input_fin, open('log_atompaw', 'w') as log_fout: 
+    with open('%s.atompaw.in' % elem, 'r') as input_fin, open('log_atompaw', 'w') as log_fout: 
         subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, 
             env=os.environ.copy())
 
@@ -327,14 +327,13 @@ def run_qe(cmpd,lat_type,calc_type,template_dir):
     """
     Write and run QE using cmpd.lat_type.calc_type from template_dir.
     """
-    if os.path.exists(cmpd+'.'+lat_type+'.'+calc_type+'.out'):
+    if os.path.exists('%s.%s.%s.out' % (cmpd,lat_type,calc_type)):
         return
-    template_file = os.path.join(template_dir, cmpd+'.'+lat_type+'.'+calc_type+'.template')
-    new_input_file = cmpd+'.'+lat_type+'.'+calc_type+'.in'
+    template_file = os.path.join('%s.%s.%s.template' % (cmpd,lat_type,calc_type))
+    qe_input = '%s.%s.%s.in' % (cmpd,lat_type,calc_type)
     shutil.copy(template_file,new_input_file)
     if calc_type == 'scf':
         update_structure(cmpd,lat_type,'scf')
-    qe_input = cmpd+'.'+lat_type+'.'+calc_type+'.in'
     subprocess.call(['run','periodic_dft_gui_dir/runner.py','pw.x',qe_input,
         '-MPICORES','4'], env=os.environ.copy())
 
@@ -349,41 +348,37 @@ def get_lattice_constant(cmpd,lat_type,tol=3):
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),
         'periodic_dft_gui_dir', 'qe2mae.py')
     qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
-    qe_reader = qe_reader_mod.QEOutputReader(cmpd+'.'+lat_type+'.relax.out')
+    qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = np.array(xtal.get_params_from_chorus(cparams)).round(tol)
     unique_lat = np.array(sorted(list(set(params[:3]))))
     unique_angles = np.array(sorted(list(set(params[3:]))))
+    err_mssg = 'Input lattice is incorrect, does not match %s' % lat_type
     if lat_type in ['FCC','ZB','RS','diamond','HH']: ## face-centered (F)
-        assert len(unique_lat) == 1, \
-            'Input lattice is incorrect, does not match '+lat_type
+        assert len(unique_lat) == 1, err_mssg
         if np.array_equal(unique_angles,[60.0]):
             return math.sqrt(2)*params[0]
         if np.array_equal(unique_angles,[90.0]):
             return params[0]
-        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+        raise ValueError(err_mssg)
     if lat_type == 'BCC': ## body-centered (I)
-        assert len(unique_lat) == 1, \
-            'Input lattice is incorrect, does not match '+lat_type
+        assert len(unique_lat) == 1, err_mssg
         if len(unique_angles) == 2:
             return (2./3.)*math.sqrt(3)*params[0]
         if np.array_equal(unique_angles,[90.0]):
             return params[0]
-        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+        raise ValueError(err_mssg)
     if lat_type in ['per','SC','CsCl']: ## conv (P)
-        assert np.array_equal(unique_angles,[90.0]) and len(unique_lat) == 1, \
-            'Input lattice is incorrect, does not match '+lat_type
+        assert np.array_equal(unique_angles,[90.0]) and len(unique_lat) == 1, err_mssg
         return params[0]
     if lat_type in ['hex','WZ']: ## conv (P)
         assert len(unique_lat) == 2 \
-            and np.array_equal(unique_angles,[90.0,120.0]), \
-            'Input lattice is incorrect, does not match '+lat_type
+            and np.array_equal(unique_angles,[90.0,120.0]), err_mssg
         return unique_lat[0], unique_lat[1]
     if lat_type == 'rhomb': ## trig (R)
         assert len(unique_lat) == 1 and len(unique_angles) == 1 \
-            and not np.array_equal(unique_angles,[90.0]), \
-            'Input lattice is incorrect, does not match '+lat_type
+            and not np.array_equal(unique_angles,[90.0]), err_mssg
         return unique_lat[0], unique_angles[0]
     if lat_type == 'tetrag':
         if len(unique_lat) == 1 and len(unique_angles) == 2: ## body-centered (I)
@@ -394,13 +389,12 @@ def get_lattice_constant(cmpd,lat_type,tol=3):
             return conv_lengths[0], conv_lengths[1]
         if len(unique_lat) == 2 and np.array_equal(unique_angles,[90.0]): ## conv (P)
             return unique_lat[0], unique_lat[1]
-        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+        raise ValueError(err_mssg)
     if lat_type == 'ortho':
         if len(unique_lat) == 3 and np.array_equal(unique_angles,[90.0]): ## conv (P)
             return unique_lat[0], unique_lat[1], unique_lat[2]
         if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
-            assert list(params[3:]).count(90.0) == 2, \
-                'Input lattice is incorrect, does not match '+lat_type
+            assert list(params[3:]).count(90.0) == 2, err_mssg
             cell_vecs = get_cell(cmpd,lat_type,'relax')
             a_lat = cell_vecs[0][0]*2.
             b_lat = cell_vecs[0][1]*2.
@@ -419,7 +413,7 @@ def get_lattice_constant(cmpd,lat_type,tol=3):
             prim_lengths = sorted(set(components))
             conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
-        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+        raise ValueError(err_mssg)
     if lat_type == 'monoclin':
         if list(params[3:]).count(90.0) == 2: ## conv (P)
             for value in params[3:]:
@@ -437,10 +431,9 @@ def get_lattice_constant(cmpd,lat_type,tol=3):
             b_lat = b_lat/2. ## Not sure why yet
             conv_lengths = np.array(sorted([a_lat,b_lat,c_lat])).round(tol)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2], angle
-        raise ValueError('Input lattice is incorrect, does not match '+lat_type)
+        raise ValueError(err_mssg)
     if lat_type == 'triclin': ## conv (P)
-        assert len(unique_lat) == 3 and list(params[3:]).count(90.0) < 2, \
-            'Input lattice is incorrect, does not match '+lat_type
+        assert len(unique_lat) == 3 and list(params[3:]).count(90.0) < 2, err_mssg
         return params
 
 def check_convergence(cmpd,lat_type,calc_type):

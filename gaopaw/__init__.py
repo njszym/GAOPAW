@@ -47,21 +47,7 @@ def parse_elems(formula):
             index += 1
         else:
             elems[index] += letter
-    return unique(elems)
-
-def unique(value_list):
-    """
-    Get list of unique elements/values to be tested
-    """
-    try:
-        value_list = [round(float(value),3) for value in value_list]
-    except ValueError:
-        list = [str(value) for value in value_list]
-    unique_list = []
-    for value in value_list:
-        if value not in unique_list:
-            unique_list.append(value)
-    return unique_list
+    return list(set(elems))
 
 def get_num_objs(cmpd_list,element_list):
     """
@@ -368,90 +354,84 @@ def get_lattice_constant(cmpd,lat_type):
     qe_reader = qe_reader_mod.QEOutputReader(cmpd+'.'+lat_type+'.relax.out')
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
-    params = xtal.get_params_from_chorus(cparams)
+    params = np.array(xtal.get_params_from_chorus(cparams)).round(3)
+    unique_lat = np.array(sorted(list(set(params[:3]))))
+    unique_angles = np.array(sorted(list(set(params[3:]))))
     if lat_type in ['FCC','ZB','RS','diamond','HH']: ## face-centered (F)
-        assert len(unique(params[:3])) == 1, \
+        assert len(unique_lat) == 1, \
             'Input lattice is incorrect, does not match '+lat_type
-        if all(round(value,3) == 60.0 for value in params[3:]):
+        if np.array_equal(unique_angles,[60.0]):
             return math.sqrt(2)*params[0]
-        if all(round(value,3) == 90.0 for value in params[3:]):
+        if np.array_equal(unique_angles,[90.0]):
             return params[0]
         raise ValueError('Input lattice is incorrect, does not match '+lat_type)
     if lat_type == 'BCC': ## body-centered (I)
-        assert len(unique(params[:3])) == 1, \
+        assert len(unique_lat) == 1, \
             'Input lattice is incorrect, does not match '+lat_type
-        if len(unique(params[3:])) == 2:
+        if len(unique_angles) == 2:
             return (2./3.)*math.sqrt(3)*params[0]
-        if len(unique(params[3:])) == 1:
+        if np.array_equal(unique_angles,[90.0]):
             return params[0]
         raise ValueError('Input lattice is incorrect, does not match '+lat_type)
     if lat_type in ['per','SC','CsCl']: ## conv (P)
-        assert all(round(value,3) == 90.0 for value in params[3:]) \
-            and len(unique(params[:3])) == 1, \
+        assert np.array_equal(unique_angles,[90.0]) \
+            and len(unique_lat) == 1, \
             'Input lattice is incorrect, does not match '+lat_type
         return params[0]
     if lat_type in ['hex','WZ']: ## conv (P)
-        assert len(unique(params[:3])) == 2 \
-            and len(unique(params[3:])) == 2 \
-            and sorted(unique(params[3:]))[0] == 90.0 \
-            and sorted(unique(params[3:]))[1] == 120.0, \
+        assert len(unique_lat) == 2 \
+            and np.array_equal(unique_angles,[90.0,120.0]), \
             'Input lattice is incorrect, does not match '+lat_type
-        unique_lat_list = sorted(unique(params[:3]))
-        return unique_lat_list[0], unique_lat_list[1]
+        return unique_lat[0], unique_lat[1]
     if lat_type == 'rhomb': ## trig (R)
-        assert len(unique(params[:3])) == 1 \
-            and len(unique(params[3:])) == 1, \
+        assert len(unique_lat) == 1 \
+            and len(unique_angles) == 1, \
             'Input lattice is incorrect, does not match '+lat_type
         lat = params[0]
         angle = params[4]
         return lat, angle
     if lat_type == 'tetrag':
-        if len(unique(params[:3])) == 1 and len(unique(params[3:])) == 2: ## body-centered (I)
+        if len(unique_lat) == 1 and len(unique_angles) == 2: ## body-centered (I)
             cell_vecs = get_cell(cmpd,lat_type,'relax')
             abs_vec = [abs(value) for value in cell_vecs[0]]
-            prim_lengths = sorted(unique(abs_vec))
-            conv_lengths = [2*value for value in prim_lengths]
+            prim_lengths = sorted(set(abs_vec))
+            conv_lengths = np.array([2*value for value in prim_lengths]).round(3)
             return conv_lengths[0], conv_lengths[1]
-        if len(unique(params[:3])) == 2 and all(round(value,3) == 90.0 for value in params[3:]): ## conv (P)
-            unique_lat_list = sorted(unique(params[:3]))
-            return unique_lat_list[0], unique_lat_list[1]
+        if len(unique_lat) == 2 and np.array_equal(unique_angles,[90.0]): ## conv (P)
+            return unique_lat[0], unique_lat[1]
         raise ValueError('Input lattice is incorrect, does not match '+lat_type)
     if lat_type == 'ortho':
-        if len(unique(params[:3])) == 3 and len(unique(params[3:])) == 1: ## conv (P)
-            assert all(round(value,3) == 90.0 for value in params[3:]), \
-                'Input lattice is incorrect, does not match '+lat_type
-            unique_lat_list = sorted(params[:3])
-            return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2]
-        if len(unique(params[:3])) == 2 and len(unique(params[3:])) == 2: ## base-centered (C)
-            assert [round(value,3) for value in params[3:]].count(90.0) == 2, \
+        if len(unique_lat) == 3 and np.array_equal(unique_angles,[90.0]): ## conv (P)
+            return unique_lat[0], unique_lat[1], unique_lat[2]
+        if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
+            assert list(params[3:]).count(90.0) == 2, \
                 'Input lattice is incorrect, does not match '+lat_type
             cell_vecs = get_cell(cmpd,lat_type,'relax')
             a_lat = round(cell_vecs[0][0]*2.,3)
             b_lat = round(cell_vecs[0][1]*2.,3)
             c_lat = round(cell_vecs[2][2],3)
-            conv_lengths = sorted([a_lat,b_lat,c_lat])
+            conv_lengths = np.array(sorted([a_lat,b_lat,c_lat])).round(3)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
-        if len(unique(params[:3])) == 3 and len(unique(params[3:])) == 3: ## face-centered (F)
+        if len(unique_lat) == 3 and len(unique_angles) == 3: ## face-centered (F)
             cell_vecs = np.array(get_cell(cmpd,lat_type,'relax'))
             components = [abs(value) for value in cell_vecs.flatten()]
-            prim_lengths = sorted(unique(components))[1:]
-            conv_lengths = [2*value for value in prim_lengths]
+            prim_lengths = sorted(set(components))[1:]
+            conv_lengths = np.array([2*value for value in prim_lengths]).round(3)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
-        if len(unique(params[:3])) == 1 and len(unique(params[3:])) == 3: ## body-centered (I)
+        if len(unique_lat) == 1 and len(unique_angles) == 3: ## body-centered (I)
             cell_vecs = np.array(get_cell(cmpd,lat_type,'relax'))
             components = [abs(value) for value in cell_vecs.flatten()]
-            prim_lengths = sorted(unique(components))
-            conv_lengths = [2*value for value in prim_lengths]
+            prim_lengths = sorted(set(components))
+            conv_lengths = np.array([2*value for value in prim_lengths]).round(3)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
         raise ValueError('Input lattice is incorrect, does not match '+lat_type)
     if lat_type == 'monoclin':
-        if [round(value,3) for value in params[3:]].count(90.0) == 2: ## conv (P)
-            unique_lat_list = sorted(unique(params[:3]))
+        if list(params[3:]).count(90.0) == 2: ## conv (P)
             for value in params[3:]:
                 if round(value,2) != 90.0:
                     angle = value
-            return unique_lat_list[0], unique_lat_list[1], unique_lat_list[2], angle
-        if len(unique(params[:3])) == 2 and len(unique(params[3:])) == 2: ## base-centered (C)
+            return unique_lat[0], unique_lat[1], unique_lat[2], angle
+        if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
             cell_vecs = np.array(get_cell(cmpd,lat_type,'relax'))
             a_lat = round(cell_vecs[0][0]*2,3)
             c_lat = round(cell_vecs[2][2]*2,3)
@@ -460,12 +440,12 @@ def get_lattice_constant(cmpd,lat_type):
             b_lat = round(math.sqrt(compon_1**2 + compon_2**2),3)
             angle = round(math.degrees(math.acos(compon_1/b_lat)),3)
             b_lat = round(b_lat/2.,3) ## Not sure why yet
-            conv_lengths = sorted([a_lat,b_lat,c_lat])
+            conv_lengths = np.array(sorted([a_lat,b_lat,c_lat])).round(3)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2], angle
         raise ValueError('Input lattice is incorrect, does not match '+lat_type)
     if lat_type == 'triclin': ## conv (P)
-        unique_lat_list = sorted(unique(params[:3]))
-        unique_angle_list = sorted(unique(params[3:]))
+        assert len(unique_lat) == 3 and list(params[3:]).count(90.0) < 2, \
+            'Input lattice is incorrect, does not match '+lat_type
         return unique_lat_list + unique_angle_list
 
 def check_convergence(cmpd,lat_type,calc_type):

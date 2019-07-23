@@ -13,15 +13,10 @@ def test_parse_num_objs():
     assert gaopaw.parse_num_objs(ex_template_dir+'/Empty') == 15
 
 def test_parse_elems():
-    assert gaopaw.parse_elems('O') == ['O']
-    assert gaopaw.parse_elems('HOSFe') == ['H','O','S','Fe']
-    assert gaopaw.parse_elems('Ag2S') == ['Ag','S']
-    assert gaopaw.parse_elems('H2O2Na2FeCo34Ag5OSH2') == ['H','O','Na','Fe','Co','Ag','S']
-
-def test_unique():
-    assert gaopaw.unique(['Be','Hf','Hf','O','S','Be','Hf','Ga','O']) == ['Be','Hf','O','S','Ga']
-    assert gaopaw.unique([1,4,1,2,2,3,5,1]) == [1,4,2,3,5]
-    assert gaopaw.unique([12.000001,12.0]) == [12.0]
+    assert set(gaopaw.parse_elems('O')) == {'O'}
+    assert set(gaopaw.parse_elems('HOSFe')) == {'H','O','Fe','S'}
+    assert set(gaopaw.parse_elems('Ag2S')) == {'Ag','S'}
+    assert set(gaopaw.parse_elems('H2O2Na2FeCo34Ag5OSH2')) == {'H','O','Na','Fe','Co','Ag','S'}
 
 def test_get_num_objs():
     cmpd_list = \

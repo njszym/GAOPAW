@@ -257,7 +257,7 @@ def check_upf():
     """
     Check if a .UPF file was succesfully created by AtomPAW
     """
-    if len([fname for fname in glob.iglob('*UPF')]) != 0:
+    if len(glob.glob('*UPF')) != 0:
         return True
     return False
 
@@ -457,19 +457,15 @@ def compare_log():
     Note that columns in logderiv.l correspond to:
     energy, exact logderiv, pseudized logderv, exact arctan, pseudized arctan
     """
-    log_derivs = [fname for fname in glob.iglob('logd*')]
+    log_derivs = glob.glob('logd*')
     sum_log = 0
     total_diff = 0
-    for file in log_derivs[:-1]:
-        log_data = np.loadtxt(file).transpose()
-        log_exact = log_data[3]
-        log_pseudo = log_data[4]
+    for fname in log_derivs[:-1]: ## Exclude unbound state
+        log_data = np.loadtxt(fname).transpose()
+        log_exact = np.array(log_data[3])
+        log_pseudo = np.array(log_data[4])
         sum_log += sum([abs(value) for value in log_exact])
-        diff = []
-        for (ps, ex) in zip(log_pseudo,log_exact):
-            diff.append(abs(ps-ex))
-        net_diff = sum(diff)
-        total_diff += net_diff
+        total_diff += abs(log_pseudo - log_exact)
     return total_diff/sum_log
 
 def compare_atoms(cmpd,lat_type,template_dir):
@@ -528,7 +524,7 @@ def compare_mag_mom(cmpd,lat_type,ae_mag_mom,template_dir):
         else:
             pass
     net_diff = sum(rel_diff)/len(rel_diff)
-    return float(net_diff)
+    return net_diff
 
 def get_gap(cmpd,lat_type):
     """
@@ -536,17 +532,16 @@ def get_gap(cmpd,lat_type):
     Note that unoccupied bands need to be included
     and occupations need to be fixed in the scf run.
     """
+    band_gap = None
     with open('%s.%s.scf.out' % (cmpd,lat_type)) as qe_output:
         for line in qe_output:
             if 'highest' and 'lowest' in line.split():
                 band_gap = (float(line.split()[7]) - float(line.split()[6]))
-    try:
-        band_gap
-    except NameError:
+    if not band_gap:
         err = """Energies of highest occupied and lowest unoccupied 
             states could not be found; ensure occupation is fixed"""
         raise NameError(err)
-    return float(band_gap)
+    return band_gap
 
 def birch_murnaghan(vol, vol_equil, bulk, bulk_prime, energy_equil):
     """
@@ -557,13 +552,13 @@ def birch_murnaghan(vol, vol_equil, bulk, bulk_prime, energy_equil):
         ((vol_equil / vol) ** (2 / 3.) - 1) ** 3 * bulk_prime +
         ((vol_equil / vol) ** (2 / 3.) - 1) ** 2 * (6 - 4 * (vol_equil / vol) ** (2 / 3.)))
 
-def get_bulk(cmpd,lat_type):
+def get_bulk(cmpd,lat_type,ev_fname='E_V.txt'):
     """
     Reads in energy-volume data from E_V.txt and calculates:
     equilibrium volume, bulk modulus, and dB/dP...
     i.e., fit to Birch Murnaghan equation of state
     """
-    ev_data = np.loadtxt('E_V.txt').transpose()
+    ev_data = np.loadtxt(ev_fname).transpose()
     energy = list(ev_data[0])
     energy = np.array([13.6056980659*value for value in energy]) ## Ry to eV
     volume = list(ev_data[1])
@@ -582,7 +577,7 @@ def get_bulk(cmpd,lat_type):
         eos_file.write('%s %s %s' % (volume, bulk, bulk_prime))
     return volume, bulk, bulk_prime
 
-def run_scale_lat(cmpd,lat_type,template_dir):
+def run_scale_lat(cmpd,lat_type,template_dir,ev_fname='E_V.txt'):
     """
     Read in relaxed cell parameters from cmpd.lat_type.relax.out,
     scale this lattice constant from 94% to 106% (7 values created),
@@ -594,7 +589,6 @@ def run_scale_lat(cmpd,lat_type,template_dir):
     scale_num = [0.94,0.96,0.98,1.0,1.02,1.04,1.06]
     relax_in = '%s.%s.relax.in' % (cmpd, lat_type)
     relax_out = '%s.%s.relax.out' % (cmpd, lat_type)
-    UPF_files = [fname for fname in glob.iglob('*UPF')]
     energies = []
     volumes = []
     folder_index = 1
@@ -604,7 +598,7 @@ def run_scale_lat(cmpd,lat_type,template_dir):
         new_cell_matrix = np.matrix(new_cell_params)
         volumes.append(np.linalg.det(new_cell_matrix))
         os.mkdir(folder)
-        for file in UPF_files:
+        for file in glob.iglob('*UPF'):
             copyfile(file,os.path.join(folder,file))
         copyfile(relax_in,os.path.join(folder,relax_in))
         copyfile(relax_out, os.path.join(folder, relax_out))
@@ -620,7 +614,7 @@ def run_scale_lat(cmpd,lat_type,template_dir):
                         all_energies.append(line.split()[4])
             energies.append(all_energies[-1])
         folder_index += 1
-    with open('E_V.txt','w+') as ev_file:
+    with open(ev_fname,'w+') as ev_file:
         for (e,v) in zip(energies,volumes):
             ev_file.write('%s %s \n' % (e,v))
 
@@ -931,8 +925,8 @@ def update_best_result(obj_fn_list):
     update the Best_Result folder accordingly.
     """
     current_obj_fn = calc_obj_fn(obj_fn_list)
-    upf_files = [fname for fname in glob.iglob('*UPF')]
-    atompaw_files = [fname for fname in glob.iglob('*atompaw*')]
+    upf_files = glob.glob('*UPF')
+    atompaw_files = glob.glob('*atompaw*')
     if not os.path.isdir(os.path.join(os.pardir,'Best_Solution')):
         os.mkdir(os.path.join(os.pardir,'Best_Solution'))
         for fname in upf_files + atompaw_files:

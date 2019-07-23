@@ -1,0 +1,20 @@
+[
+  "tests/test_unit.py::test_parse_num_objs",
+  "tests/test_unit.py::test_parse_elems",
+  "tests/test_unit.py::test_unique",
+  "tests/test_unit.py::test_get_num_objs",
+  "tests/test_unit.py::test_form_cmpd_dict",
+  "tests/test_unit.py::test_get_element_info",
+  "tests/test_unit.py::test_test_element_list",
+  "tests/test_unit.py::test_test_cmpd_list",
+  "tests/test_unit.py::test_merge_dicts",
+  "tests/test_unit.py::test_test_property",
+  "tests/test_unit.py::test_check_upf",
+  "tests/test_unit.py::test_bad_run",
+  "tests/test_unit.py::test_compare_lat",
+  "tests/test_unit.py::test_update_dakota",
+  "tests/test_unit.py::test_check_convergence",
+  "tests/test_unit.py::test_update_structure",
+  "tests/test_unit.py::test_scale_cell",
+  "tests/test_unit.py::test_write_cell"
+]

@@ -1,0 +1,15 @@
+{
+  "scripts/test_PP.py": true,
+  "tests/test_unit.py::test_bad_run": true,
+  "tests/test_unit.py::test_check_convergence": true,
+  "tests/test_unit.py::test_check_upf": true,
+  "tests/test_unit.py::test_compare_lat": true,
+  "tests/test_unit.py::test_get_element_info": true,
+  "tests/test_unit.py::test_parse_num_objs": true,
+  "tests/test_unit.py::test_scale_cell": true,
+  "tests/test_unit.py::test_test_element_list": true,
+  "tests/test_unit.py::test_test_property": true,
+  "tests/test_unit.py::test_update_dakota": true,
+  "tests/test_unit.py::test_update_structure": true,
+  "tests/test_unit.py::test_write_cell": true
+}

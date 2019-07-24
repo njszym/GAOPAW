@@ -329,9 +329,9 @@ def run_qe(cmpd,lat_type,calc_type,template_dir):
     """
     if os.path.exists('%s.%s.%s.out' % (cmpd,lat_type,calc_type)):
         return
-    template_file = os.path.join('%s.%s.%s.template' % (cmpd,lat_type,calc_type))
+    template_file = os.path.join(template_dir, '%s.%s.%s.template' % (cmpd,lat_type,calc_type))
     qe_input = '%s.%s.%s.in' % (cmpd,lat_type,calc_type)
-    shutil.copy(template_file,new_input_file)
+    shutil.copy(template_file,qe_input)
     if calc_type == 'scf':
         update_structure(cmpd,lat_type,'scf')
     subprocess.call(['run','periodic_dft_gui_dir/runner.py','pw.x',qe_input,
@@ -465,7 +465,7 @@ def compare_log():
         log_exact = np.array(log_data[3])
         log_pseudo = np.array(log_data[4])
         sum_log += sum([abs(value) for value in log_exact])
-        total_diff += abs(log_pseudo - log_exact)
+        total_diff += sum(abs(log_pseudo - log_exact))
     return total_diff/sum_log
 
 def compare_atoms(cmpd,lat_type,template_dir):
@@ -779,16 +779,8 @@ def scale_cell(cmpd,lat_type,scale_factor):
         v = [float(value) for value in v]
         v = np.array([alat*value for value in v])
         vectors.append(v)
-    M = np.matrix(vectors)
-    i, j = [0,0]
-    scaled_M = [[0,0,0],[0,0,0],[0,0,0]]
-    for vector in np.array(M):
-        j = 0
-        for value in vector:
-            scaled_M[i][j] = value*(scale_factor**(1./3.))
-            j += 1
-        i += 1
-    return np.array(scaled_M)
+    scaled_cell = np.array(vectors)*(scale_factor**(1./3.))
+    return scaled_cell
 
 def write_cell(cmpd,lat_type,cell):
     """
@@ -868,6 +860,8 @@ def update_obj_file(diff_dict):
     obj_fn_list, obj_fn_labels = dict_to_list(diff_dict)
     with open('Detailed_Results','w+') as obj_file:
         for (value,label) in zip(obj_fn_list,obj_fn_labels):
+            print(value) ################
+            print(label) ################
             value = round(float(value),6)
             if ('lattice_constant' in label) or ('magnetization' in label) \
             or ('magnetic_moment' in label):

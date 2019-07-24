@@ -51,6 +51,10 @@ def test_get_element_info():
     assert round(gaopaw.get_element_info(elem_template_dir)['Zr']['FCC'],3) == 4.522
     assert round(gaopaw.get_element_info(elem_template_dir)['Zr']['BCC'],3) == 3.569
 
+def test_compare_log():
+    with gaopaw.fileutils.chdir('Log_tests'):
+        assert round(gaopaw.compare_log(),5) == 0.00334
+
 def run_atompaw_mock(elem):
     for fname in gaopaw.os.listdir(ex_template_dir+'/'+elem+'/'):
         gaopaw.shutil.copyfile(ex_template_dir+'/'+elem+'/'+fname,'./'+fname)
@@ -177,15 +181,6 @@ def test_update_structure():
     with gaopaw.fileutils.chdir(working_dir('Si')):
         gaopaw.update_structure('Si','diamond','scf')
 
-def test_scale_cell():
-    with gaopaw.fileutils.chdir(working_dir('Si')):
-        scaled_cell = gaopaw.scale_cell('Si','diamond',0.9)
-        assert len(scaled_cell) == 3
-        for vec in scaled_cell:
-            assert len(vec) == 3
-        scaled_matrix = gaopaw.np.matrix(scaled_cell)
-        assert round(gaopaw.np.linalg.det(scaled_matrix),3) == 243.096
-
 def test_write_cell():
     with gaopaw.fileutils.chdir(working_dir('Si')):
         gaopaw.write_cell('Si','diamond',[[1.0,0.0,0.0],[0.0,1.0,0.0],[0.0,0.0,1.0]])
@@ -199,6 +194,15 @@ def test_dict_to_list():
     assert gaopaw.dict_to_list(diff_dict)[0] == [0.01, 0.2, 0.03]
     assert gaopaw.dict_to_list(diff_dict)[1] == \
     ['Si_SC_lattice_constant', 'Si_SC_phonon_frequency', 'SiC_ZB_band_gap']
+
+def test_scale_cell():
+    with gaopaw.fileutils.chdir(working_dir('Si')):
+        scaled_cell = gaopaw.scale_cell('Si','diamond',0.9)
+        assert len(scaled_cell) == 3
+        for vec in scaled_cell:
+            assert len(vec) == 3
+        scaled_matrix = gaopaw.np.matrix(scaled_cell)
+        assert round(gaopaw.np.linalg.det(scaled_matrix),3) == 243.096
 
 def test_update_obj_file():
     diff_dict = \

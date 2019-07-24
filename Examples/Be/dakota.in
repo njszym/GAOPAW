@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 44
-  	  initial_point    1.647  1.504  1.486  1.221  1.162  1.511  1.588  8.156  1.604  1.203  1.316  1.444  1.391  1.352  1.566  4.463  5.822  1.769  1.764  1.162  1.787  1.939  1.717  1.822  2.175  1.243  2.098  1.744  1.718  1.876  1.823  2.039  1.828  3.177  3.507  1.806  1.687  1.389  1.269  1.622  1.693  1.689  3.745  6.024
-  	  lower_bounds     1.547  1.404  1.386  1.121  1.062  1.411  1.488  7.156  1.504  1.103  1.216  1.344  1.291  1.252  1.466  3.963  5.322  1.669  1.664  1.062  1.687  1.839  1.617  1.722  1.675  0.743  1.990  1.644  1.618  1.776  1.723  1.939  1.728  2.677  3.007  1.706  1.587  1.289  1.169  1.522  1.593  1.589  3.245  5.024
-  	  upper_bounds     1.747  1.604  1.586  1.321  1.262  1.611  1.688  9.156  1.704  1.303  1.416  1.544  1.491  1.452  1.666  4.963  6.322  1.869  1.864  1.262  1.878  2.039  1.817  1.922  2.675  1.743  2.198  1.844  1.818  1.976  1.923  2.139  1.928  3.677  4.007  1.906  1.787  1.489  1.369  1.722  1.793  1.789  4.245  7.024
-  	  descriptors     'DAKOTA_Be_RC_1' 'DAKOTA_Be_RC_2' 'DAKOTA_Be_RC_3' 'DAKOTA_Be_RC_4' 'DAKOTA_Be_RC_5' 'DAKOTA_Be_RC_6' 'DAKOTA_Be_RC_7' 'DAKOTA_Be_EP_1' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2' 'DAKOTA_Al_RC_1' 'DAKOTA_Al_RC_2' 'DAKOTA_Al_RC_3' 'DAKOTA_Al_RC_4' 'DAKOTA_Al_RC_5' 'DAKOTA_Al_RC_6' 'DAKOTA_Al_RC_7' 'DAKOTA_Al_EP_1' 'DAKOTA_Al_EP_2' 'DAKOTA_B_RC_1' 'DAKOTA_B_RC_2' 'DAKOTA_B_RC_3' 'DAKOTA_B_RC_4' 'DAKOTA_B_RC_5' 'DAKOTA_B_RC_6' 'DAKOTA_B_RC_7' 'DAKOTA_B_EP_1' 'DAKOTA_B_EP_2'
+    continuous_design =  44
+    initial_point =  1.647 1.504 1.486 1.221 1.162 1.511 1.588 8.156 1.604 1.203 1.316 1.444 1.391 1.352 1.566 4.463 5.822 1.769 1.764 1.162 1.787 1.939 1.717 1.822 2.175 1.243 2.098 1.744 1.718 1.876 1.823 2.039 1.828 3.177 3.507 1.806 1.687 1.389 1.269 1.622 1.693 1.689 3.745 6.024
+    lower_bounds =  1.565 1.429 1.412 1.16 1.104 1.435 1.509 7.748 1.524 1.143 1.25 1.372 1.321 1.284 1.488 4.24 5.531 1.681 1.676 1.104 1.698 1.842 1.631 1.731 2.066 1.181 1.993 1.657 1.632 1.782 1.732 1.937 1.737 3.018 3.332 1.716 1.603 1.32 1.206 1.541 1.608 1.605 3.558 5.723
+    upper_bounds =  1.729 1.579 1.56 1.282 1.22 1.587 1.667 8.564 1.684 1.263 1.382 1.516 1.461 1.42 1.644 4.686 6.113 1.857 1.852 1.22 1.876 2.036 1.803 1.913 2.284 1.305 2.203 1.831 1.804 1.97 1.914 2.141 1.919 3.336 3.682 1.896 1.771 1.458 1.332 1.703 1.778 1.773 3.932 6.325
+    descriptors =  "DAKOTA_Be_RC_1" "DAKOTA_Be_RC_2" "DAKOTA_Be_RC_3" "DAKOTA_Be_RC_4" "DAKOTA_Be_RC_5" "DAKOTA_Be_RC_6" "DAKOTA_Be_RC_7" "DAKOTA_Be_EP_1" "DAKOTA_O_RC_1" "DAKOTA_O_RC_2" "DAKOTA_O_RC_3" "DAKOTA_O_RC_4" "DAKOTA_O_RC_5" "DAKOTA_O_RC_6" "DAKOTA_O_RC_7" "DAKOTA_O_EP_1" "DAKOTA_O_EP_2" "DAKOTA_S_RC_1" "DAKOTA_S_RC_2" "DAKOTA_S_RC_3" "DAKOTA_S_RC_4" "DAKOTA_S_RC_5" "DAKOTA_S_RC_6" "DAKOTA_S_RC_7" "DAKOTA_S_EP_1" "DAKOTA_S_EP_2" "DAKOTA_Al_RC_1" "DAKOTA_Al_RC_2" "DAKOTA_Al_RC_3" "DAKOTA_Al_RC_4" "DAKOTA_Al_RC_5" "DAKOTA_Al_RC_6" "DAKOTA_Al_RC_7" "DAKOTA_Al_EP_1" "DAKOTA_Al_EP_2" "DAKOTA_B_RC_1" "DAKOTA_B_RC_2" "DAKOTA_B_RC_3" "DAKOTA_B_RC_4" "DAKOTA_B_RC_5" "DAKOTA_B_RC_6" "DAKOTA_B_RC_7" "DAKOTA_B_EP_1" "DAKOTA_B_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -46,6 +46,6 @@ interface
           named 'workdir_pp' file_save directory_save
 
 responses
-	num_objective_functions = 21 ## Set this accordingly based on your calculation
+    num_objective_functions =  21
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

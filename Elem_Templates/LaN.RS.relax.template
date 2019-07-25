@@ -4,15 +4,18 @@
   pseudo_dir='./'
 /
 &system
-  ibrav=3
-  celldm=6.3
-  nat=1
-  ntyp=1
+  ibrav=2
+  celldm(1)=10.046
+  nat=2
+  ntyp=2
   ecutwfc=40
   ecutrho=200
   smearing='fermi-dirac'
   degauss=0.002
   occupations='smearing'
+  nspin=2
+  starting_magnetization(1)=0.10
+  starting_magnetization(2)=0.00
 /
 &electrons
   conv_thr=1.d-8
@@ -23,10 +26,11 @@
 &cell
   cell_dynamics='bfgs'
 /
-ATOMIC_SPECIES
-  Cl 0.0 Cl.GGA-PBE-paw.UPF
-ATOMIC_POSITIONS (alat)
-  Cl 0.0 0.0 0.0
 K_POINTS (automatic)
-  8 8 8 0 0 0
-
+  12 12 12 0 0 0
+ATOMIC_SPECIES
+  La 0.0 La.GGA-PBE-paw.UPF
+  N 0.0 N.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (crystal)
+  La 0.0 0.0 0.0
+  N 0.5 0.5 0.5

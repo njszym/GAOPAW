@@ -113,9 +113,10 @@ def get_element_info(template_dir):
         elemental_data[elem]['BCC'] = lat_const
     df_ren = pd.read_table(os.path.join(template_dir, 'F_BLOCK_RS_NITRIDES'),
         sep='\s+', header=None)
-    for (elem, lat_const) in zip(df_ren[0], df_ren[1]):
+    for (elem, lat_const, mag) in zip(df_ren[0], df_ren[1], df_ren[2]):
         elemental_data['%sN' % elem] = {}
         elemental_data['%sN' % elem]['RS'] = lat_const
+        elemental_data['%sN' % elem]['mag'] = mag
     elemental_data['N'] = {}
     elemental_data['N']['SC'] = 6.1902
     elemental_data['P'] = {}
@@ -145,7 +146,11 @@ def test_element_list(elem_list, template_dir):
             if elem == 'P':
                 elem_diff_dict[elem]['ortho'] = {}
                 elem_diff_dict[elem]['ortho']['lattice_constant'] = {}
-            if elem in f_block:
+            if elem in lanthanides:
+                elem_diff_dict[elem]['%sN' % elem] = {}
+                elem_diff_dict[elem]['%sN' % elem]['lattice_constant'] = {}
+                elem_diff_dict[elem]['%sN' % elem]['magnetization'] = {}
+            if elem in actinides:
                 elem_diff_dict[elem]['%sN' % elem] = {}
                 elem_diff_dict[elem]['%sN' % elem]['lattice_constant'] = {}
         else:
@@ -178,12 +183,20 @@ def test_element_list(elem_list, template_dir):
                     elem_diff_dict[elem]['ortho']['lattice_constant'] = \
                         compare_lat(ae_lat, elem, 'ortho')
                 if elem in f_block:
+                    copyfile(os.path.join(os.pardir,'N.GGA-PBE-paw.UPF'),'./N.GGA-PBE-paw.UPF')
                     run_qe('%sN' % elem, 'RS', 'relax', template_dir)
                     if not check_convergence('%sN' % elem, 'RS', 'relax'):
                         return elem_diff_dict, True
                     ae_lat = elemental_data['%sN' % elem]['RS']
                     elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] = \
                         compare_lat(ae_lat, '%sN' % elem, 'RS')
+                    run_qe('%sN' % elem, 'RS', 'scf', template_dir)
+                    if not check_convergence('%sN' % elem, 'RS', 'scf'):
+                        return elem_diff_dict, True
+                    qe_mag = get_mag(cmpd, lat_type)
+                    ae_mag = elemental_data['%sN' % elem]['mag']
+                    elem_diff_dict['%sN' % elem]['RS']['mag'] = \
+                        abs(ae_mag-qe_mag), False
             else:
                 for lat_type in ['FCC', 'BCC']:
                     run_qe(elem, lat_type, 'relax', template_dir)
@@ -221,6 +234,7 @@ def test_cmpd_list(cmpd_list, cmpd_diff_dict, cmpd_template_dir, elem_template_d
             if formula in ['%sN' % f_elem for f_elem in f_block]:
                 if lat_type == 'RS':
                     assert property != 'lattice_constant', elem_err_mssg
+                    assert property != 'magnetization', elem_err_mssg
             ae_value = getattr(cmpd, property)
             cmpd_diff_dict[formula][lat_type][property], error_check = \
                 test_property(formula, lat_type, property, ae_value, cmpd_template_dir)
@@ -287,7 +301,7 @@ def test_property(cmpd, lat_type, property, ae_data, template_dir):
         if not check_convergence(cmpd, lat_type, 'scf'):
             return None, True
         qe_mag = get_mag(cmpd, lat_type)
-        return abs(ae_data-qe_mag)/ae_data, False
+        return abs(ae_data-qe_mag), False
     if property == 'magnetic_moment':
         run_qe(cmpd, lat_type, 'scf', template_dir)
         if not check_convergence(cmpd, lat_type, 'scf'):
@@ -561,10 +575,7 @@ def compare_mag_mom(cmpd, lat_type, ae_mag_mom, template_dir):
     qe_mag_mom = [float(value) for value in qe_mag_mom]
     rel_diff = []
     for (qe_val, ae_val) in zip(qe_mag_mom, ae_mag_mom):
-        if float(ae_val) != 0.0:
-            rel_diff.append(abs((qe_val-ae_val)/ae_val))
-        else:
-            pass
+        rel_diff.append(abs(qe_val-ae_val))
     net_diff = sum(rel_diff)/len(rel_diff)
     return net_diff
 
@@ -902,19 +913,18 @@ def update_obj_file(diff_dict):
     obj_fn_list, obj_fn_labels = dict_to_list(diff_dict)
     with open('Detailed_Results', 'w+') as obj_file:
         for (value, label) in zip(obj_fn_list, obj_fn_labels):
-            print(value) ################
-            print(label) ################
             value = round(float(value), 6)
-            if ('lattice_constant' in label) or ('magnetization' in label) \
-            or ('magnetic_moment' in label):
+            if ('lattice_constant' in label):
                 value = value*100
                 obj_file.write('%s: %s%%\n' % (label, value))
+            if ('magnetization' in label) or ('magnetic_moment' in label):
+                obj_file.write('%s: %s bohr mag\n' % (label, value))
             if 'log' in label:
                 obj_file.write('%s: %s\n' % (label, value))
             if 'band_gap' in label:
                 obj_file.write('%s: %s eV\n' % (label, value))
             if 'eos' in label:
-                obj_file.write('%sdelta_factor: %s\n' % (label[:-3], value))
+                obj_file.write('%sdelta_factor: %s meV/atom\n' % (label[:-3], value))
             if 'phonon_frequency' in label:
                 obj_file.write('%s: %s THz\n' % (label, value))
             if 'atomic_positions' in label:

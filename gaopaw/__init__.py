@@ -111,6 +111,11 @@ def get_element_info(template_dir):
         sep='\s+', header=None)
     for (elem, lat_const) in zip(df_bcc[0], df_bcc[1]):
         elemental_data[elem]['BCC'] = lat_const
+    df_ren = pd.read_table(os.path.join(template_dir, 'F_BLOCK_RS_NITRIDES'),
+        sep='\s+', header=None)
+    for (elem, lat_const) in zip(df_ren[0], df_ren[1]):
+        elemental_data['%sN' % elem] = {}
+        elemental_data['%sN' % elem]['RS'] = lat_const
     elemental_data['N'] = {}
     elemental_data['N']['SC'] = 6.1902
     elemental_data['P'] = {}
@@ -193,11 +198,16 @@ def test_cmpd_list(cmpd_list, cmpd_diff_dict, cmpd_template_dir, elem_template_d
                 automatically, therefore property should be
                 removed from input.json""" % (property, formula)
             if formula in elemental_data.keys():
-                if (formula not in ['N','P']) and (lat_type in ['FCC','BCC']): ## may need changed for f-block
+                if (formula not in ['N','P']) and (lat_type in ['FCC','BCC']):
                     assert property != 'lattice_constant', elem_err_mssg
                 if (cmpd == 'N') and (lat_type == 'SC'):
                     assert property != 'atomic_positions', elem_err_mssg
                 if (cmpd == 'P') and (lat_type == 'ortho'):
+                    assert property != 'lattice_constant', elem_err_mssg
+            f_block = ['La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho',
+                'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
+            if formula in ['%sN' % f_elem for f_elem in f_block]:
+                if lat_type == 'RS':
                     assert property != 'lattice_constant', elem_err_mssg
             ae_value = getattr(cmpd, property)
             cmpd_diff_dict[formula][lat_type][property], error_check = \

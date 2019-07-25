@@ -25,7 +25,7 @@ from gaopaw.calcDelta import *
 
 def parse_num_objs(working_dir):
     """
-    Read in number of objective functions defined in the dakota.in file
+    Read in number of objective functions defined in the dakota.in file.
     """
     with open(os.path.join(working_dir, os.pardir, 'dakota.in')) as dakota_input:
         for line in dakota_input:
@@ -35,7 +35,7 @@ def parse_num_objs(working_dir):
 
 def parse_elems(formula):
     """
-    Parse compound formula to obtain constituent elements
+    Parse compound formula to obtain constituent elements.
     """
     assert formula[0].isupper(), 'First letter of cmpd formula should be capitalized'
     letters_only = ''.join([letter for letter in formula if not letter.isdigit()])
@@ -51,7 +51,7 @@ def parse_elems(formula):
 
 def get_num_objs(cmpd_list, element_list):
     """
-    Parse input.json and return total number of objective functions
+    Parse input.json and return total number of objective functions.
     """
     num_elems = len(element_list)
     if num_elems == 1 and len(vars(cmpd_list[0])) == 1:
@@ -76,7 +76,7 @@ def get_num_objs(cmpd_list, element_list):
 
 def form_cmpd_dict(cmpd_list):
     """
-    Constructs empty dictionary of correct length for testing
+    Constructs empty dictionary of correct length for compound testing.
     """
     cmpd_diff_dict = {}
     for cmpd in cmpd_list:
@@ -95,14 +95,20 @@ def form_cmpd_dict(cmpd_list):
 
 def get_element_info(template_dir):
     """
-    Read in AE data for elemental lattice constants
+    Read in AE data for elemental lattice constants from specified 
+    template directory. This includes FCC/BCC lattice constants for 
+    all non f-block elements excluding N and P, for which atomic positions 
+    and lattice constants are tested in simple cubic and orthorhombic 
+    structures respectively. For f-block, RS oxides are considered.
     """
     elemental_data = {}
-    df_fcc = pd.read_table(os.path.join(template_dir, 'WIEN2k_FCC'), sep='\s+', header=None)
+    df_fcc = pd.read_table(os.path.join(template_dir, 'WIEN2k_FCC'), 
+        sep='\s+', header=None)
     for (elem, lat_const) in zip(df_fcc[0], df_fcc[1]):
         elemental_data[elem] = {}
         elemental_data[elem]['FCC'] = lat_const
-    df_bcc = pd.read_table(os.path.join(template_dir, 'WIEN2k_BCC'), sep='\s+', header=None)
+    df_bcc = pd.read_table(os.path.join(template_dir, 'WIEN2k_BCC'), 
+        sep='\s+', header=None)
     for (elem, lat_const) in zip(df_bcc[0], df_bcc[1]):
         elemental_data[elem]['BCC'] = lat_const
     elemental_data['N'] = {}
@@ -113,8 +119,9 @@ def get_element_info(template_dir):
 
 def test_element_list(elem_list, template_dir):
     """
-    Test the atompaw generation, compare QE with AE lattice constants, 
-    and compare QE/AE log derivatives
+    Perform and check UPF generation with atompaw, compare pseudized
+    log derivatives with corresponding AE log derivatives for each orbital,
+    and compare QE with AE lattice constants for elemental states.
     """
     elem_diff_dict = {}
     elemental_data = get_element_info(template_dir)
@@ -172,7 +179,8 @@ def test_element_list(elem_list, template_dir):
 
 def test_cmpd_list(cmpd_list, cmpd_diff_dict, cmpd_template_dir, elem_template_dir):
     """
-    Perform property tests for all compounds
+    For each compound specified in input.json, perform the given property tests
+    and compare with AE values. Differences correspond to objective functions.
     """
     elemental_data = get_element_info(elem_template_dir)
     for cmpd in cmpd_list:
@@ -200,7 +208,7 @@ def test_cmpd_list(cmpd_list, cmpd_diff_dict, cmpd_template_dir, elem_template_d
 
 def merge_dicts(dct, merge_dct):
     """
-    *Recursively* merge two dictionaries
+    *Recursively* merge two dictionaries.
     """
     for k, v in merge_dct.items():
         if (k in dct and isinstance(dct[k], dict) and \
@@ -212,8 +220,9 @@ def merge_dicts(dct, merge_dct):
 
 def test_property(cmpd, lat_type, property, ae_data, template_dir):
     """
-    General function to calculate a property with QE
-    and compare with corresponding AE value
+    For a given compound and property, perform the required QE
+    calculations to obtain data which will be compared with an
+    specified AE value (difference ~ objective function).
     """
     run_qe(cmpd, lat_type, 'relax', template_dir)
     if not check_convergence(cmpd, lat_type, 'relax'):
@@ -266,7 +275,7 @@ def test_property(cmpd, lat_type, property, ae_data, template_dir):
 
 def check_upf():
     """
-    Check if a .UPF file was succesfully created by AtomPAW
+    Check if a .UPF file was succesfully created by AtomPAW.
     """
     if len(glob.glob('*UPF')) != 0:
         return True
@@ -275,7 +284,7 @@ def check_upf():
 def bad_run(num_obj_fns):
     """
     If something went wrong with the run, e.g., no .UPF file created or
-    if running QE raised an error, set the objective function to 100
+    if running QE raised an error, set all objective functions to 100.
     """
     params, results = di.read_parameters_file('params.in', 'results.out')
     for num in range(1, num_obj_fns+1):
@@ -285,11 +294,10 @@ def bad_run(num_obj_fns):
 
 def compare_lat(ae_lat, cmpd, lat_type):
     """
-    Compute difference between AE and PAW lattice constants.
-    AE values must be given in terms of a conventional unit cell.
-    However, a primitive cell may be used in the calculations;
-    the relaxed parameters will automatically be converted into
-    the conventional setting.
+    Calculate the average difference between QE and QE lattice parameters.
+    AE values must be given in terms of a conventional unit cell, however,
+    a primitive or conventional cell may be used in the QE calculation.
+    get_lattice_constant() will convert into conventional units.
     """
     qe_lat = get_lattice_constant(cmpd, lat_type)
     if isinstance(ae_lat, list) == False:
@@ -303,9 +311,9 @@ def compare_lat(ae_lat, cmpd, lat_type):
 
 def update_dakota(diff_dict):
     """
-    Set the parameters and results files to be used by Dakota
-    The objective function is equal to the difference between the lattice
-    constants of AE calculations and PAW calculations performed here
+    Set the parameters and results files to be used by Dakota.
+    Objective functions are updated according to differences between
+    pseudized and AE properties calculated with atompaw and QE.
     """
     params, results = di.read_parameters_file('params.in', 'results.out')
     label_index = 1
@@ -319,7 +327,8 @@ def update_dakota(diff_dict):
 
 def write_atompaw_input(elem, template_dir):
     """
-    Write AtomPAW input file based on some template specified in template_dir
+    Write atompaw input file for elem based on existing
+    elem.atompaw.templtae in specified template_dir.
     """
     template_file = os.path.join(template_dir, '%s.atompaw.template' % elem)
     new_input_file = '%s.atompaw.in' % elem
@@ -328,7 +337,7 @@ def write_atompaw_input(elem, template_dir):
 
 def run_atompaw(elem):
     """
-    Run AtomPAW using elem.atompaw.in
+    Run AtomPAW using elem.atompaw.in.
     """
     with open('%s.atompaw.in' % elem, 'r') as input_fin, open('log_atompaw', 'w') as log_fout: 
         subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout, 
@@ -450,7 +459,7 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
 def check_convergence(cmpd, lat_type, calc_type):
     """
     Check if the QE calculation ran succesfully
-    (i.e., w/o error and convergence acheived)
+    (i.e., w/o error and convergence acheived).
     """
     qe_error_signs = \
         ['convergence NOT', 'S matrix not positive definite', 'stopping ...']
@@ -463,10 +472,11 @@ def check_convergence(cmpd, lat_type, calc_type):
 def compare_log():
     """"
     Compare arctan of the logarithmic derivatives of the pseudized and 
-    exact wavefunctions produced by AtomPAW...want to minimize...
+    exact wavefunctions produced by atompaw (goal is to minimize difference).
     Comparing arctan works better than using log derivs explicitly.
     Note that columns in logderiv.l correspond to:
-    energy, exact logderiv, pseudized logderv, exact arctan, pseudized arctan
+    energy, exact logderiv, pseudized logderv, exact arctan, pseudized arctan.
+    We exclude the unbound state (highest l) from consideration.
     """
     log_derivs = glob.glob('logd*')
     sum_log = 0
@@ -481,9 +491,8 @@ def compare_log():
 
 def compare_atoms(cmpd, lat_type, template_dir):
     """
-    Compare atomic positions of QE-relaxed structure
-    and those of the AE-relaxed structure.
-    Return sum of the distances.
+    Compare atomic positions of QE-relaxed structure and those 
+    of the AE-relaxed structure. Return sum of the distances.
     """
     df_ae = pd.read_table(os.path.join(template_dir, 
         'AE_Struct.%s.%s' % (cmpd, lat_type)), sep='\s+', header=None)
@@ -503,7 +512,7 @@ def compare_atoms(cmpd, lat_type, template_dir):
 
 def get_mag(cmpd, lat_type):
     """
-    Parse QE output (scf run) to obtain total magnetization
+    Parse QE output (scf run) to obtain total magnetization.
     """
     mag = []
     with open('%s.%s.scf.out' % (cmpd, lat_type)) as qe_output:
@@ -518,7 +527,7 @@ def compare_mag_mom(cmpd, lat_type, ae_mag_mom, template_dir):
     """
     Parse QE output (scf run) to obtain individual
     magnetic moments of atoms in given structure.
-    Compare these with AE magnetic moments in AE_mag.
+    Compare these with AE magnetic moments.
     """
     qe_mag_mom = []
     with open('%s.%s.scf.out' % (cmpd, lat_type)) as qe_output:
@@ -540,8 +549,8 @@ def compare_mag_mom(cmpd, lat_type, ae_mag_mom, template_dir):
 def get_gap(cmpd, lat_type):
     """
     Parse QE output (scf run) to obtain band gap.
-    Note that unoccupied bands need to be included
-    and occupations need to be fixed in the scf run.
+    Note that sufficient unoccupied bands need to be included
+    and occupations set to fixed in the scf run.
     """
     band_gap = None
     with open('%s.%s.scf.out' % (cmpd, lat_type)) as qe_output:
@@ -556,7 +565,7 @@ def get_gap(cmpd, lat_type):
 
 def birch_murnaghan(vol, vol_equil, bulk, bulk_prime, energy_equil):
     """
-    3rd order Birch-Murnaghan equation of state, in the energy-volume form
+    3rd order Birch-Murnaghan equation of state, in the energy-volume form.
     """
     vol = np.array(vol)
     return energy_equil + 9 * vol_equil * bulk / 16. * (
@@ -566,8 +575,8 @@ def birch_murnaghan(vol, vol_equil, bulk, bulk_prime, energy_equil):
 def get_bulk(cmpd, lat_type, ev_fname='E_V.txt'):
     """
     Reads in energy-volume data from E_V.txt and calculates:
-    equilibrium volume, bulk modulus, and dB/dP...
-    i.e., fit to Birch Murnaghan equation of state
+    equilibrium volume, bulk modulus, and dB/dP,
+    i.e., fit to Birch Murnaghan equation of state.
     """
     ev_data = np.loadtxt(ev_fname).transpose()
     energy = list(ev_data[0])
@@ -609,8 +618,8 @@ def run_scale_lat(cmpd, lat_type, template_dir, ev_fname='E_V.txt'):
         new_cell_matrix = np.matrix(new_cell_params)
         volumes.append(np.linalg.det(new_cell_matrix))
         os.mkdir(folder)
-        for file in glob.iglob('*UPF'):
-            copyfile(file, os.path.join(folder, file))
+        for fname in glob.iglob('*UPF'):
+            copyfile(fname, os.path.join(folder, fname))
         copyfile(relax_in, os.path.join(folder, relax_in))
         copyfile(relax_out, os.path.join(folder, relax_out))
         with fileutils.chdir(folder):
@@ -631,8 +640,8 @@ def run_scale_lat(cmpd, lat_type, template_dir, ev_fname='E_V.txt'):
 
 def compare_phonon(cmpd, lat_type, ae_freq, template_dir):
     """
-    Parse optical phonon frequencies from QE run
-    and compare with AE frequencies
+    Parse acoustic and optical phonon frequencies (usually at gamma)
+    from QE run and compare with given AE frequencies.
     """
     with open('%s.%s.scf.in' % (cmpd, lat_type)) as qe_input:
         for line in qe_input:
@@ -768,7 +777,7 @@ def update_structure(cmpd, lat_type, calc_type):
 
 def scale_cell(cmpd, lat_type, scale_factor):
     """
-    Scale cell volume according to scale_factor
+    Scale cell volume according to scale_factor.
     """
     with open('%s.%s.relax.out' % (cmpd, lat_type)) as qe_output:
         lines = qe_output.readlines()

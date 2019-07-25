@@ -130,19 +130,24 @@ def test_element_list(elem_list, template_dir):
     """
     elem_diff_dict = {}
     elemental_data = get_element_info(template_dir)
+    f_block = ['La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho',
+        'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
     for elem in elem_list:
         assert elem in elemental_data.keys(), \
             'No AE data available for your element: %s' % elem
         elem_diff_dict[elem] = {}
         elem_diff_dict[elem]['elemental'] = {}
         elem_diff_dict[elem]['elemental']['log'] = {}
-        if elem in ['N', 'P']:
+        if elem in ['N', 'P'] + f_block:
             if elem == 'N':
                 elem_diff_dict[elem]['SC'] = {}
                 elem_diff_dict[elem]['SC']['atomic_positions'] = {}
             if elem == 'P':
                 elem_diff_dict[elem]['ortho'] = {}
                 elem_diff_dict[elem]['ortho']['lattice_constant'] = {}
+            if elem in f_block:
+                elem_diff_dict[elem]['%sN' % elem] = {}
+                elem_diff_dict[elem]['%sN' % elem]['lattice_constant'] = {}
         else:
             for lat_type in ['FCC', 'BCC']:
                 elem_diff_dict[elem][lat_type] = {}
@@ -158,7 +163,7 @@ def test_element_list(elem_list, template_dir):
                 return elem_diff_dict, True
             copyfile('%s.GGA-PBE-paw.UPF' % elem, os.path.join(os.pardir, '%s.GGA-PBE-paw.UPF' % elem))
             elem_diff_dict[elem]['elemental']['log'] = compare_log()
-            if elem in ['N', 'P']:
+            if elem in ['N', 'P'] + f_block:
                 if elem == 'N':
                     run_qe(elem, 'SC', 'relax', template_dir)
                     if not check_convergence(elem, 'SC', 'relax'):
@@ -172,6 +177,13 @@ def test_element_list(elem_list, template_dir):
                     ae_lat = elemental_data[elem]['ortho']
                     elem_diff_dict[elem]['ortho']['lattice_constant'] = \
                         compare_lat(ae_lat, elem, 'ortho')
+                if elem in f_block:
+                    run_qe('%sN' % elem, 'RS', 'relax', template_dir)
+                    if not check_convergence('%sN' % elem, 'RS', 'relax'):
+                        return elem_diff_dict, True
+                    ae_lat = elemental_data['%sN' % elem]['RS']
+                    elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] = \
+                        compare_lat(ae_lat, '%sN' % elem, 'RS')
             else:
                 for lat_type in ['FCC', 'BCC']:
                     run_qe(elem, lat_type, 'relax', template_dir)

@@ -1,0 +1,41 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/C/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "C",
+            "lattice_type": "BCC",
+            "phonon_frequency": [-21.24,-21.24,-21.24,0.0,0.0,0.0]
+        },
+        {
+            "formula": "C",
+            "lattice_type": "hex",
+            "lattice_constant": [2.464,8.800]
+        },
+        {
+            "formula": "Mg2C",
+            "lattice_type": "FCC",
+            "lattice_constant": 5.445
+        },
+        {
+            "formula": "SiC",
+            "lattice_type": "ZB",
+            "eos": [10.50197, 212.71678, 3.692],
+            "band_gap": 1.24
+        },
+        {
+            "formula": "LiCGa",
+            "lattice_type": "HH",
+            "lattice_constant": 5.088
+        },
+        {
+            "formula": "CO2",
+            "lattice_type": "SC",
+            "lattice_constant": 6.070
+        }
+    ]
+}

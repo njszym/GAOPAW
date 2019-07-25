@@ -1,0 +1,31 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Al/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "Al",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,8.0,8.0,8.0]
+        },
+        {
+            "formula": "AlN",
+            "lattice_type": "RS",
+            "lattice_constant": 4.073,
+            "band_gap": 4.40
+        },
+        {
+            "formula": "AlP",
+            "lattice_type": "ZB",
+            "eos": [20.90164, 82.50173, 3.714]
+        },
+        {
+            "formula": "BiAlO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.797
+        }
+    ]
+}

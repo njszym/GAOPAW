@@ -10,5 +10,5 @@ cmpd_lattice_constant: [6.301,0.00,5.030]
 test_delta: [False,True,False]
 test_gap: [True,False,False]
 band_gap: [2.266,0.00,0.00]
-test_phonon: [False,True,False]
+test_phonon: [True,False,False]
 # End file

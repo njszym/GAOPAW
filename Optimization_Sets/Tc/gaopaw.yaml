@@ -1,0 +1,13 @@
+# Input file for GAOPAW
+elements: ['Tc','Tc','O','O','S','S','Sr','Sr']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [3.875,3.082,3.178,2.511,3.994,3.182,6.030,4.756]
+template_dir: '/home/szymansk/Optimization_Sets/Tc/Input'
+cmpd_formula: ['TcO','TcS','SrTcO3']
+cmpd_lattice_type: ['RS','ZB','per']
+test_lattice: [True,False,True]
+cmpd_lattice_constant: [4.398,0.00,3.967]
+test_delta: [False,True,False]
+test_magnetization: [True,False,False]
+magnetization: [2.02,0.00,0.00]
+# End file

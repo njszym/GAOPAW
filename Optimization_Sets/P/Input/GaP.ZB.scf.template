@@ -16,7 +16,7 @@
   conv_thr=1.d-8
 /
 K_POINTS (automatic)
-  16 16 16 1 1 1
+  12 12 12 0 0 0
 ATOMIC_SPECIES
   P 0.0 P.GGA-PBE-paw.UPF
   Ga 0.0 Ga.GGA-PBE-paw.UPF

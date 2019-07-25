@@ -7,7 +7,7 @@ variables
   	  initial_point    
   	  lower_bounds     
   	  upper_bounds     
-  	  descriptors     'DAKOTA_Fe_RC_1' 'DAKOTA_Fe_RC_2' 'DAKOTA_Fe_RC_3' 'DAKOTA_Fe_RC_4' 'DAKOTA_Fe_RC_5' 'DAKOTA_Fe_RC_6' 'DAKOTA_Fe_RC_7' 'DAKOTA_Fe_RC_8' 'DAKOTA_Fe_RC_9' 'DAKOTA_Fe_EP_1' 'DAKOTA_Fe_EP_2' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2' 'DAKOTA_V_RC_1' 'DAKOTA_V_RC_2' 'DAKOTA_V_RC_3' 'DAKOTA_V_RC_4' 'DAKOTA_V_RC_5' 'DAKOTA_V_RC_6' 'DAKOTA_V_RC_7' 'DAKOTA_V_RC_8' 'DAKOTA_V_RC_9' 'DAKOTA_V_EP_1' 'DAKOTA_V_EP_2' 'DAKOTA_Sb_RC_1' 'DAKOTA_Sb_RC_2' 'DAKOTA_Sb_RC_3' 'DAKOTA_Sb_RC_4' 'DAKOTA_Sb_RC_5' 'DAKOTA_Sb_RC_6' 'DAKOTA_Sb_RC_7' 'DAKOTA_Sb_RC_8' 'DAKOTA_Sb_RC_9' 'DAKOTA_Sb_EP_1' 'DAKOTA_Sb_EP_2' 'DAKOTA_Sb_EP_3' 'DAKOTA_Co_RC_1' 'DAKOTA_Co_RC_2' 'DAKOTA_Co_RC_3' 'DAKOTA_Co_RC_4' 'DAKOTA_Co_RC_5' 'DAKOTA_Co_RC_6' 'DAKOTA_Co_RC_7' 'DAKOTA_Co_RC_8' 'DAKOTA_Co_RC_9' 'DAKOTA_Co_EP_1' 'DAKOTA_Co_EP_2' 'DAKOTA_Al_RC_1' 'DAKOTA_Al_RC_2' 'DAKOTA_Al_RC_3' 'DAKOTA_Al_RC_4' 'DAKOTA_Al_RC_5' 'DAKOTA_Al_RC_6' 'DAKOTA_Al_RC_7' 'DAKOTA_Al_EP_1' 'DAKOTA_Al_EP_2'
+  	  descriptors     'DAKOTA_Fe_RC_1' 'DAKOTA_Fe_RC_2' 'DAKOTA_Fe_RC_3' 'DAKOTA_Fe_RC_4' 'DAKOTA_Fe_RC_5' 'DAKOTA_Fe_RC_6' 'DAKOTA_Fe_RC_7' 'DAKOTA_Fe_RC_8' 'DAKOTA_Fe_RC_9' 'DAKOTA_Fe_EP_1' 'DAKOTA_Fe_EP_2' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2' 'DAKOTA_V_RC_1' 'DAKOTA_V_RC_2' 'DAKOTA_V_RC_3' 'DAKOTA_V_RC_4' 'DAKOTA_V_RC_5' 'DAKOTA_V_RC_6' 'DAKOTA_V_RC_7' 'DAKOTA_V_RC_8' 'DAKOTA_V_RC_9' 'DAKOTA_V_EP_1' 'DAKOTA_V_EP_2' 'DAKOTA_Sb_RC_1' 'DAKOTA_Sb_RC_2' 'DAKOTA_Sb_RC_3' 'DAKOTA_Sb_RC_4' 'DAKOTA_Sb_RC_5' 'DAKOTA_Sb_RC_6' 'DAKOTA_Sb_RC_7' 'DAKOTA_Sb_RC_8' 'DAKOTA_Sb_RC_9' 'DAKOTA_Sb_EP_1' 'DAKOTA_Sb_EP_2' 'DAKOTA_Sb_EP_3'
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -46,6 +46,6 @@ interface
           named 'workdir_pp'
 
 responses
-	num_objective_functions = 28 ## Set this accordingly based on your calculation
+	num_objective_functions = 21 ## Set this accordingly based on your calculation
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

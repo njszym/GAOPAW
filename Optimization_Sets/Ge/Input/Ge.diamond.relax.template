@@ -1,0 +1,33 @@
+&control
+  calculation='vc-relax'
+  prefix='Ge.diamond.relax'
+  pseudo_dir='./'
+  nstep=1
+/
+&system
+  ibrav=2
+  celldm(1)=10.6807
+  nat=2
+  ntyp=1
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='none'
+/
+K_POINTS (automatic)
+  8 8 8 0 0 0
+ATOMIC_SPECIES
+  Ge 0.0 Ge.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (crystal)
+Ge 0.0 0.0 0.0
+Ge 0.25 0.25 0.25

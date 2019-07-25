@@ -1,0 +1,31 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Sc/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "Sc",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,6.40,6.40,6.40]
+        },
+        {
+            "formula": "ScN",
+            "lattice_type": "RS",
+            "lattice_constant": 4.516
+        },
+        {
+            "formula": "ScP",
+            "lattice_type": "ZB",
+            "eos": [26.11755, 63.89302, 3.783],
+            "band_gap": 1.466
+        },
+        {
+            "formula": "ScSbPt",
+            "lattice_type": "HH",
+            "lattice_constant": 6.399
+        }
+    ]
+}

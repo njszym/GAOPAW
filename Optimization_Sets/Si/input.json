@@ -1,0 +1,37 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Si/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "Si",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,6.15,6.15,6.15]
+        },
+        {
+            "formula": "Si",
+            "lattice_type": "diamond",
+            "lattice_constant": 5.430,
+            "band_gap": 0.57
+        },
+        {
+            "formula": "SiO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.616
+        },
+        {
+            "formula": "SiC",
+            "lattice_type": "ZB",
+            "eos": [10.50197, 212.71678, 3.692],
+            "band_gap": 1.240
+        },
+        {
+            "formula": "SrSiO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.695
+        }
+    ]
+}

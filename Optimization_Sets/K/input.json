@@ -1,0 +1,27 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/K/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "K",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,2.16,2.16,2.16]
+        },
+        {
+            "formula": "KCl",
+            "lattice_type": "RS",
+            "lattice_constant": 6.391
+        },
+        {
+            "formula": "KMgF3",
+            "lattice_type": "per",
+            "lattice_constant": 4.059,
+            "band_gap": 7.20,
+            "bulk_modulus": 66.807
+        }
+    ]
+}

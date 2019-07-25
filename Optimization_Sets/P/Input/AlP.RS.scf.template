@@ -1,0 +1,26 @@
+&control
+  calculation='scf'
+  prefix='AlP.RS.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=2
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.015
+  occupations='smearing'
+/
+&electrons
+  conv_thr=1.d-8
+/
+K_POINTS (automatic)
+  10 10 10 0 0 0
+ATOMIC_SPECIES
+  P 0.0 P.GGA-PBE-paw.UPF
+  Al 0.0 Al.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (crystal)
+  P 0.0 0.0 0.0
+  Al 0.5 0.5 0.5

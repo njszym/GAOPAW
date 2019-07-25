@@ -1,0 +1,27 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Mg/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "MgO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.259,
+            "band_gap": 4.431,
+            "phonon_frequency": [0.0,0.0,0.0,10.9,10.9,10.9]
+        },
+        {
+            "formula": "MgS",
+            "lattice_type": "ZB",
+            "eos": [23.16051, 55.17329, 3.970]
+        },
+        {
+            "formula": "MgTiO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.839
+        }
+    ]
+}

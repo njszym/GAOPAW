@@ -1,0 +1,38 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/O/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "VO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.192,
+            "magnetization": 1.550
+        },
+        {
+            "formula": "MgO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.259,
+            "phonon_frequency": [0.0,0.0,0.0,10.90,10.90,10.90],
+            "band_gap": 4.431
+        },
+        {
+            "formula": "ZnO",
+            "lattice_type": "ZB",
+            "eos": [12.31847, 127.06315, 4.15]
+        },
+        {
+            "formula": "SrVO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.862
+        },
+        {
+            "formula": "CO2",
+            "lattice_type": "SC",
+            "lattice_constant": 6.070
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+&control
+  calculation='scf'
+  prefix='LaBr3.hex.scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=8
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  occupations='fixed'
+  nbnd=108
+  use_all_frac=.TRUE.
+/
+&electrons
+  conv_thr=1.d-8
+/
+&ions
+  ion_dynamics='bfgs'
+/        
+&cell
+  cell_dynamics='bfgs'
+/
+ATOMIC_SPECIES
+  La 0.0 La.GGA-PBE-paw.UPF
+  Br 0.0 Br.GGA-PBE-paw.UPF
+K_POINTS (automatic)
+  8 8 10 1 1 1
+CELL_PARAMETERS angstrom
+8.127060 0.000000 0.000000
+-4.063530 7.038240 0.000000
+0.000000 0.000000 4.512217
+ATOMIC_POSITIONS crystal
+La 0.333333 0.666667 0.250000
+La 0.666667 0.333333 0.750000
+Br 0.086947 0.389120 0.750000
+Br 0.913053 0.610880 0.250000
+Br 0.697827 0.086947 0.250000
+Br 0.302173 0.913053 0.750000
+Br 0.610880 0.697827 0.750000
+Br 0.389120 0.302173 0.250000

@@ -1,0 +1,33 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/H/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "H",
+            "lattice_type": "hex",
+            "lattice_constant": [4.007,5.003]
+        },
+        {
+            "formula": "LiH",
+            "lattice_type": "RS",
+            "lattice_constant": 4.009,
+            "band_gap": 3.428,
+            "phonon_frequency": [0.0,0.0,0.0,17.54,17.54,17.54]
+        },
+        {
+            "formula": "KH",
+            "lattice_type": "RS",
+            "lattice_constant": 5.700,
+            "bulk_modulus": 13.410
+        },
+        {
+            "formula": "NH3",
+            "lattice_type": "SC",
+            "lattice_constant": 5.170
+        }
+    ]
+}

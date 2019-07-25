@@ -1,0 +1,27 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Cl/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "NaCl",
+            "lattice_type": "RS",
+            "lattice_constant": 5.714,
+            "band_gap": 5.00,
+            "phonon_frequency": [0.0,0.0,0.0,4.48,4.48,4.48]
+        },
+        {
+            "formula": "NaCl",
+            "lattice_type": "ZB",
+            "eos": [30.71789, 16.64395, 4.293]
+        },
+        {
+            "formula": "KMgCl3",
+            "lattice_type": "per",
+            "lattice_constant": 5.028
+        }
+    ]
+}

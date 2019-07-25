@@ -1,0 +1,27 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Li/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "LiF",
+            "lattice_type": "RS",
+            "lattice_constant": 4.076,
+            "band_gap": 8.90,
+            "phonon_frequency": [0.0,0.0,0.0,7.91,7.91,7.91]
+        },
+        {
+            "formula": "LiBr",
+            "lattice_type": "ZB",
+            "eos": [25.77205, 19.47541, 3.254]
+        },
+        {
+            "formula": "AlLiGe",
+            "lattice_type": "HH",
+            "lattice_constant": 6.022
+        }
+    ]
+}

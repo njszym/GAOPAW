@@ -2,11 +2,11 @@
   calculation='vc-relax'
   prefix='Si.diamond.relax'
   pseudo_dir='./'
-  etot_conv_thr=1.0d-5
+  nstep=1
 /
 &system
   ibrav=2
-  celldm(1)=10.33
+  celldm(1)=10.26121
   nat=2
   ntyp=1
   ecutwfc=40
@@ -22,7 +22,7 @@
   ion_dynamics='bfgs'
 /        
 &cell
-  cell_dynamics='bfgs'
+  cell_dynamics='none'
 /
 K_POINTS (automatic)
   8 8 8 0 0 0

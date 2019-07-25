@@ -18,9 +18,5 @@
 ATOMIC_SPECIES
   Zr 0.0 Zr.GGA-PBE-paw.UPF
   O 0.0 O.GGA-PBE-paw.UPF
-ATOMIC_POSITIONS (alat)
-  Zr 0.0 0.0 0.0
-  O 0.25 0.25 0.25
-  O 0.75 0.75 0.75
 K_POINTS (automatic)
-  10 10 10 0 0 0
+  12 12 12 0 0 0

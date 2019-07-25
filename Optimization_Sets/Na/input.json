@@ -1,0 +1,31 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Na/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "Na",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,3.71,3.71,3.71]
+        },
+        {
+            "formula": "NaCl",
+            "lattice_type": "RS",
+            "lattice_constant": 5.714,
+            "band_gap": 5.00
+        },
+        {
+            "formula": "NaBr",
+            "lattice_type": "ZB",
+            "eos": [36.49439, 13.98951, 7.383]
+        },
+        {
+            "formula": "NaAlGe",
+            "lattice_type": "HH",
+            "lattice_constant": 6.387
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/N/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "ScN",
+            "lattice_type": "RS",
+            "lattice_constant": 4.516,
+            "phonon_frequency": [0.0,0.0,0.0,8.46,8.46,8.46]
+        },
+        {
+            "formula": "GaN",
+            "lattice_type": "ZB",
+            "eos": [11.74394, 172.53433, 4.360],
+            "band_gap": 1.510
+        },
+        {
+            "formula": "AsNCa3",
+            "lattice_type": "per",
+            "lattice_constant": 4.769
+        },
+        {
+            "formula": "NH3",
+            "lattice_type": "SC",
+            "lattice_constant": 5.170
+        },
+        {
+            "formula": "BN",
+            "lattice_type": "hex",
+            "lattice_constant": [2.519,6.699],
+            "band_gap": 4.250
+        }
+    ]
+}

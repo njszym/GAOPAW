@@ -1,0 +1,14 @@
+# Input file for GAOPAW
+elements: ['Ta','Ta','O','O','S','S','Sb','Sb','Ru','Ru']
+lattice_type: ['FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC','FCC','BCC']
+lattice_constant: [4.235,3.333,3.178,2.511,3.994,3.182,4.805,3.807,3.809,3.058]
+template_dir: '/home/szymansk/Optimization_Sets/Ta/Input'
+cmpd_formula: ['TaO','TaS','Ta2O5','TaSbRu']
+cmpd_lattice_type: ['RS','ZB','ortho','HH']
+test_lattice: [True,False,False,True]
+cmpd_lattice_constant: [4.506,0.00,0.00,6.196]
+test_delta: [False,True,False,False]
+test_gap: [False,False,True,False]
+band_gap: [0.00,0.00,0.230,0.00]
+test_phonon: [False,False,False,True]
+# End file

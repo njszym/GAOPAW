@@ -1,0 +1,36 @@
+{
+    "directories": [
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ti/Input"
+        }
+    ],
+    "compounds": [
+        {
+            "formula": "Ti",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,6.45,6.45,6.45]
+        },
+        {
+            "formula": "TiO2",
+            "lattice_type": "tetrag",
+            "lattice_constant": [2.954,4.586],
+            "band_gap": 1.89
+        },
+        {
+            "formula": "TiS",
+            "lattice_type": "ZB",
+            "eos": [20.25109, 93.68038, 2.575]
+        },
+        {
+            "formula": "TiS2",
+            "lattice_type": "hex",
+            "lattice_constant": [3.42,6.61]
+        },
+        {
+            "formula": "TiCoSb",
+            "lattice_type": "HH",
+            "lattice_constant": 5.896
+        }
+    ]
+}

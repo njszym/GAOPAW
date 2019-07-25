@@ -22,7 +22,7 @@ def main():
         cmpd = cmpd.__dict__
         formula = cmpd['formula']
         element_list.extend(parse_elems(formula))
-    element_list = unique(element_list)
+    element_list = list(set(element_list))
     elem_diff_dict, error_check = test_elem_structs(element_list,elem_template_dir,UPF_dir)
     if error_check:
         raise ValueError('Your pseudopotential caused some issues')
@@ -32,7 +32,7 @@ def main():
         return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     cmpd_diff_dict = merge_dicts(elem_diff_dict,cmpd_diff_dict)
-    cmpd_diff_dict, error_check = test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir)
+    cmpd_diff_dict, error_check = test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir, elem_template_dir)
     if error_check:
         raise ValueError('Your pseudopotential caused some issues')
         return
@@ -72,7 +72,6 @@ def test_elem_structs(elem_list,template_dir,UPF_dir):
                         return elem_diff_dict, True
                     elem_diff_dict[elem]['SC']['atomic_positions'] = \
                          compare_atoms(elem,'SC',template_dir)
-                    return elem_diff_dict, False
                 if elem == 'P':
                     run_qe(elem,'ortho','relax',template_dir)
                     if not check_convergence(elem,'ortho','relax'):

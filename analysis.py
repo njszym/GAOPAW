@@ -14,6 +14,11 @@ def main():
     elem_template_dir = input_settings.directories.elem_template_dir
     if hasattr(input_settings.directories, 'cmpd_template_dir'):
         cmpd_template_dir = input_settings.directories.cmpd_template_dir
+    if hasattr(input_settings.directories, 'include_paw'):
+        include_paw = input_settings.directories.include_paw
+        for paw_elem in include_paw:
+            copyfile(os.path.join(cmpd_template_dir,'%s.GGA-PBE-paw.UPF' % paw_elem), 
+                './%s.GGA-PBE-paw.UPF' % paw_elem)
     cmpd_list = input_settings.compounds
     element_list = []
     for cmpd in cmpd_list:

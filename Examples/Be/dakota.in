@@ -46,6 +46,6 @@ interface
           named 'workdir_pp' file_save directory_save
 
 responses
-    num_objective_functions =  21
+    num_objective_functions =  20
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

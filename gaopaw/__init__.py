@@ -146,13 +146,10 @@ def test_element_list(elem_list, template_dir):
             if elem == 'P':
                 elem_diff_dict[elem]['ortho'] = {}
                 elem_diff_dict[elem]['ortho']['lattice_constant'] = {}
-            if elem in lanthanides:
+            if elem in f_block:
                 elem_diff_dict[elem]['%sN' % elem] = {}
                 elem_diff_dict[elem]['%sN' % elem]['lattice_constant'] = {}
                 elem_diff_dict[elem]['%sN' % elem]['magnetization'] = {}
-            if elem in actinides:
-                elem_diff_dict[elem]['%sN' % elem] = {}
-                elem_diff_dict[elem]['%sN' % elem]['lattice_constant'] = {}
         else:
             for lat_type in ['FCC', 'BCC']:
                 elem_diff_dict[elem][lat_type] = {}
@@ -277,6 +274,11 @@ def test_property(cmpd, lat_type, property, ae_data, template_dir):
             ae_eos = {'element': [cmpd], 'V0': [ae_data[0]], 
                 'B0': [ae_data[1]], 'BP': [ae_data[2]]}
             delta_factor = calcDelta(qe_eos, ae_eos, [cmpd])[0]
+            with open('%s.%s.%s.in' % (cmpd, lat_type, 'relax')) as qe_input:
+                for line in qe_input:
+                    if 'nat=' in line:
+                        natoms = float(line.split('=')[1][:-1])
+            delta_factor = delta_factor / natoms
             return delta_factor, False
         if property == 'bulk_modulus':
             bulk_diff = abs(QE_bulk - ae_data)/ae_data
@@ -914,7 +916,7 @@ def update_obj_file(diff_dict):
     with open('Detailed_Results', 'w+') as obj_file:
         for (value, label) in zip(obj_fn_list, obj_fn_labels):
             value = round(float(value), 6)
-            if ('lattice_constant' in label):
+            if ('lattice_constant' in label) or ('bulk_modulus' in label):
                 value = value*100
                 obj_file.write('%s: %s%%\n' % (label, value))
             if ('magnetization' in label) or ('magnetic_moment' in label):

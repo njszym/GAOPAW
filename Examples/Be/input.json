@@ -8,7 +8,6 @@
         {
             "formula": "Be",
             "lattice_type": "BCC",
-            "lattice_constant": 1.00,
             "phonon_frequency": [0.0,0.0,0.0,19.88,19.88,19.88]
         },
         {

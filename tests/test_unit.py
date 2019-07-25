@@ -111,7 +111,7 @@ def test_test_property():
     with gaopaw.fileutils.chdir(working_dir('BeS')):
         with mock.patch.object(gaopaw, 'run_scale_lat') as run_mock:
             assert round(gaopaw.test_property('BeS', 'ZB', 'eos', [1.0, 1.0, 1.0], 
-                gaopaw.os.getcwd())[0], 3) == 2571.411
+                gaopaw.os.getcwd())[0], 3) == 1285.706
             assert gaopaw.test_property('BeS', 'ZB', 'eos', [1.0, 1.0, 1.0], 
                 gaopaw.os.getcwd())[1] == False
             assert round(gaopaw.test_property('BeS', 'ZB', 'bulk_modulus', 1.0, 

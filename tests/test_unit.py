@@ -230,19 +230,28 @@ def test_scale_cell():
         scaled_matrix = gaopaw.np.matrix(scaled_cell)
         assert round(gaopaw.np.linalg.det(scaled_matrix), 3) == 243.096
 
-#def qe_mock(vol_index):
-#    gaopaw.shutil.copyfile(gaopaw.os.path.join(ex_template_dir,'EOS','output_%s' % vol_index),'./Si.diamond.relax.out')
+def qe_mock(placeholder):
+    gaopaw.shutil.copyfile(gaopaw.os.path.join(ex_template_dir,'EOS',
+        'output_%s' % qe_mock.counter),'./ZnO.ZB.relax.out')
+    qe_mock.counter += 1
 
-#def test_run_scale_lat():
-#    with gaopaw.fileutils.chdir('EOS_Test'):
-#        for fname in gaopaw.glob.glob('Si_*') + gaopaw.glob.glob('E_V.txt'):
-#            gaopaw.shutil.rmtree(fname)
-#        with mock.patch.object(gaopaw, 'subprocess', 'call') as run_mock:
-#            vol_index = Mock()
-#            vol_index.side_effect = [1,2,3,4,5,6,7]
-#            run_mock.side_effect = qe_mock(vol_index())
-#            gaopaw.run_scale_lat('Si','diamond',None)
-#        assert gaopaw.os.path.exists('E_V.txt')
+def test_run_scale_lat():
+    qe_mock.counter = 1
+    with gaopaw.fileutils.chdir('EOS_Test'):
+        for fname in gaopaw.glob.glob('ZnO_*'):
+            gaopaw.shutil.rmtree(fname)
+        if gaopaw.os.path.exists('E_V.txt'):
+            gaopaw.os.remove('E_V.txt')
+        with mock.patch.object(gaopaw, 'run_qe_as_is') as run_mock:
+            run_mock.side_effect = qe_mock
+            gaopaw.run_scale_lat('ZnO','ZB',None)
+        assert gaopaw.os.path.exists('E_V.txt')
+        assert min(gaopaw.np.loadtxt('E_V.txt').transpose()[0]) \
+            == gaopaw.np.loadtxt('E_V.txt').transpose()[0][3]
+        assert round(gaopaw.np.loadtxt('E_V.txt').transpose()[1][0],3) == \
+            round(0.94*gaopaw.np.loadtxt('E_V.txt').transpose()[1][3],3)
+        assert round(gaopaw.np.loadtxt('E_V.txt').transpose()[1][-1],3) == \
+            round(1.06*gaopaw.np.loadtxt('E_V.txt').transpose()[1][3],3)
 
 def test_update_obj_file():
     diff_dict = \

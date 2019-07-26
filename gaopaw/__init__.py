@@ -633,6 +633,13 @@ def get_bulk(cmpd, lat_type, ev_fname='E_V.txt'):
         eos_file.write('%s %s %s' % (volume, bulk, bulk_prime))
     return volume, bulk, bulk_prime
 
+def run_qe_as_is(relax_in):
+    """
+    Run QE w/o needing to fetch input, to be used in EOS calculations.
+    """
+    subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'pw.x', relax_in,
+        '-MPICORES', '4'], env=os.environ.copy())
+
 def run_scale_lat(cmpd, lat_type, template_dir, ev_fname='E_V.txt'):
     """
     Read in relaxed cell parameters from cmpd.lat_type.relax.out, 
@@ -661,8 +668,7 @@ def run_scale_lat(cmpd, lat_type, template_dir, ev_fname='E_V.txt'):
         with fileutils.chdir(folder):
             update_structure(cmpd, lat_type, 'relax')
             write_cell(cmpd, lat_type, new_cell_params)
-            subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'pw.x', relax_in, 
-                '-MPICORES', '4'], env=os.environ.copy())
+            run_qe_as_is(relax_in)
             all_energies = []
             with open(relax_out) as qe_output:
                 for line in qe_output:

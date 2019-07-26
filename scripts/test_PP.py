@@ -12,10 +12,13 @@ def main():
     working_dir = os.getcwd()
     with open(working_dir+'/input.json') as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
-    template_settings = input_settings.directories[0].__dict__
-    elem_template_dir = template_settings['elem_template_dir']
-    if 'cmpd_template_dir' in template_settings.keys():
-        cmpd_template_dir = template_settings['cmpd_template_dir']
+    if hasattr(input_settings.directories, 'cmpd_template_dir'):
+        cmpd_template_dir = input_settings.directories.cmpd_template_dir
+    if hasattr(input_settings.directories, 'include_paw'):
+        include_paw = input_settings.directories.include_paw
+        for paw_elem in include_paw:
+            copyfile(os.path.join(cmpd_template_dir,'%s.GGA-PBE-paw.UPF' % paw_elem),
+                './%s.GGA-PBE-paw.UPF' % paw_elem)
     cmpd_list = input_settings.compounds
     element_list = []
     for cmpd in cmpd_list:

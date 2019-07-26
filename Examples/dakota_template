@@ -17,7 +17,7 @@ variables
 
 method
         moga ## Multi-Objective Genetic Algorithm
-        max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
+        max_iterations = 100 ## Dakota will stop if 100 generations reached (default)
         population_size = 500 ## chromosomes in the initial generation
         max_function_evaluations = 50000 ## Max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue

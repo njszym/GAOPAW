@@ -1,4 +1,5 @@
 import mock
+from unittest.mock import Mock
 from types import SimpleNamespace
 import gaopaw
 
@@ -228,6 +229,20 @@ def test_scale_cell():
             assert len(vec) == 3
         scaled_matrix = gaopaw.np.matrix(scaled_cell)
         assert round(gaopaw.np.linalg.det(scaled_matrix), 3) == 243.096
+
+#def qe_mock(vol_index):
+#    gaopaw.shutil.copyfile(gaopaw.os.path.join(ex_template_dir,'EOS','output_%s' % vol_index),'./Si.diamond.relax.out')
+
+#def test_run_scale_lat():
+#    with gaopaw.fileutils.chdir('EOS_Test'):
+#        for fname in gaopaw.glob.glob('Si_*') + gaopaw.glob.glob('E_V.txt'):
+#            gaopaw.shutil.rmtree(fname)
+#        with mock.patch.object(gaopaw, 'subprocess', 'call') as run_mock:
+#            vol_index = Mock()
+#            vol_index.side_effect = [1,2,3,4,5,6,7]
+#            run_mock.side_effect = qe_mock(vol_index())
+#            gaopaw.run_scale_lat('Si','diamond',None)
+#        assert gaopaw.os.path.exists('E_V.txt')
 
 def test_update_obj_file():
     diff_dict = \

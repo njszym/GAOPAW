@@ -55,10 +55,14 @@ def test_form_cmpd_dict():
         {'triclinic': {'magnetization': {}}}}
 
 def test_get_element_info():
-    assert round(gaopaw.get_element_info(elem_template_dir)['Ag']['FCC'], 3) == 4.158
-    assert round(gaopaw.get_element_info(elem_template_dir)['Ag']['BCC'], 3) == 3.299
-    assert round(gaopaw.get_element_info(elem_template_dir)['Zr']['FCC'], 3) == 4.522
-    assert round(gaopaw.get_element_info(elem_template_dir)['Zr']['BCC'], 3) == 3.569
+    assert gaopaw.np.allclose(
+        gaopaw.get_element_info(elem_template_dir)['Ag']['FCC'], 4.158, atol=0.001)
+    assert gaopaw.np.allclose(
+        gaopaw.get_element_info(elem_template_dir)['Ag']['BCC'], 3.299, atol=0.001)
+    assert gaopaw.np.allclose(
+        gaopaw.get_element_info(elem_template_dir)['Zr']['FCC'], 4.522, atol=0.001)
+    assert gaopaw.np.allclose(
+        gaopaw.get_element_info(elem_template_dir)['Zr']['BCC'], 3.569, atol=0.001)
 
 def test_compare_log():
     with gaopaw.fileutils.chdir('Log_tests'):

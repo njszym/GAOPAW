@@ -1,0 +1,45 @@
+Tb 65
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+6 5 5 4 0
+5 2 1
+4 3 8
+0 0 0
+c
+c
+c
+c
+v
+v
+c
+c
+c
+v
+c
+c
+v
+v
+3
+{DAKOTA_Tb_RC_1} {DAKOTA_Tb_RC_1/1.2} {DAKOTA_Tb_RC_2} {DAKOTA_Tb_RC_3}
+n
+y
+{DAKOTA_Tb_EP_1}
+n
+y
+{DAKOTA_Tb_EP_2}
+n
+y
+{DAKOTA_Tb_EP_3}
+n
+custom rrkj
+bessel
+{DAKOTA_Tb_RC_4}
+{DAKOTA_Tb_RC_5}
+{DAKOTA_Tb_RC_6}
+{DAKOTA_Tb_RC_7}
+{DAKOTA_Tb_RC_8}
+{DAKOTA_Tb_RC_9}
+{DAKOTA_Tb_RC_10}
+{DAKOTA_Tb_RC_11}
+3
+0
+

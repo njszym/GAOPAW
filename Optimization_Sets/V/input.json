@@ -1,0 +1,35 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/V/Input"
+        },
+    "compounds": [
+        {
+            "formula": "V",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,7.74,7.74,7.74]
+        },
+        {
+            "formula": "VO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.192,
+            "magnetization": 1.55
+        },
+        {
+            "formula": "VS",
+            "lattice_type": "ZB",
+            "eos": [18.01523, 108.25813, 4.471]
+        },
+        {
+            "formula": "V2O5",
+            "lattice_type": "ortho",
+            "band_gap": 1.80
+        },
+        {
+            "formula": "VSbFe",
+            "lattice_type": "HH",
+            "lattice_constant": 5.795
+        }
+    ]
+}

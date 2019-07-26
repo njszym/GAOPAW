@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Mn/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Mn",
+            "lattice_type": "BCC",
+            "phonon_frequency": [-3.13,-3.13,-3.13,0.0,0.0,0.0]
+        },
+        {
+            "formula": "MnO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.108,
+            "magnetization": 3.83
+        },
+        {
+            "formula": "CrS",
+            "lattice_type": "ZB",
+            "eos": [15.49331, 136.06125, 5.460]
+        },
+        {
+            "formula": "SrMnO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.799
+        }
+    ]
+}

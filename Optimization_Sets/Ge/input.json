@@ -1,0 +1,34 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ge/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Ge",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,3.26,3.26,3.26]
+        },
+        {
+            "formula": "GeO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.773
+        },
+        {
+            "formula": "GeSi",
+            "lattice_type": "ZB",
+            "eos": [21.95784, 74.14679, 4.560]
+        },
+        {
+            "formula": "SrGeO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.855
+        },
+        {
+            "formula": "Ge",
+            "lattice_type": "diamond",
+            "band_gap": 0.060
+        }
+    ]
+}

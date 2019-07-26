@@ -1,0 +1,31 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ga/Input"
+        },
+    "compounds": [
+        {
+            "formula": "GaN",
+            "lattice_type": "RS",
+            "lattice_constant": 4.269,
+            "phonon_frequency": [0.0,0.0,0.0,6.40,6.40,6.40]
+        },
+        {
+            "formula": "GaN",
+            "lattice_type": "ZB",
+            "lattice_constant": 4.546,
+            "band_gap": 1.510
+        },
+        {
+            "formula": "GaAs",
+            "lattice_type": "ZB",
+            "eos": [23.73390, 60.02863, 5.161]
+        },
+        {
+            "formula": "LiCGa",
+            "lattice_type": "HH",
+            "lattice_constant": 5.088
+        }
+    ]
+}

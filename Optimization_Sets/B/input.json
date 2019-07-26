@@ -1,10 +1,9 @@
 {
-    "directories": [
+    "directories":
         {
             "elem_template_dir": "/home/szymansk/Elem_Templates",
             "cmpd_template_dir": "/home/szymansk/Optimization_Sets/B/Input"
-        }
-    ],
+        },
     "compounds": [
         {
             "formula": "B",
@@ -24,7 +23,7 @@
         {
             "formula": "AlBeB",
             "lattice_type": "HH",
-            "lattice_constant": 4.693
+            "lattice_constant": 4.963
         },
         {
             "formula": "BN",

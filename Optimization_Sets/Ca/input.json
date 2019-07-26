@@ -1,10 +1,9 @@
 {
-    "directories": [
+    "directories":
         {
             "elem_template_dir": "/home/szymansk/Elem_Templates",
             "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ca/Input"
-        }
-    ],
+        },
     "compounds": [
         {
             "formula": "Ca",

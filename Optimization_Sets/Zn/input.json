@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Zn/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Zn",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,4.12,4.12,4.12]
+        },
+        {
+            "formula": "ZnO",
+            "lattice_type": "ZB",
+            "eos": [12.31847, 127.06315, 4.159]
+        },
+        {
+            "formula": "ZnS",
+            "lattice_type": "ZB",
+            "lattice_constant": 5.443,
+            "band_gap": 1.980
+        },
+        {
+            "formula": "LiZnN",
+            "lattice_type": "HH",
+            "lattice_constant": 4.923
+        }
+    ]
+}

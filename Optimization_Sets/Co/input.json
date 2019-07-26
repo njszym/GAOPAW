@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Co/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Co",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,7.21,7.21,7.21]
+        },
+        {
+            "formula": "CoO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.106,
+            "magnetization": 2.59
+        },
+        {
+            "formula": "CoS",
+            "lattice_type": "ZB",
+            "eos": [15.33789, 126.50462, 5.381]
+        },
+        {
+            "formula": "ZrCoBi",
+            "lattice_type": "HH",
+            "lattice_constant": 6.235
+        }
+    ]
+}

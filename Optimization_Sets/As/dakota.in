@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 51
-  	  initial_point   2.205  1.766  1.861  1.941  2.225  1.899  1.979  1.965  1.825  6.177  4.534  1.015  2.098  1.744  1.718  1.876  1.823  2.039  1.828  3.177  3.507  2.236  1.801  1.897  2.297  2.226  1.972  1.815  1.633  2.199  4.349  2.606  0.141  1.953  1.187  0.867  1.927  1.622  1.743  1.717  2.046  1.788  1.412  1.077  2.030  1.781  1.872  1.746  1.816  1.739  1.783
-  	  lower_bounds    2.105  1.666  1.761  1.841  2.125  1.799  1.879  1.865  1.725  5.677  4.034  0.515  1.990  1.644  1.618  1.776  1.723  1.939  1.728  2.677  3.007  2.136  1.701  1.797  2.197  2.126  1.872  1.715  1.533  2.099  3.849  2.106  0.000  1.853  1.087  0.767  1.827  1.522  1.643  1.617  1.946  1.688  0.912  0.577  1.930  1.681  1.772  1.646  1.716  1.639  1.683
-  	  upper_bounds    2.305  1.866  1.961  2.041  2.325  1.999  2.079  2.065  1.925  6.677  5.034  1.515  2.198  1.844  1.818  1.976  1.923  2.139  1.928  3.677  4.007  2.336  1.901  1.997  2.397  2.326  2.072  1.915  1.733  2.299  4.849  3.106  0.641  2.053  1.287  0.967  2.027  1.722  1.843  1.817  2.146  1.888  1.912  1.577  2.130  1.881  1.972  1.846  1.916  1.839  1.883
-  	  descriptors    'DAKOTA_As_RC_1' 'DAKOTA_As_RC_2' 'DAKOTA_As_RC_3' 'DAKOTA_As_RC_4' 'DAKOTA_As_RC_5' 'DAKOTA_As_RC_6' 'DAKOTA_As_RC_7' 'DAKOTA_As_RC_8' 'DAKOTA_As_RC_9' 'DAKOTA_As_EP_1' 'DAKOTA_As_EP_2' 'DAKOTA_As_EP_3' 'DAKOTA_Al_RC_1' 'DAKOTA_Al_RC_2' 'DAKOTA_Al_RC_3' 'DAKOTA_Al_RC_4' 'DAKOTA_Al_RC_5' 'DAKOTA_Al_RC_6' 'DAKOTA_Al_RC_7' 'DAKOTA_Al_EP_1' 'DAKOTA_Al_EP_2' 'DAKOTA_Ga_RC_1' 'DAKOTA_Ga_RC_2' 'DAKOTA_Ga_RC_3' 'DAKOTA_Ga_RC_4' 'DAKOTA_Ga_RC_5' 'DAKOTA_Ga_RC_6' 'DAKOTA_Ga_RC_7' 'DAKOTA_Ga_RC_8' 'DAKOTA_Ga_RC_9' 'DAKOTA_Ga_EP_1' 'DAKOTA_Ga_EP_2' 'DAKOTA_Ga_EP_3' 'DAKOTA_Cu_RC_1' 'DAKOTA_Cu_RC_2' 'DAKOTA_Cu_RC_3' 'DAKOTA_Cu_RC_4' 'DAKOTA_Cu_RC_5' 'DAKOTA_Cu_RC_6' 'DAKOTA_Cu_RC_7' 'DAKOTA_Cu_RC_8' 'DAKOTA_Cu_RC_9' 'DAKOTA_Cu_EP_1' 'DAKOTA_Cu_EP_2' 'DAKOTA_Mg_RC_1' 'DAKOTA_Mg_RC_2' 'DAKOTA_Mg_RC_3' 'DAKOTA_Mg_RC_4' 'DAKOTA_Mg_RC_5' 'DAKOTA_Mg_RC_6' 'DAKOTA_Mg_RC_7'
+    continuous_design =  51
+    initial_point =  2.098 1.744 1.718 1.876 1.823 2.039 1.828 3.177 3.507 2.205 1.766 1.861 1.941 2.225 1.899 1.979 1.965 1.825 6.177 4.534 1.015 2.236 1.801 1.897 2.297 2.226 1.972 1.815 1.633 2.199 4.349 2.606 0.141 1.953 1.187 0.867 1.927 1.622 1.743 1.717 2.046 1.788 1.412 1.077 2.03 1.781 1.872 1.746 1.816 1.739 1.783
+    lower_bounds =  1.993 1.657 1.632 1.782 1.732 1.937 1.737 3.018 3.332 2.095 1.678 1.768 1.844 2.114 1.804 1.88 1.867 1.734 5.868 4.307 0.964 2.124 1.711 1.802 2.182 2.115 1.873 1.724 1.551 2.089 4.132 2.476 0.134 1.855 1.128 0.824 1.831 1.541 1.656 1.631 1.944 1.699 1.341 1.023 1.928 1.692 1.778 1.659 1.725 1.652 1.694
+    upper_bounds =  2.203 1.831 1.804 1.97 1.914 2.141 1.919 3.336 3.682 2.315 1.854 1.954 2.038 2.336 1.994 2.078 2.063 1.916 6.486 4.761 1.066 2.348 1.891 1.992 2.412 2.337 2.071 1.906 1.715 2.309 4.566 2.736 0.148 2.051 1.246 0.91 2.023 1.703 1.83 1.803 2.148 1.877 1.483 1.131 2.132 1.87 1.966 1.833 1.907 1.826 1.872
+    descriptors =  "DAKOTA_Al_RC_1" "DAKOTA_Al_RC_2" "DAKOTA_Al_RC_3" "DAKOTA_Al_RC_4" "DAKOTA_Al_RC_5" "DAKOTA_Al_RC_6" "DAKOTA_Al_RC_7" "DAKOTA_Al_EP_1" "DAKOTA_Al_EP_2" "DAKOTA_As_RC_1" "DAKOTA_As_RC_2" "DAKOTA_As_RC_3" "DAKOTA_As_RC_4" "DAKOTA_As_RC_5" "DAKOTA_As_RC_6" "DAKOTA_As_RC_7" "DAKOTA_As_RC_8" "DAKOTA_As_RC_9" "DAKOTA_As_EP_1" "DAKOTA_As_EP_2" "DAKOTA_As_EP_3" "DAKOTA_Ga_RC_1" "DAKOTA_Ga_RC_2" "DAKOTA_Ga_RC_3" "DAKOTA_Ga_RC_4" "DAKOTA_Ga_RC_5" "DAKOTA_Ga_RC_6" "DAKOTA_Ga_RC_7" "DAKOTA_Ga_RC_8" "DAKOTA_Ga_RC_9" "DAKOTA_Ga_EP_1" "DAKOTA_Ga_EP_2" "DAKOTA_Ga_EP_3" "DAKOTA_Cu_RC_1" "DAKOTA_Cu_RC_2" "DAKOTA_Cu_RC_3" "DAKOTA_Cu_RC_4" "DAKOTA_Cu_RC_5" "DAKOTA_Cu_RC_6" "DAKOTA_Cu_RC_7" "DAKOTA_Cu_RC_8" "DAKOTA_Cu_RC_9" "DAKOTA_Cu_EP_1" "DAKOTA_Cu_EP_2" "DAKOTA_Mg_RC_1" "DAKOTA_Mg_RC_2" "DAKOTA_Mg_RC_3" "DAKOTA_Mg_RC_4" "DAKOTA_Mg_RC_5" "DAKOTA_Mg_RC_6" "DAKOTA_Mg_RC_7"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,18 +18,18 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 250 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
-        max_function_evaluations = 5000 ## Default, max number of chromosomes tested
-        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
+        population_size = 500 ## 400 chromosomes in the initial generation
+        max_function_evaluations = 50000 ## Max number of chromosomes tested
+        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
           crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
         mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
-          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
-          mutation_rate = 0.2  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable
+          mutation_rate = 0.1  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
         fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
         replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
-          shrinkage_fraction = 0.30  ## Next generation must be at least 30% the size of the previous generation, small values work best here
+          shrinkage_fraction = 0.25  ## Next generation must be at least 25% the size of the previous generation, small values work best here
         convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
           percent_change = 1 num_generations = 10 ## Convergence acheived if less than 1% change occurs over ten consecutive generations (default)
         final_solutions = 10 ## Give 10 best solutions once run finishes, optimum value may depend on your problem, how many local minima exist
@@ -37,15 +37,15 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 10 ## Depends on number of cores you plan to run on; +1 concurrency for each additional 4 cores
         system
-          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp'
+          named 'workdir_pp' ## Uncomment if you'd like to save all working directories: file_save directory_save (takes up lots of space)
 
 responses
-	num_objective_functions = 20 ## Set this accordingly based on your calculation
+    num_objective_functions =  20
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm

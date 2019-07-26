@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Fe/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Fe",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,5.93,5.93,5.93]
+        },
+        {
+            "formula": "FeO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.096,
+            "magnetization": 3.83
+        },
+        {
+            "formula": "FeS",
+            "lattice_type": "ZB",
+            "eos": [15.12759, 138.36361, 4.707]
+        },
+        {
+            "formula": "VFeSb",
+            "lattice_type": "HH",
+            "lattice_constant": 5.795
+        }
+    ]
+}

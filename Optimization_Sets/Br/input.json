@@ -1,0 +1,31 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Br/Input"
+        },
+    "compounds": [
+        {
+            "formula": "LiBr",
+            "lattice_type": "RS",
+            "lattice_constant": 5.521,
+            "phonon_frequency": [0.0,0.0,0.0,4.15,4.15,4.15]
+        },
+        {
+            "formula": "CsBr",
+            "lattice_type": "ZB",
+            "eos": [69.15310, 8.47458, -4.204]
+        },
+        {
+            "formula": "LaBr3",
+            "lattice_type": "hex",
+            "lattice_constant": [4.605,8.082],
+            "band_gap": 3.750
+        },
+        {
+            "formula": "CsPbBr3",
+            "lattice_type": "per",
+            "lattice_constant": 5.944
+        }
+    ]
+}

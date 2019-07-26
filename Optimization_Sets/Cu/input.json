@@ -1,0 +1,35 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Cu/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Cu",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,6.95,6.95,6.95]
+        },
+        {
+            "formula": "CuO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.248
+        },
+        {
+            "formula": "CuS",
+            "lattice_type": "ZB",
+            "eos": [17.77147, 84.39600, 4.397]
+        },
+        {
+            "formula": "CuAlGe",
+            "lattice_type": "HH",
+            "lattice_constant": 5.920
+        },
+        {
+            "formula": "CuI",
+            "lattice_type": "ZB",
+            "lattice_constant": 6.076,
+            "band_gap": 1.050
+        }
+    ]
+}

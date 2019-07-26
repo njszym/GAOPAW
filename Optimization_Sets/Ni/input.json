@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ni/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Ni",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,7.85,7.85,7.85]
+        },
+        {
+            "formula": "NiO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.166,
+            "magnetization": 1.82
+        },
+        {
+            "formula": "NiS",
+            "lattice_type": "ZB",
+            "eos": [16.11607, 107.72543, 4.419]
+        },
+        {
+            "formula": "TiNiSn",
+            "lattice_type": "HH",
+            "lattice_constant": 6.146
+        }
+    ]
+}

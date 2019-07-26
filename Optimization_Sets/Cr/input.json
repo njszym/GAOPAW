@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Cr/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Cr",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,7.04,7.04,7.04]
+        },
+        {
+            "formula": "CrO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.139,
+            "magnetization": 2.91
+        },
+        {
+            "formula": "CrS",
+            "lattice_type": "ZB",
+            "eos": [16.50590, 121.67898, 3.207]
+        },
+        {
+            "formula": "SrCrO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.820
+        }
+    ]
+}

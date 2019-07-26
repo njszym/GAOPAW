@@ -1,0 +1,26 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/As/Input"
+        },
+    "compounds": [
+        {
+            "formula": "AlAs",
+            "lattice_type": "RS",
+            "lattice_constant": 5.303,
+            "phonon_frequency": [0.0,0.0,0.0,5.34,5.34,5.34]
+        },
+        {
+            "formula": "GaAs",
+            "lattice_type": "ZB",
+            "eos": [23.73390, 60.02863, 5.161],
+            "band_gap": 0.329
+        },
+        {
+            "formula": "CuMgAs",
+            "lattice_type": "HH",
+            "lattice_constant": 6.057
+        }
+    ]
+}

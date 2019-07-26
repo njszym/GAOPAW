@@ -1,0 +1,45 @@
+Eu 63
+GGA-PBE scalarrelativistic loggrid 2001 logderivrange -5. 5. 2000
+6 5 5 4 0
+5 2 1
+4 3 6
+0 0 0
+c
+c
+c
+c
+v
+v
+c
+c
+c
+v
+c
+c
+v
+v
+3
+{DAKOTA_Eu_RC_1} {DAKOTA_Eu_RC_1/1.2} {DAKOTA_Eu_RC_2} {DAKOTA_Eu_RC_3}
+n
+y
+{DAKOTA_Eu_EP_1}
+n
+y
+{DAKOTA_Eu_EP_2}
+n
+y
+{DAKOTA_Eu_EP_3}
+n
+custom rrkj
+bessel
+{DAKOTA_Eu_RC_4}
+{DAKOTA_Eu_RC_5}
+{DAKOTA_Eu_RC_6}
+{DAKOTA_Eu_RC_7}
+{DAKOTA_Eu_RC_8}
+{DAKOTA_Eu_RC_9}
+{DAKOTA_Eu_RC_10}
+{DAKOTA_Eu_RC_11}
+3
+0
+

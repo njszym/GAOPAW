@@ -1,0 +1,29 @@
+&control
+  calculation='scf'
+  prefix='scf'
+  pseudo_dir='./'
+/
+&system
+  ibrav=0
+  nat=2
+  ntyp=2
+  ecutwfc=40
+  ecutrho=200
+  smearing='fermi-dirac'
+  degauss=0.002
+  occupations='smearing'
+  nspin=2
+  starting_magnetization(1)=4.00
+  starting_magnetization(2)=0.00
+/
+&electrons
+  conv_thr=1.d-8
+/
+K_POINTS (automatic)
+  12 12 12 0 0 0
+ATOMIC_SPECIES
+  Pm 0.0 Pm.GGA-PBE-paw.UPF
+  N 0.0 N.GGA-PBE-paw.UPF
+ATOMIC_POSITIONS (crystal)
+  Pm 0.0 0.0 0.0
+  N 0.5 0.5 0.5

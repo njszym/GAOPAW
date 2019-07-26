@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Y/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Y",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,4.13,4.13,4.13]
+        },
+        {
+            "formula": "YN",
+            "lattice_type": "RS",
+            "lattice_constant": 4.911,
+            "band_gap": 0.150
+        },
+        {
+            "formula": "YP",
+            "lattice_type": "ZB",
+            "eos": [31.16335, 55.90114, 3.770]
+        },
+        {
+            "formula": "CuYSi",
+            "lattice_type": "HH",
+            "lattice_constant": 6.310
+        }
+    ]
+}

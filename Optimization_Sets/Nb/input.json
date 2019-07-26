@@ -1,0 +1,29 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Nb/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Nb",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,6.42,6.42,6.42]
+        },
+        {
+            "formula": "NbO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.476
+        },
+        {
+            "formula": "NbS",
+            "lattice_type": "ZB",
+            "eos": [20.89204, 120.58419, 5.614]
+        },
+        {
+            "formula": "LiNbO3",
+            "lattice_type": "rhomb",
+            "band_gap": 3.487
+        }
+    ]
+}

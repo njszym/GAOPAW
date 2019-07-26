@@ -1,0 +1,35 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Zr/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Zr",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,5.18,5.18,5.18]
+        },
+        {
+            "formula": "ZrO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.608
+        },
+        {
+            "formula": "ZrS",
+            "lattice_type": "ZB",
+            "eos": [23.81116, 90.77275, 4.237]
+        },
+        {
+            "formula": "ZrO2",
+            "lattice_type": "FCC",
+            "lattice_constant": 5.139,
+            "band_gap": 3.09
+        },
+        {
+            "formula": "SrZrO3",
+            "lattice_type": "per",
+            "lattice_constant": 4.176
+        }
+    ]
+}

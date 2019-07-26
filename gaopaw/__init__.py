@@ -116,7 +116,7 @@ def get_element_info(template_dir):
     for (elem, lat_const, mag) in zip(df_ren[0], df_ren[1], df_ren[2]):
         elemental_data['%sN' % elem] = {}
         elemental_data['%sN' % elem]['RS'] = lat_const
-        elemental_data['%sN' % elem]['mag'] = mag
+        elemental_data['%sN' % elem]['magnetization'] = mag
     elemental_data['N'] = {}
     elemental_data['N']['SC'] = 6.1902
     elemental_data['P'] = {}
@@ -147,9 +147,10 @@ def test_element_list(elem_list, template_dir):
                 elem_diff_dict[elem]['ortho'] = {}
                 elem_diff_dict[elem]['ortho']['lattice_constant'] = {}
             if elem in f_block:
-                elem_diff_dict[elem]['%sN' % elem] = {}
-                elem_diff_dict[elem]['%sN' % elem]['lattice_constant'] = {}
-                elem_diff_dict[elem]['%sN' % elem]['magnetization'] = {}
+                elem_diff_dict['%sN' % elem] = {}
+                elem_diff_dict['%sN' % elem]['RS'] = {}
+                elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] = {}
+                elem_diff_dict['%sN' % elem]['RS']['magnetization'] = {}
         else:
             for lat_type in ['FCC', 'BCC']:
                 elem_diff_dict[elem][lat_type] = {}
@@ -190,10 +191,10 @@ def test_element_list(elem_list, template_dir):
                     run_qe('%sN' % elem, 'RS', 'scf', template_dir)
                     if not check_convergence('%sN' % elem, 'RS', 'scf'):
                         return elem_diff_dict, True
-                    qe_mag = get_mag(cmpd, lat_type)
-                    ae_mag = elemental_data['%sN' % elem]['mag']
-                    elem_diff_dict['%sN' % elem]['RS']['mag'] = \
-                        abs(ae_mag-qe_mag), False
+                    qe_mag = get_mag('%sN' % elem, 'RS')
+                    ae_mag = elemental_data['%sN' % elem]['magnetization']
+                    elem_diff_dict['%sN' % elem]['RS']['magnetization'] = \
+                        abs(ae_mag-qe_mag)
             else:
                 for lat_type in ['FCC', 'BCC']:
                     run_qe(elem, lat_type, 'relax', template_dir)

@@ -289,19 +289,20 @@ def test_calc_obj_fn():
         assert round(gaopaw.calc_obj_fn([1.2, 1.8, 4.0]), 3) == 0.333
     gaopaw.os.remove('Obj_Fn_Data')
 
-def test_update_best_result():
-    if gaopaw.os.path.isdir('Best_Solution'):
-        gaopaw.shutil.rmtree('Best_Solution')
-    with open('Obj_Fn_Data', 'w+') as obj_file:
-        obj_file.write('1.0 2.0 3.0\n')
-        obj_file.write('1.2 1.8 4.0')
-    with gaopaw.fileutils.chdir(working_dir('Si')):
-        gaopaw.update_best_result([1.2, 1.8, 4.0])
-    assert round(float(gaopaw.np.loadtxt('Best_Solution/Obj_Fn')), 3) == 0.667
-    gaopaw.shutil.rmtree('Best_Solution')
-    with open('Obj_Fn_Data', 'w+') as obj_file:
-        obj_file.write('1.2 1.8 4.0')
-    with gaopaw.fileutils.chdir(working_dir('Si')):
-        gaopaw.update_best_result([1.2, 1.8, 4.0])
-    assert round(float(gaopaw.np.loadtxt('Best_Solution/Obj_Fn')), 3) == 0.0
+## Deprecated
+#def test_update_best_result():
+#    if gaopaw.os.path.isdir('Best_Solution'):
+#        gaopaw.shutil.rmtree('Best_Solution')
+#    with open('Obj_Fn_Data', 'w+') as obj_file:
+#        obj_file.write('1.0 2.0 3.0\n')
+#        obj_file.write('1.2 1.8 4.0')
+#    with gaopaw.fileutils.chdir(working_dir('Si')):
+#        gaopaw.update_best_result([1.2, 1.8, 4.0])
+#    assert round(float(gaopaw.np.loadtxt('Best_Solution/Obj_Fn')), 3) == 0.667
+#    gaopaw.shutil.rmtree('Best_Solution')
+#    with open('Obj_Fn_Data', 'w+') as obj_file:
+#        obj_file.write('1.2 1.8 4.0')
+#    with gaopaw.fileutils.chdir(working_dir('Si')):
+#        gaopaw.update_best_result([1.2, 1.8, 4.0])
+#    assert round(float(gaopaw.np.loadtxt('Best_Solution/Obj_Fn')), 3) == 0.0
 

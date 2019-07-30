@@ -1006,38 +1006,39 @@ def calc_obj_fn(obj_fn_list):
             norm_objs.append(0.0)
     return sum(norm_objs)/len(norm_objs)
 
-def update_best_result(obj_fn_list):
-    """
-    If current solution is better than all previous solutions, 
-    update the Best_Result folder accordingly.
-    """
-    current_obj_fn = calc_obj_fn(obj_fn_list)
-    upf_files = glob.glob('*UPF')
-    atompaw_files = glob.glob('*atompaw*')
-    if not os.path.isdir(os.path.join(os.pardir, 'Best_Solution')):
-        os.mkdir(os.path.join(os.pardir, 'Best_Solution'))
-        for fname in upf_files + atompaw_files:
-            copyfile(fname, os.path.join(os.pardir, 'Best_Solution', fname))
-        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
-            obj_file.write(str(current_obj_fn))
-        with open(os.path.join(os.pardir, 'Best_Solution', 'data'), 'w+') as data_file:
-            for obj in obj_fn_list:
-                data_file.write('%s ' % obj)
-        copyfile('Detailed_Results', os.path.join(os.pardir, 'Best_Solution', 'Detailed_Results'))
-        return
-    last_data = np.loadtxt(os.path.join(os.pardir, 'Best_Solution', 'data'))
-    last_obj_fn = calc_obj_fn(last_data)
-    if current_obj_fn < last_obj_fn:
-        for fname in upf_files + atompaw_files:
-            copyfile(fname, os.path.join(os.pardir, 'Best_Solution', fname))
-        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
-            obj_file.write(str(current_obj_fn))
-        with open(os.path.join(os.pardir, 'Best_Solution', 'data'), 'w+') as data_file:
-            for obj in obj_fn_list:
-                data_file.write('%s ' % obj)
-        copyfile('Detailed_Results', os.path.join(os.pardir, 'Best_Solution', 'Detailed_Results'))
-    else:
-        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
-            obj_file.write(str(last_obj_fn))
+## Deprecated owing to potential interference amongst parallel jobs
+#def update_best_result(obj_fn_list):
+#    """
+#    If current solution is better than all previous solutions, 
+#    update the Best_Result folder accordingly.
+#    """
+#    current_obj_fn = calc_obj_fn(obj_fn_list)
+#    upf_files = glob.glob('*UPF')
+#    atompaw_files = glob.glob('*atompaw*')
+#    if not os.path.isdir(os.path.join(os.pardir, 'Best_Solution')):
+#        os.mkdir(os.path.join(os.pardir, 'Best_Solution'))
+#        for fname in upf_files + atompaw_files:
+#            copyfile(fname, os.path.join(os.pardir, 'Best_Solution', fname))
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
+#            obj_file.write(str(current_obj_fn))
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'data'), 'w+') as data_file:
+#            for obj in obj_fn_list:
+#                data_file.write('%s ' % obj)
+#        copyfile('Detailed_Results', os.path.join(os.pardir, 'Best_Solution', 'Detailed_Results'))
+#        return
+#    last_data = np.loadtxt(os.path.join(os.pardir, 'Best_Solution', 'data'))
+#    last_obj_fn = calc_obj_fn(last_data)
+#    if current_obj_fn < last_obj_fn:
+#        for fname in upf_files + atompaw_files:
+#            copyfile(fname, os.path.join(os.pardir, 'Best_Solution', fname))
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
+#            obj_file.write(str(current_obj_fn))
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'data'), 'w+') as data_file:
+#            for obj in obj_fn_list:
+#                data_file.write('%s ' % obj)
+#        copyfile('Detailed_Results', os.path.join(os.pardir, 'Best_Solution', 'Detailed_Results'))
+#    else:
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
+#            obj_file.write(str(last_obj_fn))
 
 

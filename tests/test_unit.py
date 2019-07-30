@@ -152,7 +152,7 @@ def test_check_upf():
 
 def test_bad_run():
     with gaopaw.fileutils.chdir(ex_template_dir+'/bad_run_ex'):
-        gaopaw.bad_run(3)
+        gaopaw.bad_run()
         results = gaopaw.pd.read_table('results.out', sep='\s+', header=None)[0]
         assert len(results) == 3
         for value in results:
@@ -193,13 +193,13 @@ def test_get_lattice_constant():
         assert gaopaw.get_lattice_constant('Si', 'ortho')[1] == 6.6
         assert gaopaw.get_lattice_constant('Si', 'ortho')[2] == 7.2
 
-def test_update_dakota():
-    diff_dict = \
-    {'Si': {'SC': {'lattice_constant': 0.01, 'phonon_frequency': 0.2}}, 
-    'SiC': {'ZB': {'band_gap': 0.03}}}
-    with gaopaw.fileutils.chdir(working_dir('Si')):
-        gaopaw.update_dakota(diff_dict)
-        assert gaopaw.os.path.exists('results.out')
+#def test_update_dakota():
+#    diff_dict = \
+#    {'Si': {'SC': {'lattice_constant': 0.01, 'phonon_frequency': 0.2}}, 
+#    'SiC': {'ZB': {'band_gap': 0.03}}}
+#    with gaopaw.fileutils.chdir(working_dir('Si')):
+#        gaopaw.update_dakota(diff_dict)
+#        assert gaopaw.os.path.exists('results.out')
 
 def test_check_convergence():
     with gaopaw.fileutils.chdir(working_dir('Conv')):

@@ -46,14 +46,43 @@ def main():
         mae_list.append(np.average(normalized_err))
     best_result_set = good_objs[np.argmin(mae_list)]
     best_var_set = good_vars[np.argmin(mae_list)]
-    for (label, var) in zip(var_headers, best_var_set):
-        print(label, var)
-    for (label, obj) in zip(obj_headers, best_result_set):
-        print(label, obj)
-
+    if os.path.isdir('Best_Solution'):
+        shutil.rmtree('Best_Solution')
+    os.mkdir('Best_Solution')
+    with fileutils.chdir('Best_Solution'):
+        with open('params.in','w+') as param_file:
+            param_file.write('%s variables\n' % len(var_headers))
+            for (var, label) in zip(best_var_set, var_headers):
+                param_file.write('%s %s\n' % (var, label))
+            param_file.write('%s functions\n' % len(obj_headers))
+            obj_index = 1
+            for label in obj_headers:
+                param_file.write('1 ASV_%s:%s\n' % (obj_index, label))
+                obj_index += 1
+            param_file.write('0 derivative_variables\n')
+            param_file.write('0 analysis_components\n')
+            param_file.write('1 eval_id\n')
+        for elem in element_list:
+            write_atompaw_input(elem, template_dir)
+        with open('Detailed_Results', 'w+') as obj_file:
+            for (value, label) in zip(best_result_set, obj_headers):
+                value = round(float(value), 6)
+                if ('lattice_constant' in label) or ('bulk_modulus' in label):
+                    value = value*100
+                    obj_file.write('%s: %s%%\n' % (label, value))
+                if ('magnetization' in label) or ('magnetic_moment' in label):
+                    obj_file.write('%s: %s bohr mag\n' % (label, value))
+                if 'log' in label:
+                    obj_file.write('%s: %s\n' % (label, value))
+                if 'band_gap' in label:
+                    obj_file.write('%s: %s eV\n' % (label, value))
+                if 'eos' in label:
+                    obj_file.write('%sdelta_factor: %s meV/atom\n' % (label[:-3], value))
+                if 'phonon_frequency' in label:
+                    obj_file.write('%s: %s THz\n' % (label, value))
+                if 'atomic_positions' in label:
+                    obj_file.write('%s: %s angstroms\n' % (label, value))
 
 
 if __name__=='__main__':
     main()
-
-

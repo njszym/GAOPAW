@@ -1,3 +1,4 @@
+import warnings
 import collections
 import time
 import pandas as pd
@@ -123,11 +124,11 @@ def get_element_info(template_dir):
     elemental_data['P']['ortho'] = [3.304659, 4.573268, 11.316935]
     return elemental_data
 
-def test_element_list(elem_list, template_dir):
+def form_element_dict(elem_list, template_dir):
     """
-    Perform and check UPF generation with atompaw, compare pseudized
-    log derivatives with corresponding AE log derivatives for each orbital,
-    and compare QE with AE lattice constants for elemental states.
+    Form empty dict containing labels of all
+    elemental properties to be tested in a given
+    element_list.
     """
     elem_diff_dict = {}
     elemental_data = get_element_info(template_dir)
@@ -155,6 +156,19 @@ def test_element_list(elem_list, template_dir):
             for lat_type in ['FCC', 'BCC']:
                 elem_diff_dict[elem][lat_type] = {}
                 elem_diff_dict[elem][lat_type]['lattice_constant'] = {}
+    return elem_diff_dict
+
+def test_element_list(elem_list, template_dir):
+    """
+    Perform and check UPF generation with atompaw, compare pseudized
+    log derivatives with corresponding AE log derivatives for each orbital,
+    and compare QE with AE lattice constants for elemental states.
+    """
+    elem_diff_dict = {}
+    elemental_data = get_element_info(template_dir)
+    elem_diff_dict = form_element_dict(elem_list, template_dir)
+    f_block = ['La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho',
+        'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
     for elem in elem_list:
         os.mkdir(elem)
         copyfile('params.in', os.path.join(elem, 'params.in'))
@@ -332,14 +346,13 @@ def check_upf():
         return True
     return False
 
-def bad_run(num_obj_fns):
+def bad_run():
     """
     If something went wrong with the run, e.g., no .UPF file created or
     if running QE raised an error, set all objective functions to 100.
     """
     params, results = di.read_parameters_file('params.in', 'results.out')
-    for num in range(1, num_obj_fns+1):
-        label = 'obj_fn_%s' % num
+    for label in results.descriptors:
         results[label].function = 100.0
     results.write()
 
@@ -371,11 +384,11 @@ def update_dakota(diff_dict):
     """
     params, results = di.read_parameters_file('params.in', 'results.out')
     label_index = 1
-    for elem in diff_dict.keys():
-        for lat_type in diff_dict[elem].keys():
-            for property in diff_dict[elem][lat_type].keys():
-                label = 'obj_fn_'+str(label_index)
-                results[label].function = diff_dict[elem][lat_type][property]
+    for formula in diff_dict.keys():
+        for lat_type in diff_dict[formula].keys():
+            for property in diff_dict[formula][lat_type].keys():
+                label = '%s_%s_%s' % (formula, lat_type, property)
+                results[label].function = diff_dict[formula][lat_type][property]
                 label_index += 1
     results.write()
 
@@ -425,6 +438,7 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
     try:
         qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
     except ValueError: ## Pressure too large in QE run
+        warnings.warn('You may want to check your initial guess for lattice constant(s)')
         return False
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)

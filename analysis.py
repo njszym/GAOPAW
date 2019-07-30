@@ -29,7 +29,7 @@ def main():
              % get_num_objs(cmpd_list, element_list)
     elem_diff_dict, error_check = test_element_list(element_list, elem_template_dir)
     if error_check:
-        bad_run(num_obj_fns)
+        bad_run()
         return
     if len(cmpd_list) == 1 and len(element_list) == 1 and len(vars(cmpd_list[0])) == 1:
         update_obj_file(elem_diff_dict)
@@ -42,7 +42,7 @@ def main():
     cmpd_diff_dict, error_check = test_cmpd_list(cmpd_list, 
         cmpd_diff_dict, cmpd_template_dir, elem_template_dir)
     if error_check:
-        bad_run(num_obj_fns)
+        bad_run()
         return
     update_obj_file(cmpd_diff_dict)
     obj_fn_list = dict_to_list(cmpd_diff_dict)[0]

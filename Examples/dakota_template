@@ -49,3 +49,4 @@ responses
 	num_objective_functions = 
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors = 

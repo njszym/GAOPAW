@@ -180,6 +180,9 @@ def test_element_list(elem_list, template_dir):
                     ae_lat = elemental_data[elem]['ortho']
                     elem_diff_dict[elem]['ortho']['lattice_constant'] = \
                         compare_lat(ae_lat, elem, 'ortho')
+                    if elem_diff_dict[elem]['ortho']['lattice_constant'] == False:
+                        ## Pressure too high in QE run
+                        return elem_diff_dict, True
                 if elem in f_block:
                     copyfile(os.path.join(os.pardir,'N.GGA-PBE-paw.UPF'),'./N.GGA-PBE-paw.UPF')
                     run_qe('%sN' % elem, 'RS', 'relax', template_dir)
@@ -188,6 +191,9 @@ def test_element_list(elem_list, template_dir):
                     ae_lat = elemental_data['%sN' % elem]['RS']
                     elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] = \
                         compare_lat(ae_lat, '%sN' % elem, 'RS')
+                    if elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] == False:
+                        ## Pressure too high in QE run
+                        return elem_diff_dict, True
                     run_qe('%sN' % elem, 'RS', 'scf', template_dir)
                     if not check_convergence('%sN' % elem, 'RS', 'scf'):
                         return elem_diff_dict, True
@@ -203,6 +209,9 @@ def test_element_list(elem_list, template_dir):
                     ae_lat = elemental_data[elem][lat_type]
                     elem_diff_dict[elem][lat_type]['lattice_constant'] = \
                         compare_lat(ae_lat, elem, lat_type)
+                    if elem_diff_dict[elem][lat_type]['lattice_constant'] == False:
+                        ## Pressure too high in QE run
+                        return elem_diff_dict, True
     return elem_diff_dict, False
 
 def test_cmpd_list(cmpd_list, cmpd_diff_dict, cmpd_template_dir, elem_template_dir):
@@ -262,6 +271,9 @@ def test_property(cmpd, lat_type, property, ae_data, template_dir):
     if not check_convergence(cmpd, lat_type, 'relax'):
         return None, True
     if property == 'lattice_constant':
+        if compare_lat(ae_data, cmpd, lat_type) == False:
+            ## Pressure too high in QE run
+            return None, True
         return compare_lat(ae_data, cmpd, lat_type), False
     if property in ['eos', 'bulk_modulus']:
         run_scale_lat(cmpd, lat_type, template_dir)
@@ -339,6 +351,9 @@ def compare_lat(ae_lat, cmpd, lat_type):
     get_lattice_constant() will convert into conventional units.
     """
     qe_lat = get_lattice_constant(cmpd, lat_type)
+    if np.array_equal(qe_lat, False):
+        ## Pressure too large in QE run
+        return False
     if isinstance(ae_lat, list) == False:
         return abs(qe_lat-ae_lat)/ae_lat
     assert len(ae_lat) == len(qe_lat), \
@@ -407,7 +422,10 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(), 
         'periodic_dft_gui_dir', 'qe2mae.py')
     qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
-    qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
+    try:
+        qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
+    except ValueError: ## Pressure too large in QE run
+        return False
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = np.array(xtal.get_params_from_chorus(cparams)).round(tol)

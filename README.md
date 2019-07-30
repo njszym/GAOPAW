@@ -20,6 +20,6 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
 
 (v) Execute Dakota optimization through "dakota dakota.in" (or submit using job script).
 
-(vi) Once the optimization is complete, use the get_best_soln.py to retrieve the best solution (must be executed in same folder as the dakota.in and input.json files). The weighted sum approach is currently utilized to normalize all objective functions. The universal minimum in the mean absolute error of these noramlize objective functions is then chosen as the best solution, for which detailed results and atompaw input files are placed in the Best_Solution/ folder of the current working directory. 
+(vi) Once the optimization is complete, use the get_best_soln.py script to retrieve the best solution (must be executed in same folder as the dakota.in and input.json files). The weighted sum approach is currently utilized to normalize all objective functions. The universal minimum in the mean absolute error of these noramlize objective functions is then chosen as the best solution, for which detailed results and atompaw input files are placed in the Best_Solution/ folder of the current working directory. 
 
 (vii) Upon obtaining a set of optimized pseudopotentials, a final test may be carried out using the test_PP.py script. The procedure follows same as usual according to the input.json file, however, no dakota settings are necessary. Additionally, a new directory containing the .UPF files must be created and should be specified in the header of the test_PP.py code.

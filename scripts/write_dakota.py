@@ -27,9 +27,20 @@ def update_num_obj(cmpd_list, template_dir):
     num_elems = len(element_list)
     if num_elems == 1 and len(cmpd.keys()) == 1:
         if element_list[0] in ['N','P']:
-            print('\n'+'Number of objective functions: 2\n')
+            num_obj_fns = 2
         else:
-            print('\n'+'Number of objective functions: 3\n')
+            num_obj_fns = 3
+        with open('dakota.in') as dakota_input:
+            orig_dakota = dakota_input.readlines()
+        new_dakota = []
+        for line in orig_dakota:
+            new_line = line
+            if 'num_objective_functions' in line:
+                new_line = '    num_objective_functions =  '+str(num_obj_fns)+'\n'
+            new_dakota.append(new_line)
+        with open('dakota.in','w+') as dakota_input:
+            for line in new_dakota:
+                dakota_input.write(line)
         return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     num_properties = 0
@@ -129,9 +140,12 @@ def update_labels(cmpd_list, template_dir):
         element_list.extend(parse_elems(cmpd.formula))
     element_list = list(set(element_list))
     num_objs = get_num_objs(cmpd_list, element_list)
-    cmpd_dict = form_cmpd_dict(cmpd_list)
     elem_dict = form_element_dict(element_list, template_dir)
-    obj_fn_dict = merge_dicts(elem_dict, cmpd_dict)
+    if not ( len(cmpd_list) == 1 and len(element_list) == 1 and len(vars(cmpd_list[0])) == 1 ):
+        cmpd_dict = form_cmpd_dict(cmpd_list)
+        obj_fn_dict = merge_dicts(elem_dict, cmpd_dict)
+    else:
+        obj_fn_dict = elem_dict
     label_list = dict_to_list(obj_fn_dict)[1]
     label_string = ' '.join("""'%s'""" % label for label in label_list)
     with open('dakota.in') as dakota_input:

@@ -473,7 +473,7 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
         return unique_lat[0], unique_angles[0]
     if lat_type == 'tetrag':
         if len(unique_lat) == 1 and len(unique_angles) == 2: ## body-centered (I)
-            cell_vecs = get_cell(cmpd, lat_type, 'relax')
+            cell_vecs = get_cell(cmpd, lat_type, 'relax', unit='angstrom')
             abs_vec = [abs(value) for value in cell_vecs[0]]
             prim_lengths = sorted(set(abs_vec))
             conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
@@ -486,20 +486,20 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
             return unique_lat[0], unique_lat[1], unique_lat[2]
         if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
             assert list(params[3:]).count(90.0) == 2, err_mssg
-            cell_vecs = get_cell(cmpd, lat_type, 'relax')
-            a_lat = cell_vecs[0][0]*2.
-            b_lat = cell_vecs[0][1]*2.
-            c_lat = cell_vecs[2][2]
+            cell_vecs = get_cell(cmpd, lat_type, 'relax', unit='angstrom')
+            a_lat = abs(cell_vecs[0][0])*2.
+            b_lat = abs(cell_vecs[0][1])*2.
+            c_lat = abs(cell_vecs[2][2])
             conv_lengths = np.array(sorted([a_lat, b_lat, c_lat])).round(tol)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
         if len(unique_lat) == 3 and len(unique_angles) == 3: ## face-centered (F)
-            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax'))
+            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
             components = [abs(value) for value in cell_vecs.flatten()]
             prim_lengths = sorted(set(components))[1:]
             conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
         if len(unique_lat) == 1 and len(unique_angles) == 3: ## body-centered (I)
-            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax'))
+            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
             components = [abs(value) for value in cell_vecs.flatten()]
             prim_lengths = sorted(set(components))
             conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
@@ -512,7 +512,7 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
                     angle = value
             return unique_lat[0], unique_lat[1], unique_lat[2], angle
         if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
-            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax'))
+            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
             a_lat = cell_vecs[0][0]*2
             c_lat = cell_vecs[2][2]*2
             compon_1 = cell_vecs[1][0]*2
@@ -743,7 +743,7 @@ def compare_phonon(cmpd, lat_type, ae_freq, template_dir):
     net_diff = sum(rel_diff)/len(rel_diff)
     return net_diff
 
-def get_cell(cmpd, lat_type, calc_type):
+def get_cell(cmpd, lat_type, calc_type, unit='bohr'):
     """
     Parse cell from QE output and write to 3x3 array
     consisting of lattice vectors in angstroms or bohrs.
@@ -767,6 +767,8 @@ def get_cell(cmpd, lat_type, calc_type):
         v = lines[i].split()
         v = [float(value) for value in v]
         v = [alat*value for value in v]
+        if unit == 'angstrom':
+            v = [value/1.88973 for value in v]
         vectors.append(v)
     return vectors
 
@@ -970,13 +972,6 @@ def update_obj_file(diff_dict):
                 obj_file.write('%s: %s THz\n' % (label, value))
             if 'atomic_positions' in label:
                 obj_file.write('%s: %s angstroms\n' % (label, value))
-    if not os.path.exists(os.path.join(os.pardir, 'Obj_Fn_Data')):
-        obj_file = open(os.path.join(os.pardir, 'Obj_Fn_Data'), 'w+')
-        obj_file.close()
-    with open(os.path.join(os.pardir, 'Obj_Fn_Data'), 'a') as obj_file:
-        obj_file.write('\n')
-        for obj_fn in obj_fn_list:
-            obj_file.write('%s ' % obj_fn)
 
 def calc_obj_fn(obj_fn_list):
     """

@@ -4,10 +4,10 @@ environment
 
 variables
     continuous_design =  44
-    initial_point =  1.806 1.687 1.389 1.269 1.622 1.693 1.689 3.745 6.024 1.382 1.095 0.916 1.144 1.164 1.001 1.155 2.153 2.68 1.979 1.784 1.235 1.708 1.747 1.922 2.046 4.339 10.998 2.098 1.744 1.718 1.876 1.823 2.039 1.828 3.177 3.507 1.647 1.504 1.486 1.221 1.162 1.511 1.588 8.156
-    lower_bounds =  1.716 1.603 1.32 1.206 1.541 1.608 1.605 3.558 5.723 1.313 1.04 0.87 1.087 1.106 0.951 1.097 2.045 2.546 1.88 1.695 1.173 1.623 1.66 1.826 1.944 4.122 10.448 1.993 1.657 1.632 1.782 1.732 1.937 1.737 3.018 3.332 1.565 1.429 1.412 1.16 1.104 1.435 1.509 7.748
-    upper_bounds =  1.896 1.771 1.458 1.332 1.703 1.778 1.773 3.932 6.325 1.451 1.15 0.962 1.201 1.222 1.051 1.213 2.261 2.814 2.078 1.873 1.297 1.793 1.834 2.018 2.148 4.556 11.548 2.203 1.831 1.804 1.97 1.914 2.141 1.919 3.336 3.682 1.729 1.579 1.56 1.282 1.22 1.587 1.667 8.564
-    descriptors =  "DAKOTA_B_RC_1" "DAKOTA_B_RC_2" "DAKOTA_B_RC_3" "DAKOTA_B_RC_4" "DAKOTA_B_RC_5" "DAKOTA_B_RC_6" "DAKOTA_B_RC_7" "DAKOTA_B_EP_1" "DAKOTA_B_EP_2" "DAKOTA_N_RC_1" "DAKOTA_N_RC_2" "DAKOTA_N_RC_3" "DAKOTA_N_RC_4" "DAKOTA_N_RC_5" "DAKOTA_N_RC_6" "DAKOTA_N_RC_7" "DAKOTA_N_EP_1" "DAKOTA_N_EP_2" "DAKOTA_P_RC_1" "DAKOTA_P_RC_2" "DAKOTA_P_RC_3" "DAKOTA_P_RC_4" "DAKOTA_P_RC_5" "DAKOTA_P_RC_6" "DAKOTA_P_RC_7" "DAKOTA_P_EP_1" "DAKOTA_P_EP_2" "DAKOTA_Al_RC_1" "DAKOTA_Al_RC_2" "DAKOTA_Al_RC_3" "DAKOTA_Al_RC_4" "DAKOTA_Al_RC_5" "DAKOTA_Al_RC_6" "DAKOTA_Al_RC_7" "DAKOTA_Al_EP_1" "DAKOTA_Al_EP_2" "DAKOTA_Be_RC_1" "DAKOTA_Be_RC_2" "DAKOTA_Be_RC_3" "DAKOTA_Be_RC_4" "DAKOTA_Be_RC_5" "DAKOTA_Be_RC_6" "DAKOTA_Be_RC_7" "DAKOTA_Be_EP_1"
+    initial_point =  2.098 1.744 1.718 1.876 1.823 2.039 1.828 3.177 3.507 1.647 1.504 1.486 1.221 1.162 1.511 1.588 8.156 1.979 1.784 1.235 1.708 1.747 1.922 2.046 4.339 10.998 1.806 1.687 1.389 1.269 1.622 1.693 1.689 3.745 6.024 1.382 1.095 0.916 1.144 1.164 1.001 1.155 2.153 2.68
+    lower_bounds =  1.993 1.657 1.632 1.782 1.732 1.937 1.737 3.018 3.332 1.565 1.429 1.412 1.16 1.104 1.435 1.509 7.748 1.88 1.695 1.173 1.623 1.66 1.826 1.944 4.122 10.448 1.716 1.603 1.32 1.206 1.541 1.608 1.605 3.558 5.723 1.313 1.04 0.87 1.087 1.106 0.951 1.097 2.045 2.546
+    upper_bounds =  2.203 1.831 1.804 1.97 1.914 2.141 1.919 3.336 3.682 1.729 1.579 1.56 1.282 1.22 1.587 1.667 8.564 2.078 1.873 1.297 1.793 1.834 2.018 2.148 4.556 11.548 1.896 1.771 1.458 1.332 1.703 1.778 1.773 3.932 6.325 1.451 1.15 0.962 1.201 1.222 1.051 1.213 2.261 2.814
+    descriptors =  "DAKOTA_Al_RC_1" "DAKOTA_Al_RC_2" "DAKOTA_Al_RC_3" "DAKOTA_Al_RC_4" "DAKOTA_Al_RC_5" "DAKOTA_Al_RC_6" "DAKOTA_Al_RC_7" "DAKOTA_Al_EP_1" "DAKOTA_Al_EP_2" "DAKOTA_Be_RC_1" "DAKOTA_Be_RC_2" "DAKOTA_Be_RC_3" "DAKOTA_Be_RC_4" "DAKOTA_Be_RC_5" "DAKOTA_Be_RC_6" "DAKOTA_Be_RC_7" "DAKOTA_Be_EP_1" "DAKOTA_P_RC_1" "DAKOTA_P_RC_2" "DAKOTA_P_RC_3" "DAKOTA_P_RC_4" "DAKOTA_P_RC_5" "DAKOTA_P_RC_6" "DAKOTA_P_RC_7" "DAKOTA_P_EP_1" "DAKOTA_P_EP_2" "DAKOTA_B_RC_1" "DAKOTA_B_RC_2" "DAKOTA_B_RC_3" "DAKOTA_B_RC_4" "DAKOTA_B_RC_5" "DAKOTA_B_RC_6" "DAKOTA_B_RC_7" "DAKOTA_B_EP_1" "DAKOTA_B_EP_2" "DAKOTA_N_RC_1" "DAKOTA_N_RC_2" "DAKOTA_N_RC_3" "DAKOTA_N_RC_4" "DAKOTA_N_RC_5" "DAKOTA_N_RC_6" "DAKOTA_N_RC_7" "DAKOTA_N_EP_1" "DAKOTA_N_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,7 +18,7 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 500 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
         max_function_evaluations = 50000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
@@ -46,6 +46,7 @@ interface
           named 'workdir_pp'
 
 responses
-    num_objective_functions =  18
+    num_objective_functions =  19
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Al_elemental_log' 'Al_FCC_lattice_constant' 'Al_BCC_lattice_constant' 'Be_elemental_log' 'Be_FCC_lattice_constant' 'Be_BCC_lattice_constant' 'P_elemental_log' 'P_ortho_lattice_constant' 'B_elemental_log' 'B_FCC_lattice_constant' 'B_BCC_lattice_constant' 'B_BCC_phonon_frequency' 'N_elemental_log' 'N_SC_atomic_positions' 'BN_RS_lattice_constant' 'BN_hex_lattice_constant' 'BN_hex_band_gap' 'BP_ZB_eos' 'AlBeB_HH_lattice_constant'

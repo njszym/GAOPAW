@@ -1,0 +1,41 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Mo/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Mo",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,4.64,4.64,4.64]
+        },
+        {
+            "formula": "MoO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.419,
+            "magnetization": 0.420
+        },
+        {
+            "formula": "MoS",
+            "lattice_type": "ZB",
+            "eos": [19.05529, 136.54769, 4.580]
+        },
+        {
+            "formula": "SrMoO3",
+            "lattice_type": "per",
+            "lattice_constant": 4.002
+        },
+        {
+            "formula": "MoO3",
+            "lattice_type": "per",  
+            "lattice_constant": 3.827,
+            "band_gap": 0.740
+        },
+        {
+            "formula": "MoS2",
+            "lattice_type": "hex",
+            "lattice_constant": [3.19,14.80]
+        }
+    ]
+}

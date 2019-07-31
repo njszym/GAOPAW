@@ -4,10 +4,10 @@ environment
 
 variables
     continuous_design =  52
-    initial_point =  2.382 1.72 1.335 2.171 2.086 1.789 1.929 2.22 2.073 4.28 3.003 1.604 1.203 1.316 1.444 1.391 1.352 1.566 4.463 5.822 1.769 1.764 1.162 1.787 1.939 1.717 1.822 2.175 1.243 2.396 2.108 1.937 1.944 1.658 2.367 2.029 2.148 2.095 2.789 6.917 1.329 2.292 1.215 1.685 1.725 1.791 1.6 1.627 2.126 1.912 2.105 2.019
-    lower_bounds =  2.263 1.634 1.268 2.062 1.982 1.7 1.833 2.109 1.969 4.066 2.853 1.524 1.143 1.25 1.372 1.321 1.284 1.488 4.24 5.531 1.681 1.676 1.104 1.698 1.842 1.631 1.731 2.066 1.181 2.276 2.003 1.84 1.847 1.575 2.249 1.928 2.041 1.99 2.65 6.571 1.263 2.177 1.154 1.601 1.639 1.701 1.52 1.546 2.02 1.816 2.0 1.918
-    upper_bounds =  2.501 1.806 1.402 2.28 2.19 1.878 2.025 2.331 2.177 4.494 3.153 1.684 1.263 1.382 1.516 1.461 1.42 1.644 4.686 6.113 1.857 1.852 1.22 1.876 2.036 1.803 1.913 2.284 1.305 2.516 2.213 2.034 2.041 1.741 2.485 2.13 2.255 2.2 2.928 7.263 1.395 2.407 1.276 1.769 1.811 1.881 1.68 1.708 2.232 2.008 2.21 2.12
-    descriptors =  "DAKOTA_V_RC_1" "DAKOTA_V_RC_2" "DAKOTA_V_RC_3" "DAKOTA_V_RC_4" "DAKOTA_V_RC_5" "DAKOTA_V_RC_6" "DAKOTA_V_RC_7" "DAKOTA_V_RC_8" "DAKOTA_V_RC_9" "DAKOTA_V_EP_1" "DAKOTA_V_EP_2" "DAKOTA_O_RC_1" "DAKOTA_O_RC_2" "DAKOTA_O_RC_3" "DAKOTA_O_RC_4" "DAKOTA_O_RC_5" "DAKOTA_O_RC_6" "DAKOTA_O_RC_7" "DAKOTA_O_EP_1" "DAKOTA_O_EP_2" "DAKOTA_S_RC_1" "DAKOTA_S_RC_2" "DAKOTA_S_RC_3" "DAKOTA_S_RC_4" "DAKOTA_S_RC_5" "DAKOTA_S_RC_6" "DAKOTA_S_RC_7" "DAKOTA_S_EP_1" "DAKOTA_S_EP_2" "DAKOTA_Sb_RC_1" "DAKOTA_Sb_RC_2" "DAKOTA_Sb_RC_3" "DAKOTA_Sb_RC_4" "DAKOTA_Sb_RC_5" "DAKOTA_Sb_RC_6" "DAKOTA_Sb_RC_7" "DAKOTA_Sb_RC_8" "DAKOTA_Sb_RC_9" "DAKOTA_Sb_EP_1" "DAKOTA_Sb_EP_2" "DAKOTA_Sb_EP_3" "DAKOTA_Fe_RC_1" "DAKOTA_Fe_RC_2" "DAKOTA_Fe_RC_3" "DAKOTA_Fe_RC_4" "DAKOTA_Fe_RC_5" "DAKOTA_Fe_RC_6" "DAKOTA_Fe_RC_7" "DAKOTA_Fe_RC_8" "DAKOTA_Fe_RC_9" "DAKOTA_Fe_EP_1" "DAKOTA_Fe_EP_2"
+    initial_point =  1.769 1.764 1.162 1.787 1.939 1.717 1.822 2.175 1.243 2.382 1.72 1.335 2.171 2.086 1.789 1.929 2.22 2.073 4.28 3.003 2.292 1.215 1.685 1.725 1.791 1.6 1.627 2.126 1.912 2.105 2.019 1.604 1.203 1.316 1.444 1.391 1.352 1.566 4.463 5.822 2.396 2.108 1.937 1.944 1.658 2.367 2.029 2.148 2.095 2.789 6.917 1.329
+    lower_bounds =  1.681 1.676 1.104 1.698 1.842 1.631 1.731 2.066 1.181 2.263 1.634 1.268 2.062 1.982 1.7 1.833 2.109 1.969 4.066 2.853 2.177 1.154 1.601 1.639 1.701 1.52 1.546 2.02 1.816 2.0 1.918 1.524 1.143 1.25 1.372 1.321 1.284 1.488 4.24 5.531 2.276 2.003 1.84 1.847 1.575 2.249 1.928 2.041 1.99 2.65 6.571 1.263
+    upper_bounds =  1.857 1.852 1.22 1.876 2.036 1.803 1.913 2.284 1.305 2.501 1.806 1.402 2.28 2.19 1.878 2.025 2.331 2.177 4.494 3.153 2.407 1.276 1.769 1.811 1.881 1.68 1.708 2.232 2.008 2.21 2.12 1.684 1.263 1.382 1.516 1.461 1.42 1.644 4.686 6.113 2.516 2.213 2.034 2.041 1.741 2.485 2.13 2.255 2.2 2.928 7.263 1.395
+    descriptors =  "DAKOTA_S_RC_1" "DAKOTA_S_RC_2" "DAKOTA_S_RC_3" "DAKOTA_S_RC_4" "DAKOTA_S_RC_5" "DAKOTA_S_RC_6" "DAKOTA_S_RC_7" "DAKOTA_S_EP_1" "DAKOTA_S_EP_2" "DAKOTA_V_RC_1" "DAKOTA_V_RC_2" "DAKOTA_V_RC_3" "DAKOTA_V_RC_4" "DAKOTA_V_RC_5" "DAKOTA_V_RC_6" "DAKOTA_V_RC_7" "DAKOTA_V_RC_8" "DAKOTA_V_RC_9" "DAKOTA_V_EP_1" "DAKOTA_V_EP_2" "DAKOTA_Fe_RC_1" "DAKOTA_Fe_RC_2" "DAKOTA_Fe_RC_3" "DAKOTA_Fe_RC_4" "DAKOTA_Fe_RC_5" "DAKOTA_Fe_RC_6" "DAKOTA_Fe_RC_7" "DAKOTA_Fe_RC_8" "DAKOTA_Fe_RC_9" "DAKOTA_Fe_EP_1" "DAKOTA_Fe_EP_2" "DAKOTA_O_RC_1" "DAKOTA_O_RC_2" "DAKOTA_O_RC_3" "DAKOTA_O_RC_4" "DAKOTA_O_RC_5" "DAKOTA_O_RC_6" "DAKOTA_O_RC_7" "DAKOTA_O_EP_1" "DAKOTA_O_EP_2" "DAKOTA_Sb_RC_1" "DAKOTA_Sb_RC_2" "DAKOTA_Sb_RC_3" "DAKOTA_Sb_RC_4" "DAKOTA_Sb_RC_5" "DAKOTA_Sb_RC_6" "DAKOTA_Sb_RC_7" "DAKOTA_Sb_RC_8" "DAKOTA_Sb_RC_9" "DAKOTA_Sb_EP_1" "DAKOTA_Sb_EP_2" "DAKOTA_Sb_EP_3"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,18 +18,18 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 500 ## 400 chromosomes in the initial generation
-        max_function_evaluations = 50000 ## Max number of chromosomes tested
-        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 50000 ## Default, max number of chromosomes tested
+        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
           crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
         mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
-          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable
-          mutation_rate = 0.1  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
+          mutation_rate = 0.2  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
         fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
         replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
-          shrinkage_fraction = 0.25  ## Next generation must be at least 25% the size of the previous generation, small values work best here
+          shrinkage_fraction = 0.30  ## Next generation must be at least 30% the size of the previous generation, small values work best here
         convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
           percent_change = 1 num_generations = 10 ## Convergence acheived if less than 1% change occurs over ten consecutive generations (default)
         final_solutions = 10 ## Give 10 best solutions once run finishes, optimum value may depend on your problem, how many local minima exist
@@ -37,15 +37,16 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 10 ## Depends on number of cores you plan to run on; +1 concurrency for each additional 4 cores
+          evaluation_concurrency = 10 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp' ## Uncomment if you'd like to save all working directories: file_save directory_save (takes up lots of space)
+          named 'workdir_pp'
 
 responses
     num_objective_functions =  21
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'S_elemental_log' 'S_FCC_lattice_constant' 'S_BCC_lattice_constant' 'V_elemental_log' 'V_FCC_lattice_constant' 'V_BCC_lattice_constant' 'V_BCC_phonon_frequency' 'Fe_elemental_log' 'Fe_FCC_lattice_constant' 'Fe_BCC_lattice_constant' 'O_elemental_log' 'O_FCC_lattice_constant' 'O_BCC_lattice_constant' 'Sb_elemental_log' 'Sb_FCC_lattice_constant' 'Sb_BCC_lattice_constant' 'VO_RS_lattice_constant' 'VO_RS_magnetization' 'VS_ZB_eos' 'V2O5_ortho_band_gap' 'VSbFe_HH_lattice_constant'

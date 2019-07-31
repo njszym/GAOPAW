@@ -28,21 +28,21 @@ class Runner:
 
     def __init__(self):
         self.working_dir = os.getcwd()
-        self.input_settings = self.read_input()
-        self.element_list = self.get_element_list()
-        self.num_obj_fns = self.parse_num_objs()
-        self.elemental_data = self.get_element_info()
-        self.is_elem = self.check_if_elem()
+        self.readInput()
+        self.elemental_data = self.getElementInfo()
 
-    def read_input(self):
+    def readInput(self):
         """
         Read in run settings from input.json.
         """
         working_dir = self.working_dir
         with open(os.path.join(working_dir, os.pardir, 'input.json')) as input:
-            return json.load(input, object_hook=lambda d: SimpleNamespace(**d))
+            self.input_settings = json.load(input, object_hook=lambda d: SimpleNamespace(**d))
+        self.element_list = self.getElementList()
+        self.num_obj_fns = self.numDakotaObjs()
+        self.is_elem = self.checkIfElem()
 
-    def get_paws(self):
+    def getPaws(self):
         """
         If user has specified pre-made PAW file in input.json,
         copy them into the working directory.
@@ -53,24 +53,24 @@ class Runner:
                 copyfile(os.path.join(cmpd_template_dir,'%s.GGA-PBE-paw.UPF' % elem),
                     './%s.GGA-PBE-paw.UPF' % paw_elem)
 
-    def parse_num_objs(self):
+    def numDakotaObjs(self):
         """
-        Read in number of objective functions defined in the dakota.in file.
+        Parse *dakota.in* and return total number of objective functions.
         """
         working_dir = self.working_dir
         with open(os.path.join(working_dir, os.pardir, 'dakota.in')) as dakota_input:
             for line in dakota_input:
                 if 'num_objective_functions' in line:
                     num_objs = int(line.split()[2])
-        objs_from_input = self.get_num_objs()
+        objs_from_input = self.numUserObjs()
         assert num_objs == objs_from_input, \
             'Wrong number of objective functions specified, should be %s' \
             % objs_from_input
         return num_objs
 
-    def get_num_objs(self):
+    def numUserObjs(self):
         """
-        Parse input.json and return total number of objective functions.
+        Parse *input.json* and return total number of objective functions.
         """
         element_list = self.element_list
         cmpd_list = self.input_settings.compounds
@@ -80,7 +80,7 @@ class Runner:
                 return 2
             else:
                 return 3
-        cmpd_diff_dict = self.form_cmpd_dict()
+        cmpd_diff_dict = self.formCmpdDict()
         num_properties = 0
         for cmpd in cmpd_diff_dict.keys():
             for lat_type in cmpd_diff_dict[cmpd].keys():
@@ -95,7 +95,7 @@ class Runner:
         num_obj_fns += num_properties
         return num_obj_fns
 
-    def form_cmpd_dict(self):
+    def formCmpdDict(self):
         """
         Constructs empty dictionary of correct length for compound testing.
         """
@@ -115,17 +115,17 @@ class Runner:
                 cmpd_diff_dict[formula][lat_type][property] = {}
         return cmpd_diff_dict
 
-    def get_element_list(self):
+    def getElementList(self):
         """
         Generate unique list of elements from all compounds
         listed in the input.json file.
         """
         element_list = []
         for cmpd in self.input_settings.compounds:
-            element_list.extend(self.parse_elems(cmpd.formula))
+            element_list.extend(self.parseElems(cmpd.formula))
         return list(set(element_list))
 
-    def parse_elems(self, formula):
+    def parseElems(self, formula):
         """
         Parse compound formula to obtain unique list of constituent elements.
         """
@@ -141,7 +141,7 @@ class Runner:
                 elems[index] += letter
         return list(set(elems))
 
-    def test_element_list(self):
+    def testElementList(self):
         """
         Perform and check UPF generation with atompaw, compare pseudized
         log derivatives with corresponding AE log derivatives for each orbital,
@@ -149,71 +149,65 @@ class Runner:
         """
         template_dir = self.input_settings.directories.elem_template_dir
         elem_list = self.element_list
-        elem_diff_dict = {}
         elemental_data = self.elemental_data
-        elem_diff_dict = self.form_element_dict()
-        f_block = ['La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho',
-            'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
+        elem_diff_dict = self.formElementDict()
         for elem in elem_list:
             os.mkdir(elem)
             copyfile('params.in', os.path.join(elem, 'params.in'))
             with fileutils.chdir(elem):
-                self.write_atompaw_input(elem)
+                self.writeAtompawInput(elem)
                 copyfile('%s.atompaw.in' % elem, os.path.join(os.pardir, '%s.atompaw.in' % elem))
-                self.run_atompaw(elem)
-                if not self.check_upf():
+                self.runAtompaw(elem)
+                if not self.checkUpf():
                     return elem_diff_dict, True
                 copyfile('%s.GGA-PBE-paw.UPF' % elem, os.path.join(os.pardir, '%s.GGA-PBE-paw.UPF' % elem))
-                elem_diff_dict[elem]['elemental']['log'] = self.compare_log()
-                if elem in ['N', 'P'] + f_block:
+                elem_diff_dict[elem]['elemental']['log'] = self.compareLog()
+                if elem in ['N', 'P', *self.f_block]:
                     if elem == 'N':
-                        self.run_qe(elem, 'SC', 'relax', template_dir)
-                        if not self.check_convergence(elem, 'SC', 'relax'):
+                        self.runQE(elem, 'SC', 'relax', template_dir)
+                        if not self.checkConvergence(elem, 'SC', 'relax'):
                             return elem_diff_dict, True
                         elem_diff_dict[elem]['SC']['atomic_positions'] = \
-                            self.compare_atoms(elem, 'SC', template_dir)
+                            self.compareAtoms(elem, 'SC', template_dir)
                     if elem == 'P':
-                        self.run_qe(elem, 'ortho', 'relax', template_dir)
-                        if not self.check_convergence(elem, 'ortho', 'relax'):
+                        self.runQE(elem, 'ortho', 'relax', template_dir)
+                        if not self.checkConvergence(elem, 'ortho', 'relax'):
                             return elem_diff_dict, True
                         ae_lat = elemental_data[elem]['ortho']
                         elem_diff_dict[elem]['ortho']['lattice_constant'] = \
-                            self.compare_lat(ae_lat, elem, 'ortho')
+                            self.compareLat(ae_lat, elem, 'ortho')
                         if elem_diff_dict[elem]['ortho']['lattice_constant'] == False:
-                            ## Pressure too high in QE run
                             return elem_diff_dict, True
-                    if elem in f_block:
+                    if elem in self.f_block:
                         copyfile(os.path.join(os.pardir,'N.GGA-PBE-paw.UPF'),'./N.GGA-PBE-paw.UPF')
-                        self.run_qe('%sN' % elem, 'RS', 'relax', template_dir)
-                        if not self.check_convergence('%sN' % elem, 'RS', 'relax'):
+                        self.runQE('%sN' % elem, 'RS', 'relax', template_dir)
+                        if not self.checkConvergence('%sN' % elem, 'RS', 'relax'):
                             return elem_diff_dict, True
                         ae_lat = elemental_data['%sN' % elem]['RS']
                         elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] = \
-                            self.compare_lat(ae_lat, '%sN' % elem, 'RS')
+                            self.compareLat(ae_lat, '%sN' % elem, 'RS')
                         if elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] == False:
-                            ## Pressure too high in QE run
                             return elem_diff_dict, True
-                        self.run_qe('%sN' % elem, 'RS', 'scf', template_dir)
-                        if not self.check_convergence('%sN' % elem, 'RS', 'scf'):
+                        self.runQE('%sN' % elem, 'RS', 'scf', template_dir)
+                        if not self.checkConvergence('%sN' % elem, 'RS', 'scf'):
                             return elem_diff_dict, True
-                        qe_mag = self.get_mag('%sN' % elem, 'RS')
+                        qe_mag = self.getMag('%sN' % elem, 'RS')
                         ae_mag = elemental_data['%sN' % elem]['magnetization']
                         elem_diff_dict['%sN' % elem]['RS']['magnetization'] = \
                             abs(ae_mag-qe_mag)
                 else:
                     for lat_type in ['FCC', 'BCC']:
-                        self.run_qe(elem, lat_type, 'relax', template_dir)
-                        if not self.check_convergence(elem, lat_type, 'relax'):
+                        self.runQE(elem, lat_type, 'relax', template_dir)
+                        if not self.checkConvergence(elem, lat_type, 'relax'):
                             return elem_diff_dict, True
                         ae_lat = elemental_data[elem][lat_type]
                         elem_diff_dict[elem][lat_type]['lattice_constant'] = \
-                            self.compare_lat(ae_lat, elem, lat_type)
+                            self.compareLat(ae_lat, elem, lat_type)
                         if elem_diff_dict[elem][lat_type]['lattice_constant'] == False:
-                            ## Pressure too high in QE run
                             return elem_diff_dict, True
         return elem_diff_dict, False
 
-    def get_element_info(self):
+    def getElementInfo(self):
         """
         Read in AE data for elemental lattice constants from specified
         template directory. This includes FCC/BCC lattice constants for
@@ -221,6 +215,8 @@ class Runner:
         and lattice constants are tested in simple cubic and orthorhombic
         structures respectively. For f-block, RS oxides are considered.
         """
+        self.f_block = ['La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho',
+            'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
         template_dir = self.input_settings.directories.elem_template_dir
         elemental_data = {}
         df_fcc = pd.read_table(os.path.join(template_dir, 'WIEN2k_FCC'),
@@ -244,7 +240,7 @@ class Runner:
         elemental_data['P']['ortho'] = [3.304659, 4.573268, 11.316935]
         return elemental_data
 
-    def form_element_dict(self):
+    def formElementDict(self):
         """
         Form empty dict containing labels of all
         elemental properties to be tested in a given
@@ -254,22 +250,20 @@ class Runner:
         template_dir = self.input_settings.directories.elem_template_dir
         elem_diff_dict = {}
         elemental_data = self.elemental_data
-        f_block = ['La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho',
-            'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
         for elem in elem_list:
             assert elem in elemental_data.keys(), \
                 'No AE data available for your element: %s' % elem
             elem_diff_dict[elem] = {}
             elem_diff_dict[elem]['elemental'] = {}
             elem_diff_dict[elem]['elemental']['log'] = {}
-            if elem in ['N', 'P'] + f_block:
+            if elem in ['N', 'P', *self.f_block]:
                 if elem == 'N':
                     elem_diff_dict[elem]['SC'] = {}
                     elem_diff_dict[elem]['SC']['atomic_positions'] = {}
                 if elem == 'P':
                     elem_diff_dict[elem]['ortho'] = {}
                     elem_diff_dict[elem]['ortho']['lattice_constant'] = {}
-                if elem in f_block:
+                if elem in self.f_block:
                     elem_diff_dict['%sN' % elem] = {}
                     elem_diff_dict['%sN' % elem]['RS'] = {}
                     elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] = {}
@@ -280,7 +274,7 @@ class Runner:
                     elem_diff_dict[elem][lat_type]['lattice_constant'] = {}
         return elem_diff_dict
 
-    def write_atompaw_input(self, elem):
+    def writeAtompawInput(self, elem):
         """
         Write atompaw input file for elem based on existing
         elem.atompaw.templtae in specified template_dir.
@@ -291,7 +285,7 @@ class Runner:
         subprocess.check_call(['run', 'dprepro.py', 'params.in', template_file,
             new_input_file], env=os.environ.copy())
 
-    def run_atompaw(self, elem):
+    def runAtompaw(self, elem):
         """
         Run AtomPAW using elem.atompaw.in.
         """
@@ -299,7 +293,7 @@ class Runner:
             subprocess.call(['atompaw'], stdin=input_fin, stdout=log_fout,
                 env=os.environ.copy())
 
-    def check_upf(self):
+    def checkUpf(self):
         """
         Check if a .UPF file was succesfully created by AtomPAW.
         """
@@ -307,7 +301,7 @@ class Runner:
             return True
         return False
 
-    def compare_log(self):
+    def compareLog(self):
         """
         Compare arctan of the logarithmic derivatives of the pseudized and
         exact wavefunctions produced by atompaw (goal is to minimize difference).
@@ -327,7 +321,7 @@ class Runner:
             total_diff += sum(abs(log_pseudo - log_exact))
         return total_diff/sum_log
 
-    def run_qe(self, cmpd, lat_type, calc_type, template_dir):
+    def runQE(self, cmpd, lat_type, calc_type, template_dir):
         """
         Write and run QE using cmpd.lat_type.calc_type from template_dir.
         """
@@ -337,11 +331,11 @@ class Runner:
         qe_input = '%s.%s.%s.in' % (cmpd, lat_type, calc_type)
         shutil.copy(template_file, qe_input)
         if calc_type == 'scf':
-            self.update_structure(cmpd, lat_type, 'scf')
+            self.updateStructure(cmpd, lat_type, 'scf')
         subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'pw.x', qe_input,
             '-MPICORES', '4'], env=os.environ.copy())
 
-    def update_structure(self, cmpd, lat_type, calc_type):
+    def updateStructure(self, cmpd, lat_type, calc_type):
         """
         Parse equilibrium structure from completed relaxation
         and update the corresponding calculation input file.
@@ -420,7 +414,7 @@ class Runner:
                 qe_file.write(line)
             qe_file.write('%s%s%s%s' % (cell_header, v1, v2, v3))
 
-    def check_convergence(self, cmpd, lat_type, calc_type):
+    def checkConvergence(self, cmpd, lat_type, calc_type):
         """
         Check if the QE calculation ran succesfully
         (i.e., w/o error and convergence acheived).
@@ -433,7 +427,7 @@ class Runner:
                     return False
         return True
 
-    def compare_atoms(self, cmpd, lat_type, template_dir):
+    def compareAtoms(self, cmpd, lat_type, template_dir):
         """
         Compare atomic positions of QE-relaxed structure and those 
         of the AE-relaxed structure. Return sum of the distances.
@@ -454,16 +448,15 @@ class Runner:
             distance_list.append(np.linalg.norm(ae_position-qe_position))
         return sum(distance_list)
 
-    def compare_lat(self, ae_lat, cmpd, lat_type):
+    def compareLat(self, ae_lat, cmpd, lat_type):
         """
         Calculate the average difference between QE and QE lattice parameters.
         AE values must be given in terms of a conventional unit cell, however,
         a primitive or conventional cell may be used in the QE calculation.
         get_lattice_constant() will convert into conventional units.
         """
-        qe_lat = self.get_lattice_constant(cmpd, lat_type)
+        qe_lat = self.getLatticeConstant(cmpd, lat_type)
         if np.array_equal(qe_lat, False):
-            ## Pressure too large in QE run
             return False
         if isinstance(ae_lat, list) == False:
             return abs(qe_lat-ae_lat)/ae_lat
@@ -474,7 +467,7 @@ class Runner:
             lat_diff += abs(qe_val-ae_val)/ae_val
         return lat_diff/len(ae_lat)
 
-    def get_lattice_constant(self, cmpd, lat_type, tol=3):
+    def getLatticeConstant(self, cmpd, lat_type, tol=3):
         """
         Parse relaxed lattice parameters from QE relaxation run.
         Allowed tolerance is given by tol ~ number of decimal places.
@@ -523,7 +516,7 @@ class Runner:
             return unique_lat[0], unique_angles[0]
         if lat_type == 'tetrag':
             if len(unique_lat) == 1 and len(unique_angles) == 2: ## body-centered (I)
-                cell_vecs = get_cell(cmpd, lat_type, 'relax', unit='angstrom')
+                cell_vecs = self.getCell(cmpd, lat_type, 'relax', unit='angstrom')
                 abs_vec = [abs(value) for value in cell_vecs[0]]
                 prim_lengths = sorted(set(abs_vec))
                 conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
@@ -536,20 +529,20 @@ class Runner:
                 return unique_lat[0], unique_lat[1], unique_lat[2]
             if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
                 assert list(params[3:]).count(90.0) == 2, err_mssg
-                cell_vecs = get_cell(cmpd, lat_type, 'relax', unit='angstrom')
+                cell_vecs = self.getCell(cmpd, lat_type, 'relax', unit='angstrom')
                 a_lat = abs(cell_vecs[0][0])*2.
                 b_lat = abs(cell_vecs[0][1])*2.
                 c_lat = abs(cell_vecs[2][2])
                 conv_lengths = np.array(sorted([a_lat, b_lat, c_lat])).round(tol)
                 return conv_lengths[0], conv_lengths[1], conv_lengths[2]
             if len(unique_lat) == 3 and len(unique_angles) == 3: ## face-centered (F)
-                cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
+                cell_vecs = np.array(self.getCell(cmpd, lat_type, 'relax', unit='angstrom'))
                 components = [abs(value) for value in cell_vecs.flatten()]
                 prim_lengths = sorted(set(components))[1:]
                 conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
                 return conv_lengths[0], conv_lengths[1], conv_lengths[2]
             if len(unique_lat) == 1 and len(unique_angles) == 3: ## body-centered (I)
-                cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
+                cell_vecs = np.array(self.getCell(cmpd, lat_type, 'relax', unit='angstrom'))
                 components = [abs(value) for value in cell_vecs.flatten()]
                 prim_lengths = sorted(set(components))
                 conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
@@ -562,7 +555,7 @@ class Runner:
                         angle = value
                 return unique_lat[0], unique_lat[1], unique_lat[2], angle
             if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
-                cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
+                cell_vecs = np.array(self.getCell(cmpd, lat_type, 'relax', unit='angstrom'))
                 a_lat = cell_vecs[0][0]*2
                 c_lat = cell_vecs[2][2]*2
                 compon_1 = cell_vecs[1][0]*2
@@ -577,7 +570,36 @@ class Runner:
             assert len(unique_lat) == 3 and list(params[3:]).count(90.0) < 2, err_mssg
             return params
 
-    def get_mag(self, cmpd, lat_type):
+    def getCell(self, cmpd, lat_type, calc_type, unit='bohr'):
+        """
+        Parse cell from QE output and write to 3x3 array
+        consisting of lattice vectors in angstroms or bohrs.
+        """
+        with open('%s.%s.relax.out' % (cmpd, lat_type)) as f:
+            lines = f.readlines()
+        index = 0
+        for line in lines:
+            if 'CELL_PARAMETERS' in line:
+                cell_index = [index+1, index+2, index+3]
+                split_line = line.split('=')
+                if 'alat' in line: ## assumes Bohr
+                    alat = float(split_line[1][1:-2])
+                if 'angstrom' in line:
+                    alat = 1.88973 ## A to Bohr
+                if 'bohr' in line:
+                    alat = 1.00
+            index += 1
+        vectors = []
+        for i in cell_index:
+            v = lines[i].split()
+            v = [float(value) for value in v]
+            v = [alat*value for value in v]
+            if unit == 'angstrom':
+                v = [value/1.88973 for value in v]
+            vectors.append(v)
+        return vectors
+
+    def getMag(self, cmpd, lat_type):
         """
         Parse QE output (scf run) to obtain total magnetization.
         """
@@ -590,7 +612,7 @@ class Runner:
             spin-polarization must be considered in SCF calculation"""
         return float(mag[-1])
 
-    def check_if_elem(self):
+    def checkIfElem(self):
         """
         Check if optimization is simply elemental,
         no additional properties tested.
@@ -602,25 +624,25 @@ class Runner:
         else:
             return False
 
-    def merge_dicts(self, dct, merge_dct):
+    def mergeDicts(self, dct, merge_dct):
         """
         *Recursively* merge two dictionaries.
         """
         for k, v in merge_dct.items():
             if (k in dct and isinstance(dct[k], dict) and \
             isinstance(merge_dct[k], collections.Mapping)):
-                self.merge_dicts(dct[k], merge_dct[k])
+                self.mergeDicts(dct[k], merge_dct[k])
             else:
                 dct[k] = merge_dct[k]
         return dct
 
-    def test_cmpd_list(self):
+    def testCmpdList(self):
         """
         For each compound specified in input.json, perform the given property tests
         and compare with AE values. Differences correspond to objective functions.
         """
         cmpd_list = self.input_settings.compounds
-        cmpd_diff_dict = self.form_cmpd_dict()
+        cmpd_diff_dict = self.formCmpdDict()
         cmpd_template_dir = self.input_settings.directories.cmpd_template_dir
         elem_template_dir = self.input_settings.directories.elem_template_dir
         elemental_data = self.elemental_data
@@ -640,36 +662,34 @@ class Runner:
                         assert property != 'atomic_positions', elem_err_mssg
                     if (cmpd == 'P') and (lat_type == 'ortho'):
                         assert property != 'lattice_constant', elem_err_mssg
-                f_block = ['La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho',
-                    'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
-                if formula in ['%sN' % f_elem for f_elem in f_block]:
+                if formula in ['%sN' % f_elem for f_elem in self.f_block]:
                     if lat_type == 'RS':
                         assert property != 'lattice_constant', elem_err_mssg
                         assert property != 'magnetization', elem_err_mssg
                 ae_value = getattr(cmpd, property)
                 cmpd_diff_dict[formula][lat_type][property], error_check = \
-                    self.test_property(formula, lat_type, property, ae_value, cmpd_template_dir)
+                    self.testProperty(formula, lat_type, property, ae_value, cmpd_template_dir)
                 if error_check:
                     return cmpd_diff_dict, True
         return cmpd_diff_dict, False
 
-    def test_property(self, cmpd, lat_type, property, ae_data, template_dir):
+    def testProperty(self, cmpd, lat_type, property, ae_data, template_dir):
         """
         For a given compound and property, perform the required QE
         calculations to obtain data which will be compared with an
         specified AE value (difference ~ objective function).
         """
-        self.run_qe(cmpd, lat_type, 'relax', template_dir)
-        if not self.check_convergence(cmpd, lat_type, 'relax'):
+        self.runQE(cmpd, lat_type, 'relax', template_dir)
+        if not self.checkConvergence(cmpd, lat_type, 'relax'):
             return None, True
         if property == 'lattice_constant':
-            if self.compare_lat(ae_data, cmpd, lat_type) == False:
-                ## Pressure too high in QE run
+            lat_diff = self.compareLat(ae_data, cmpd, lat_type)
+            if lat_diff == False:
                 return None, True
-            return self.compare_lat(ae_data, cmpd, lat_type), False
+            return lat_diff, False
         if property in ['eos', 'bulk_modulus']:
-            self.run_scale_lat(cmpd, lat_type)
-            V0, QE_bulk, B_prime = self.get_bulk(cmpd, lat_type)
+            self.runScaleLat(cmpd, lat_type)
+            V0, QE_bulk, B_prime = self.getBulk(cmpd, lat_type)
             if property == 'eos':
                 assert len(ae_data) == 3, \
                     'Three parameters required for EOS'
@@ -689,34 +709,34 @@ class Runner:
                 bulk_diff = abs(QE_bulk - ae_data)/ae_data
                 return bulk_diff, False
         if property == 'phonon_frequency':
-            self.run_qe(cmpd, lat_type, 'scf', template_dir)
-            if not self.check_convergence(cmpd, lat_type, 'scf'):
+            self.runQE(cmpd, lat_type, 'scf', template_dir)
+            if not self.checkConvergence(cmpd, lat_type, 'scf'):
                 return None, True
-            self.run_phonon(cmpd, lat_type, template_dir)
-            phonon_diff = self.compare_phonon(cmpd, lat_type, ae_data, template_dir)
+            self.runPhonon(cmpd, lat_type, template_dir)
+            phonon_diff = self.comparePhonon(cmpd, lat_type, ae_data, template_dir)
             return phonon_diff, False
         if property == 'atomic_positions':
-            return self.compare_atoms(cmpd, lat_type, template_dir), False
+            return self.compareAtoms(cmpd, lat_type, template_dir), False
         if property == 'band_gap':
-            self.run_qe(cmpd, lat_type, 'scf', template_dir)
-            if not self.check_convergence(cmpd, lat_type, 'scf'):
+            self.runQE(cmpd, lat_type, 'scf', template_dir)
+            if not self.checkConvergence(cmpd, lat_type, 'scf'):
                 return None, True
-            qe_gap = self.get_gap(cmpd, lat_type)
+            qe_gap = self.getGap(cmpd, lat_type)
             return abs(ae_data-qe_gap), False
         if property == 'magnetization':
-            self.run_qe(cmpd, lat_type, 'scf', template_dir)
-            if not self.check_convergence(cmpd, lat_type, 'scf'):
+            self.runQE(cmpd, lat_type, 'scf', template_dir)
+            if not self.checkConvergence(cmpd, lat_type, 'scf'):
                 return None, True
-            qe_mag = self.get_mag(cmpd, lat_type)
+            qe_mag = self.getMag(cmpd, lat_type)
             return abs(ae_data-qe_mag), False
         if property == 'magnetic_moment':
-            self.run_qe(cmpd, lat_type, 'scf', template_dir)
-            if not self.check_convergence(cmpd, lat_type, 'scf'):
+            self.runQE(cmpd, lat_type, 'scf', template_dir)
+            if not self.checkConvergence(cmpd, lat_type, 'scf'):
                 return None, True
-            return self.compare_mag_mom(cmpd, lat_type, ae_data), False
+            return self.compareMagMom(cmpd, lat_type, ae_data), False
         raise ValueError('Your property, %s , is not defined' % property)
 
-    def run_scale_lat(self, cmpd, lat_type, ev_fname='E_V.txt'):
+    def runScaleLat(self, cmpd, lat_type, ev_fname='E_V.txt'):
         """
         Read in relaxed cell parameters from cmpd.lat_type.relax.out, 
         scale this lattice constant from 94% to 106% (7 values created), 
@@ -733,7 +753,7 @@ class Runner:
         folder_index = 1
         for value in scale_num:
             folder = '%s_%s' % (cmpd, folder_index)
-            new_cell_params = self.scale_cell(cmpd, lat_type, value)
+            new_cell_params = self.scaleCell(cmpd, lat_type, value)
             new_cell_matrix = np.matrix(new_cell_params)
             volumes.append(np.linalg.det(new_cell_matrix))
             os.mkdir(folder)
@@ -742,9 +762,9 @@ class Runner:
             copyfile(relax_in, os.path.join(folder, relax_in))
             copyfile(relax_out, os.path.join(folder, relax_out))
             with fileutils.chdir(folder):
-                self.update_structure(cmpd, lat_type, 'relax')
-                self.write_cell(cmpd, lat_type, new_cell_params)
-                self.run_qe_as_is(relax_in)
+                self.updateStructure(cmpd, lat_type, 'relax')
+                self.writeCell(cmpd, lat_type, new_cell_params)
+                self.runCurrentQE(relax_in)
                 all_energies = []
                 with open(relax_out) as qe_output:
                     for line in qe_output:
@@ -756,7 +776,7 @@ class Runner:
             for (e, v) in zip(energies, volumes):
                 ev_file.write('%s %s \n' % (e, v))
 
-    def scale_cell(self, cmpd, lat_type, scale_factor):
+    def scaleCell(self, cmpd, lat_type, scale_factor):
         """
         Scale cell volume according to scale_factor.
         """
@@ -783,7 +803,7 @@ class Runner:
         scaled_cell = np.array(vectors)*(scale_factor**(1./3.))
         return scaled_cell
 
-    def write_cell(self, cmpd, lat_type, cell):
+    def writeCell(self, cmpd, lat_type, cell):
         """
         Write given cell to QE relaxation input.
         Also keep cell volume fixed during relaxation;
@@ -816,14 +836,14 @@ class Runner:
                 qe_file.write(line)
             qe_file.write('%s%s%s%s' % (cell_header, v1, v2, v3))
 
-    def run_qe_as_is(self, relax_in):
+    def runCurrentQE(self, relax_in):
         """
         Run QE w/o needing to fetch input, to be used in EOS calculations.
         """
         subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'pw.x', relax_in,
             '-MPICORES', '4'], env=os.environ.copy())
 
-    def get_bulk(self, cmpd, lat_type, ev_fname='E_V.txt'):
+    def getBulk(self, cmpd, lat_type, ev_fname='E_V.txt'):
         """
         Reads in energy-volume data from E_V.txt and calculates:
         equilibrium volume, bulk modulus, and dB/dP,
@@ -835,7 +855,7 @@ class Runner:
         volume = list(ev_data[1])
         volume = np.array([0.14818453429566825*value for value in volume]) ## bohr^3 to A^3
         initial_parameters = [volume.mean(), 2.5, 4, energy.mean()]
-        fit_eqn = eval('self.birch_murnaghan')
+        fit_eqn = eval('self.birchMurnaghan')
         popt, pcov = cf(fit_eqn, volume, energy, initial_parameters)
         with open('%s.%s.relax.in' % (cmpd, lat_type)) as qe_output:
             for line in qe_output:
@@ -848,7 +868,7 @@ class Runner:
             eos_file.write('%s %s %s' % (volume, bulk, bulk_prime))
         return volume, bulk, bulk_prime
 
-    def birch_murnaghan(self, vol, vol_equil, bulk, bulk_prime, energy_equil):
+    def birchMurnaghan(self, vol, vol_equil, bulk, bulk_prime, energy_equil):
         """
         3rd order Birch-Murnaghan equation of state, in the energy-volume form.
         """
@@ -857,7 +877,7 @@ class Runner:
             ((vol_equil / vol) ** (2 / 3.) - 1) ** 3 * bulk_prime +
             ((vol_equil / vol) ** (2 / 3.) - 1) ** 2 * (6 - 4 * (vol_equil / vol) ** (2 / 3.)))
 
-    def run_phonon(self, cmpd, lat_type, template_dir):
+    def runPhonon(self, cmpd, lat_type, template_dir):
         """
         Run QE phonon calculations using ph.x and dynmat.x.
         """
@@ -877,7 +897,7 @@ class Runner:
         subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'dynmat.x', 'dynmat.in',
             '-input_save', 'phonon.save.qegz', '-MPICORES', '4'], env=os.environ.copy())
 
-    def compare_phonon(self, cmpd, lat_type, ae_freq, template_dir):
+    def comparePhonon(self, cmpd, lat_type, ae_freq, template_dir):
         """
         Parse acoustic and optical phonon frequencies (usually at gamma)
         from QE run and compare with given AE frequencies.
@@ -908,7 +928,7 @@ class Runner:
         net_diff = sum(rel_diff)/len(rel_diff)
         return net_diff
 
-    def get_gap(self, cmpd, lat_type):
+    def getGap(self, cmpd, lat_type):
         """
         Parse QE output (scf run) to obtain band gap.
         Note that sufficient unoccupied bands need to be included
@@ -925,7 +945,7 @@ class Runner:
             raise NameError(err)
         return band_gap
 
-    def compare_mag_mom(self, cmpd, lat_type, ae_mag_mom):
+    def compareMagMom(self, cmpd, lat_type, ae_mag_mom):
         """
         Parse QE output (scf run) to obtain individual
         magnetic moments of atoms in given structure.
@@ -945,7 +965,7 @@ class Runner:
         net_diff = sum(rel_diff)/len(rel_diff)
         return net_diff
 
-    def update_obj_file(self, diff_dict):
+    def updateObjFile(self, diff_dict):
         """
         Write objective functions to two files:
         Detailed_Results is placed in the working directory
@@ -953,7 +973,7 @@ class Runner:
         Obj_Fn_Data is placed in parent directory and
         contains only numeric data to be parsed later on.
         """
-        obj_fn_list, obj_fn_labels = self.dict_to_list(diff_dict)
+        obj_fn_list, obj_fn_labels = self.dictToList(diff_dict)
         with open('Detailed_Results', 'w+') as obj_file:
             for (value, label) in zip(obj_fn_list, obj_fn_labels):
                 value = round(float(value), 6)
@@ -973,7 +993,7 @@ class Runner:
                 if 'atomic_positions' in label:
                     obj_file.write('%s: %s angstroms\n' % (label, value))
 
-    def dict_to_list(self, diff_dict):
+    def dictToList(self, diff_dict):
         """
         Convert a detailed dictionary of cmpds, lattice types, and properties
         into lists of objective function values and labels.
@@ -987,7 +1007,7 @@ class Runner:
                     obj_fn_list.append(diff_dict[formula][lat_type][property])
         return obj_fn_list, obj_fn_labels
 
-    def update_dakota(self, diff_dict):
+    def updateDakota(self, diff_dict):
         """
         Set the parameters and results files to be used by Dakota.
         Objective functions are updated according to differences between
@@ -1003,7 +1023,7 @@ class Runner:
                     label_index += 1
         results.write()
 
-    def bad_run(self):
+    def badRun(self):
         """
         If something went wrong with the run, e.g., no .UPF file created or
         if running QE raised an error, set all objective functions to 100.

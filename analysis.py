@@ -8,21 +8,22 @@ def main():
     then test specified properties and optimize using genetical algorithm.
     """
     gp_run = Runner()
-    gp_run.get_paws()
-    elem_objs, err_check = gp_run.test_element_list()
+    gp_run.getPaws()
+    elem_objs, err_check = gp_run.testElementList()
     if err_check:
-        gp_run.bad_run()
+        gp_run.badRun()
         return
     if gp_run.is_elem:
-        gp_run.update_obj_file(elem_objs)
-        gp_run.update_dakota(elem_objs)
-    cmpd_objs, err_check = gp_run.test_cmpd_list()
-    if err_check:
-        gp_run.bad_run()
+        gp_run.updateObjFile(elem_objs)
+        gp_run.updateDakota(elem_objs)
         return
-    all_objs = gp_run.merge_dicts(elem_objs, cmpd_objs)
-    gp_run.update_obj_file(all_objs)
-    gp_run.update_dakota(all_objs)
+    cmpd_objs, err_check = gp_run.testCmpdList()
+    if err_check:
+        gp_run.badRun()
+        return
+    all_objs = gp_run.mergeDicts(elem_objs, cmpd_objs)
+    gp_run.updateObjFile(all_objs)
+    gp_run.updateDakota(all_objs)
 
 if __name__=='__main__':
     main()

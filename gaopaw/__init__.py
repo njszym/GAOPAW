@@ -49,9 +49,9 @@ class Runner:
         """
         if hasattr(self.input_settings.directories, 'include_paw'):
             cmpd_template_dir = self.input_settings.directories.cmpd_template_dir
-            for elem in input_settings.directories.include_paw:
+            for elem in self.input_settings.directories.include_paw:
                 copyfile(os.path.join(cmpd_template_dir,'%s.GGA-PBE-paw.UPF' % elem),
-                    './%s.GGA-PBE-paw.UPF' % paw_elem)
+                    './%s.GGA-PBE-paw.UPF' % elem)
 
     def numDakotaObjs(self):
         """

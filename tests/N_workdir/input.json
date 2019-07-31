@@ -1,0 +1,12 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/scr/szymansk/gaopaw/Elem_Templates"
+        },
+    "compounds": [
+        {
+            "formula": "N"
+        }
+    ]
+}
+

@@ -1,0 +1,16 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/scr/szymansk/gaopaw/Elem_Templates",
+            "cmpd_template_dir": "/scr/szymansk/gaopaw/Examples/Fe/Input"
+        },
+    "compounds": [
+        {
+            "formula": "FeO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.096,
+            "magnetization": 3.830
+        }
+    ]
+}
+

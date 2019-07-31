@@ -17,7 +17,7 @@
             "magnetization": 3.83
         },
         {
-            "formula": "CrS",
+            "formula": "MnS",
             "lattice_type": "ZB",
             "eos": [15.49331, 136.06125, 5.460]
         },

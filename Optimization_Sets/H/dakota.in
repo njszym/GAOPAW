@@ -4,10 +4,10 @@ environment
 
 variables
     continuous_design =  36
-    initial_point =  1.04 0.487 0.404 0.822 0.808 0.87 0.046 2.426 1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337 2.209 1.991 1.9 1.995 2.237 2.091 1.917 1.983 1.341 1.382 1.095 0.916 1.144 1.164 1.001 1.155 2.153 2.68
-    lower_bounds =  0.988 0.463 0.384 0.781 0.768 0.826 0.044 2.305 1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27 2.099 1.891 1.805 1.895 2.125 1.986 1.821 1.884 1.274 1.313 1.04 0.87 1.087 1.106 0.951 1.097 2.045 2.546
-    upper_bounds =  1.092 0.511 0.424 0.863 0.848 0.914 0.048 2.547 1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404 2.319 2.091 1.995 2.095 2.349 2.196 2.013 2.082 1.408 1.451 1.15 0.962 1.201 1.222 1.051 1.213 2.261 2.814
-    descriptors =  "DAKOTA_H_RC_1" "DAKOTA_H_RC_2" "DAKOTA_H_RC_3" "DAKOTA_H_RC_4" "DAKOTA_H_RC_5" "DAKOTA_H_RC_6" "DAKOTA_H_EP_1" "DAKOTA_H_EP_2" "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2" "DAKOTA_K_RC_1" "DAKOTA_K_RC_2" "DAKOTA_K_RC_3" "DAKOTA_K_RC_4" "DAKOTA_K_RC_5" "DAKOTA_K_RC_6" "DAKOTA_K_RC_7" "DAKOTA_K_RC_8" "DAKOTA_K_EP_1" "DAKOTA_N_RC_1" "DAKOTA_N_RC_2" "DAKOTA_N_RC_3" "DAKOTA_N_RC_4" "DAKOTA_N_RC_5" "DAKOTA_N_RC_6" "DAKOTA_N_RC_7" "DAKOTA_N_EP_1" "DAKOTA_N_EP_2"
+    initial_point =  1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337 2.209 1.991 1.9 1.995 2.237 2.091 1.917 1.983 1.341 1.04 0.487 0.404 0.822 0.808 0.87 0.046 2.426 1.382 1.095 0.916 1.144 1.164 1.001 1.155 2.153 2.68
+    lower_bounds =  1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27 2.099 1.891 1.805 1.895 2.125 1.986 1.821 1.884 1.274 0.988 0.463 0.384 0.781 0.768 0.826 0.044 2.305 1.313 1.04 0.87 1.087 1.106 0.951 1.097 2.045 2.546
+    upper_bounds =  1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404 2.319 2.091 1.995 2.095 2.349 2.196 2.013 2.082 1.408 1.092 0.511 0.424 0.863 0.848 0.914 0.048 2.547 1.451 1.15 0.962 1.201 1.222 1.051 1.213 2.261 2.814
+    descriptors =  "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2" "DAKOTA_K_RC_1" "DAKOTA_K_RC_2" "DAKOTA_K_RC_3" "DAKOTA_K_RC_4" "DAKOTA_K_RC_5" "DAKOTA_K_RC_6" "DAKOTA_K_RC_7" "DAKOTA_K_RC_8" "DAKOTA_K_EP_1" "DAKOTA_H_RC_1" "DAKOTA_H_RC_2" "DAKOTA_H_RC_3" "DAKOTA_H_RC_4" "DAKOTA_H_RC_5" "DAKOTA_H_RC_6" "DAKOTA_H_EP_1" "DAKOTA_H_EP_2" "DAKOTA_N_RC_1" "DAKOTA_N_RC_2" "DAKOTA_N_RC_3" "DAKOTA_N_RC_4" "DAKOTA_N_RC_5" "DAKOTA_N_RC_6" "DAKOTA_N_RC_7" "DAKOTA_N_EP_1" "DAKOTA_N_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,7 +18,7 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 500 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
         max_function_evaluations = 50000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
@@ -49,3 +49,4 @@ responses
     num_objective_functions =  18
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Li_elemental_log' 'Li_FCC_lattice_constant' 'Li_BCC_lattice_constant' 'K_elemental_log' 'K_FCC_lattice_constant' 'K_BCC_lattice_constant' 'H_elemental_log' 'H_FCC_lattice_constant' 'H_BCC_lattice_constant' 'H_hex_lattice_constant' 'N_elemental_log' 'N_SC_atomic_positions' 'LiH_RS_lattice_constant' 'LiH_RS_band_gap' 'LiH_RS_phonon_frequency' 'KH_RS_lattice_constant' 'KH_RS_bulk_modulus' 'NH3_SC_lattice_constant'

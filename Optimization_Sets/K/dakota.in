@@ -4,10 +4,10 @@ environment
 
 variables
     continuous_design =  34
-    initial_point =  2.209 1.991 1.9 1.995 2.237 2.091 1.917 1.983 1.341 1.579 1.088 1.01 1.501 1.662 1.779 1.599 10.849 2.421 2.03 1.781 1.872 1.746 1.816 1.739 1.783 1.355 1.276 1.15 1.348 1.324 1.421 1.481 3.71 1.725
-    lower_bounds =  2.099 1.891 1.805 1.895 2.125 1.986 1.821 1.884 1.274 1.5 1.034 0.959 1.426 1.579 1.69 1.519 10.307 2.3 1.928 1.692 1.778 1.659 1.725 1.652 1.694 1.287 1.212 1.092 1.281 1.258 1.35 1.407 3.524 1.639
-    upper_bounds =  2.319 2.091 1.995 2.095 2.349 2.196 2.013 2.082 1.408 1.658 1.142 1.06 1.576 1.745 1.868 1.679 11.391 2.542 2.132 1.87 1.966 1.833 1.907 1.826 1.872 1.423 1.34 1.208 1.415 1.39 1.492 1.555 3.896 1.811
-    descriptors =  "DAKOTA_K_RC_1" "DAKOTA_K_RC_2" "DAKOTA_K_RC_3" "DAKOTA_K_RC_4" "DAKOTA_K_RC_5" "DAKOTA_K_RC_6" "DAKOTA_K_RC_7" "DAKOTA_K_RC_8" "DAKOTA_K_EP_1" "DAKOTA_Cl_RC_1" "DAKOTA_Cl_RC_2" "DAKOTA_Cl_RC_3" "DAKOTA_Cl_RC_4" "DAKOTA_Cl_RC_5" "DAKOTA_Cl_RC_6" "DAKOTA_Cl_RC_7" "DAKOTA_Cl_EP_1" "DAKOTA_Cl_EP_2" "DAKOTA_Mg_RC_1" "DAKOTA_Mg_RC_2" "DAKOTA_Mg_RC_3" "DAKOTA_Mg_RC_4" "DAKOTA_Mg_RC_5" "DAKOTA_Mg_RC_6" "DAKOTA_Mg_RC_7" "DAKOTA_F_RC_1" "DAKOTA_F_RC_2" "DAKOTA_F_RC_3" "DAKOTA_F_RC_4" "DAKOTA_F_RC_5" "DAKOTA_F_RC_6" "DAKOTA_F_RC_7" "DAKOTA_F_EP_1" "DAKOTA_F_EP_2"
+    initial_point =  2.03 1.781 1.872 1.746 1.816 1.739 1.783 1.355 1.276 1.15 1.348 1.324 1.421 1.481 3.71 1.725 1.579 1.088 1.01 1.501 1.662 1.779 1.599 10.849 2.421 2.209 1.991 1.9 1.995 2.237 2.091 1.917 1.983 1.341
+    lower_bounds =  1.928 1.692 1.778 1.659 1.725 1.652 1.694 1.287 1.212 1.092 1.281 1.258 1.35 1.407 3.524 1.639 1.5 1.034 0.959 1.426 1.579 1.69 1.519 10.307 2.3 2.099 1.891 1.805 1.895 2.125 1.986 1.821 1.884 1.274
+    upper_bounds =  2.132 1.87 1.966 1.833 1.907 1.826 1.872 1.423 1.34 1.208 1.415 1.39 1.492 1.555 3.896 1.811 1.658 1.142 1.06 1.576 1.745 1.868 1.679 11.391 2.542 2.319 2.091 1.995 2.095 2.349 2.196 2.013 2.082 1.408
+    descriptors =  "DAKOTA_Mg_RC_1" "DAKOTA_Mg_RC_2" "DAKOTA_Mg_RC_3" "DAKOTA_Mg_RC_4" "DAKOTA_Mg_RC_5" "DAKOTA_Mg_RC_6" "DAKOTA_Mg_RC_7" "DAKOTA_F_RC_1" "DAKOTA_F_RC_2" "DAKOTA_F_RC_3" "DAKOTA_F_RC_4" "DAKOTA_F_RC_5" "DAKOTA_F_RC_6" "DAKOTA_F_RC_7" "DAKOTA_F_EP_1" "DAKOTA_F_EP_2" "DAKOTA_Cl_RC_1" "DAKOTA_Cl_RC_2" "DAKOTA_Cl_RC_3" "DAKOTA_Cl_RC_4" "DAKOTA_Cl_RC_5" "DAKOTA_Cl_RC_6" "DAKOTA_Cl_RC_7" "DAKOTA_Cl_EP_1" "DAKOTA_Cl_EP_2" "DAKOTA_K_RC_1" "DAKOTA_K_RC_2" "DAKOTA_K_RC_3" "DAKOTA_K_RC_4" "DAKOTA_K_RC_5" "DAKOTA_K_RC_6" "DAKOTA_K_RC_7" "DAKOTA_K_RC_8" "DAKOTA_K_EP_1"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,18 +18,18 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 500 ## 400 chromosomes in the initial generation
-        max_function_evaluations = 50000 ## Max number of chromosomes tested
-        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 50000 ## Default, max number of chromosomes tested
+        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
           crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
         mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
-          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable
-          mutation_rate = 0.1  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
+          mutation_rate = 0.2  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
         fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
         replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
-          shrinkage_fraction = 0.25  ## Next generation must be at least 25% the size of the previous generation, small values work best here
+          shrinkage_fraction = 0.30  ## Next generation must be at least 30% the size of the previous generation, small values work best here
         convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
           percent_change = 1 num_generations = 10 ## Convergence acheived if less than 1% change occurs over ten consecutive generations (default)
         final_solutions = 10 ## Give 10 best solutions once run finishes, optimum value may depend on your problem, how many local minima exist
@@ -37,15 +37,16 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 10 ## Depends on number of cores you plan to run on; +1 concurrency for each additional 4 cores
+          evaluation_concurrency = 10 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp' ## Uncomment if you'd like to save all working directories: file_save directory_save (takes up lots of space)
+          named 'workdir_pp'
 
 responses
     num_objective_functions =  17
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Mg_elemental_log' 'Mg_FCC_lattice_constant' 'Mg_BCC_lattice_constant' 'F_elemental_log' 'F_FCC_lattice_constant' 'F_BCC_lattice_constant' 'Cl_elemental_log' 'Cl_FCC_lattice_constant' 'Cl_BCC_lattice_constant' 'K_elemental_log' 'K_FCC_lattice_constant' 'K_BCC_lattice_constant' 'K_BCC_phonon_frequency' 'KCl_RS_lattice_constant' 'KMgF3_per_lattice_constant' 'KMgF3_per_band_gap' 'KMgF3_per_bulk_modulus'

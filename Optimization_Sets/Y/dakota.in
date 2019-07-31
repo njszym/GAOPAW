@@ -4,10 +4,10 @@ environment
 
 variables
     continuous_design =  48
-    initial_point =  2.29 1.625 1.228 1.746 1.706 2.038 1.825 2.202 2.164 10.923 1.382 1.095 0.916 1.144 1.164 1.001 1.155 2.153 2.68 1.979 1.784 1.235 1.708 1.747 1.922 2.046 4.339 10.998 1.953 1.187 0.867 1.927 1.622 1.743 1.717 2.046 1.788 1.412 1.077 1.797 1.617 1.617 1.91 2.092 1.988 1.98 6.728 2.167
-    lower_bounds =  2.176 1.544 1.167 1.659 1.621 1.936 1.734 2.092 2.056 10.377 1.313 1.04 0.87 1.087 1.106 0.951 1.097 2.045 2.546 1.88 1.695 1.173 1.623 1.66 1.826 1.944 4.122 10.448 1.855 1.128 0.824 1.831 1.541 1.656 1.631 1.944 1.699 1.341 1.023 1.707 1.536 1.536 1.814 1.987 1.889 1.881 6.392 2.059
-    upper_bounds =  2.404 1.706 1.289 1.833 1.791 2.14 1.916 2.312 2.272 11.469 1.451 1.15 0.962 1.201 1.222 1.051 1.213 2.261 2.814 2.078 1.873 1.297 1.793 1.834 2.018 2.148 4.556 11.548 2.051 1.246 0.91 2.023 1.703 1.83 1.803 2.148 1.877 1.483 1.131 1.887 1.698 1.698 2.006 2.197 2.087 2.079 7.064 2.275
-    descriptors =  "DAKOTA_Y_RC_1" "DAKOTA_Y_RC_2" "DAKOTA_Y_RC_3" "DAKOTA_Y_RC_4" "DAKOTA_Y_RC_5" "DAKOTA_Y_RC_6" "DAKOTA_Y_RC_7" "DAKOTA_Y_RC_8" "DAKOTA_Y_RC_9" "DAKOTA_Y_EP_1" "DAKOTA_N_RC_1" "DAKOTA_N_RC_2" "DAKOTA_N_RC_3" "DAKOTA_N_RC_4" "DAKOTA_N_RC_5" "DAKOTA_N_RC_6" "DAKOTA_N_RC_7" "DAKOTA_N_EP_1" "DAKOTA_N_EP_2" "DAKOTA_P_RC_1" "DAKOTA_P_RC_2" "DAKOTA_P_RC_3" "DAKOTA_P_RC_4" "DAKOTA_P_RC_5" "DAKOTA_P_RC_6" "DAKOTA_P_RC_7" "DAKOTA_P_EP_1" "DAKOTA_P_EP_2" "DAKOTA_Cu_RC_1" "DAKOTA_Cu_RC_2" "DAKOTA_Cu_RC_3" "DAKOTA_Cu_RC_4" "DAKOTA_Cu_RC_5" "DAKOTA_Cu_RC_6" "DAKOTA_Cu_RC_7" "DAKOTA_Cu_RC_8" "DAKOTA_Cu_RC_9" "DAKOTA_Cu_EP_1" "DAKOTA_Cu_EP_2" "DAKOTA_Si_RC_1" "DAKOTA_Si_RC_2" "DAKOTA_Si_RC_3" "DAKOTA_Si_RC_4" "DAKOTA_Si_RC_5" "DAKOTA_Si_RC_6" "DAKOTA_Si_RC_7" "DAKOTA_Si_EP_1" "DAKOTA_Si_EP_2"
+    initial_point =  1.797 1.617 1.617 1.91 2.092 1.988 1.98 6.728 2.167 1.979 1.784 1.235 1.708 1.747 1.922 2.046 4.339 10.998 2.29 1.625 1.228 1.746 1.706 2.038 1.825 2.202 2.164 10.923 1.382 1.095 0.916 1.144 1.164 1.001 1.155 2.153 2.68 1.953 1.187 0.867 1.927 1.622 1.743 1.717 2.046 1.788 1.412 1.077
+    lower_bounds =  1.707 1.536 1.536 1.814 1.987 1.889 1.881 6.392 2.059 1.88 1.695 1.173 1.623 1.66 1.826 1.944 4.122 10.448 2.176 1.544 1.167 1.659 1.621 1.936 1.734 2.092 2.056 10.377 1.313 1.04 0.87 1.087 1.106 0.951 1.097 2.045 2.546 1.855 1.128 0.824 1.831 1.541 1.656 1.631 1.944 1.699 1.341 1.023
+    upper_bounds =  1.887 1.698 1.698 2.006 2.197 2.087 2.079 7.064 2.275 2.078 1.873 1.297 1.793 1.834 2.018 2.148 4.556 11.548 2.404 1.706 1.289 1.833 1.791 2.14 1.916 2.312 2.272 11.469 1.451 1.15 0.962 1.201 1.222 1.051 1.213 2.261 2.814 2.051 1.246 0.91 2.023 1.703 1.83 1.803 2.148 1.877 1.483 1.131
+    descriptors =  "DAKOTA_Si_RC_1" "DAKOTA_Si_RC_2" "DAKOTA_Si_RC_3" "DAKOTA_Si_RC_4" "DAKOTA_Si_RC_5" "DAKOTA_Si_RC_6" "DAKOTA_Si_RC_7" "DAKOTA_Si_EP_1" "DAKOTA_Si_EP_2" "DAKOTA_P_RC_1" "DAKOTA_P_RC_2" "DAKOTA_P_RC_3" "DAKOTA_P_RC_4" "DAKOTA_P_RC_5" "DAKOTA_P_RC_6" "DAKOTA_P_RC_7" "DAKOTA_P_EP_1" "DAKOTA_P_EP_2" "DAKOTA_Y_RC_1" "DAKOTA_Y_RC_2" "DAKOTA_Y_RC_3" "DAKOTA_Y_RC_4" "DAKOTA_Y_RC_5" "DAKOTA_Y_RC_6" "DAKOTA_Y_RC_7" "DAKOTA_Y_RC_8" "DAKOTA_Y_RC_9" "DAKOTA_Y_EP_1" "DAKOTA_N_RC_1" "DAKOTA_N_RC_2" "DAKOTA_N_RC_3" "DAKOTA_N_RC_4" "DAKOTA_N_RC_5" "DAKOTA_N_RC_6" "DAKOTA_N_RC_7" "DAKOTA_N_EP_1" "DAKOTA_N_EP_2" "DAKOTA_Cu_RC_1" "DAKOTA_Cu_RC_2" "DAKOTA_Cu_RC_3" "DAKOTA_Cu_RC_4" "DAKOTA_Cu_RC_5" "DAKOTA_Cu_RC_6" "DAKOTA_Cu_RC_7" "DAKOTA_Cu_RC_8" "DAKOTA_Cu_RC_9" "DAKOTA_Cu_EP_1" "DAKOTA_Cu_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,18 +18,18 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 500 ## 400 chromosomes in the initial generation
-        max_function_evaluations = 50000 ## Max number of chromosomes tested
-        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 50000 ## Default, max number of chromosomes tested
+        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
           crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
         mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
-          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable
-          mutation_rate = 0.1  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
+          mutation_rate = 0.2  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
         fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
         replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
-          shrinkage_fraction = 0.25  ## Next generation must be at least 25% the size of the previous generation, small values work best here
+          shrinkage_fraction = 0.30  ## Next generation must be at least 30% the size of the previous generation, small values work best here
         convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
           percent_change = 1 num_generations = 10 ## Convergence acheived if less than 1% change occurs over ten consecutive generations (default)
         final_solutions = 10 ## Give 10 best solutions once run finishes, optimum value may depend on your problem, how many local minima exist
@@ -37,15 +37,16 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 10 ## Depends on number of cores you plan to run on; +1 concurrency for each additional 4 cores
+          evaluation_concurrency = 10 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp' ## Uncomment if you'd like to save all working directories: file_save directory_save (takes up lots of space)
+          named 'workdir_pp'
 
 responses
     num_objective_functions =  18
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Si_elemental_log' 'Si_FCC_lattice_constant' 'Si_BCC_lattice_constant' 'P_elemental_log' 'P_ortho_lattice_constant' 'Y_elemental_log' 'Y_FCC_lattice_constant' 'Y_BCC_lattice_constant' 'Y_BCC_phonon_frequency' 'N_elemental_log' 'N_SC_atomic_positions' 'Cu_elemental_log' 'Cu_FCC_lattice_constant' 'Cu_BCC_lattice_constant' 'YN_RS_lattice_constant' 'YN_RS_band_gap' 'YP_ZB_eos' 'CuYSi_HH_lattice_constant'

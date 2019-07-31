@@ -4,14 +4,14 @@
   pseudo_dir='./'
 /
 &system
-  ibrav=3
-  celldm=6.3
-  nat=1
+  ibrav=1
+  celldm=5.983
+  nat=2
   ntyp=1
   ecutwfc=40
   ecutrho=200
   smearing='fermi-dirac'
-  degauss=0.002
+  degauss=0.015
   occupations='smearing'
 /
 &electrons
@@ -25,8 +25,8 @@
 /
 ATOMIC_SPECIES
   Mo 0.0 Mo.GGA-PBE-paw.UPF
-ATOMIC_POSITIONS (alat)
-  Mo 0.0 0.0 0.0
+ATOMIC_POSITIONS (crystal)
+  Mo 0.0000 0.0000 0.0000  0.0 0.0 0.0
+  Mo 0.5000 0.5000 0.5000  0.0 0.0 0.0
 K_POINTS (automatic)
-  8 8 8 0 0 0
-
+  10 10 10 0 0 0

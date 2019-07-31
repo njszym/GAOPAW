@@ -1,9 +1,5 @@
-import numpy as np
-import json
-from types import SimpleNamespace
+from gaopaw import *
 
-
-template_dir = '/scr/szymansk/gaopaw/Elem_Templates'
 
 def main():
     """
@@ -11,12 +7,14 @@ def main():
     """
     with open('input.json') as input:
         input_settings = json.load(input,object_hook=lambda d: SimpleNamespace(**d))
+    template_dir = input_settings.directories.elem_template_dir
     cmpd_list = input_settings.compounds
-    update_num_obj(cmpd_list)
-    update_vars(cmpd_list)
+    update_num_obj(cmpd_list, template_dir)
+    update_vars(cmpd_list, template_dir)
+    update_labels(cmpd_list, template_dir)
 
 
-def update_num_obj(cmpd_list):
+def update_num_obj(cmpd_list, template_dir):
     """
     Update total number of objective functions in dakota.in
     """
@@ -25,13 +23,24 @@ def update_num_obj(cmpd_list):
         cmpd = cmpd.__dict__
         formula = cmpd['formula']
         element_list.extend(parse_elems(formula))
-    element_list = unique(element_list)
+    element_list = list(set(element_list))
     num_elems = len(element_list)
     if num_elems == 1 and len(cmpd.keys()) == 1:
         if element_list[0] in ['N','P']:
-            print('\n'+'Number of objective functions: 2\n')
+            num_obj_fns = 2
         else:
-            print('\n'+'Number of objective functions: 3\n')
+            num_obj_fns = 3
+        with open('dakota.in') as dakota_input:
+            orig_dakota = dakota_input.readlines()
+        new_dakota = []
+        for line in orig_dakota:
+            new_line = line
+            if 'num_objective_functions' in line:
+                new_line = '    num_objective_functions =  '+str(num_obj_fns)+'\n'
+            new_dakota.append(new_line)
+        with open('dakota.in','w+') as dakota_input:
+            for line in new_dakota:
+                dakota_input.write(line)
         return
     cmpd_diff_dict = form_cmpd_dict(cmpd_list)
     num_properties = 0
@@ -58,7 +67,7 @@ def update_num_obj(cmpd_list):
         for line in new_dakota:
             dakota_input.write(line)
 
-def update_vars(cmpd_list):
+def update_vars(cmpd_list, template_dir):
     """
     Update variable bounds in dakota.in
     """
@@ -67,7 +76,7 @@ def update_vars(cmpd_list):
         cmpd = cmpd.__dict__
         formula = cmpd['formula']
         element_list.extend(parse_elems(formula))
-    element_list = unique(element_list)
+    element_list = list(set(element_list))
     vars = []
     var_labels = []
     for elem in element_list:
@@ -122,68 +131,43 @@ def update_vars(cmpd_list):
         for line in new_dakota:
             dakota_input.write(line)
 
-def form_cmpd_dict(cmpd_list):
+def update_labels(cmpd_list, template_dir):
     """
-    Constructs empty dictionary of correct length for testing
+    Write labels for objective functions.
     """
-    cmpd_diff_dict = {}
+    element_list = []
     for cmpd in cmpd_list:
-        cmpd = cmpd.__dict__
-        formula = cmpd['formula']
-        lat_type = cmpd['lattice_type']
-        property_list = [property for property in cmpd if property not in ['formula','lattice_type']]
-        cmpd_diff_dict[formula] = {}
-        cmpd_diff_dict[formula][lat_type] = {}
-        for property in property_list:
-            cmpd_diff_dict[formula][lat_type][property] = {}
-    return cmpd_diff_dict
+        element_list.extend(parse_elems(cmpd.formula))
+    element_list = list(set(element_list))
+    num_objs = get_num_objs(cmpd_list, element_list)
+    elem_dict = form_element_dict(element_list, template_dir)
+    if not ( len(cmpd_list) == 1 and len(element_list) == 1 and len(vars(cmpd_list[0])) == 1 ):
+        cmpd_dict = form_cmpd_dict(cmpd_list)
+        obj_fn_dict = merge_dicts(elem_dict, cmpd_dict)
+    else:
+        obj_fn_dict = elem_dict
+    label_list = dict_to_list(obj_fn_dict)[1]
+    label_string = ' '.join("""'%s'""" % label for label in label_list)
+    with open('dakota.in') as dakota_input:
+        orig_dakota = dakota_input.readlines()
+    new_dakota = []
+    index = 0
+    for line in orig_dakota:
+        if 'responses' in line:
+            response_index = index
+        index += 1
+    index = 0
+    for line in orig_dakota:
+        new_line = line
+        if 'descriptors' in line and index > response_index:
+            new_line = '    descriptors =  '+label_string+'\n'
+        new_dakota.append(new_line)
+        index += 1
+    with open('dakota.in','w+') as dakota_input:
+        for line in new_dakota:
+            dakota_input.write(line)
 
-def test_cmpd_list(cmpd_list,cmpd_diff_dict,cmpd_template_dir):
-    """
-    Perform property tests for all compounds
-    """
-    for cmpd in cmpd_list:
-        cmpd = cmpd.__dict__
-        formula = cmpd['formula']
-        lat_type = cmpd['lattice_type']
-        property_list = [property for property in cmpd if property not in ['formula','lattice_type']]
-        for property in property_list:
-            ae_value = cmpd[property]
-            cmpd_diff_dict[formula][lat_type][property], error_check = test_property(formula,lat_type,property,ae_value,cmpd_template_dir)
-            if error_check:
-                bad_run(cmpd_diff_dict)
-                return cmpd_diff_dict, True
-    return cmpd_diff_dict, False
 
-def unique(value_list): 
-    """
-    Get list of unique elements to be tested
-    """
-    try: ## if list of numbers
-        value_list = [round(float(value),3) for value in value_list]
-    except ValueError: ## if list of strings
-        list = [str(value) for value in value_list]
-    unique_list = []
-    for value in value_list:
-        if value not in unique_list:
-            unique_list.append(value)
-    return unique_list
-
-def parse_elems(formula):
-    """
-    Parse compound formula to obtain constituent elements
-    """
-    letters_only = ''.join([letter for letter in formula if not letter.isdigit()])
-    index = -1
-    elems = []
-    for letter in letters_only:
-        if letter.isupper():
-            elems.append(letter)
-            index += 1
-        else:
-            elems[index] += letter
-
-    return elems
 
 if __name__=='__main__':
     main()

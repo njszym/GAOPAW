@@ -1,21 +1,24 @@
 environment
   graphics
-  tabular_data
+  tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
     continuous_design =  51
-    initial_point =  2.098 1.744 1.718 1.876 1.823 2.039 1.828 3.177 3.507 1.979 1.784 1.235 1.708 1.747 1.922 2.046 4.339 10.998 2.236 1.801 1.897 2.297 2.226 1.972 1.815 1.633 2.199 4.349 2.606 0.141 1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337 2.053 1.6 1.85 1.811 1.665 2.195 2.066 2.118 1.952 7.555 11.616
-    lower_bounds =  1.993 1.657 1.632 1.782 1.732 1.937 1.737 3.018 3.332 1.88 1.695 1.173 1.623 1.66 1.826 1.944 4.122 10.448 2.124 1.711 1.802 2.182 2.115 1.873 1.724 1.551 2.089 4.132 2.476 0.134 1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27 1.95 1.52 1.758 1.72 1.582 2.085 1.963 2.012 1.854 7.177 11.035
-    upper_bounds =  2.203 1.831 1.804 1.97 1.914 2.141 1.919 3.336 3.682 2.078 1.873 1.297 1.793 1.834 2.018 2.148 4.556 11.548 2.348 1.891 1.992 2.412 2.337 2.071 1.906 1.715 2.309 4.566 2.736 0.148 1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404 2.156 1.68 1.943 1.902 1.748 2.305 2.169 2.224 2.05 7.933 12.197
-    descriptors =  "DAKOTA_Al_RC_1" "DAKOTA_Al_RC_2" "DAKOTA_Al_RC_3" "DAKOTA_Al_RC_4" "DAKOTA_Al_RC_5" "DAKOTA_Al_RC_6" "DAKOTA_Al_RC_7" "DAKOTA_Al_EP_1" "DAKOTA_Al_EP_2" "DAKOTA_P_RC_1" "DAKOTA_P_RC_2" "DAKOTA_P_RC_3" "DAKOTA_P_RC_4" "DAKOTA_P_RC_5" "DAKOTA_P_RC_6" "DAKOTA_P_RC_7" "DAKOTA_P_EP_1" "DAKOTA_P_EP_2" "DAKOTA_Ga_RC_1" "DAKOTA_Ga_RC_2" "DAKOTA_Ga_RC_3" "DAKOTA_Ga_RC_4" "DAKOTA_Ga_RC_5" "DAKOTA_Ga_RC_6" "DAKOTA_Ga_RC_7" "DAKOTA_Ga_RC_8" "DAKOTA_Ga_RC_9" "DAKOTA_Ga_EP_1" "DAKOTA_Ga_EP_2" "DAKOTA_Ga_EP_3" "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2" "DAKOTA_Ca_RC_1" "DAKOTA_Ca_RC_2" "DAKOTA_Ca_RC_3" "DAKOTA_Ca_RC_4" "DAKOTA_Ca_RC_5" "DAKOTA_Ca_RC_6" "DAKOTA_Ca_RC_7" "DAKOTA_Ca_RC_8" "DAKOTA_Ca_RC_9" "DAKOTA_Ca_EP_1" "DAKOTA_Ca_EP_2"
+    initial_point =  1.979 1.784 1.235 1.708 1.747 1.922 2.046 4.339 10.998 2.236 1.801 1.897 2.297 2.226 1.972 1.815 1.633 2.199 4.349 2.606 0.141 2.053 1.6 1.85 1.811 1.665 2.195 2.066 2.118 1.952 7.555 11.616 1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337 2.098 1.744 1.718 1.876 1.823 2.039 1.828 3.177 3.507
+    lower_bounds =  1.88 1.695 1.173 1.623 1.66 1.826 1.944 4.122 10.448 2.124 1.711 1.802 2.182 2.115 1.873 1.724 1.551 2.089 4.132 2.476 0.134 1.95 1.52 1.758 1.72 1.582 2.085 1.963 2.012 1.854 7.177 11.035 1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27 1.993 1.657 1.632 1.782 1.732 1.937 1.737 3.018 3.332
+    upper_bounds =  2.078 1.873 1.297 1.793 1.834 2.018 2.148 4.556 11.548 2.348 1.891 1.992 2.412 2.337 2.071 1.906 1.715 2.309 4.566 2.736 0.148 2.156 1.68 1.943 1.902 1.748 2.305 2.169 2.224 2.05 7.933 12.197 1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404 2.203 1.831 1.804 1.97 1.914 2.141 1.919 3.336 3.682
+    descriptors =  "DAKOTA_P_RC_1" "DAKOTA_P_RC_2" "DAKOTA_P_RC_3" "DAKOTA_P_RC_4" "DAKOTA_P_RC_5" "DAKOTA_P_RC_6" "DAKOTA_P_RC_7" "DAKOTA_P_EP_1" "DAKOTA_P_EP_2" "DAKOTA_Ga_RC_1" "DAKOTA_Ga_RC_2" "DAKOTA_Ga_RC_3" "DAKOTA_Ga_RC_4" "DAKOTA_Ga_RC_5" "DAKOTA_Ga_RC_6" "DAKOTA_Ga_RC_7" "DAKOTA_Ga_RC_8" "DAKOTA_Ga_RC_9" "DAKOTA_Ga_EP_1" "DAKOTA_Ga_EP_2" "DAKOTA_Ga_EP_3" "DAKOTA_Ca_RC_1" "DAKOTA_Ca_RC_2" "DAKOTA_Ca_RC_3" "DAKOTA_Ca_RC_4" "DAKOTA_Ca_RC_5" "DAKOTA_Ca_RC_6" "DAKOTA_Ca_RC_7" "DAKOTA_Ca_RC_8" "DAKOTA_Ca_RC_9" "DAKOTA_Ca_EP_1" "DAKOTA_Ca_EP_2" "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2" "DAKOTA_Al_RC_1" "DAKOTA_Al_RC_2" "DAKOTA_Al_RC_3" "DAKOTA_Al_RC_4" "DAKOTA_Al_RC_5" "DAKOTA_Al_RC_6" "DAKOTA_Al_RC_7" "DAKOTA_Al_EP_1" "DAKOTA_Al_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
-## Otherwise, algorithm may converge slowly or diverge completely
+## Otherwise, algorithm may converge very slowly
+## For single elements, a wide range of values may be tested and algorithm should converge at a reasonable rate
+## However, for binaries (hence many variables), you should use a more narrow range
+## Initial estimates may be taken from previously optimized values of constituent elements
 
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 500 ## 400 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
         max_function_evaluations = 50000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
@@ -23,10 +26,10 @@ method
           crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
         mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
           mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
-          mutation_rate = 0.25  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+          mutation_rate = 0.2  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
         fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
         replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
-          shrinkage_fraction = 0.25  ## Next generation must be at least 20% the size of the previous generation, small values work best here
+          shrinkage_fraction = 0.30  ## Next generation must be at least 30% the size of the previous generation, small values work best here
         convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
           percent_change = 1 num_generations = 10 ## Convergence acheived if less than 1% change occurs over ten consecutive generations (default)
         final_solutions = 10 ## Give 10 best solutions once run finishes, optimum value may depend on your problem, how many local minima exist
@@ -44,6 +47,6 @@ interface
 
 responses
     num_objective_functions =  19
-        no_gradients ## No gradients needed for genetic algorithm
+	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
-
+    descriptors =  'P_elemental_log' 'P_ortho_lattice_constant' 'Ga_elemental_log' 'Ga_FCC_lattice_constant' 'Ga_BCC_lattice_constant' 'Ca_elemental_log' 'Ca_FCC_lattice_constant' 'Ca_BCC_lattice_constant' 'Li_elemental_log' 'Li_FCC_lattice_constant' 'Li_BCC_lattice_constant' 'Al_elemental_log' 'Al_FCC_lattice_constant' 'Al_BCC_lattice_constant' 'AlP_RS_lattice_constant' 'AlP_RS_phonon_frequency' 'GaP_ZB_eos' 'GaP_ZB_band_gap' 'LiCaP_HH_lattice_constant'

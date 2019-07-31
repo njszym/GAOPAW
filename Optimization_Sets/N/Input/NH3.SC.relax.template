@@ -22,6 +22,7 @@
 /        
 &cell
   cell_dynamics='bfgs'
+  cell_dofree='ibrav'
 /
 ATOMIC_SPECIES
   H 0.0 H.GGA-PBE-paw.UPF

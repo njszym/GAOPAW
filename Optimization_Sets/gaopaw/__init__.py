@@ -1,3 +1,4 @@
+import warnings
 import collections
 import time
 import pandas as pd
@@ -123,11 +124,11 @@ def get_element_info(template_dir):
     elemental_data['P']['ortho'] = [3.304659, 4.573268, 11.316935]
     return elemental_data
 
-def test_element_list(elem_list, template_dir):
+def form_element_dict(elem_list, template_dir):
     """
-    Perform and check UPF generation with atompaw, compare pseudized
-    log derivatives with corresponding AE log derivatives for each orbital,
-    and compare QE with AE lattice constants for elemental states.
+    Form empty dict containing labels of all
+    elemental properties to be tested in a given
+    element_list.
     """
     elem_diff_dict = {}
     elemental_data = get_element_info(template_dir)
@@ -155,6 +156,19 @@ def test_element_list(elem_list, template_dir):
             for lat_type in ['FCC', 'BCC']:
                 elem_diff_dict[elem][lat_type] = {}
                 elem_diff_dict[elem][lat_type]['lattice_constant'] = {}
+    return elem_diff_dict
+
+def test_element_list(elem_list, template_dir):
+    """
+    Perform and check UPF generation with atompaw, compare pseudized
+    log derivatives with corresponding AE log derivatives for each orbital,
+    and compare QE with AE lattice constants for elemental states.
+    """
+    elem_diff_dict = {}
+    elemental_data = get_element_info(template_dir)
+    elem_diff_dict = form_element_dict(elem_list, template_dir)
+    f_block = ['La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho',
+        'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
     for elem in elem_list:
         os.mkdir(elem)
         copyfile('params.in', os.path.join(elem, 'params.in'))
@@ -180,6 +194,9 @@ def test_element_list(elem_list, template_dir):
                     ae_lat = elemental_data[elem]['ortho']
                     elem_diff_dict[elem]['ortho']['lattice_constant'] = \
                         compare_lat(ae_lat, elem, 'ortho')
+                    if elem_diff_dict[elem]['ortho']['lattice_constant'] == False:
+                        ## Pressure too high in QE run
+                        return elem_diff_dict, True
                 if elem in f_block:
                     copyfile(os.path.join(os.pardir,'N.GGA-PBE-paw.UPF'),'./N.GGA-PBE-paw.UPF')
                     run_qe('%sN' % elem, 'RS', 'relax', template_dir)
@@ -188,6 +205,9 @@ def test_element_list(elem_list, template_dir):
                     ae_lat = elemental_data['%sN' % elem]['RS']
                     elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] = \
                         compare_lat(ae_lat, '%sN' % elem, 'RS')
+                    if elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] == False:
+                        ## Pressure too high in QE run
+                        return elem_diff_dict, True
                     run_qe('%sN' % elem, 'RS', 'scf', template_dir)
                     if not check_convergence('%sN' % elem, 'RS', 'scf'):
                         return elem_diff_dict, True
@@ -203,6 +223,9 @@ def test_element_list(elem_list, template_dir):
                     ae_lat = elemental_data[elem][lat_type]
                     elem_diff_dict[elem][lat_type]['lattice_constant'] = \
                         compare_lat(ae_lat, elem, lat_type)
+                    if elem_diff_dict[elem][lat_type]['lattice_constant'] == False:
+                        ## Pressure too high in QE run
+                        return elem_diff_dict, True
     return elem_diff_dict, False
 
 def test_cmpd_list(cmpd_list, cmpd_diff_dict, cmpd_template_dir, elem_template_dir):
@@ -262,6 +285,9 @@ def test_property(cmpd, lat_type, property, ae_data, template_dir):
     if not check_convergence(cmpd, lat_type, 'relax'):
         return None, True
     if property == 'lattice_constant':
+        if compare_lat(ae_data, cmpd, lat_type) == False:
+            ## Pressure too high in QE run
+            return None, True
         return compare_lat(ae_data, cmpd, lat_type), False
     if property in ['eos', 'bulk_modulus']:
         run_scale_lat(cmpd, lat_type, template_dir)
@@ -320,14 +346,13 @@ def check_upf():
         return True
     return False
 
-def bad_run(num_obj_fns):
+def bad_run():
     """
     If something went wrong with the run, e.g., no .UPF file created or
     if running QE raised an error, set all objective functions to 100.
     """
     params, results = di.read_parameters_file('params.in', 'results.out')
-    for num in range(1, num_obj_fns+1):
-        label = 'obj_fn_%s' % num
+    for label in results.descriptors:
         results[label].function = 100.0
     results.write()
 
@@ -339,6 +364,9 @@ def compare_lat(ae_lat, cmpd, lat_type):
     get_lattice_constant() will convert into conventional units.
     """
     qe_lat = get_lattice_constant(cmpd, lat_type)
+    if np.array_equal(qe_lat, False):
+        ## Pressure too large in QE run
+        return False
     if isinstance(ae_lat, list) == False:
         return abs(qe_lat-ae_lat)/ae_lat
     assert len(ae_lat) == len(qe_lat), \
@@ -356,11 +384,11 @@ def update_dakota(diff_dict):
     """
     params, results = di.read_parameters_file('params.in', 'results.out')
     label_index = 1
-    for elem in diff_dict.keys():
-        for lat_type in diff_dict[elem].keys():
-            for property in diff_dict[elem][lat_type].keys():
-                label = 'obj_fn_'+str(label_index)
-                results[label].function = diff_dict[elem][lat_type][property]
+    for formula in diff_dict.keys():
+        for lat_type in diff_dict[formula].keys():
+            for property in diff_dict[formula][lat_type].keys():
+                label = '%s_%s_%s' % (formula, lat_type, property)
+                results[label].function = diff_dict[formula][lat_type][property]
                 label_index += 1
     results.write()
 
@@ -407,7 +435,11 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
     qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(), 
         'periodic_dft_gui_dir', 'qe2mae.py')
     qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
-    qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
+    try:
+        qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
+    except ValueError: ## Pressure too large in QE run
+        warnings.warn('You may want to check your initial guess for lattice constant(s)')
+        return False
     struct = qe_reader.structs[qe_reader.final_struct_id]
     cparams = xtal.get_chorus_properties(struct)
     params = np.array(xtal.get_params_from_chorus(cparams)).round(tol)
@@ -441,7 +473,7 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
         return unique_lat[0], unique_angles[0]
     if lat_type == 'tetrag':
         if len(unique_lat) == 1 and len(unique_angles) == 2: ## body-centered (I)
-            cell_vecs = get_cell(cmpd, lat_type, 'relax')
+            cell_vecs = get_cell(cmpd, lat_type, 'relax', unit='angstrom')
             abs_vec = [abs(value) for value in cell_vecs[0]]
             prim_lengths = sorted(set(abs_vec))
             conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
@@ -454,20 +486,20 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
             return unique_lat[0], unique_lat[1], unique_lat[2]
         if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
             assert list(params[3:]).count(90.0) == 2, err_mssg
-            cell_vecs = get_cell(cmpd, lat_type, 'relax')
-            a_lat = cell_vecs[0][0]*2.
-            b_lat = cell_vecs[0][1]*2.
-            c_lat = cell_vecs[2][2]
+            cell_vecs = get_cell(cmpd, lat_type, 'relax', unit='angstrom')
+            a_lat = abs(cell_vecs[0][0])*2.
+            b_lat = abs(cell_vecs[0][1])*2.
+            c_lat = abs(cell_vecs[2][2])
             conv_lengths = np.array(sorted([a_lat, b_lat, c_lat])).round(tol)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
         if len(unique_lat) == 3 and len(unique_angles) == 3: ## face-centered (F)
-            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax'))
+            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
             components = [abs(value) for value in cell_vecs.flatten()]
             prim_lengths = sorted(set(components))[1:]
             conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
             return conv_lengths[0], conv_lengths[1], conv_lengths[2]
         if len(unique_lat) == 1 and len(unique_angles) == 3: ## body-centered (I)
-            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax'))
+            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
             components = [abs(value) for value in cell_vecs.flatten()]
             prim_lengths = sorted(set(components))
             conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
@@ -480,7 +512,7 @@ def get_lattice_constant(cmpd, lat_type, tol=3):
                     angle = value
             return unique_lat[0], unique_lat[1], unique_lat[2], angle
         if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
-            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax'))
+            cell_vecs = np.array(get_cell(cmpd, lat_type, 'relax', unit='angstrom'))
             a_lat = cell_vecs[0][0]*2
             c_lat = cell_vecs[2][2]*2
             compon_1 = cell_vecs[1][0]*2
@@ -633,6 +665,13 @@ def get_bulk(cmpd, lat_type, ev_fname='E_V.txt'):
         eos_file.write('%s %s %s' % (volume, bulk, bulk_prime))
     return volume, bulk, bulk_prime
 
+def run_qe_as_is(relax_in):
+    """
+    Run QE w/o needing to fetch input, to be used in EOS calculations.
+    """
+    subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'pw.x', relax_in,
+        '-MPICORES', '4'], env=os.environ.copy())
+
 def run_scale_lat(cmpd, lat_type, template_dir, ev_fname='E_V.txt'):
     """
     Read in relaxed cell parameters from cmpd.lat_type.relax.out, 
@@ -661,8 +700,7 @@ def run_scale_lat(cmpd, lat_type, template_dir, ev_fname='E_V.txt'):
         with fileutils.chdir(folder):
             update_structure(cmpd, lat_type, 'relax')
             write_cell(cmpd, lat_type, new_cell_params)
-            subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'pw.x', relax_in, 
-                '-MPICORES', '4'], env=os.environ.copy())
+            run_qe_as_is(relax_in)
             all_energies = []
             with open(relax_out) as qe_output:
                 for line in qe_output:
@@ -705,7 +743,7 @@ def compare_phonon(cmpd, lat_type, ae_freq, template_dir):
     net_diff = sum(rel_diff)/len(rel_diff)
     return net_diff
 
-def get_cell(cmpd, lat_type, calc_type):
+def get_cell(cmpd, lat_type, calc_type, unit='bohr'):
     """
     Parse cell from QE output and write to 3x3 array
     consisting of lattice vectors in angstroms or bohrs.
@@ -729,6 +767,8 @@ def get_cell(cmpd, lat_type, calc_type):
         v = lines[i].split()
         v = [float(value) for value in v]
         v = [alat*value for value in v]
+        if unit == 'angstrom':
+            v = [value/1.88973 for value in v]
         vectors.append(v)
     return vectors
 
@@ -932,13 +972,6 @@ def update_obj_file(diff_dict):
                 obj_file.write('%s: %s THz\n' % (label, value))
             if 'atomic_positions' in label:
                 obj_file.write('%s: %s angstroms\n' % (label, value))
-    if not os.path.exists(os.path.join(os.pardir, 'Obj_Fn_Data')):
-        obj_file = open(os.path.join(os.pardir, 'Obj_Fn_Data'), 'w+')
-        obj_file.close()
-    with open(os.path.join(os.pardir, 'Obj_Fn_Data'), 'a') as obj_file:
-        obj_file.write('\n')
-        for obj_fn in obj_fn_list:
-            obj_file.write('%s ' % obj_fn)
 
 def calc_obj_fn(obj_fn_list):
     """
@@ -968,38 +1001,39 @@ def calc_obj_fn(obj_fn_list):
             norm_objs.append(0.0)
     return sum(norm_objs)/len(norm_objs)
 
-def update_best_result(obj_fn_list):
-    """
-    If current solution is better than all previous solutions, 
-    update the Best_Result folder accordingly.
-    """
-    current_obj_fn = calc_obj_fn(obj_fn_list)
-    upf_files = glob.glob('*UPF')
-    atompaw_files = glob.glob('*atompaw*')
-    if not os.path.isdir(os.path.join(os.pardir, 'Best_Solution')):
-        os.mkdir(os.path.join(os.pardir, 'Best_Solution'))
-        for fname in upf_files + atompaw_files:
-            copyfile(fname, os.path.join(os.pardir, 'Best_Solution', fname))
-        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
-            obj_file.write(str(current_obj_fn))
-        with open(os.path.join(os.pardir, 'Best_Solution', 'data'), 'w+') as data_file:
-            for obj in obj_fn_list:
-                data_file.write('%s ' % obj)
-        copyfile('Detailed_Results', os.path.join(os.pardir, 'Best_Solution', 'Detailed_Results'))
-        return
-    last_data = np.loadtxt(os.path.join(os.pardir, 'Best_Solution', 'data'))
-    last_obj_fn = calc_obj_fn(last_data)
-    if current_obj_fn < last_obj_fn:
-        for fname in upf_files + atompaw_files:
-            copyfile(fname, os.path.join(os.pardir, 'Best_Solution', fname))
-        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
-            obj_file.write(str(current_obj_fn))
-        with open(os.path.join(os.pardir, 'Best_Solution', 'data'), 'w+') as data_file:
-            for obj in obj_fn_list:
-                data_file.write('%s ' % obj)
-        copyfile('Detailed_Results', os.path.join(os.pardir, 'Best_Solution', 'Detailed_Results'))
-    else:
-        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
-            obj_file.write(str(last_obj_fn))
+## Deprecated owing to potential interference amongst parallel jobs
+#def update_best_result(obj_fn_list):
+#    """
+#    If current solution is better than all previous solutions, 
+#    update the Best_Result folder accordingly.
+#    """
+#    current_obj_fn = calc_obj_fn(obj_fn_list)
+#    upf_files = glob.glob('*UPF')
+#    atompaw_files = glob.glob('*atompaw*')
+#    if not os.path.isdir(os.path.join(os.pardir, 'Best_Solution')):
+#        os.mkdir(os.path.join(os.pardir, 'Best_Solution'))
+#        for fname in upf_files + atompaw_files:
+#            copyfile(fname, os.path.join(os.pardir, 'Best_Solution', fname))
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
+#            obj_file.write(str(current_obj_fn))
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'data'), 'w+') as data_file:
+#            for obj in obj_fn_list:
+#                data_file.write('%s ' % obj)
+#        copyfile('Detailed_Results', os.path.join(os.pardir, 'Best_Solution', 'Detailed_Results'))
+#        return
+#    last_data = np.loadtxt(os.path.join(os.pardir, 'Best_Solution', 'data'))
+#    last_obj_fn = calc_obj_fn(last_data)
+#    if current_obj_fn < last_obj_fn:
+#        for fname in upf_files + atompaw_files:
+#            copyfile(fname, os.path.join(os.pardir, 'Best_Solution', fname))
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
+#            obj_file.write(str(current_obj_fn))
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'data'), 'w+') as data_file:
+#            for obj in obj_fn_list:
+#                data_file.write('%s ' % obj)
+#        copyfile('Detailed_Results', os.path.join(os.pardir, 'Best_Solution', 'Detailed_Results'))
+#    else:
+#        with open(os.path.join(os.pardir, 'Best_Solution', 'Obj_Fn'), 'w+') as obj_file:
+#            obj_file.write(str(last_obj_fn))
 
 

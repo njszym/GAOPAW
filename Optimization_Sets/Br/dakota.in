@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-    continuous_design =  53
-    initial_point =  1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337 2.317 1.958 1.145 2.254 2.206 1.644 1.964 3.538 2.044 2.385 1.918 1.902 1.982 1.729 1.416 1.833 1.938 1.81 7.016 10.807 2.385 1.918 1.902 1.982 1.729 1.416 1.833 1.938 1.81 7.016 10.807 2.483 2.075 1.754 2.073 1.764 2.098 2.351 2.086 2.27 5.406 10.823 5.217
-    lower_bounds =  1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27 2.201 1.86 1.088 2.141 2.096 1.562 1.866 3.361 1.942 2.266 1.822 1.807 1.883 1.643 1.345 1.741 1.841 1.72 6.665 10.267 2.266 1.822 1.807 1.883 1.643 1.345 1.741 1.841 1.72 6.665 10.267 2.359 1.971 1.666 1.969 1.676 1.993 2.233 1.982 2.156 5.136 10.282 4.956
-    upper_bounds =  1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404 2.433 2.056 1.202 2.367 2.316 1.726 2.062 3.715 2.146 2.504 2.014 1.997 2.081 1.815 1.487 1.925 2.035 1.9 7.367 11.347 2.504 2.014 1.997 2.081 1.815 1.487 1.925 2.035 1.9 7.367 11.347 2.607 2.179 1.842 2.177 1.852 2.203 2.469 2.19 2.384 5.676 11.364 5.478
-    descriptors =  "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2" "DAKOTA_Br_RC_1" "DAKOTA_Br_RC_2" "DAKOTA_Br_RC_3" "DAKOTA_Br_RC_4" "DAKOTA_Br_RC_5" "DAKOTA_Br_RC_6" "DAKOTA_Br_RC_7" "DAKOTA_Br_EP_1" "DAKOTA_Br_EP_2" "DAKOTA_Cs_RC_1" "DAKOTA_Cs_RC_2" "DAKOTA_Cs_RC_3" "DAKOTA_Cs_RC_4" "DAKOTA_Cs_RC_5" "DAKOTA_Cs_RC_6" "DAKOTA_Cs_RC_7" "DAKOTA_Cs_RC_8" "DAKOTA_Cs_RC_9" "DAKOTA_Cs_EP_1" "DAKOTA_Cs_EP_2" "DAKOTA_La_"DAKOTA_Cs_RC_1"" "DAKOTA_La_"DAKOTA_Cs_RC_2"" "DAKOTA_La_"DAKOTA_Cs_RC_3"" "DAKOTA_La_"DAKOTA_Cs_RC_4"" "DAKOTA_La_"DAKOTA_Cs_RC_5"" "DAKOTA_La_"DAKOTA_Cs_RC_6"" "DAKOTA_La_"DAKOTA_Cs_RC_7"" "DAKOTA_La_"DAKOTA_Cs_RC_8"" "DAKOTA_La_"DAKOTA_Cs_RC_9"" "DAKOTA_La_"DAKOTA_Cs_EP_1"" "DAKOTA_La_"DAKOTA_Cs_EP_2"" "DAKOTA_Pb_RC_1" "DAKOTA_Pb_RC_2" "DAKOTA_Pb_RC_3" "DAKOTA_Pb_RC_4" "DAKOTA_Pb_RC_5" "DAKOTA_Pb_RC_6" "DAKOTA_Pb_RC_7" "DAKOTA_Pb_RC_8" "DAKOTA_Pb_RC_9" "DAKOTA_Pb_EP_1" "DAKOTA_Pb_EP_2" "DAKOTA_Pb_EP_3"
+    continuous_design =  54
+    initial_point =  1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337 2.385 1.918 1.902 1.982 1.729 1.416 1.833 1.938 1.81 7.016 10.807 2.317 1.958 1.145 2.254 2.206 1.644 1.964 3.538 2.044 2.483 2.075 1.754 2.073 1.764 2.098 2.351 2.086 2.27 5.406 10.823 5.217 2.483 2.075 1.754 2.073 1.764 2.098 2.351 2.086 2.27 5.406 10.823 5.217
+    lower_bounds =  1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27 2.266 1.822 1.807 1.883 1.643 1.345 1.741 1.841 1.72 6.665 10.267 2.201 1.86 1.088 2.141 2.096 1.562 1.866 3.361 1.942 2.359 1.971 1.666 1.969 1.676 1.993 2.233 1.982 2.156 5.136 10.282 4.956 2.359 1.971 1.666 1.969 1.676 1.993 2.233 1.982 2.156 5.136 10.282 4.956
+    upper_bounds =  1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404 2.504 2.014 1.997 2.081 1.815 1.487 1.925 2.035 1.9 7.367 11.347 2.433 2.056 1.202 2.367 2.316 1.726 2.062 3.715 2.146 2.607 2.179 1.842 2.177 1.852 2.203 2.469 2.19 2.384 5.676 11.364 5.478 2.607 2.179 1.842 2.177 1.852 2.203 2.469 2.19 2.384 5.676 11.364 5.478
+    descriptors =  "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2" "DAKOTA_Cs_RC_1" "DAKOTA_Cs_RC_2" "DAKOTA_Cs_RC_3" "DAKOTA_Cs_RC_4" "DAKOTA_Cs_RC_5" "DAKOTA_Cs_RC_6" "DAKOTA_Cs_RC_7" "DAKOTA_Cs_RC_8" "DAKOTA_Cs_RC_9" "DAKOTA_Cs_EP_1" "DAKOTA_Cs_EP_2" "DAKOTA_Br_RC_1" "DAKOTA_Br_RC_2" "DAKOTA_Br_RC_3" "DAKOTA_Br_RC_4" "DAKOTA_Br_RC_5" "DAKOTA_Br_RC_6" "DAKOTA_Br_RC_7" "DAKOTA_Br_EP_1" "DAKOTA_Br_EP_2" "DAKOTA_Pb_RC_1" "DAKOTA_Pb_RC_2" "DAKOTA_Pb_RC_3" "DAKOTA_Pb_RC_4" "DAKOTA_Pb_RC_5" "DAKOTA_Pb_RC_6" "DAKOTA_Pb_RC_7" "DAKOTA_Pb_RC_8" "DAKOTA_Pb_RC_9" "DAKOTA_Pb_EP_1" "DAKOTA_Pb_EP_2" "DAKOTA_Pb_EP_3" "DAKOTA_La_"DAKOTA_Pb_RC_1"" "DAKOTA_La_"DAKOTA_Pb_RC_2"" "DAKOTA_La_"DAKOTA_Pb_RC_3"" "DAKOTA_La_"DAKOTA_Pb_RC_4"" "DAKOTA_La_"DAKOTA_Pb_RC_5"" "DAKOTA_La_"DAKOTA_Pb_RC_6"" "DAKOTA_La_"DAKOTA_Pb_RC_7"" "DAKOTA_La_"DAKOTA_Pb_RC_8"" "DAKOTA_La_"DAKOTA_Pb_RC_9"" "DAKOTA_La_"DAKOTA_Pb_EP_1"" "DAKOTA_La_"DAKOTA_Pb_EP_2"" "DAKOTA_La_"DAKOTA_Pb_EP_3""
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,18 +18,18 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 500 ## 400 chromosomes in the initial generation
-        max_function_evaluations = 50000 ## Max number of chromosomes tested
-        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 50000 ## Default, max number of chromosomes tested
+        initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
           crossover_rate = 0.4 ## Probability of crossover being performed to generate offspring; this value has been optimized (roughly)
         mutation_type offset_normal ## Select mutations based on Gaussian distribution around parent values, works slightly better than random mutation
-          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable
-          mutation_rate = 0.1  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
+          mutation_scale = 0.05 ## Standard deviation of mutation equal to 5% the range of the variable, works well, further optimization may be possible
+          mutation_rate = 0.2  ## No. of mutations = 10% * population size * number of variables (each generation), low rate works well
         fitness_type domination_count ## Determine which designs to keep based on number of other designs which dominate it (default)
         replacement_type below_limit = 6 ## Only keep designs which are dominated by fewer than 6 other designs, default value, works well
-          shrinkage_fraction = 0.25  ## Next generation must be at least 25% the size of the previous generation, small values work best here
+          shrinkage_fraction = 0.30  ## Next generation must be at least 30% the size of the previous generation, small values work best here
         convergence_type metric_tracker ## Test convergence of objective functions (metric given by largest change in any objective function)
           percent_change = 1 num_generations = 10 ## Convergence acheived if less than 1% change occurs over ten consecutive generations (default)
         final_solutions = 10 ## Give 10 best solutions once run finishes, optimum value may depend on your problem, how many local minima exist
@@ -37,15 +37,16 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 10 ## Depends on number of cores you plan to run on; +1 concurrency for each additional 4 cores
+          evaluation_concurrency = 10 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /scr/szymansk/gaopaw/analysis.py' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
-          named 'workdir_pp' ## Uncomment if you'd like to save all working directories: file_save directory_save (takes up lots of space)
+          named 'workdir_pp'
 
 responses
     num_objective_functions =  21
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Li_elemental_log' 'Li_FCC_lattice_constant' 'Li_BCC_lattice_constant' 'Cs_elemental_log' 'Cs_FCC_lattice_constant' 'Cs_BCC_lattice_constant' 'Br_elemental_log' 'Br_FCC_lattice_constant' 'Br_BCC_lattice_constant' 'Pb_elemental_log' 'Pb_FCC_lattice_constant' 'Pb_BCC_lattice_constant' 'La_elemental_log' 'LaN_RS_lattice_constant' 'LaN_RS_magnetization' 'LiBr_RS_lattice_constant' 'LiBr_RS_phonon_frequency' 'CsBr_ZB_eos' 'LaBr3_hex_lattice_constant' 'LaBr3_hex_band_gap' 'CsPbBr3_per_lattice_constant'

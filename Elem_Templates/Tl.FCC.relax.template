@@ -5,7 +5,7 @@
 /
 &system
   ibrav=2
-  celldm=10.0
+  celldm=9.441
   nat=1
   ntyp=1
   ecutwfc=40

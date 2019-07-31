@@ -193,13 +193,13 @@ def test_get_lattice_constant():
         assert gaopaw.get_lattice_constant('Si', 'ortho')[1] == 3.493
         assert gaopaw.get_lattice_constant('Si', 'ortho')[2] == 3.810
 
-#def test_update_dakota():
-#    diff_dict = \
-#    {'Si': {'SC': {'lattice_constant': 0.01, 'phonon_frequency': 0.2}}, 
-#    'SiC': {'ZB': {'band_gap': 0.03}}}
-#    with gaopaw.fileutils.chdir(working_dir('Si')):
-#        gaopaw.update_dakota(diff_dict)
-#        assert gaopaw.os.path.exists('results.out')
+def test_update_dakota():
+    diff_dict = \
+    {'Si': {'BCC': {'lattice_constant': 0.01, 'phonon_frequency': 0.2}},
+    'SiC': {'ZB': {'band_gap': 0.03}}}
+    with gaopaw.fileutils.chdir(working_dir('Si')):
+        gaopaw.update_dakota(diff_dict)
+        assert gaopaw.os.path.exists('results.out')
 
 def test_check_convergence():
     with gaopaw.fileutils.chdir(working_dir('Conv')):
@@ -257,19 +257,21 @@ def test_run_scale_lat():
         assert round(gaopaw.np.loadtxt('E_V.txt').transpose()[1][-1],3) == \
             round(1.06*gaopaw.np.loadtxt('E_V.txt').transpose()[1][3],3)
 
-#def test_update_obj_file():
-#    diff_dict = \
-#    {'Si': {'SC': {'lattice_constant': 0.01, 'phonon_frequency': 0.2}}, 
-#    'SiC': {'ZB': {'band_gap': 0.03}}}
-#    if gaopaw.os.path.exists('Obj_Fn_Data'):
-#        gaopaw.os.remove('Obj_Fn_Data')
-#    with gaopaw.fileutils.chdir(working_dir('Si')):
-#        gaopaw.update_obj_file(diff_dict)
-#    assert len(gaopaw.np.loadtxt('Obj_Fn_Data')) == 3
-#    assert gaopaw.np.loadtxt('Obj_Fn_Data')[0] == 0.01
-#    assert gaopaw.np.loadtxt('Obj_Fn_Data')[1] == 0.2
-#    assert gaopaw.np.loadtxt('Obj_Fn_Data')[2] == 0.03
-#    gaopaw.os.remove('Obj_Fn_Data')
+def test_update_obj_file():
+    diff_dict = \
+    {'Si': {'SC': {'lattice_constant': 0.01, 'phonon_frequency': 0.2}}, 
+    'SiC': {'ZB': {'band_gap': 0.03}}}
+    with gaopaw.fileutils.chdir(working_dir('Si')):
+        if gaopaw.os.path.exists('Detailed_Results'):
+            gaopaw.os.remove('Detailed_Results')
+        gaopaw.update_obj_file(diff_dict)
+        assert gaopaw.os.path.exists('Detailed_Results')
+        df = gaopaw.pd.read_table('Detailed_Results', sep=':', header=None)
+        assert gaopaw.np.array_equal(list(df[0]), 
+            ['Si_SC_lattice_constant', 'Si_SC_phonon_frequency', 'SiC_ZB_band_gap'])
+        assert gaopaw.np.array_equal(list(df[1]),
+            [' 1.0%', ' 0.2 THz', ' 0.03 eV'])
+
 
 def test_calc_obj_fn():
     with open('Obj_Fn_Data', 'w+') as obj_file:
@@ -288,21 +290,3 @@ def test_calc_obj_fn():
     with gaopaw.fileutils.chdir(working_dir('Si')):
         assert round(gaopaw.calc_obj_fn([1.2, 1.8, 4.0]), 3) == 0.333
     gaopaw.os.remove('Obj_Fn_Data')
-
-## Deprecated
-#def test_update_best_result():
-#    if gaopaw.os.path.isdir('Best_Solution'):
-#        gaopaw.shutil.rmtree('Best_Solution')
-#    with open('Obj_Fn_Data', 'w+') as obj_file:
-#        obj_file.write('1.0 2.0 3.0\n')
-#        obj_file.write('1.2 1.8 4.0')
-#    with gaopaw.fileutils.chdir(working_dir('Si')):
-#        gaopaw.update_best_result([1.2, 1.8, 4.0])
-#    assert round(float(gaopaw.np.loadtxt('Best_Solution/Obj_Fn')), 3) == 0.667
-#    gaopaw.shutil.rmtree('Best_Solution')
-#    with open('Obj_Fn_Data', 'w+') as obj_file:
-#        obj_file.write('1.2 1.8 4.0')
-#    with gaopaw.fileutils.chdir(working_dir('Si')):
-#        gaopaw.update_best_result([1.2, 1.8, 4.0])
-#    assert round(float(gaopaw.np.loadtxt('Best_Solution/Obj_Fn')), 3) == 0.0
-

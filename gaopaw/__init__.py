@@ -25,6 +25,11 @@ from gaopaw.calcDelta import *
 
 
 class Runner:
+    """
+    Initialize GAOPAW runner object using parameters
+    supplied in the input.json and dakota.in files which
+    are placed in the parent directory.
+    """
 
     def __init__(self):
         self.working_dir = os.getcwd()

@@ -5,7 +5,7 @@ def main():
     """
     First test all constituent elements for compounds given in input.json, 
     ensuring pseudopotential generation and associated QE runs proceed without error, 
-    then test specified properties and optimize using genetical algorithm.
+    then test specified properties and optimize using a genetical algorithm.
     """
     gp_run = Runner()
     gp_run.getPaws()

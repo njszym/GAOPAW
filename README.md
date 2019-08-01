@@ -1,10 +1,10 @@
 # Genetic Algorithm Optimizer for PAW datasets
 
-Workflow designed to utilize AtomPAW, Quantum Espresso (QE), and Dakota to generate optimized PAW potentials through implementation of genetic algorithms.
+Workflow designed to utilize AtomPAW, Quantum Espresso (QE), and Dakota to generate optimized PAW potentials through implementation of a multi-objective genetic algorithm.
 
 Objective functions, defined as differences between calculated (with QE) and known all-electron (with WIEN2k) data, are minimized for a given element (as an elemental state and/or as a constituent element of a compositie system).
 
-Several elements or compounds of any periodic, ordered structure may be tested.
+Several elements or compounds of any periodic, ordered structure may be tested in a single run.
 
 Currently supported properties include lattice constants, band gaps, Delta-factor (see https://molmod.ugent.be/deltacodesdft), bulk modulus, atomic positions, total magnetization, individual magnetic moments, and phonon frequencies.
 

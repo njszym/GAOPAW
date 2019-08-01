@@ -247,9 +247,8 @@ class Runner:
         element_list.
         """
         elem_list = self.element_list
-        template_dir = self.input_settings.directories.elem_template_dir
-        elem_diff_dict = {}
         elemental_data = self.elemental_data
+        elem_diff_dict = {}
         for elem in elem_list:
             assert elem in elemental_data.keys(), \
                 'No AE data available for your element: %s' % elem

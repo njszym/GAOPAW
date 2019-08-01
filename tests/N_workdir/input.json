@@ -1,7 +1,7 @@
 {
     "directories":
         {
-            "elem_template_dir": "/scr/szymansk/gaopaw/Elem_Templates"
+            "elem_template_dir": "../../../Elem_Templates"
         },
     "compounds": [
         {

@@ -144,3 +144,109 @@ def test_checkConvergence():
         gp_run = gaopaw.Runner()
         assert gp_run.checkConvergence('Si', 'FCC', 'relax') == False
 
+def test_compareAtoms():
+    with gaopaw.fileutils.chdir(os.path.join('N_workdir', 'N')):
+        gp_run = gaopaw.Runner()
+        elem_template_dir = gp_run.input_settings.directories.elem_template_dir
+        atom_diff = gp_run.compareAtoms('N', 'SC', elem_template_dir)
+        assert np.isclose(atom_diff, 0.042629, rtol=1e-3)
+
+def test_getLatticeConstant():
+    with gaopaw.fileutils.chdir(os.path.join('Conv_Tests', 'Si_BCC_2')):
+        gp_run = gaopaw.Runner()
+        assert np.isclose(
+            gp_run.getLatticeConstant('Si', 'BCC'), 3.085, rtol=1e-3)
+    with gaopaw.fileutils.chdir(os.path.join('Prim_tests', 'Tetrag_I')):
+        assert np.array_equal(
+            np.array(gp_run.getLatticeConstant('Si', 'tetrag')).round(3), 
+            [1.588, 1.746])
+    with gaopaw.fileutils.chdir(os.path.join('Prim_tests', 'Monoclin_C')):
+        assert np.array_equal(
+            np.array(gp_run.getLatticeConstant('Si', 'monoclin')).round(3), 
+            [1.588, 1.746, 1.905, 60.0])
+    with gaopaw.fileutils.chdir(os.path.join('Prim_tests', 'Ortho_C')):
+        assert np.array_equal(
+            np.array(gp_run.getLatticeConstant('Si', 'ortho')).round(3),
+            [3.175, 3.493, 3.810])
+    with gaopaw.fileutils.chdir(os.path.join('Prim_tests', 'Ortho_F')):
+        assert np.array_equal(
+            np.array(gp_run.getLatticeConstant('Si', 'ortho')).round(3),
+            [3.175, 3.493, 3.810])
+    with gaopaw.fileutils.chdir(os.path.join('Prim_tests', 'Ortho_I')):
+        assert np.array_equal(
+            np.array(gp_run.getLatticeConstant('Si', 'ortho')).round(3),
+            [3.175, 3.493, 3.810])
+
+def test_getCell():
+    with gaopaw.fileutils.chdir(os.path.join('Prim_tests', 'Tetrag_I')):
+        gp_run = gaopaw.Runner()
+        assert np.array_equal(
+        np.array(gp_run.getCell('Si', 'tetrag', 'relax')).round(3), 
+        [[1.50, -1.50, 1.65], [1.50, 1.50, 1.65], [-1.50, -1.50, 1.65]])
+
+def test_getMag():
+    with gaopaw.fileutils.chdir(os.path.join('FeO_workdir', 'Fe')):
+        gp_run = gaopaw.Runner()
+        assert np.isclose(gp_run.getMag('FeO', 'RS'), 3.83, rtol=1e-3)
+
+def test_checkIfElem():
+    with gaopaw.fileutils.chdir(os.path.join('FeO_workdir', 'Fe')):
+        gp_run = gaopaw.Runner()
+        assert gp_run.is_elem == False
+    with gaopaw.fileutils.chdir(os.path.join('N_workdir', 'N')):
+        gp_run = gaopaw.Runner()
+        assert gp_run.is_elem == True
+
+def test_mergeDicts():
+    with gaopaw.fileutils.chdir(os.path.join('FeO_workdir', 'Fe')):
+        gp_run = gaopaw.Runner()
+    assert gp_run.mergeDicts({'A': 1}, {'B': 2}) == {'A': 1, 'B': 2}
+    assert gp_run.mergeDicts({'A': {'B': 1}}, {'A': {'C': 2}}) == {'A': {'B': 1, 'C': 2}}
+
+def test_testCmpdList():
+    with gaopaw.fileutils.chdir(os.path.join('Si_workdir', 'Si')):
+        gp_run = gaopaw.Runner()
+    with mock.patch.object(gp_run, 'testProperty') as run_mock:
+        run_mock.return_value = [0, False]
+        assert gp_run.testCmpdList()[1] == False
+
+def test_testProperty():
+    with gaopaw.fileutils.chdir(os.path.join('BeO_workdir', 'BeO')):
+        gp_run = gaopaw.Runner()
+        assert np.isclose(
+            gp_run.testProperty('BeO', 'RS', 'lattice_constant', 1.0, '.')[0], 
+            2.625, rtol=1e-3)
+        assert np.isclose(
+            gp_run.testProperty('BeO', 'RS', 'band_gap', 1.0, '.')[0],
+            7.364, rtol=1e-3)
+    with gaopaw.fileutils.chdir(os.path.join('BeS_workdir', 'BeS')):
+        gp_run = gaopaw.Runner()
+        with mock.patch.object(gp_run, 'runScaleLat') as run_mock:
+            assert np.isclose(
+                gp_run.testProperty('BeS', 'ZB', 'eos', [1.0, 1.0, 1.0], '.')[0],
+                1285.706, rtol=1e-1)
+            assert np.isclose(
+                gp_run.testProperty('BeS', 'ZB', 'bulk_modulus', 1.0, '.')[0],
+                91.903, rtol=1e-2)
+    with gaopaw.fileutils.chdir(os.path.join('Be.SC_workdir', 'Be')):
+        gp_run = gaopaw.Runner()
+        with mock.patch.object(gp_run, 'runPhonon') as run_mock:
+            assert np.isclose(
+                gp_run.testProperty('Be', 'SC', 'phonon_frequency', 
+                [0.0, 0.0, 0.0, 1.0, 1.0, 1.0], '.')[0],
+                12.666, rtol=1e-2)
+    with gaopaw.fileutils.chdir(os.path.join('N_workdir', 'N')):
+        gp_run = gaopaw.Runner()
+        elem_template_dir = gp_run.input_settings.directories.elem_template_dir
+        assert np.isclose(
+            gp_run.testProperty('N', 'SC', 'atomic_positions', 1.0, elem_template_dir)[0],
+            0.0426, rtol=1e-3)
+    with gaopaw.fileutils.chdir(os.path.join('FeO_workdir', 'Fe')):
+        gp_run = gaopaw.Runner()
+        assert np.isclose(
+            gp_run.testProperty('FeO', 'RS', 'magnetization', 1.0, elem_template_dir)[0],
+            2.83, rtol=1e-3)
+        assert np.isclose(
+            gp_run.testProperty('FeO', 'RS', 'magnetic_moment', [1.0, 1.0], elem_template_dir)[0],
+            1.467, rtol=1e-3)
+

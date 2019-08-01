@@ -14,11 +14,11 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
 
 (ii) Write the input.json file containing information on the compounds and properties to be tested. See the Examples/ folder for information regarding parameter names and formatting guidelines.
 
-(iii) Create a template directory (path specified in input.json) containing all AtomPAW and QE input files for the compounds specified in the input.json file. Filenames follow the general format of (compound formula).(lattice type).(calculation type).template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
+(iii) Create a template directory (path specified in input.json) containing all AtomPAW and QE input files for the compounds specified in the input.json file. Filenames follow the general format of [compound formula].[lattice type].[calculation type].template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
 
 (iv) Create a template dakota.in file (may take from Examples/ folder) in current directory. Use the write_dakota.py code from the scripts/ folder to parse input.json file and write information regarding elemental variable bounds (optimal values for each element taken from Elem_Templates folder; path should be specified in the input.json file) and total number of objective functions, along with corresponding labels, to the dakota.in file. For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html.
 
-(v) Execute Dakota optimization through "dakota dakota.in" (or submit using job script).
+(v) Execute Dakota optimization through "dakota dakota.in"; generally submit using job script. Note that the evaluation_concurrency variable, which controls the number of parallel jobs allowed to run at once, should be chosen according to the number of processors available. Currently the code is set up to employ 4 processors per job; hence the evaluation_concurrency should equal the total number of processors available divided by 4.
 
 (vi) Once the optimization is complete, use the get_best_soln.py script to retrieve the best solution (must be executed in same folder as the dakota.in and input.json files). The weighted sum approach is currently utilized to normalize all objective functions. The universal minimum in the mean absolute error of these noramlize objective functions is then chosen as the best solution, for which detailed results and atompaw input files are placed in the Best_Solution/ folder of the current working directory. 
 

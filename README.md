@@ -20,7 +20,7 @@ Currently supported properties include lattice constants, band gaps, Delta-facto
   - For each compound, provide a formula, lattice type, and any properties to be tested/optimized.
   - For each property, provide the corresponding all-electron data.
 
-(iii) If necessary, create a template directory (path specified in input.json) containing all QE input files required to calculate properties of compounds specified in the input.json file. Filenames follow the general format of [compound formula].[lattice type].[calculation type].template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
+(iii) If necessary, create a template directory (i.e., "cmpd_template_dir" specified in input.json) containing all QE input files required to calculate properties of compounds specified in the input.json file. Filenames follow the format of [compound formula].[lattice type].[calculation type].template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
 
 (iv) Create a template dakota.in file (see Examples/Dakota_template) in the working directory. Use scripts/write_dakota.py to parse the input.json file and write the following information to dakota.in:
 - Elemental variable bounds (optimal values taken from Elem_Templates/BOUNDS; path should be specified in input.json)

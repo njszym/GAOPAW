@@ -27,21 +27,34 @@ from gaopaw.calcDelta import *
 class Runner:
     """
     Initialize GAOPAW runner object using parameters
-    supplied in the input.json and dakota.in files which
-    are placed in the parent directory.
+    supplied in the input.json file which is placed in 
+    the parent (default) or current directory.
     """
 
-    def __init__(self):
+    def __init__(self, input_dir=None):
+        self.setupDir(input_dir)
         self.working_dir = os.getcwd()
         self.readInput()
         self.elemental_data = self.getElementInfo()
+
+    def setupDir(self, input_dir):
+        if input_dir == None:
+            self.input_dir = 'parent'
+        if input_dir == 'current':
+            self.input_dir = input_dir
+        assert hasattr(self, 'input_dir'), \
+            'Input dir, %s, not defined' % input_dir
 
     def readInput(self):
         """
         Read in run settings from input.json.
         """
         working_dir = self.working_dir
-        with open(os.path.join(working_dir, os.pardir, 'input.json')) as input:
+        if self.input_dir == 'parent':
+            input_path = os.path.join(working_dir, os.pardir, 'input.json')
+        if self.input_dir == 'current':
+            input_path = os.path.join(working_dir, 'input.json')
+        with open(input_path) as input:
             self.input_settings = json.load(input, object_hook=lambda d: SimpleNamespace(**d))
         self.element_list = self.getElementList()
         self.num_obj_fns = self.numDakotaObjs()
@@ -63,7 +76,11 @@ class Runner:
         Parse *dakota.in* and return total number of objective functions.
         """
         working_dir = self.working_dir
-        with open(os.path.join(working_dir, os.pardir, 'dakota.in')) as dakota_input:
+        if self.input_dir == 'parent':
+            dakota_path = os.path.join(working_dir, os.pardir, 'dakota.in')
+        if self.input_dir == 'current':
+            dakota_path = os.path.join(working_dir, 'dakota.in')
+        with open(dakota_path) as dakota_input:
             for line in dakota_input:
                 if 'num_objective_functions' in line:
                     num_objs = int(line.split()[2])

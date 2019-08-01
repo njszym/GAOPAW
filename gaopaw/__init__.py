@@ -1273,7 +1273,7 @@ class Runner:
         until property differences reach given tolerance.
         """
         self.runAtompaw(elem)
-        initial_energy = self.getAtompawEnergies()[0]
+        initial_energy = self.getAtompawEnergies(elem)[0]
         initial_lat = {}
         for lat_type in ['FCC', 'BCC']:
             qe_file = '%s.%s.relax.in' % (elem, lat_type)
@@ -1306,12 +1306,12 @@ class Runner:
             self.runAtompaw(elem)
             if not self.checkUpf():
                 break
-            energy = self.getAtompawEnergies()[0]
+            energy = self.getAtompawEnergies(elem)[0]
             energy_diff = abs(energy - initial_energy)
-            self.runCurrentQE('%s.FCC.relax.in' % s)
+            self.runCurrentQE('%s.FCC.relax.in' % elem)
             if not self.checkConvergence(elem, 'FCC', 'relax'):
                 break
-            self.runCurrentQE('%s.BCC.relax.in' % s)
+            self.runCurrentQE('%s.BCC.relax.in' % elem)
             if not self.checkConvergence(elem, 'BCC', 'relax'):
                 break
             lat_FCC = self.getLatticeConstant(elem, 'FCC')
@@ -1319,8 +1319,18 @@ class Runner:
             diff_FCC = abs(lat_FCC - initial_lat['FCC'])
             diff_BCC = abs(lat_BCC - initial_lat['BCC'])
             lat_diff = max([diff_FCC, diff_BCC])
+        num_pts += 100
+        log_line[index] = str(num_pts)
+        new_line = ''
+        for word in log_line:
+            var = word+' '
+            new_line += var
+        lines[1] = new_line+'\n'
+        with open('%s.atompaw.in' % elem,'w+') as ap_in:
+            for line in lines:
+                ap_in.write(line)
 
-    def getAtompawEnergies(self):
+    def getAtompawEnergies(self, elem):
         """
         Parse pseudized and all-electron energies from
         atompaw run, filename equal to element.

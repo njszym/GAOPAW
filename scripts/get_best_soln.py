@@ -5,7 +5,7 @@ def main():
     """
     Get best solution from dakota_tabular.dat
     """
-    gp_run = Runner('current')
+    gp_run = Runner(input_dir='current')
     Runner.getBestSoln()
 
 if __name__=='__main__':

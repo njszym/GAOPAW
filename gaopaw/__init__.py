@@ -31,19 +31,28 @@ class Runner:
     the parent (default) or current directory.
     """
 
-    def __init__(self, input_dir=None):
+    def __init__(self, input_dir=None, test_paw=None):
         self.setupDir(input_dir)
+        self.checkTestPaw(test_paw)
         self.working_dir = os.getcwd()
         self.readInput()
         self.elemental_data = self.getElementInfo()
 
     def setupDir(self, input_dir):
-        if input_dir == None:
+        if input_dir in [None, 'parent']:
             self.input_dir = 'parent'
         if input_dir == 'current':
             self.input_dir = input_dir
         assert hasattr(self, 'input_dir'), \
             'Input dir, %s, not defined' % input_dir
+
+    def checkTestPaw(self, test_paw):
+        if test_paw in [None, False]:
+            self.test_paw = False
+        if test_paw == True:
+            self.test_paw = True
+        assert hasattr(self, 'test_paw'), \
+            'test_paw value, %s, not defined' % input_dir
 
     def readInput(self):
         """
@@ -179,15 +188,21 @@ class Runner:
         elem_diff_dict = self.formElementDict()
         for elem in elem_list:
             os.mkdir(elem)
-            copyfile('params.in', os.path.join(elem, 'params.in'))
             with fileutils.chdir(elem):
-                self.writeAtompawInput(elem)
-                copyfile('%s.atompaw.in' % elem, os.path.join(os.pardir, '%s.atompaw.in' % elem))
-                self.runAtompaw(elem)
-                if not self.checkUpf():
-                    return elem_diff_dict, True
-                copyfile('%s.GGA-PBE-paw.UPF' % elem, os.path.join(os.pardir, '%s.GGA-PBE-paw.UPF' % elem))
-                elem_diff_dict[elem]['elemental']['log'] = self.compareLog()
+                if not self.test_paw:
+                    copyfile(os.path.join(os.pardir, 'params.in'), 'params.in')
+                    self.writeAtompawInput(elem)
+                    copyfile('%s.atompaw.in' % elem, os.path.join(os.pardir, '%s.atompaw.in' % elem))
+                    self.runAtompaw(elem)
+                    if not self.checkUpf():
+                        return elem_diff_dict, True
+                    copyfile('%s.GGA-PBE-paw.UPF' % elem, os.path.join(os.pardir, '%s.GGA-PBE-paw.UPF' % elem))
+                    elem_diff_dict[elem]['elemental']['log'] = self.compareLog()
+                if self.test_paw:
+                    paw_dir = self.input_settings.directories.cmpd_template_dir
+                    upf_name = '%s.GGA-PBE-paw.UPF' % elem
+                    upf_path = os.path.join(paw_dir, upf_name)
+                    copyfile(upf_path, upf_name)
                 if elem in ['N', 'P', *self.f_block]:
                     if elem == 'N':
                         self.runQE(elem, 'SC', 'relax', template_dir)
@@ -279,8 +294,9 @@ class Runner:
             assert elem in elemental_data.keys(), \
                 'No AE data available for your element: %s' % elem
             elem_diff_dict[elem] = {}
-            elem_diff_dict[elem]['elemental'] = {}
-            elem_diff_dict[elem]['elemental']['log'] = {}
+            if not self.test_paw:
+                elem_diff_dict[elem]['elemental'] = {}
+                elem_diff_dict[elem]['elemental']['log'] = {}
             if elem in ['N', 'P', *self.f_block]:
                 if elem == 'N':
                     elem_diff_dict[elem]['SC'] = {}

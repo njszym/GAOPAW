@@ -66,7 +66,8 @@ class Runner:
         with open(input_path) as input:
             self.input_settings = json.load(input, object_hook=lambda d: SimpleNamespace(**d))
         self.element_list = self.getElementList()
-        self.num_obj_fns = self.numDakotaObjs()
+        if not self.test_paw:
+            self.num_obj_fns = self.numDakotaObjs()
         self.is_elem = self.checkIfElem()
 
     def getPaws(self):
@@ -199,10 +200,14 @@ class Runner:
                     copyfile('%s.GGA-PBE-paw.UPF' % elem, os.path.join(os.pardir, '%s.GGA-PBE-paw.UPF' % elem))
                     elem_diff_dict[elem]['elemental']['log'] = self.compareLog()
                 if self.test_paw:
-                    paw_dir = self.input_settings.directories.cmpd_template_dir
+                    if hasattr(self.input_settings.directories, 'paw_dir'):
+                        paw_dir = self.input_settings.directories.paw_dir
+                    else:
+                        paw_dir = self.input_settings.directories.cmpd_template_dir
                     upf_name = '%s.GGA-PBE-paw.UPF' % elem
                     upf_path = os.path.join(paw_dir, upf_name)
                     copyfile(upf_path, upf_name)
+                    copyfile(upf_path, os.path.join(os.pardir, upf_name))
                 if elem in ['N', 'P', *self.f_block]:
                     if elem == 'N':
                         self.runQE(elem, 'SC', 'relax', template_dir)
@@ -1193,7 +1198,7 @@ class Runner:
         on a weighted sum approach to mean absolute error.
         """
         num_objs = self.numDakotaObjs()
-        elem_dict = self.formElemDict()
+        elem_dict = self.formElementDict()
         cmpd_dict = self.formCmpdDict()
         obj_dict = self.mergeDicts(elem_dict, cmpd_dict)
         label_list = self.dictToList(obj_dict)[1]
@@ -1241,8 +1246,8 @@ class Runner:
                 param_file.write('0 derivative_variables\n')
                 param_file.write('0 analysis_components\n')
                 param_file.write('1 eval_id\n')
-            for elem in element_list:
-                write_atompaw_input(elem, template_dir)
+            for elem in self.element_list:
+                self.writeAtompawInput(elem)
             with open('Detailed_Results', 'w+') as obj_file:
                 for (value, label) in zip(best_result_set, obj_headers):
                     value = round(float(value), 6)

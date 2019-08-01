@@ -63,13 +63,17 @@ class Runner:
     def getPaws(self):
         """
         If user has specified pre-made PAW file in input.json,
-        copy them into the working directory.
+        copy them into the working directory. Also, if necessary, 
+        remove this element from the list of elements to be optimized, 
+        as we already have a static pseudopotential for it.
         """
         if hasattr(self.input_settings.directories, 'include_paw'):
             cmpd_template_dir = self.input_settings.directories.cmpd_template_dir
             for elem in self.input_settings.directories.include_paw:
                 copyfile(os.path.join(cmpd_template_dir,'%s.GGA-PBE-paw.UPF' % elem),
                     './%s.GGA-PBE-paw.UPF' % elem)
+                if elem in self.element_list:
+                    self.element_list.remove(elem)
 
     def numDakotaObjs(self):
         """

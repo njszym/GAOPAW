@@ -9,8 +9,8 @@
                       1.747111285216227e+00 DAKOTA_N_EP_1
                       2.459505548197546e+00 DAKOTA_N_EP_2
                                           2 functions
-                                          1 ASV_1:obj_fn_1
-                                          1 ASV_2:obj_fn_2
+                                          1 ASV_1:N_elemental_log
+                                          1 ASV_2:N_SC_atomic_positions
                                           9 derivative_variables
                                           1 DVV_1:DAKOTA_N_RC_1
                                           2 DVV_2:DAKOTA_N_RC_2

@@ -1267,3 +1267,71 @@ class Runner:
                     if 'atomic_positions' in label:
                         obj_file.write('%s: %s angstroms\n' % (label, value))
 
+    def optimizeLogGrid(self, elem, energy_tol=1e-6, lat_tol=1e-4):
+        """
+        Decrease number of points in the logarithmic radial grid
+        until property differences reach given tolerance.
+        """
+        self.runAtompaw(elem)
+        initial_energy = self.getAtompawEnergies()[0]
+        initial_lat = {}
+        for lat_type in ['FCC', 'BCC']:
+            qe_file = '%s.%s.relax.in' % (elem, lat_type)
+            self.runCurrentQE(qe_file)
+            initial_lat[lat_type] = self.getLatticeConstant(elem, lat_type)
+        energy_diff, lat_diff = 0, 0
+        while (energy_diff < energy_tol) and (lat_diff < lat_tol):
+            with open('%s.atompaw.in' % elem) as ap_in:
+                lines = ap_in.readlines()
+            log_line = (lines[1]).split()
+            index = 1
+            for word in log_line:
+                if word == 'loggrid':
+                    num_pts = float(log_line[index])
+                    break
+                else:
+                    index += 1
+            num_pts -= 100
+            log_line[index] = str(num_pts)
+            new_line = ''
+            for word in log_line:
+                var = word+' '
+                new_line += var
+            lines[1] = new_line+'\n'
+            with open('%s.atompaw.in' % elem,'w+') as ap_in:
+                for line in lines:
+                    ap_in.write(line)
+            if os.path.exists('%s.GGA-PBE-paw.UPF' % elem):
+                os.remove('%s.GGA-PBE-paw.UPF' % elem)
+            self.runAtompaw(elem)
+            if not self.checkUpf():
+                break
+            energy = self.getAtompawEnergies()[0]
+            energy_diff = abs(energy - initial_energy)
+            self.runCurrentQE('%s.FCC.relax.in' % s)
+            if not self.checkConvergence(elem, 'FCC', 'relax'):
+                break
+            self.runCurrentQE('%s.BCC.relax.in' % s)
+            if not self.checkConvergence(elem, 'BCC', 'relax'):
+                break
+            lat_FCC = self.getLatticeConstant(elem, 'FCC')
+            lat_BCC = self.getLatticeConstant(elem, 'BCC')
+            diff_FCC = abs(lat_FCC - initial_lat['FCC'])
+            diff_BCC = abs(lat_BCC - initial_lat['BCC'])
+            lat_diff = max([diff_FCC, diff_BCC])
+
+    def getAtompawEnergies(self):
+        """
+        Parse pseudized and all-electron energies from
+        atompaw run, filename equal to element.
+        """
+        with open(elem) as ap_out:
+            for line in ap_out:
+                if 'valence' in line.split():
+                    pseudized = float(line.split()[3])
+                if 'Valence' in line.split():
+                    try:
+                        ae = float(line.split()[2])
+                    except ValueError:
+                        pass
+        return pseudized, ae

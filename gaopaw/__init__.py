@@ -1274,17 +1274,30 @@ class Runner:
         Units of energy and lattice constant are in eV
         and angstroms respectively.
         """
+        for fname in glob.iglob('*relax.out'):
+            os.remove(fname)
+        template_dir = self.input_settings.directories.elem_template_dir
         self.runAtompaw(elem)
         initial_energy = self.getAtompawEnergies(elem)[0]
         initial_lat = {}
-        for lat_type in ['FCC', 'BCC']:
-            qe_file = '%s.%s.relax.in' % (elem, lat_type)
-            self.runCurrentQE(qe_file)
+        if elem not in ['N', 'P']:
+            lat_type_list = ['FCC', 'BCC']
+        if elem == 'N':
+            lat_type_list = ['SC']
+        if elem == 'P':
+            lat_type_list = ['ortho']
+        for lat_type in lat_type_list:
+            self.runQE(elem, lat_type, 'relax', template_dir)
             if not self.checkConvergence(elem, lat_type, 'relax'):
                 raise ValueError('Bad pseudopotential')
-            initial_lat[lat_type] = self.getLatticeConstant(elem, lat_type)
+            if elem != 'N':
+                initial_lat[lat_type] = self.getLatticeConstant(elem, lat_type)
+            else:
+                initial_lat[lat_type] = self.compareAtoms(elem, lat_type, template_dir)
         energy_diff, lat_diff = 0, 0
         while (energy_diff < energy_tol) and (lat_diff < lat_tol):
+            for fname in glob.iglob('*relax.out'):
+                os.remove(fname)
             with open('%s.atompaw.in' % elem) as ap_in:
                 lines = ap_in.readlines()
             log_line = (lines[1]).split()
@@ -1312,17 +1325,31 @@ class Runner:
                 break
             energy = self.getAtompawEnergies(elem)[0]
             energy_diff = abs(energy - initial_energy)
-            self.runCurrentQE('%s.FCC.relax.in' % elem)
-            if not self.checkConvergence(elem, 'FCC', 'relax'):
-                break
-            self.runCurrentQE('%s.BCC.relax.in' % elem)
-            if not self.checkConvergence(elem, 'BCC', 'relax'):
-                break
-            lat_FCC = self.getLatticeConstant(elem, 'FCC')
-            lat_BCC = self.getLatticeConstant(elem, 'BCC')
-            diff_FCC = abs(lat_FCC - initial_lat['FCC'])
-            diff_BCC = abs(lat_BCC - initial_lat['BCC'])
-            lat_diff = max([diff_FCC, diff_BCC])
+            if elem not in ['N', 'P']:
+                self.runQE(elem, 'FCC', 'relax', template_dir)
+                if not self.checkConvergence(elem, 'FCC', 'relax'):
+                    break
+                self.runQE(elem, 'BCC', 'relax', template_dir)
+                if not self.checkConvergence(elem, 'BCC', 'relax'):
+                    break
+                lat_FCC = self.getLatticeConstant(elem, 'FCC')
+                lat_BCC = self.getLatticeConstant(elem, 'BCC')
+                diff_FCC = abs(lat_FCC - initial_lat['FCC'])
+                diff_BCC = abs(lat_BCC - initial_lat['BCC'])
+                lat_diff = max([diff_FCC, diff_BCC])
+            if elem == 'N':
+                self.runQE(elem, 'SC', 'relax', template_dir)
+                if not self.checkConvergence(elem, 'SC', 'relax'):
+                    break
+                atom_diff = self.compareAtoms(elem, 'SC', template_dir)
+                lat_diff = abs(atom_diff - initial_lat['SC'])
+            if elem == 'P':
+                self.runQE(elem, 'ortho', 'relax', template_dir)
+                if not self.checkConvergence(elem, 'ortho', 'relax'):
+                    break
+                lat_ortho = self.getLatticeConstant(elem, 'ortho')
+                lat_diff = np.average(abs(
+                    np.array(lat_ortho) - np.array(initial_lat['ortho'])))
         num_pts += 100
         log_line[log_index] = str(num_pts)
         new_line = ''

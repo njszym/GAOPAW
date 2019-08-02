@@ -317,3 +317,24 @@ def test_badRun():
         gp_run = gaopaw.Runner()
         gp_run.badRun()
         assert os.path.exists('results.out')
+
+def test_writeDakota():
+    with fileutils.chdir('dakota_updates'):
+        gp_run = gaopaw.Runner(input_dir='current')
+        gp_run.updateNumObjs()
+        gp_run.updateVars()
+        gp_run.updateLabels()
+        assert gp_run.numDakotaObjs() == gp_run.numUserObjs()
+
+def test_getBestSoln():
+    with fileutils.chdir('Best_Soln'):
+        if os.path.isdir('Best_Solution'):
+            shutil.rmtree('Best_Solution')
+        gp_run = gaopaw.Runner(input_dir='current')
+        gp_run.getBestSoln()
+        assert os.path.isdir('Best_Solution')
+        with fileutils.chdir('Best_Solution'):
+            assert os.path.exists('Be.atompaw.in')
+            with open('Detailed_Results') as results:
+                assert len(results.readlines()) == \
+                gp_run.numUserObjs()

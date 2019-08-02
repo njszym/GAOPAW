@@ -102,9 +102,10 @@ class Runner:
                 if 'num_objective_functions' in line:
                     num_objs = int(line.split()[2])
         objs_from_input = self.numUserObjs()
-        assert num_objs == objs_from_input, \
-            'Wrong number of objective functions specified, should be %s' \
-            % objs_from_input
+        if not self.writing_dakota:
+            assert num_objs == objs_from_input, \
+                'Wrong number of objective functions specified, should be %s' \
+                % objs_from_input
         return num_objs
 
     def numUserObjs(self):
@@ -715,7 +716,7 @@ class Runner:
         for cmpd in cmpd_list:
             formula = cmpd.formula
             lat_type = cmpd.lattice_type
-            if self.test_polymorph:
+            if self.test_polymorph and isinstance(lat_type, list):
                 cmpd_diff_dict[cmpd]['polymorph']['stability'] = \
                 self.testPhaseStability(formula, lat_type, cmpd_template_dir)
                 if cmpd_diff_dict[cmpd]['polymorph']['stability'] == None:
@@ -753,14 +754,19 @@ class Runner:
         """
         polytype_energies = []
         for lat_type in polytypes:
-            runQE(cmpd, lat_type, 'relax', template_dir)
+            self.runQE(cmpd, lat_type, 'relax', template_dir)
             if not self.checkConvergence(cmpd, lat_type, 'relax'):
                 return None
             all_energies = []
             with open('%s.%s.relax.out' % (cmpd, lat_type)) as qe_output:
-                if '!    total energy              =' in line:
-                    all_energies.append(line.split()[4])
-            polytype_energies.append(all_energies[-1])
+                for line in qe_output:
+                    if '!    total energy              =' in line:
+                        all_energies.append(float(line.split()[4]))
+            with open('%s.%s.relax.in' % (cmpd, lat_type)) as qe_input:
+                for line in qe_input:
+                    if 'nat=' in line:
+                        natoms = float(line.split('=')[1][:-1])
+            polytype_energies.append(all_energies[-1]/natoms)
         coupled_data = zip(polytypes, polytype_energies)
         ordered_data = sorted(coupled_data, key = lambda x: x[1])
         ordered_polytypes = np.array(ordered_data)[:, 0]

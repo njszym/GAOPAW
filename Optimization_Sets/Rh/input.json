@@ -2,29 +2,29 @@
     "directories":
         {
             "elem_template_dir": "/home/szymansk/Elem_Templates",
-            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ru/Input"
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Rh/Input"
         },
     "compounds": [
         {
-            "formula": "Ru",
+            "formula": "Rh",
             "lattice_type": "BCC",
-            "phonon_frequency": [0.0,0.0,0.0,4.34,4.34,4.34]
+            "phonon_frequency": [0.0,0.0,0.0,5.34,5.34,5.34]
         },
         {
-            "formula": "RuO",
+            "formula": "RhO",
             "lattice_type": "RS",
-            "lattice_constant": 4.411,
-            "magnetization": 1.440
+            "lattice_constant": 4.450,
+            "magnetization": 0.360
         },
         {
-            "formula": "RuS",
+            "formula": "RhS",
             "lattice_type": "ZB",
-            "eos": [17.69864, 146.80533, 5.382]
+            "eos": [18.39427, 125.27522, 5.309]
         },
         {
-            "formula": "SbTaRu",
-            "lattice_type": "HH",
-            "lattice_constant": 6.196
+            "formula": "SrRhO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.982
         }
     ]
 }

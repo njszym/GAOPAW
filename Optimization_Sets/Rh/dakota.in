@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-    continuous_design =  51
-    initial_point =  2.4 1.807 2.049 2.054 2.027 2.136 2.151 2.14 2.125 1.122 8.7 1.604 1.203 1.316 1.444 1.391 1.352 1.566 4.463 5.822 2.598 2.014 1.291 2.073 2.274 2.009 2.368 2.191 2.229 6.674 2.396 2.108 1.937 1.944 1.658 2.367 2.029 2.148 2.095 2.789 6.917 1.329 1.769 1.764 1.162 1.787 1.939 1.717 1.822 2.175 1.243
-    lower_bounds =  2.28 1.717 1.947 1.951 1.926 2.029 2.043 2.033 2.019 1.066 8.265 1.524 1.143 1.25 1.372 1.321 1.284 1.488 4.24 5.531 2.468 1.913 1.226 1.969 2.16 1.909 2.25 2.081 2.118 6.34 2.276 2.003 1.84 1.847 1.575 2.249 1.928 2.041 1.99 2.65 6.571 1.263 1.681 1.676 1.104 1.698 1.842 1.631 1.731 2.066 1.181
-    upper_bounds =  2.52 1.897 2.151 2.157 2.128 2.243 2.259 2.247 2.231 1.178 9.135 1.684 1.263 1.382 1.516 1.461 1.42 1.644 4.686 6.113 2.728 2.115 1.356 2.177 2.388 2.109 2.486 2.301 2.34 7.008 2.516 2.213 2.034 2.041 1.741 2.485 2.13 2.255 2.2 2.928 7.263 1.395 1.857 1.852 1.22 1.876 2.036 1.803 1.913 2.284 1.305
-    descriptors =  "DAKOTA_Ru_RC_1" "DAKOTA_Ru_RC_2" "DAKOTA_Ru_RC_3" "DAKOTA_Ru_RC_4" "DAKOTA_Ru_RC_5" "DAKOTA_Ru_RC_6" "DAKOTA_Ru_RC_7" "DAKOTA_Ru_RC_8" "DAKOTA_Ru_RC_9" "DAKOTA_Ru_EP_1" "DAKOTA_Ru_EP_2" "DAKOTA_O_RC_1" "DAKOTA_O_RC_2" "DAKOTA_O_RC_3" "DAKOTA_O_RC_4" "DAKOTA_O_RC_5" "DAKOTA_O_RC_6" "DAKOTA_O_RC_7" "DAKOTA_O_EP_1" "DAKOTA_O_EP_2" "DAKOTA_Ta_RC_1" "DAKOTA_Ta_RC_2" "DAKOTA_Ta_RC_3" "DAKOTA_Ta_RC_4" "DAKOTA_Ta_RC_5" "DAKOTA_Ta_RC_6" "DAKOTA_Ta_RC_7" "DAKOTA_Ta_RC_8" "DAKOTA_Ta_RC_9" "DAKOTA_Ta_EP_1" "DAKOTA_Sb_RC_1" "DAKOTA_Sb_RC_2" "DAKOTA_Sb_RC_3" "DAKOTA_Sb_RC_4" "DAKOTA_Sb_RC_5" "DAKOTA_Sb_RC_6" "DAKOTA_Sb_RC_7" "DAKOTA_Sb_RC_8" "DAKOTA_Sb_RC_9" "DAKOTA_Sb_EP_1" "DAKOTA_Sb_EP_2" "DAKOTA_Sb_EP_3" "DAKOTA_S_RC_1" "DAKOTA_S_RC_2" "DAKOTA_S_RC_3" "DAKOTA_S_RC_4" "DAKOTA_S_RC_5" "DAKOTA_S_RC_6" "DAKOTA_S_RC_7" "DAKOTA_S_EP_1" "DAKOTA_S_EP_2"
+    continuous_design =  40
+    initial_point =  2.5 1.913 1.204 1.642 1.764 2.183 2.175 1.912 2.373 2.343 6.604 2.36 1.515 1.827 2.057 2.031 2.181 2.155 2.231 2.228 0.711 5.221 1.604 1.203 1.316 1.444 1.391 1.352 1.566 4.463 5.822 1.769 1.764 1.162 1.787 1.939 1.717 1.822 2.175 1.243
+    lower_bounds =  2.375 1.817 1.144 1.56 1.676 2.074 2.066 1.816 2.254 2.226 6.274 2.242 1.439 1.736 1.954 1.929 2.072 2.047 2.119 2.117 0.675 4.96 1.524 1.143 1.25 1.372 1.321 1.284 1.488 4.24 5.531 1.681 1.676 1.104 1.698 1.842 1.631 1.731 2.066 1.181
+    upper_bounds =  2.625 2.009 1.264 1.724 1.852 2.292 2.284 2.008 2.492 2.46 6.934 2.478 1.591 1.918 2.16 2.133 2.29 2.263 2.343 2.339 0.747 5.482 1.684 1.263 1.382 1.516 1.461 1.42 1.644 4.686 6.113 1.857 1.852 1.22 1.876 2.036 1.803 1.913 2.284 1.305
+    descriptors =  "DAKOTA_Sr_RC_1" "DAKOTA_Sr_RC_2" "DAKOTA_Sr_RC_3" "DAKOTA_Sr_RC_4" "DAKOTA_Sr_RC_5" "DAKOTA_Sr_RC_6" "DAKOTA_Sr_RC_7" "DAKOTA_Sr_RC_8" "DAKOTA_Sr_RC_9" "DAKOTA_Sr_EP_1" "DAKOTA_Sr_EP_2" "DAKOTA_Rh_RC_1" "DAKOTA_Rh_RC_2" "DAKOTA_Rh_RC_3" "DAKOTA_Rh_RC_4" "DAKOTA_Rh_RC_5" "DAKOTA_Rh_RC_6" "DAKOTA_Rh_RC_7" "DAKOTA_Rh_RC_8" "DAKOTA_Rh_RC_9" "DAKOTA_Rh_EP_1" "DAKOTA_Rh_EP_2" "DAKOTA_O_RC_1" "DAKOTA_O_RC_2" "DAKOTA_O_RC_3" "DAKOTA_O_RC_4" "DAKOTA_O_RC_5" "DAKOTA_O_RC_6" "DAKOTA_O_RC_7" "DAKOTA_O_EP_1" "DAKOTA_O_EP_2" "DAKOTA_S_RC_1" "DAKOTA_S_RC_2" "DAKOTA_S_RC_3" "DAKOTA_S_RC_4" "DAKOTA_S_RC_5" "DAKOTA_S_RC_6" "DAKOTA_S_RC_7" "DAKOTA_S_EP_1" "DAKOTA_S_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -46,7 +46,7 @@ interface
           named 'workdir_pp'
 
 responses
-    num_objective_functions =  20
+    num_objective_functions =  17
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
-    descriptors =  'Ru_elemental_log' 'Ru_FCC_lattice_constant' 'Ru_BCC_lattice_constant' 'Ru_BCC_phonon_frequency' 'O_elemental_log' 'O_FCC_lattice_constant' 'O_BCC_lattice_constant' 'Ta_elemental_log' 'Ta_FCC_lattice_constant' 'Ta_BCC_lattice_constant' 'Sb_elemental_log' 'Sb_FCC_lattice_constant' 'Sb_BCC_lattice_constant' 'S_elemental_log' 'S_FCC_lattice_constant' 'S_BCC_lattice_constant' 'RuO_RS_lattice_constant' 'RuO_RS_magnetization' 'RuS_ZB_eos' 'SbTaRu_HH_lattice_constant'
+    descriptors =  'Sr_elemental_log' 'Sr_FCC_lattice_constant' 'Sr_BCC_lattice_constant' 'Rh_elemental_log' 'Rh_FCC_lattice_constant' 'Rh_BCC_lattice_constant' 'Rh_BCC_phonon_frequency' 'O_elemental_log' 'O_FCC_lattice_constant' 'O_BCC_lattice_constant' 'S_elemental_log' 'S_FCC_lattice_constant' 'S_BCC_lattice_constant' 'RhO_RS_lattice_constant' 'RhO_RS_magnetization' 'RhS_ZB_eos' 'SrRhO3_per_lattice_constant'

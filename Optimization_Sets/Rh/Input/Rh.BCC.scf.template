@@ -1,12 +1,12 @@
 &control
   calculation='scf'
-  prefix='LiI.RS.scf'
+  prefix='Rh.BCC.scf'
   pseudo_dir='./'
 /
 &system
   ibrav=0
   nat=2
-  ntyp=2
+  ntyp=1
   ecutwfc=40
   ecutrho=200
   smearing='fermi-dirac'
@@ -16,11 +16,10 @@
 &electrons
   conv_thr=1.d-8
 /
+ATOMIC_SPECIES
+  Rh 0.0 Rh.GGA-PBE-paw.UPF
 K_POINTS (automatic)
   10 10 10 0 0 0
-ATOMIC_SPECIES
-  I 0.0 I.GGA-PBE-paw.UPF
-  Li 0.0 Li.GGA-PBE-paw.UPF
 ATOMIC_POSITIONS (crystal)
-  I 0.0 0.0 0.0
-  Li 0.5 0.5 0.5
+  Rh 0.0000 0.0000 0.0000
+  Rh 0.5000 0.5000 0.5000

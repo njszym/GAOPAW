@@ -1,6 +1,6 @@
 &control
   calculation='scf'
-  prefix='CdTe.ZB.scf'
+  prefix='InN.RS.scf'
   pseudo_dir='./'
 /
 &system
@@ -9,17 +9,18 @@
   ntyp=2
   ecutwfc=40
   ecutrho=200
-  occupations='fixed'
-  nbnd=36
+  smearing='fermi-dirac'
+  degauss=0.015
+  occupations='smearing'
 /
 &electrons
   conv_thr=1.d-8
 /
 K_POINTS (automatic)
-  12 12 12 0 0 0
+  10 10 10 0 0 0
 ATOMIC_SPECIES
-  Te 0.0 Te.GGA-PBE-paw.UPF
-  Cd 0.0 Cd.GGA-PBE-paw.UPF
+  N 0.0 N.GGA-PBE-paw.UPF
+  In 0.0 In.GGA-PBE-paw.UPF
 ATOMIC_POSITIONS (crystal)
-  Te 0.0 0.0 0.0
-  Cd 0.25 0.25 0.25
+  N 0.0 0.0 0.0
+  In 0.5 0.5 0.5

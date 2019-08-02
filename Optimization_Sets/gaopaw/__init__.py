@@ -31,28 +31,31 @@ class Runner:
     the parent (default) or current directory.
     """
 
-    def __init__(self, input_dir=None, test_paw=None):
-        self.setupDir(input_dir)
-        self.checkTestPaw(test_paw)
+    def __init__(self, input_dir=None, test_paw=None, writing_dakota=None):
+        self.setupDefaults(input_dir, test_paw, writing_dakota)
         self.working_dir = os.getcwd()
         self.readInput()
         self.elemental_data = self.getElementInfo()
 
-    def setupDir(self, input_dir):
+    def setupDefaults(self, input_dir, test_paw, writing_dakota):
         if input_dir in [None, 'parent']:
             self.input_dir = 'parent'
         if input_dir == 'current':
             self.input_dir = input_dir
         assert hasattr(self, 'input_dir'), \
             'Input dir, %s, not defined' % input_dir
-
-    def checkTestPaw(self, test_paw):
         if test_paw in [None, False]:
             self.test_paw = False
         if test_paw == True:
             self.test_paw = True
         assert hasattr(self, 'test_paw'), \
-            'test_paw value, %s, not defined' % input_dir
+            'test_paw value, %s, not defined' % test_paw
+        if writing_dakota in [None, False]:
+            self.writing_dakota = False
+        if writing_dakota == True:
+            self.writing_dakota = True
+        assert hasattr(self, 'writing_dakota'), \
+            'writing_dakota value, %s, not defined' % writing_dakota
 
     def readInput(self):
         """
@@ -99,9 +102,10 @@ class Runner:
                 if 'num_objective_functions' in line:
                     num_objs = int(line.split()[2])
         objs_from_input = self.numUserObjs()
-        assert num_objs == objs_from_input, \
-            'Wrong number of objective functions specified, should be %s' \
-            % objs_from_input
+        if not self.writing_dakota:
+            assert num_objs == objs_from_input, \
+                'Wrong number of objective functions specified, should be %s' \
+                % objs_from_input
         return num_objs
 
     def numUserObjs(self):
@@ -140,13 +144,30 @@ class Runner:
         for cmpd in cmpd_list:
             formula = cmpd.formula
             lat_type = cmpd.lattice_type
+            if isinstance(lat_type, list):
+                assert len(lat_type) > 1, \
+                'List not necessary for single compound'
+                assert len(vars(cmpd)) == 2, \
+                """Only stability must be considered for polymorphism. 
+                To test additional properties of each polytype, 
+                specify each structure separately."""
+                self.test_polymorph = True
+                try:
+                    cmpd_diff_dict[formula]
+                except KeyError:
+                    cmpd_diff_dict[formula] = {}
+                cmpd_diff_dict[formula]['polymorph'] = {}
+                cmpd_diff_dict[formula]['polymorph']['stability'] = {}
+            else:
+                self.test_polymorph = False
             property_list = [property for property in vars(cmpd)
                 if property not in ['formula', 'lattice_type']]
             try:
                 cmpd_diff_dict[formula]
             except KeyError:
                 cmpd_diff_dict[formula] = {}
-            cmpd_diff_dict[formula][lat_type] = {}
+            if not self.test_polymorph:
+                cmpd_diff_dict[formula][lat_type] = {}
             for property in property_list:
                 cmpd_diff_dict[formula][lat_type][property] = {}
         return cmpd_diff_dict
@@ -695,6 +716,11 @@ class Runner:
         for cmpd in cmpd_list:
             formula = cmpd.formula
             lat_type = cmpd.lattice_type
+            if self.test_polymorph and isinstance(lat_type, list):
+                cmpd_diff_dict[formula]['polymorph']['stability'] = \
+                self.testPhaseStability(formula, lat_type, cmpd_template_dir)
+                if cmpd_diff_dict[formula]['polymorph']['stability'] == None:
+                    return cmpd_diff_dict, True
             property_list = [property for property in vars(cmpd)
                 if property not in ['formula', 'lattice_type']]
             for property in property_list:
@@ -718,6 +744,36 @@ class Runner:
                 if error_check:
                     return cmpd_diff_dict, True
         return cmpd_diff_dict, False
+
+    def testPhaseStability(self, cmpd, polytypes, template_dir):
+        """
+        Give a list of polytypes (unique structures) for a
+        given compound, test the ordering of energy (per atom)
+        and check for match with AE results. If ordering is
+        incorrect, set objective function to 100.0
+        """
+        polytype_energies = []
+        for lat_type in polytypes:
+            self.runQE(cmpd, lat_type, 'relax', template_dir)
+            if not self.checkConvergence(cmpd, lat_type, 'relax'):
+                return None
+            all_energies = []
+            with open('%s.%s.relax.out' % (cmpd, lat_type)) as qe_output:
+                for line in qe_output:
+                    if '!    total energy              =' in line:
+                        all_energies.append(float(line.split()[4]))
+            with open('%s.%s.relax.in' % (cmpd, lat_type)) as qe_input:
+                for line in qe_input:
+                    if 'nat=' in line:
+                        natoms = float(line.split('=')[1][:-1])
+            polytype_energies.append(all_energies[-1]/natoms)
+        coupled_data = zip(polytypes, polytype_energies)
+        ordered_data = sorted(coupled_data, key = lambda x: x[1])
+        ordered_polytypes = np.array(ordered_data)[:, 0]
+        if np.array_equal(polytypes, ordered_polytypes):
+            return 0.0
+        else:
+            return 100.0
 
     def testProperty(self, cmpd, lat_type, property, ae_data, template_dir):
         """
@@ -1038,6 +1094,11 @@ class Runner:
                     obj_file.write('%s: %s THz\n' % (label, value))
                 if 'atomic_positions' in label:
                     obj_file.write('%s: %s angstroms\n' % (label, value))
+                if 'polymorph' in label:
+                    if value == 0.0:
+                        obj_file.write('%s: True\n' % label)
+                    if value == 100.0:
+                        obj_file.write('%s: False\n' % label)
 
     def dictToList(self, diff_dict):
         """
@@ -1266,4 +1327,118 @@ class Runner:
                         obj_file.write('%s: %s THz\n' % (label, value))
                     if 'atomic_positions' in label:
                         obj_file.write('%s: %s angstroms\n' % (label, value))
+                    if 'polymorph' in label:
+                        if value == 0.0:
+                            obj_file.write('%s: True\n' % label)
+                        if value == 100.0:
+                            obj_file.write('%s: False\n' % label)
 
+    def optimizeLogGrid(self, elem, energy_tol=1e-6, lat_tol=1e-3):
+        """
+        Decrease number of points in the logarithmic radial grid
+        until property differences reach given tolerance.
+        Units of energy and lattice constant are in eV
+        and angstroms respectively.
+        """
+        for fname in glob.iglob('*relax.out'):
+            os.remove(fname)
+        template_dir = self.input_settings.directories.elem_template_dir
+        self.runAtompaw(elem)
+        initial_energy = self.getAtompawEnergies(elem)[0]
+        initial_lat = {}
+        if elem not in ['N', 'P']:
+            lat_type_list = ['FCC', 'BCC']
+        if elem == 'N':
+            lat_type_list = ['SC']
+        if elem == 'P':
+            lat_type_list = ['ortho']
+        for lat_type in lat_type_list:
+            self.runQE(elem, lat_type, 'relax', template_dir)
+            if not self.checkConvergence(elem, lat_type, 'relax'):
+                raise ValueError('Bad pseudopotential')
+            if elem != 'N':
+                initial_lat[lat_type] = self.getLatticeConstant(elem, lat_type)
+            else:
+                initial_lat[lat_type] = self.compareAtoms(elem, lat_type, template_dir)
+        energy_diff, lat_diff = 0, 0
+        while (energy_diff < energy_tol) and (lat_diff < lat_tol):
+            for fname in glob.iglob('*relax.out'):
+                os.remove(fname)
+            with open('%s.atompaw.in' % elem) as ap_in:
+                lines = ap_in.readlines()
+            log_line = (lines[1]).split()
+            index = 1
+            for word in log_line:
+                if word == 'loggrid':
+                    num_pts = float(log_line[index])
+                    log_index = index
+                else:
+                    index += 1
+            num_pts -= 100
+            log_line[log_index] = str(num_pts)
+            new_line = ''
+            for word in log_line:
+                var = '%s ' % word
+                new_line += var
+            lines[1] = '%s\n' % new_line
+            with open('%s.atompaw.in' % elem,'w+') as ap_in:
+                for line in lines:
+                    ap_in.write(line)
+            if os.path.exists('%s.GGA-PBE-paw.UPF' % elem):
+                os.remove('%s.GGA-PBE-paw.UPF' % elem)
+            self.runAtompaw(elem)
+            if not self.checkUpf():
+                break
+            energy = self.getAtompawEnergies(elem)[0]
+            energy_diff = abs(energy - initial_energy)
+            if elem not in ['N', 'P']:
+                self.runQE(elem, 'FCC', 'relax', template_dir)
+                if not self.checkConvergence(elem, 'FCC', 'relax'):
+                    break
+                self.runQE(elem, 'BCC', 'relax', template_dir)
+                if not self.checkConvergence(elem, 'BCC', 'relax'):
+                    break
+                lat_FCC = self.getLatticeConstant(elem, 'FCC')
+                lat_BCC = self.getLatticeConstant(elem, 'BCC')
+                diff_FCC = abs(lat_FCC - initial_lat['FCC'])
+                diff_BCC = abs(lat_BCC - initial_lat['BCC'])
+                lat_diff = max([diff_FCC, diff_BCC])
+            if elem == 'N':
+                self.runQE(elem, 'SC', 'relax', template_dir)
+                if not self.checkConvergence(elem, 'SC', 'relax'):
+                    break
+                atom_diff = self.compareAtoms(elem, 'SC', template_dir)
+                lat_diff = abs(atom_diff - initial_lat['SC'])
+            if elem == 'P':
+                self.runQE(elem, 'ortho', 'relax', template_dir)
+                if not self.checkConvergence(elem, 'ortho', 'relax'):
+                    break
+                lat_ortho = self.getLatticeConstant(elem, 'ortho')
+                lat_diff = np.average(abs(
+                    np.array(lat_ortho) - np.array(initial_lat['ortho'])))
+        num_pts += 100
+        log_line[log_index] = str(num_pts)
+        new_line = ''
+        for word in log_line:
+            var = '%s ' % word
+            new_line += var
+        lines[1] = '%s\n' % new_line
+        with open('%s.atompaw.in' % elem,'w+') as ap_in:
+            for line in lines:
+                ap_in.write(line)
+
+    def getAtompawEnergies(self, elem):
+        """
+        Parse pseudized and all-electron energies from
+        atompaw run, filename equal to element.
+        """
+        with open(elem) as ap_out:
+            for line in ap_out:
+                if 'valence' in line.split():
+                    pseudized = float(line.split()[3])
+                if 'Valence' in line.split():
+                    try:
+                        ae = float(line.split()[2])
+                    except ValueError:
+                        pass
+        return pseudized, ae

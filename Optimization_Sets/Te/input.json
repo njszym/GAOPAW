@@ -1,0 +1,31 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Te/Input"
+        },
+    "compounds": [
+        {
+            "formula": "SrTe",
+            "lattice_type": "RS",
+            "lattice_constant": 6.724,
+            "phonon_frequency": [0.0,0.0,0.0,3.30,3.30,3.30]
+        },
+        {
+            "formula": "ZnTe",
+            "lattice_type": "ZB",
+            "eos": [29.60572, 43.15039, 4.287]
+        },
+        {
+            "formula": "CdTe",
+            "lattice_type": "ZB",
+            "lattice_constant": 6.624,
+            "band_gap": 0.520
+        },
+        {
+            "formula": "LiCuTe",
+            "lattice_type": "HH",
+            "lattice_constant": 6.273
+        }
+    ]
+}

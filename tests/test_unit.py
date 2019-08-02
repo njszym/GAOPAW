@@ -212,6 +212,12 @@ def test_testCmpdList():
         run_mock.return_value = [0, False]
         assert gp_run.testCmpdList()[1] == False
 
+def test_testPhaseStability():
+    with fileutils.chdir('Polymorphs'):
+        gp_run = gaopaw.Runner('current')
+        assert gp_run.testPhaseStability('Be', ['FCC','BCC'], None) == 0.0
+        assert gp_run.testPhaseStability('Be', ['BCC','FCC'], None) == 100.0
+
 def test_testProperty():
     with fileutils.chdir(os.path.join('BeO_workdir', 'BeO')):
         gp_run = gaopaw.Runner()

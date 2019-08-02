@@ -1267,10 +1267,12 @@ class Runner:
                     if 'atomic_positions' in label:
                         obj_file.write('%s: %s angstroms\n' % (label, value))
 
-    def optimizeLogGrid(self, elem, energy_tol=1e-6, lat_tol=1e-4):
+    def optimizeLogGrid(self, elem, energy_tol=1e-6, lat_tol=1e-3):
         """
         Decrease number of points in the logarithmic radial grid
         until property differences reach given tolerance.
+        Units of energy and lattice constant are in eV
+        and angstroms respectively.
         """
         self.runAtompaw(elem)
         initial_energy = self.getAtompawEnergies(elem)[0]
@@ -1278,6 +1280,8 @@ class Runner:
         for lat_type in ['FCC', 'BCC']:
             qe_file = '%s.%s.relax.in' % (elem, lat_type)
             self.runCurrentQE(qe_file)
+            if not self.checkConvergence(elem, lat_type, 'relax'):
+                raise ValueError('Bad pseudopotential')
             initial_lat[lat_type] = self.getLatticeConstant(elem, lat_type)
         energy_diff, lat_diff = 0, 0
         while (energy_diff < energy_tol) and (lat_diff < lat_tol):
@@ -1288,16 +1292,16 @@ class Runner:
             for word in log_line:
                 if word == 'loggrid':
                     num_pts = float(log_line[index])
-                    break
+                    log_index = index
                 else:
                     index += 1
             num_pts -= 100
-            log_line[index] = str(num_pts)
+            log_line[log_index] = str(num_pts)
             new_line = ''
             for word in log_line:
-                var = word+' '
+                var = '%s ' % word
                 new_line += var
-            lines[1] = new_line+'\n'
+            lines[1] = '%s\n' % new_line
             with open('%s.atompaw.in' % elem,'w+') as ap_in:
                 for line in lines:
                     ap_in.write(line)
@@ -1320,12 +1324,12 @@ class Runner:
             diff_BCC = abs(lat_BCC - initial_lat['BCC'])
             lat_diff = max([diff_FCC, diff_BCC])
         num_pts += 100
-        log_line[index] = str(num_pts)
+        log_line[log_index] = str(num_pts)
         new_line = ''
         for word in log_line:
-            var = word+' '
+            var = '%s ' % word
             new_line += var
-        lines[1] = new_line+'\n'
+        lines[1] = '%s\n' % new_line
         with open('%s.atompaw.in' % elem,'w+') as ap_in:
             for line in lines:
                 ap_in.write(line)

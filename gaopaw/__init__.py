@@ -31,28 +31,31 @@ class Runner:
     the parent (default) or current directory.
     """
 
-    def __init__(self, input_dir=None, test_paw=None):
-        self.setupDir(input_dir)
-        self.checkTestPaw(test_paw)
+    def __init__(self, input_dir=None, test_paw=None, writing_dakota=None):
+        self.setupDefaults(input_dir, test_paw, writing_dakota)
         self.working_dir = os.getcwd()
         self.readInput()
         self.elemental_data = self.getElementInfo()
 
-    def setupDir(self, input_dir):
+    def setupDefaults(self, input_dir, test_paw, writing_dakota):
         if input_dir in [None, 'parent']:
             self.input_dir = 'parent'
         if input_dir == 'current':
             self.input_dir = input_dir
         assert hasattr(self, 'input_dir'), \
             'Input dir, %s, not defined' % input_dir
-
-    def checkTestPaw(self, test_paw):
         if test_paw in [None, False]:
             self.test_paw = False
         if test_paw == True:
             self.test_paw = True
         assert hasattr(self, 'test_paw'), \
-            'test_paw value, %s, not defined' % input_dir
+            'test_paw value, %s, not defined' % test_paw
+        if writing_dakota in [None, False]:
+            self.writing_dakota = False
+        if writing_dakota == True:
+            self.writing_dakota = True
+        assert hasattr(self, 'writing_dakota'), \
+            'writing_dakota value, %s, not defined' % writing_dakota
 
     def readInput(self):
         """
@@ -1085,6 +1088,11 @@ class Runner:
                     obj_file.write('%s: %s THz\n' % (label, value))
                 if 'atomic_positions' in label:
                     obj_file.write('%s: %s angstroms\n' % (label, value))
+                if 'polymorph' in label:
+                    if value == 0.0:
+                        obj_file.write('%s: True\n' % label)
+                    if value == 100.0:
+                        obj_file.write('%s: False\n' % label)
 
     def dictToList(self, diff_dict):
         """
@@ -1313,6 +1321,11 @@ class Runner:
                         obj_file.write('%s: %s THz\n' % (label, value))
                     if 'atomic_positions' in label:
                         obj_file.write('%s: %s angstroms\n' % (label, value))
+                    if 'polymorph' in label:
+                        if value == 0.0:
+                            obj_file.write('%s: True\n' % label)
+                        if value == 100.0:
+                            obj_file.write('%s: False\n' % label)
 
     def optimizeLogGrid(self, elem, energy_tol=1e-6, lat_tol=1e-3):
         """

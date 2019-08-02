@@ -140,13 +140,30 @@ class Runner:
         for cmpd in cmpd_list:
             formula = cmpd.formula
             lat_type = cmpd.lattice_type
+            if isinstance(lat_type, list):
+                assert len(lat_type) > 1, \
+                'List not necessary for single compound'
+                assert len(vars(cmpd)) == 2, \
+                """Only stability must be considered for polymorphism. 
+                To test additional properties of each polytype, 
+                specify each structure separately."""
+                self.test_polymorph = True
+                try:
+                    cmpd_diff_dict[formula]
+                except KeyError:
+                    cmpd_diff_dict[formula] = {}
+                cmpd_diff_dict[formula]['polymorph'] = {}
+                cmpd_diff_dict[formula]['polymorph']['stability'] = {}
+            else:
+                self.test_polymorph = False
             property_list = [property for property in vars(cmpd)
                 if property not in ['formula', 'lattice_type']]
             try:
                 cmpd_diff_dict[formula]
             except KeyError:
                 cmpd_diff_dict[formula] = {}
-            cmpd_diff_dict[formula][lat_type] = {}
+            if not self.test_polymorph:
+                cmpd_diff_dict[formula][lat_type] = {}
             for property in property_list:
                 cmpd_diff_dict[formula][lat_type][property] = {}
         return cmpd_diff_dict
@@ -695,6 +712,11 @@ class Runner:
         for cmpd in cmpd_list:
             formula = cmpd.formula
             lat_type = cmpd.lattice_type
+            if self.test_polymorph:
+                cmpd_diff_dict[cmpd]['polymorph']['stability'] = \
+                self.testPhaseStability(formula, lat_type, cmpd_template_dir)
+                if cmpd_diff_dict[cmpd]['polymorph']['stability'] == None:
+                    return cmpd_diff_dict, True
             property_list = [property for property in vars(cmpd)
                 if property not in ['formula', 'lattice_type']]
             for property in property_list:
@@ -718,6 +740,31 @@ class Runner:
                 if error_check:
                     return cmpd_diff_dict, True
         return cmpd_diff_dict, False
+
+    def testPhaseStability(self, cmpd, polytypes, template_dir):
+        """
+        Give a list of polytypes (unique structures) for a
+        given compound, test the ordering of energy (per atom)
+        and check for match with AE results. If ordering is
+        incorrect, set objective function to 100.0
+        """
+        polytype_energies = []
+        for lat_type in polytypes:
+            runQE(cmpd, lat_type, 'relax', template_dir)
+            if not self.checkConvergence(cmpd, lat_type, 'relax'):
+                return None
+            all_energies = []
+            with open('%s.%s.relax.out' % (cmpd, lat_type)) as qe_output:
+                if '!    total energy              =' in line:
+                    all_energies.append(line.split()[4])
+            polytype_energies.append(all_energies[-1])
+        coupled_data = zip(polytypes, polytype_energies)
+        ordered_data = sorted(coupled_data, key = lambda x: x[1])
+        ordered_polytypes = np.array(ordered_data)[:, 0]
+        if np.array_equal(polytypes, ordered_polytypes):
+            return 0.0
+        else:
+            return 100.0
 
     def testProperty(self, cmpd, lat_type, property, ae_data, template_dir):
         """

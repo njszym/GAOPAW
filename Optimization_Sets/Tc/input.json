@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Tc/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Tc",
+            "lattice_type": "BCC",
+            "phonon_frequency": [-3.22,-3.22,-3.22,0.0,0.0,0.0]
+        },
+        {
+            "formula": "TcO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.398,
+            "magnetization": 2.020
+        },
+        {
+            "formula": "TcS",
+            "lattice_type": "ZB",
+            "eos": [17.92409, 150.71134, 4.810]
+        },
+        {
+            "formula": "SrTcO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.967
+        }
+    ]
+}

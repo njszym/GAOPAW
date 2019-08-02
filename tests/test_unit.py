@@ -338,3 +338,11 @@ def test_getBestSoln():
             with open('Detailed_Results') as results:
                 assert len(results.readlines()) == \
                 gp_run.numUserObjs()
+
+def test_getAtompawEnergies():
+    with fileutils.chdir('ap_energies'):
+        gp_run = gaopaw.Runner(input_dir='current')
+        pseud, ae = gp_run.getAtompawEnergies('Be')
+        assert np.isclose(pseud, -29.2657434130951, rtol=1e-12)
+        assert np.isclose(ae, -29.2657430162565, rtol=1e-12)
+

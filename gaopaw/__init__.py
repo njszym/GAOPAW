@@ -717,9 +717,9 @@ class Runner:
             formula = cmpd.formula
             lat_type = cmpd.lattice_type
             if self.test_polymorph and isinstance(lat_type, list):
-                cmpd_diff_dict[cmpd]['polymorph']['stability'] = \
+                cmpd_diff_dict[formula]['polymorph']['stability'] = \
                 self.testPhaseStability(formula, lat_type, cmpd_template_dir)
-                if cmpd_diff_dict[cmpd]['polymorph']['stability'] == None:
+                if cmpd_diff_dict[formula]['polymorph']['stability'] == None:
                     return cmpd_diff_dict, True
             property_list = [property for property in vars(cmpd)
                 if property not in ['formula', 'lattice_type']]

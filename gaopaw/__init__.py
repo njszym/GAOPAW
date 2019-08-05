@@ -7,7 +7,8 @@ from scipy.optimize import curve_fit as cf
 import shutil
 import os
 import sys
-sys.path.insert(0, '/scr/szymansk/dakota/share/dakota/Python')
+assert 'SCHRODINGER_DAKOTA_PYTHON' in os.environ and os.path.exists(os.environ['SCHRODINGER_DAKOTA_PYTHON'])
+sys.path.insert(0, os.environ['SCHRODINGER_DAKOTA_PYTHON'])
 import dakota.interfacing as di
 from schrodinger.utils import subprocess
 from schrodinger.utils import imputils

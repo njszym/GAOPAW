@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.append(os.path.join(os.getcwd(), os.pardir))
 from gaopaw import *
 
 

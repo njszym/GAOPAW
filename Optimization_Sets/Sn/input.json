@@ -1,0 +1,35 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Sn/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Sn",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,2.69,2.69,2.69]
+        },
+        {
+            "formula": "SnO",
+            "lattice_type": "RS",
+            "lattice_constant": 5.120
+        },
+        {
+            "formula": "SnGe",
+            "lattice_type": "ZB",
+            "eos": [30.04464, 45.61633, 4.264]
+        },
+        {
+            "formula": "SnO2",
+            "lattice_type": "tetrag",
+            "lattice_constant": [3.217, 4.800],
+            "band_gap": 0.770
+        },
+        {
+            "formula": "TiSnPd",
+            "lattice_type": "HH",
+            "lattice_constant": 6.146
+        }
+    ]
+}

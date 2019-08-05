@@ -1,8 +1,9 @@
 {
     "directories":
         {
-            "elem_template_dir": "/scr/szymansk/gaopaw/Elem_Templates",
-            "cmpd_template_dir": "/scr/szymansk/gaopaw/Examples/Si/Input"
+            "elem_template_dir": "../../../Elem_Templates",
+            "cmpd_template_dir": "../PAWs",
+            "include_paw": ["Si","O"]
         },
     "compounds": [
         {

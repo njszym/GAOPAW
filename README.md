@@ -1,25 +1,37 @@
 # Genetic Algorithm Optimizer for PAW datasets
 
-Workflow designed to utilize AtomPAW, Quantum Espresso (QE), and Dakota to generate optimized PAW potentials through implementation of genetic algorithms.
+Workflow designed to utilize AtomPAW, Quantum Espresso (QE), and Dakota to generate optimized PAW potentials through implementation of a multi-objective genetic algorithm.
 
 Objective functions, defined as differences between calculated (with QE) and known all-electron (with WIEN2k) data, are minimized for a given element (as an elemental state and/or as a constituent element of a compositie system).
 
-Several elements or compounds of any periodic, ordered structure may be tested.
+Several elements or compounds of any periodic, ordered structure may be tested in a single run.
 
 Currently supported properties include lattice constants, band gaps, Delta-factor (see https://molmod.ugent.be/deltacodesdft), bulk modulus, atomic positions, total magnetization, individual magnetic moments, and phonon frequencies.
 
 ### General usage notes:
 
-(i) Create a working directory under which all calculations will take place.
+(1) Create a working directory under which all calculations will take place.
 
-(ii) Write the input.json file containing information on the compounds and properties to be tested. See the Examples/ folder for information regarding parameter names and formatting guidelines.
+(2) Write the input.json file containing information on the compounds and properties to be tested. Several sample input files are provided in the Examples/ folder. The general structure is as follows:
+- "directories":
+  - "elem_template_dir": [path to elemental template files]
+  - "cmpd_template_dir": [path to compound templates files]
+- "compounds":
+  - For each compound, provide a formula, lattice type, and any properties to be tested/optimized.
+  - For each property, provide the corresponding all-electron data.
 
-(iii) Create a template directory (path specified in input.json) containing all AtomPAW and QE input files for the compounds specified in the input.json file. Filenames follow the general format of (compound formula).(lattice type).(calculation type).template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
+(3) If necessary, create a template directory (i.e., "cmpd_template_dir" specified in input.json) containing all QE input files required to calculate properties of compounds specified in the input.json file. Filenames follow the format of [compound formula].[lattice type].[calculation type].template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files for these runs need not be explicitly provided.
 
-(iv) Create a template dakota.in file (may take from Examples/ folder) in current directory. Use the write_dakota.py code from the scripts/ folder to parse input.json file and write information regarding elemental variable bounds (optimal values for each element taken from Elem_Templates folder; path should be specified in the input.json file) and total number of objective functions, along with corresponding labels, to the dakota.in file. For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html.
+(4) Create a template dakota.in file (see Examples/Dakota_template) in the working directory. Use scripts/write_dakota.py to parse the input.json file and write the following information to dakota.in:
+- Elemental variable bounds (taken from "elem_template_dir"/BOUNDS)
+- Total number of objective functions
+- Objective function labels
+For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html.
 
-(v) Execute Dakota optimization through "dakota dakota.in" (or submit using job script).
+(5) Execute Dakota optimization through "dakota dakota.in"; generally submit using job script. Note that the evaluation_concurrency variable, which controls the number of parallel jobs allowed to run at once, should be chosen according to the number of processors available. Currently the code is set up to employ 4 processors per job; hence the evaluation_concurrency should equal the total number of processors available divided by 4.
 
-(vi) Once the optimization is complete, use the get_best_soln.py script to retrieve the best solution (must be executed in same folder as the dakota.in and input.json files). The weighted sum approach is currently utilized to normalize all objective functions. The universal minimum in the mean absolute error of these noramlize objective functions is then chosen as the best solution, for which detailed results and atompaw input files are placed in the Best_Solution/ folder of the current working directory. 
+(6) Once the optimization is complete, use scripts/get_best_soln.py to to retrieve the best solution obtained throughout all generations considered. The weighted sum approach is currently utilized to normalize all objective functions, for which the mean absolute error (MAE) is calculated. User specified weights may also be used for each objective function; to do so, add " --weights" to the end of the python execution statement. In comparing all result sets, the universal minimum in MAE is chosen as the best solution; corresponding objective functions and atompaw input files are placed in the Best_Solution/ folder.
 
-(vii) Upon obtaining a set of optimized pseudopotentials, a final test may be carried out using the test_PP.py script. The procedure follows same as usual according to the input.json file, however, no dakota settings are necessary. Additionally, a new directory containing the .UPF files must be created and should be specified in the header of the test_PP.py code.
+(7) To improve efficiency of the pseudopotential, copy the atompaw input file (from Best_Solution) into a working directory along with the corresponding input.json. Use scripts/optimize_loggrid.py to iteratively decrease the grid density until tolerances to changes in energy and lattice constants are reached. The default tolerance values are set to 10<sup>-6</sup> eV and 10<sup>-3</sup> angstroms, but may be changed by the user. After completion, the [elem].atompaw.in file will contain the optimal loggrid density.
+
+(8) Once a set of optimized pseudopotentials is obtained, a final test may be carried out using scripts/test_PP.py. The procedure follows same as usual according to the input.json file, however, no dakota settings are necessary. Additionally, it is recommended that a new directory containing the .UPF files be created, for which the path is specified as "paw_dir" is the input.json (under "directories").

@@ -1,0 +1,31 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Sb/Input"
+        },
+    "compounds": [
+        {
+            "formula": "AlSb",
+            "lattice_type": "RS",
+            "lattice_constant": 5.774,
+            "phonon_frequency": [0.0,0.0,0.0,4.61,4.61,4.61]
+        },
+        {
+            "formula": "GaSb",
+            "lattice_type": "ZB",
+            "eos": [30.03448, 45.28038, 4.730]
+        },
+        {
+            "formula": "AlSb",
+            "lattice_type": "ZB",
+            "lattice_constant": 6.230,
+            "band_gap": 1.214
+        },
+        {
+            "formula": "SbTiNi",
+            "lattice_type": "HH",
+            "lattice_constant": 5.965
+        }
+    ]
+}

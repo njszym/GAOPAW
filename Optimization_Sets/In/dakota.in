@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 52
-  	  initial_point    2.623  2.276  1.402  2.064  1.881  1.951  1.512  1.584  1.997  2.350  3.794  5.925  1.382  1.095  0.916  1.144  1.164  1.001  1.155  2.153  2.680  1.979  1.784  1.235  1.708  1.747  1.922  2.046  4.339  10.998  1.693  1.478  1.378  1.560  1.300  1.504  1.697  1.508  2.539  1.337  2.199  1.775  1.837  1.903  1.828  2.586  2.318  1.833  1.943  6.290  2.547  5.808
-  	  lower_bounds     2.523  2.176  1.302  1.964  1.781  1.851  1.412  1.484  1.897  1.850  3.294  5.425  1.282  0.995  0.816  1.044  1.064  0.901  1.055  1.653  2.180  1.879  1.684  1.135  1.608  1.647  1.822  1.946  3.839  9.9980  1.593  1.378  1.278  1.460  1.200  1.404  1.597  1.408  2.039  0.837  2.099  1.675  1.737  1.803  1.728  2.486  2.218  1.733  1.843  5.790  2.047  5.308
-  	  upper_bounds     2.723  2.376  1.502  2.164  1.981  2.051  2.612  1.684  2.097  2.850  4.294  6.425  1.482  1.195  1.016  1.244  1.264  1.101  1.255  2.653  3.180  2.079  1.884  1.335  1.808  1.847  2.022  2.146  4.839  11.998  1.793  1.578  1.478  1.660  1.400  1.604  1.797  1.608  3.039  1.837  2.299  1.875  1.937  2.003  1.928  2.686  2.418  1.933  2.043  6.790  3.047  6.308
-  	  descriptors     'DAKOTA_In_RC_1' 'DAKOTA_In_RC_2' 'DAKOTA_In_RC_3' 'DAKOTA_In_RC_4' 'DAKOTA_In_RC_5' 'DAKOTA_In_RC_6' 'DAKOTA_In_RC_7' 'DAKOTA_In_RC_8' 'DAKOTA_In_RC_9' 'DAKOTA_In_EP_1' 'DAKOTA_In_EP_2' 'DAKOTA_In_EP_3' 'DAKOTA_N_RC_1' 'DAKOTA_N_RC_2' 'DAKOTA_N_RC_3' 'DAKOTA_N_RC_4' 'DAKOTA_N_RC_5' 'DAKOTA_N_RC_6' 'DAKOTA_N_RC_7' 'DAKOTA_N_EP_1' 'DAKOTA_N_EP_2' 'DAKOTA_P_RC_1' 'DAKOTA_P_RC_2' 'DAKOTA_P_RC_3' 'DAKOTA_P_RC_4' 'DAKOTA_P_RC_5' 'DAKOTA_P_RC_6' 'DAKOTA_P_RC_7' 'DAKOTA_P_EP_1' 'DAKOTA_P_EP_2' 'DAKOTA_Li_RC_1' 'DAKOTA_Li_RC_2' 'DAKOTA_Li_RC_3' 'DAKOTA_Li_RC_4' 'DAKOTA_Li_RC_5' 'DAKOTA_Li_RC_6' 'DAKOTA_Li_RC_7' 'DAKOTA_Li_RC_8' 'DAKOTA_Li_EP_1' 'DAKOTA_Li_EP_2' 'DAKOTA_Ge_RC_1' 'DAKOTA_Ge_RC_2' 'DAKOTA_Ge_RC_3' 'DAKOTA_Ge_RC_4' 'DAKOTA_Ge_RC_5' 'DAKOTA_Ge_RC_6' 'DAKOTA_Ge_RC_7' 'DAKOTA_Ge_RC_8' 'DAKOTA_Ge_RC_9' 'DAKOTA_Ge_EP_1' 'DAKOTA_Ge_EP_2' 'DAKOTA_Ge_EP_3'
+    continuous_design =  52
+    initial_point =  2.199 1.775 1.837 1.903 1.828 2.586 2.318 1.833 1.943 6.29 2.547 5.808 1.979 1.784 1.235 1.708 1.747 1.922 2.046 4.339 10.998 1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337 2.623 2.276 1.402 2.064 1.881 1.951 1.512 1.584 1.997 2.35 3.794 5.925 1.382 1.095 0.916 1.144 1.164 1.001 1.155 2.153 2.68
+    lower_bounds =  2.089 1.686 1.745 1.808 1.737 2.457 2.202 1.741 1.846 5.975 2.42 5.518 1.88 1.695 1.173 1.623 1.66 1.826 1.944 4.122 10.448 1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27 2.492 2.162 1.332 1.961 1.787 1.853 1.436 1.505 1.897 2.232 3.604 5.629 1.313 1.04 0.87 1.087 1.106 0.951 1.097 2.045 2.546
+    upper_bounds =  2.309 1.864 1.929 1.998 1.919 2.715 2.434 1.925 2.04 6.605 2.674 6.098 2.078 1.873 1.297 1.793 1.834 2.018 2.148 4.556 11.548 1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404 2.754 2.39 1.472 2.167 1.975 2.049 1.588 1.663 2.097 2.468 3.984 6.221 1.451 1.15 0.962 1.201 1.222 1.051 1.213 2.261 2.814
+    descriptors =  "DAKOTA_Ge_RC_1" "DAKOTA_Ge_RC_2" "DAKOTA_Ge_RC_3" "DAKOTA_Ge_RC_4" "DAKOTA_Ge_RC_5" "DAKOTA_Ge_RC_6" "DAKOTA_Ge_RC_7" "DAKOTA_Ge_RC_8" "DAKOTA_Ge_RC_9" "DAKOTA_Ge_EP_1" "DAKOTA_Ge_EP_2" "DAKOTA_Ge_EP_3" "DAKOTA_P_RC_1" "DAKOTA_P_RC_2" "DAKOTA_P_RC_3" "DAKOTA_P_RC_4" "DAKOTA_P_RC_5" "DAKOTA_P_RC_6" "DAKOTA_P_RC_7" "DAKOTA_P_EP_1" "DAKOTA_P_EP_2" "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2" "DAKOTA_In_RC_1" "DAKOTA_In_RC_2" "DAKOTA_In_RC_3" "DAKOTA_In_RC_4" "DAKOTA_In_RC_5" "DAKOTA_In_RC_6" "DAKOTA_In_RC_7" "DAKOTA_In_RC_8" "DAKOTA_In_RC_9" "DAKOTA_In_EP_1" "DAKOTA_In_EP_2" "DAKOTA_In_EP_3" "DAKOTA_N_RC_1" "DAKOTA_N_RC_2" "DAKOTA_N_RC_3" "DAKOTA_N_RC_4" "DAKOTA_N_RC_5" "DAKOTA_N_RC_6" "DAKOTA_N_RC_7" "DAKOTA_N_EP_1" "DAKOTA_N_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,8 +18,8 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 250 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
-        max_function_evaluations = 5000 ## Default, max number of chromosomes tested
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 50000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
@@ -37,15 +37,16 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 10 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
           named 'workdir_pp'
 
 responses
-	num_objective_functions = 19 ## Set this accordingly based on your calculation
+    num_objective_functions =  18
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Ge_elemental_log' 'Ge_FCC_lattice_constant' 'Ge_BCC_lattice_constant' 'P_elemental_log' 'P_ortho_lattice_constant' 'Li_elemental_log' 'Li_FCC_lattice_constant' 'Li_BCC_lattice_constant' 'In_elemental_log' 'In_FCC_lattice_constant' 'In_BCC_lattice_constant' 'N_elemental_log' 'N_SC_atomic_positions' 'InN_RS_lattice_constant' 'InN_RS_phonon_frequency' 'InP_ZB_eos' 'InP_ZB_band_gap' 'InLiGe_HH_lattice_constant'

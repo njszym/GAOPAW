@@ -5,6 +5,8 @@ from schrodinger.application.matsci.nano import xtal
 import sys
 import os
 
+## Usage: python qe_reader.py [output filename]
+
 qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(),
     'periodic_dft_gui_dir', 'qe2mae.py')
 qe_reader_mod = imputils.import_module_from_file(qe_reader_path)

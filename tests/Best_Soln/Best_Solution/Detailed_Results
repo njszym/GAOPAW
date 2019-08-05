@@ -1,0 +1,20 @@
+O_elemental_log: 0.002504
+O_FCC_lattice_constant: 0.6757%
+O_BCC_lattice_constant: 1.1308%
+S_elemental_log: 0.00052
+S_FCC_lattice_constant: 0.0065%
+S_BCC_lattice_constant: 0.8598%
+Al_elemental_log: 0.004257
+Al_FCC_lattice_constant: 0.0291%
+Al_BCC_lattice_constant: 0.0479%
+B_elemental_log: 0.001496
+B_FCC_lattice_constant: 0.058600000000000006%
+B_BCC_lattice_constant: 0.1877%
+Be_elemental_log: 0.001589
+Be_FCC_lattice_constant: 0.0134%
+Be_BCC_lattice_constant: 0.1041%
+Be_BCC_phonon_frequency: 2.30465 THz
+BeO_RS_lattice_constant: 0.07519999999999999%
+BeO_RS_band_gap: 0.0783 eV
+BeS_ZB_delta_factor: 0.195946 meV/atom
+AlBeB_HH_lattice_constant: 4.7481%

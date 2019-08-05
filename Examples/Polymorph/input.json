@@ -1,0 +1,14 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/scr/szymansk/gaopaw/Elem_Templates",
+            "cmpd_template_dir": "/scr/szymansk/gaopaw/Examples/Polymorph/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Be",
+            "lattice_type": ["FCC", "BCC"]
+        }
+    ]
+}
+

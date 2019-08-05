@@ -1,0 +1,1117 @@
+ atompaw v4.1.0.5
+ Compiled for x86_64-unknown-linux-gnu
+ 
+ Input/output not saved/dumped in this run
+ 
+ enter atomic symbol and atomic number
+ exchange-correlation type, among the following:
+     * LDA-PW (default), GGA-PBE, GGA-PBESOL
+     * LibXC keyword beginning with XC_
+     * EXX, EXXOCC, EXXKLI, EXXCS
+     * HF, HFV
+ further optionally (space) "nonrelativistic/scalarrelativistic/diracrelativisti
+ c" keyword
+ further optionally (space) "point-nucleus/finite-nucleus" keyword
+ optionally (space) "loggrid/lineargrid" keyword if appropriate
+ Note: "loggridv4" puts more points near origin
+     further optionally n (number of grid points)
+                        r_max (max. grid radius)
+                        r_match (exact value of r(n))
+ optionally (space) "logderivrange" keyword
+     further optionally emin (minimum energy for log. deriv. plot)
+                        emax (maximum energy for log. deriv. plot)
+                        ne   (#  of energies for log. deriv. plot)
+ addition option for "BDsolve" keyword for Block-Davidson solver
+ writing exchangecorrelationandgridline: 
+ GGA-PBE SCALARRELATIVISTIC LOGGRID 2001 LOGDERIVRANGE -5. 5. 2000              
+                                                  
+ Logical variables scalarrelativistic,diracrelativistic,finitenucleus,HFpostprocess -   T  F  F  F
+ InitGrid: -- logarithmic         2001  5.805236118330575E-003
+   80.0000000000000       7.256545147913219E-004
+ BDSOLVE F
+ GGA-PBE                                                                        
+                                                      
+ Perdew-Burke-Ernzerhof GGA
+ 
+ Calculation for atomic number =   8.00
+ enter maximum principal quantum numbers for s,p,d,f,g
+   2   2   0   0   0
+           3  orbitals will be calculated
+  Below are listed the default occupations 
+ n  l     occupancy
+ 1  0      2.0000000E+00
+ 2  0      2.0000000E+00
+ 2  1      6.0000000E+00
+  enter np l occ for all occupations for all revisions
+   enter 0 0 0. to end
+  Corrected occupations are: 
+ n  l     occupancy
+ 1  0      2.0000000E+00
+ 2  0      2.0000000E+00
+ 2  1      4.0000000E+00
+ 
+ nuclear charge    =            8
+ electronic charge =    8.00000000000000     
+ net charge        =   0.000000000000000E+000
+ Finish SCFatom_Init
+           1           1           0   2.00000000000000     
+  -64.0000000000000     
+           2           2           0   2.00000000000000     
+  -12.2500000000000     
+           3           2           1   4.00000000000000     
+  -9.00000000000000     
+ completed Orbit_Init 
+ In poisson q =    8.00000000000000     
+ In Potential_Init   8.00000000000000        94.3116708033985     
+ z , l =    8.00000000000000                0
+  nodes at e=0             2
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             0
+ no convergence in boundsr           1           1   960249155.102400     
+  -7.78624044482722     
+  best guess of eig, dele =  -0.100280090415087       0.599907904967480     
+ returning from boundsr -- ierr=           2
+ Current eigs  -64.0000000000000       -12.2500000000000     
+  -9.00000000000000     
+  -9.00000000000000       0.333333333333333     
+ index  0.333333333333333             1057  0.332776087439154     
+ Reset tmpPot         1057
+    Last points 
+  8.0000000E+01 -2.0000000E+00  1.9504398E-12
+ z , l =    8.00000000000000                0
+  nodes at e=0             8
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             6
+ returning from boundsr -- ierr=           1
+ after updatwfn from reset  T
+ qcal =    8.00000000000000     
+ In poisson q =    8.00000000000000     
+     Total                    :    -134.480391761822     
+     Total   (DC form)        :    -98.2452351750678     
+ 
+  Total energies
+     One-electron contribution:    -65.8640856493946     
+     Kinetic energy contribution:   124.420021748935     
+     Coulomb contribution     :     35.6732665932178     
+     Electrostatic contribution:   -247.141788291164     
+     Exch        contribution :    -11.7586252195930     
+     Ratio Pot/Kin            :    -2.08085812774722     
+     Total                    :    -134.480391761822     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.1832797E+01
+ 2  0      2.0000000E+00 -5.9689204E-01
+ 2  1      4.0000000E+00 -2.5117708E-01
+AndersonMixIter       1   -1.344803917618E+02  2.073481202022E+04
+ z , l =    8.00000000000000                0
+  nodes at e=0             7
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             6
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999901979     
+ In poisson q =    8.00000000000000     
+     Total                    :    -149.395602112459     
+     Total   (DC form)        :    -155.099201373269     
+ 
+  Total energies
+     One-electron contribution:    -91.3403204672314     
+     Kinetic energy contribution:   145.138993164593     
+     Coulomb contribution     :     68.3041154627642     
+     Electrostatic contribution:   -278.494485781526     
+     Exch        contribution :    -16.0401094955251     
+     Ratio Pot/Kin            :    -2.02932781091460     
+     Total                    :    -149.395602112459     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.9229474E+01
+ 2  0      2.0000000E+00 -2.9719275E+00
+ 2  1      4.0000000E+00 -1.7343793E+00
+AndersonMixIter       2   -1.493956021125E+02  2.370710618619E+03
+ z , l =    8.00000000000000                0
+  nodes at e=0             6
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             4
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999946747     
+ In poisson q =    8.00000000000000     
+     Total                    :    -149.886807870939     
+     Total   (DC form)        :    -156.345215818816     
+ 
+  Total energies
+     One-electron contribution:    -88.9975883273989     
+     Kinetic energy contribution:   149.038122597229     
+     Coulomb contribution     :     72.0343504024125     
+     Electrostatic contribution:   -282.421077827774     
+     Exch        contribution :    -16.5038526403937     
+     Ratio Pot/Kin            :    -2.00569441736732     
+     Total                    :    -149.886807870939     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.9133239E+01
+ 2  0      2.0000000E+00 -2.5868925E+00
+ 2  1      4.0000000E+00 -1.3893314E+00
+AndersonMixIter       3   -1.498868078709E+02  8.405501837384E+02
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999994490     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.002216761913     
+     Total   (DC form)        :    -151.044245211813     
+ 
+  Total energies
+     One-electron contribution:    -82.7644004250925     
+     Kinetic energy contribution:   149.964761395653     
+     Coulomb contribution     :     72.9892572048469     
+     Electrostatic contribution:   -283.391182180954     
+     Exch        contribution :    -16.5757959766124     
+     Ratio Pot/Kin            :    -2.00024976111663     
+     Total                    :    -150.002216761913     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.8060266E+01
+ 2  0      2.0000000E+00 -1.8470677E+00
+ 2  1      4.0000000E+00 -7.3743311E-01
+AndersonMixIter       4   -1.500022167619E+02  9.293278745460E+00
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999998684     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003616005247     
+     Total   (DC form)        :    -150.085749408636     
+ 
+  Total energies
+     One-electron contribution:    -81.9445739704942     
+     Kinetic energy contribution:   149.785136883188     
+     Coulomb contribution     :     72.8421494505169     
+     Electrostatic contribution:   -283.240605219492     
+     Exch        contribution :    -16.5481476689432     
+     Ratio Pot/Kin            :    -2.00145861683345     
+     Total                    :    -150.003616005247     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7878853E+01
+ 2  0      2.0000000E+00 -1.7638487E+00
+ 2  1      4.0000000E+00 -6.6479266E-01
+AndersonMixIter       5   -1.500036160052E+02  4.384059822586E-01
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999448     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003665000527     
+     Total   (DC form)        :    -150.065885661170     
+ 
+  Total energies
+     One-electron contribution:    -81.8871859390930     
+     Kinetic energy contribution:   149.815713716437     
+     Coulomb contribution     :     72.8810707900740     
+     Electrostatic contribution:   -283.266808647015     
+     Exch        contribution :    -16.5525700699489     
+     Ratio Pot/Kin            :    -2.00125454986949     
+     Total                    :    -150.003665000527     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7854599E+01
+ 2  0      2.0000000E+00 -1.7616374E+00
+ 2  1      4.0000000E+00 -6.6367841E-01
+AndersonMixIter       6   -1.500036650005E+02  1.164083101675E-01
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999701     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669069296     
+     Total   (DC form)        :    -150.029056528977     
+ 
+  Total energies
+     One-electron contribution:    -81.8605360215016     
+     Kinetic energy contribution:   149.797934367355     
+     Coulomb contribution     :     72.8703312112956     
+     Electrostatic contribution:   -283.250902493655     
+     Exch        contribution :    -16.5507009429954     
+     Ratio Pot/Kin            :    -2.00137341481249     
+     Total                    :    -150.003669069296     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7841601E+01
+ 2  0      2.0000000E+00 -1.7613673E+00
+ 2  1      4.0000000E+00 -6.6364996E-01
+AndersonMixIter       7   -1.500036690693E+02  3.109685148633E-02
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999833     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669622642     
+     Total   (DC form)        :    -150.018159505455     
+ 
+  Total energies
+     One-electron contribution:    -81.8503443425373     
+     Kinetic energy contribution:   149.794477045626     
+     Coulomb contribution     :     72.8695472042490     
+     Electrostatic contribution:   -283.247725089353     
+     Exch        contribution :    -16.5504215789148     
+     Ratio Pot/Kin            :    -2.00139653064079     
+     Total                    :    -150.003669622642     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7835891E+01
+ 2  0      2.0000000E+00 -1.7614913E+00
+ 2  1      4.0000000E+00 -6.6389505E-01
+AndersonMixIter       8   -1.500036696226E+02  8.197436094388E-03
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999914     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669643087     
+     Total   (DC form)        :    -150.010951607777     
+ 
+  Total energies
+     One-electron contribution:    -81.8432383120514     
+     Kinetic energy contribution:   149.793260826466     
+     Coulomb contribution     :     72.8694121961098     
+     Electrostatic contribution:   -283.246627918222     
+     Exch        contribution :    -16.5503025513311     
+     Ratio Pot/Kin            :    -2.00140466143443     
+     Total                    :    -150.003669643087     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7832714E+01
+ 2  0      2.0000000E+00 -1.7613019E+00
+ 2  1      4.0000000E+00 -6.6380183E-01
+AndersonMixIter       9   -1.500036696431E+02  2.213465520379E-03
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999998     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669246208     
+     Total   (DC form)        :    -150.001564014320     
+ 
+  Total energies
+     One-electron contribution:    -81.8346972127087     
+     Kinetic energy contribution:   149.791042840888     
+     Coulomb contribution     :     72.8684952581434     
+     Electrostatic contribution:   -283.244650627834     
+     Exch        contribution :    -16.5500614592619     
+     Ratio Pot/Kin            :    -2.00141948678164     
+     Total                    :    -150.003669246208     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829130E+01
+ 2  0      2.0000000E+00 -1.7610001E+00
+ 2  1      4.0000000E+00 -6.6360932E-01
+AndersonMixIter      10   -1.500036692462E+02  4.002296369428E-05
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999995     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669281246     
+     Total   (DC form)        :    -150.003574887938     
+ 
+  Total energies
+     One-electron contribution:    -81.8361235652849     
+     Kinetic energy contribution:   149.791911684244     
+     Coulomb contribution     :     72.8691098641384     
+     Electrostatic contribution:   -283.245421086789     
+     Exch        contribution :    -16.5501598787007     
+     Ratio Pot/Kin            :    -2.00141367844646     
+     Total                    :    -150.003669281246     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829428E+01
+ 2  0      2.0000000E+00 -1.7611471E+00
+ 2  1      4.0000000E+00 -6.6374313E-01
+AndersonMixIter      11   -1.500036692812E+02  8.962579907571E-07
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999994     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669293169     
+     Total   (DC form)        :    -150.003570525184     
+ 
+  Total energies
+     One-electron contribution:    -81.8362441717132     
+     Kinetic energy contribution:   149.791874286597     
+     Coulomb contribution     :     72.8689802145122     
+     Electrostatic contribution:   -283.245398349873     
+     Exch        contribution :    -16.5501452298927     
+     Ratio Pot/Kin            :    -2.00141392854306     
+     Total                    :    -150.003669293169     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829493E+01
+ 2  0      2.0000000E+00 -1.7611468E+00
+ 2  1      4.0000000E+00 -6.6374119E-01
+AndersonMixIter      12   -1.500036692932E+02  1.766381654974E-07
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669301661     
+     Total   (DC form)        :    -150.003632858822     
+ 
+  Total energies
+     One-electron contribution:    -81.8362998778995     
+     Kinetic energy contribution:   149.791934182227     
+     Coulomb contribution     :     72.8689874913245     
+     Electrostatic contribution:   -283.245455913358     
+     Exch        contribution :    -16.5501475705302     
+     Ratio Pot/Kin            :    -2.00141352817554     
+     Total                    :    -150.003669301661     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829523E+01
+ 2  0      2.0000000E+00 -1.7611462E+00
+ 2  1      4.0000000E+00 -6.6374052E-01
+AndersonMixIter      13   -1.500036693017E+02  4.232568503428E-08
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999997     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669303833     
+     Total   (DC form)        :    -150.003654426686     
+ 
+  Total energies
+     One-electron contribution:    -81.8363208897601     
+     Kinetic energy contribution:   149.791959327953     
+     Coulomb contribution     :     72.8689882252355     
+     Electrostatic contribution:   -283.245480378039     
+     Exch        contribution :    -16.5501482537468     
+     Ratio Pot/Kin            :    -2.00141336008174     
+     Total                    :    -150.003669303833     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829536E+01
+ 2  0      2.0000000E+00 -1.7611453E+00
+ 2  1      4.0000000E+00 -6.6373965E-01
+AndersonMixIter      14   -1.500036693038E+02  9.813849076738E-09
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669303808     
+     Total   (DC form)        :    -150.003663757321     
+ 
+  Total energies
+     One-electron contribution:    -81.8363293850049     
+     Kinetic energy contribution:   149.791970853277     
+     Coulomb contribution     :     72.8689891612876     
+     Electrostatic contribution:   -283.245491533144     
+     Exch        contribution :    -16.5501486239411     
+     Ratio Pot/Kin            :    -2.00141328303062     
+     Total                    :    -150.003669303808     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829542E+01
+ 2  0      2.0000000E+00 -1.7611448E+00
+ 2  1      4.0000000E+00 -6.6373919E-01
+AndersonMixIter      15   -1.500036693038E+02  2.329584232559E-09
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999995     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669305711     
+     Total   (DC form)        :    -150.003674165661     
+ 
+  Total energies
+     One-electron contribution:    -81.8363385477236     
+     Kinetic energy contribution:   149.791979491263     
+     Coulomb contribution     :     72.8689905151920     
+     Electrostatic contribution:   -283.245499790888     
+     Exch        contribution :    -16.5501490060846     
+     Ratio Pot/Kin            :    -2.00141322529529     
+     Total                    :    -150.003669305711     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 2  0      2.0000000E+00 -1.7611447E+00
+ 2  1      4.0000000E+00 -6.6373911E-01
+AndersonMixIter      16   -1.500036693057E+02  4.170640529654E-10
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669304704     
+     Total   (DC form)        :    -150.003669075733     
+ 
+  Total energies
+     One-electron contribution:    -81.8363343931901     
+     Kinetic energy contribution:   149.791979341762     
+     Coulomb contribution     :     72.8689895296248     
+     Electrostatic contribution:   -283.245499803744     
+     Exch        contribution :    -16.5501488427230     
+     Ratio Pot/Kin            :    -2.00141322628803     
+     Total                    :    -150.003669304704     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 2  0      2.0000000E+00 -1.7611441E+00
+ 2  1      4.0000000E+00 -6.6373860E-01
+AndersonMixIter      17   -1.500036693047E+02  6.822445688774E-12
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669305505     
+     Total   (DC form)        :    -150.003669433038     
+ 
+  Total energies
+     One-electron contribution:    -81.8363346395078     
+     Kinetic energy contribution:   149.791979583829     
+     Coulomb contribution     :     72.8689896465231     
+     Electrostatic contribution:   -283.245500026844     
+     Exch        contribution :    -16.5501488624905     
+     Ratio Pot/Kin            :    -2.00141322467507     
+     Total                    :    -150.003669305505     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 2  0      2.0000000E+00 -1.7611442E+00
+ 2  1      4.0000000E+00 -6.6373864E-01
+AndersonMixIter      18   -1.500036693055E+02  3.318058690768E-13
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999996     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669306126     
+     Total   (DC form)        :    -150.003669309155     
+ 
+  Total energies
+     One-electron contribution:    -81.8363345206126     
+     Kinetic energy contribution:   149.791979430106     
+     Coulomb contribution     :     72.8689896403532     
+     Electrostatic contribution:   -283.245499878463     
+     Exch        contribution :    -16.5501488577690     
+     Ratio Pot/Kin            :    -2.00141322570691     
+     Total                    :    -150.003669306126     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 2  0      2.0000000E+00 -1.7611442E+00
+ 2  1      4.0000000E+00 -6.6373864E-01
+AndersonMixIter      19   -1.500036693061E+02  6.846140370090E-14
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669306787     
+     Total   (DC form)        :    -150.003669266227     
+ 
+  Total energies
+     One-electron contribution:    -81.8363344792649     
+     Kinetic energy contribution:   149.791979376656     
+     Coulomb contribution     :     72.8689896383879     
+     Electrostatic contribution:   -283.245499827242     
+     Exch        contribution :    -16.5501488562008     
+     Ratio Pot/Kin            :    -2.00141322606865     
+     Total                    :    -150.003669306787     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 2  0      2.0000000E+00 -1.7611442E+00
+ 2  1      4.0000000E+00 -6.6373864E-01
+AndersonMixIter      20   -1.500036693068E+02  1.427172677945E-14
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669305035     
+     Total   (DC form)        :    -150.003669242453     
+ 
+  Total energies
+     One-electron contribution:    -81.8363344544697     
+     Kinetic energy contribution:   149.791979355045     
+     Coulomb contribution     :     72.8689896392736     
+     Electrostatic contribution:   -283.245499804457     
+     Exch        contribution :    -16.5501488556228     
+     Ratio Pot/Kin            :    -2.00141322620144     
+     Total                    :    -150.003669305035     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 2  0      2.0000000E+00 -1.7611442E+00
+ 2  1      4.0000000E+00 -6.6373864E-01
+AndersonMixIter      21   -1.500036693050E+02  3.118018004318E-15
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669304983     
+     Total   (DC form)        :    -150.003669229825     
+ 
+  Total energies
+     One-electron contribution:    -81.8363344435289     
+     Kinetic energy contribution:   149.791979341037     
+     Coulomb contribution     :     72.8689896374332     
+     Electrostatic contribution:   -283.245499790968     
+     Exch        contribution :    -16.5501488550524     
+     Ratio Pot/Kin            :    -2.00141322629474     
+     Total                    :    -150.003669304983     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 2  0      2.0000000E+00 -1.7611442E+00
+ 2  1      4.0000000E+00 -6.6373864E-01
+AndersonMixIter      22   -1.500036693050E+02  7.001962954014E-16
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    8.00000000000000     
+     Total                    :    -150.003669304681     
+     Total   (DC form)        :    -150.003669220470     
+ 
+  Total energies
+     One-electron contribution:    -81.8363344342111     
+     Kinetic energy contribution:   149.791979330650     
+     Coulomb contribution     :     72.8689896373234     
+     Electrostatic contribution:   -283.245499780575     
+     Exch        contribution :    -16.5501488547561     
+     Ratio Pot/Kin            :    -2.00141322636216     
+     Total                    :    -150.003669304681     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 2  0      2.0000000E+00 -1.7611442E+00
+ 2  1      4.0000000E+00 -6.6373864E-01
+AndersonMix converged in    23 iterations with err =   1.0053895E-17
+ in Report 0   
+ Finished Anderson Mix  -150.003669304681       success =  F
+ io           1           3
+ io           2           3
+ io           3           3
+ for each state enter c for core or v for valence
+    1    1    0  2.0000000E+00 -3.7829546E+01
+    2    2    0  2.0000000E+00 -1.7611442E+00
+    3    2    1  4.0000000E+00 -6.6373864E-01
+ Returning from SetValence
+ Core electrons   2.00000000000000        2.00000000000000     
+ Vale electrons   6.00000000000000        6.00000000000000     
+ 
+  All-Electron core states (zcore)   2.00000000000000     
+ n  l     occupancy            energy
+ 1  0      2.0000000E+00 -3.7829546E+01
+ 
+  All-Electron valence states (zvale)   6.00000000000000     
+  Below are listed the All-Electron valence states
+ n  l     occupancy            energy
+ 2  0      2.0000000E+00 -1.7611442E+00
+ 2  1      4.0000000E+00 -6.6373864E-01
+ In Get_FCKinCoul            0
+ electron density integral   7.99999999999993     
+ eone =   -81.8363344342111     
+ Core kin    116.594554341778        Vale kin     33.1974249888720     
+ In poisson q =    6.00000000000000     
+ In poisson q =    7.99999999999993     
+ 
+  Valence energies
+     Kinetic energy contribution:   33.1974249888720     
+     Coulomb contribution     :    -57.8038915300749     
+     Exch        contribution :    -16.5501488547561     
+     Total valence            :    -41.1566153959591     
+ z , l =    8.00000000000000                0
+  nodes at e=0             3
+ returning from boundsr -- ierr=          11
+ z , l =    8.00000000000000                1
+  nodes at e=0             1
+ returning from boundsr -- ierr=           1
+ qcal =    7.99999999999993     
+ In poisson q =    7.99999999999993     
+     Total                    :    -150.003669304674     
+     Total   (DC form)        :    -74.3445777110029     
+ In Get_FCKinCoul            1
+ electron density integral   7.99999999999993     
+ eone =   -81.8363344342400     
+ Core kin    116.594554341778        Vale kin     33.1974249881919     
+ In poisson q =    6.00000000000000     
+ In poisson q =    7.99999999999993     
+ 
+  Valence energies
+     Kinetic energy contribution:   33.1974249881919     
+     Coulomb contribution     :    -57.8038915294711     
+     Exch        contribution :    -16.5501488546746     
+     Total valence            :    -41.1566153959538     
+ 
+ Orbital energies
+ n  l     occupancy            energy
+ 2  0      2.0000000E+00 -1.7611442E+00
+ 2  1      4.0000000E+00 -6.6373864E-01
+AndersonMix converged in     1 iterations with err =   7.8859120E-19
+ in Report 1   
+ Finished Anderson Mix  -41.1566153959538       success =  F
+ Enter maximum L for basis and projector functions
+ enter  rc [and eventually: rc_shape, rc_vloc, rc_core]
+  adjusted rc    1.52560207353127        1.52560207353127     
+  irc,rc =         1319   1.52560207353127     
+  adjusted rc_shape    1.27421846898559     
+  adjusted rc_vloc     1.26683855909642     
+  adjusted rc_core     1.25950136721266     
+ Found            2  valence basis functions 
+ Allocating for            7  total basis functions
+   basis functions:
+  No.   n     l         energy         occ   
+ l,nbase,node           0           1           1
+     1     2     0  -1.761144E+00   2.000000E+00
+ For l =            0  there are currently            1 basis functions
+ enter y to add additional functions or n to go to next l
+ enter energy for generalized function
+ l,nbase,node           0           2           2
+     2   999     0   4.347808E+00   0.000000E+00
+ For l =            0  there are currently            2 basis functions
+ enter y to add additional functions or n to go to next l
+ l,nbase,node           1           3           0
+     3     2     1  -6.637386E-01   4.000000E+00
+ For l =            1  there are currently            1 basis functions
+ enter y to add additional functions or n to go to next l
+ enter energy for generalized function
+ l,nbase,node           1           4           1
+     4   999     1   5.844116E+00   0.000000E+00
+ For l =            1  there are currently            2 basis functions
+ enter y to add additional functions or n to go to next l
+ completed phi basis with            4  functions 
+ setcoretail: x,y,z =   8.008207091813520E-005 -1.207619135294243E-003
+  1.813850410452133E-002
+ setcoretail: u0,u2,u4 =   3.866130753025595E-003 -6.888205725649662E-003
+  3.102157043542203E-003
+ coretailpoints =         1408
+ Enter "Bloechl", "Vanderbilt", "modrrkj" or "custom" keywords
+  for projector generation method.
+  In case of "custom" choice, enter additional (optional) keywords :
+  - for partial waves pseudization scheme:
+                        "bloechlps", "polynom", "polynom2 p qcut" or "RRKJ"
+  - for orthogonalization scheme: "GramSchmidtOrtho" or "VanderbiltOrtho" or "sv
+ dortho"
+ Compensation charge shape defaults set to "sinc^2";
+  - Gaussian shape can be specified by adding "Gaussian" keyword
+    and tol (1.d-4, for ex).
+  - Bessel shape can be specified by adding "Besselshape" keyword
+ inputfileline 
+ VANDERBILT                                                                     
+                                                      
+ Projector type: polynomial pseudization + Vanderbilt ortho.                    
+                                                      
+  check hatden normalization  0.104809813076263     
+ In poisson q =    1.00000000000000     
+ Self energy for L=0 hat density     1.40170089110019     
+ To generate the local pseudopotential, this code can use:
+   1- a Troullier-Martins scheme for specified l value and energy
+   2- a non norm-conserving pseudopotential scheme for specified l value and ene
+ rgy
+   3- a simple pseudization scheme using a single spherical Bessel function
+   4- Vloc ==  VlocCoef*Shapefunc
+ For choice 1, enter (high) l value and energy e
+ For choice 2, enter (high) l value, energy e and "ultrasoft"
+ For choice 3, enter "bessel"
+ For choice 4, enter "setvloc x y" - x is VlocCoef y is VlocRad
+ Vloc: Non norm-conserving form with l= 2;e=   2.5000E+00                       
+                                                      
+ For each of the following basis functions enter rc
+    1    2    0 -1.7611442E+00
+ rc for this wfn   1.39021589936649     
+    2  999    0  4.3478076E+00
+ rc for this wfn   1.39021589936649     
+    3    2    1 -6.6373864E-01
+ rc for this wfn   1.36620138875926     
+    4  999    1  5.8441163E+00
+ rc for this wfn   1.52560207353127     
+ For l =            0           2  basis functions
+ For l =            1           2  basis functions
+    1    1  -9.98251376E-02   1.70587997E+00  -2.90377466E+00
+    1    2   1.35429297E-01  -1.96791972E+00   3.46993691E+00
+    2    1   1.35429297E-01  -1.96863156E+00   3.46993691E+00
+    2    2  -1.86253268E-01   2.27411149E+00  -4.06164711E+00
+    3    3   1.60788749E-01  -7.01014577E-01  -2.97491731E+00
+    3    4  -2.81406662E-01   2.26328992E-01   4.63501470E+00
+    4    3  -2.81406662E-01   2.25868251E-01   4.63501470E+00
+    4    4   3.10742439E-01   1.90878594E+00  -6.00851329E+00
+ calculating log derivatives at irc   1.52560207353127     
+ calculating Fourier transforms of tp*tphi products  For bound states only 
+ In poisson q =    5.55694810354999     
+ nucleus and core q00   -6.00045282532852     
+ Complete q00   -5.55696082277267     
+ Error in vloc --   2.823234447086390E-003
+  abinit tq =   0.443504721778462     
+ In poisson q =    5.99999999833957     
+ In poisson q =    1.99999999999993     
+ In poisson q =   4.528253284538084E-004
+ In poisson q =   -5.99999997753506     
+ Eaion    -5.99999997753506        50.4618490177209     
+ Eaionhat    -16.8205135237830     
+ Kinetic     1    1    0  4.6096546E+00
+ Fix pot     1    1    0 -1.6905329E+00
+ Kinetic     1    2    0 -5.4378566E+00
+ Fix pot     1    2    0  1.8328836E+00
+ Kinetic     2    1    0 -5.4385685E+00
+ Fix pot     2    1    0  1.8328836E+00
+ Kinetic     2    2    0  6.3357586E+00
+ Fix pot     2    2    0 -1.8321078E+00
+ Kinetic     3    3    1  2.2739027E+00
+ Fix pot     3    3    1 -4.5160615E+00
+ Kinetic     3    4    1 -4.4086857E+00
+ Fix pot     3    4    1  7.3332595E+00
+ Kinetic     4    3    1 -4.4091465E+00
+ Fix pot     4    3    1  7.3332595E+00
+ Kinetic     4    4    1  7.9172992E+00
+ Fix pot     4    4    1 -9.0633839E+00
+mLij     1    1    0 -9.9825138E-02
+mLij     1    2    0  1.3542930E-01
+mLij     1    3    1  2.6789830E-02
+mLij     1    4    1 -1.2716661E-01
+mLij     2    1    0  1.3542930E-01
+mLij     2    2    0 -1.8625327E-01
+mLij     2    3    1 -2.4409767E-02
+mLij     2    4    1  1.1473268E-01
+mLij     3    1    1  2.6789830E-02
+mLij     3    2    1 -2.4409767E-02
+mLij     3    3    0  1.6078875E-01
+mLij     3    3    2  5.3528740E-02
+mLij     3    4    0 -2.8140666E-01
+mLij     3    4    2 -1.0328554E-01
+mLij     4    1    1 -1.2716661E-01
+mLij     4    2    1  1.1473268E-01
+mLij     4    3    0 -2.8140666E-01
+mLij     4    3    2 -1.0328554E-01
+mLij     4    4    0  3.1074244E-01
+mLij     4    4    2  7.8910930E-02
+ DR matrix elements 
+    1    1    1    1    0   -2.2011815770E-02
+    1    1    1    2    0    3.0662167895E-02
+    1    1    2    1    0    3.0662167895E-02
+    1    1    2    2    0   -4.2959280427E-02
+    1    1    3    3    0   -1.4319487716E-03
+    1    1    3    4    0    1.0800259862E-04
+    1    1    4    3    0    1.0800259862E-04
+    1    1    4    4    0    1.9720029811E-02
+    1    2    1    1    0    3.0662167914E-02
+    1    2    1    2    0   -4.2359896861E-02
+    1    2    2    1    0   -4.2359896861E-02
+    1    2    2    2    0    5.9012612203E-02
+    1    2    3    3    0    6.2507321136E-03
+    1    2    3    4    0   -5.6345297304E-03
+    1    2    4    3    0   -5.6345297304E-03
+    1    2    4    4    0   -1.6618743389E-02
+    1    3    1    3    1    1.1161846740E-03
+    1    3    1    4    1   -5.5797253020E-03
+    1    3    2    3    1   -1.3891456575E-03
+    1    3    2    4    1    1.0825060591E-02
+    1    3    3    1    1    1.1161846740E-03
+    1    3    3    2    1   -1.3891456575E-03
+    1    3    4    1    1   -5.5797253020E-03
+    1    3    4    2    1    1.0825060591E-02
+    1    4    1    3    1   -5.5797252959E-03
+    1    4    1    4    1    9.0628206283E-03
+    1    4    2    3    1    6.3123528820E-03
+    1    4    2    4    1   -1.4127383635E-02
+    1    4    3    1    1   -5.5797252959E-03
+    1    4    3    2    1    6.3123528820E-03
+    1    4    4    1    1    9.0628206283E-03
+    1    4    4    2    1   -1.4127383635E-02
+    2    1    1    1    0    3.0662167914E-02
+    2    1    1    2    0   -4.2359896861E-02
+    2    1    2    1    0   -4.2359896861E-02
+    2    1    2    2    0    5.9012612203E-02
+    2    1    3    3    0    6.2507321136E-03
+    2    1    3    4    0   -5.6345297304E-03
+    2    1    4    3    0   -5.6345297304E-03
+    2    1    4    4    0   -1.6618743389E-02
+    2    2    1    1    0   -4.2959280481E-02
+    2    2    1    2    0    5.9012612242E-02
+    2    2    2    1    0    5.9012612242E-02
+    2    2    2    2    0   -8.1873716917E-02
+    2    2    3    3    0   -1.2905029777E-02
+    2    2    3    4    0    1.3424168002E-02
+    2    2    4    3    0    1.3424168002E-02
+    2    2    4    4    0    1.2475460559E-02
+    2    3    1    3    1   -1.3891456458E-03
+    2    3    1    4    1    6.3123528321E-03
+    2    3    2    3    1    1.7514313523E-03
+    2    3    2    4    1   -1.2123115863E-02
+    2    3    3    1    1   -1.3891456458E-03
+    2    3    3    2    1    1.7514313523E-03
+    2    3    4    1    1    6.3123528321E-03
+    2    3    4    2    1   -1.2123115863E-02
+    2    4    1    3    1    1.0825060604E-02
+    2    4    1    4    1   -1.4127383722E-02
+    2    4    2    3    1   -1.2123115925E-02
+    2    4    2    4    1    2.0424748291E-02
+    2    4    3    1    1    1.0825060604E-02
+    2    4    3    2    1   -1.2123115925E-02
+    2    4    4    1    1   -1.4127383722E-02
+    2    4    4    2    1    2.0424748291E-02
+    3    1    1    3    1    1.1161846740E-03
+    3    1    1    4    1   -5.5797253020E-03
+    3    1    2    3    1   -1.3891456575E-03
+    3    1    2    4    1    1.0825060591E-02
+    3    1    3    1    1    1.1161846740E-03
+    3    1    3    2    1   -1.3891456575E-03
+    3    1    4    1    1   -5.5797253020E-03
+    3    1    4    2    1    1.0825060591E-02
+    3    2    1    3    1   -1.3891456458E-03
+    3    2    1    4    1    6.3123528321E-03
+    3    2    2    3    1    1.7514313523E-03
+    3    2    2    4    1   -1.2123115863E-02
+    3    2    3    1    1   -1.3891456458E-03
+    3    2    3    2    1    1.7514313523E-03
+    3    2    4    1    1    6.3123528321E-03
+    3    2    4    2    1   -1.2123115863E-02
+    3    3    1    1    0   -1.4319486709E-03
+    3    3    1    2    0    6.2507320070E-03
+    3    3    2    1    0    6.2507320070E-03
+    3    3    2    2    0   -1.2905029678E-02
+    3    3    3    3    0    2.3138598971E-02
+    3    3    3    4    0   -2.7993730537E-02
+    3    3    4    3    0   -2.7993730537E-02
+    3    3    4    4    0    5.0905379053E-02
+    3    3    3    3    2    1.7028748870E-02
+    3    3    3    4    2   -2.1208394488E-02
+    3    3    4    3    2   -2.1208394488E-02
+    3    3    4    4    2    2.8356534451E-02
+    3    4    1    1    0    1.0800245912E-04
+    3    4    1    2    0   -5.6345295927E-03
+    3    4    2    1    0   -5.6345295927E-03
+    3    4    2    2    0    1.3424167894E-02
+    3    4    3    3    0   -2.7993730594E-02
+    3    4    3    4    0    3.4018033220E-02
+    3    4    4    3    0    3.4018033220E-02
+    3    4    4    4    0   -6.0106845215E-02
+    3    4    3    3    2   -2.1208394392E-02
+    3    4    3    4    2    2.4981936576E-02
+    3    4    4    3    2    2.4981936576E-02
+    3    4    4    4    2   -3.1718500701E-02
+    4    1    1    3    1   -5.5797252959E-03
+    4    1    1    4    1    9.0628206283E-03
+    4    1    2    3    1    6.3123528820E-03
+    4    1    2    4    1   -1.4127383635E-02
+    4    1    3    1    1   -5.5797252959E-03
+    4    1    3    2    1    6.3123528820E-03
+    4    1    4    1    1    9.0628206283E-03
+    4    1    4    2    1   -1.4127383635E-02
+    4    2    1    3    1    1.0825060604E-02
+    4    2    1    4    1   -1.4127383722E-02
+    4    2    2    3    1   -1.2123115925E-02
+    4    2    2    4    1    2.0424748291E-02
+    4    2    3    1    1    1.0825060604E-02
+    4    2    3    2    1   -1.2123115925E-02
+    4    2    4    1    1   -1.4127383722E-02
+    4    2    4    2    1    2.0424748291E-02
+    4    3    1    1    0    1.0800245912E-04
+    4    3    1    2    0   -5.6345295927E-03
+    4    3    2    1    0   -5.6345295927E-03
+    4    3    2    2    0    1.3424167894E-02
+    4    3    3    3    0   -2.7993730594E-02
+    4    3    3    4    0    3.4018033220E-02
+    4    3    4    3    0    3.4018033220E-02
+    4    3    4    4    0   -6.0106845215E-02
+    4    3    3    3    2   -2.1208394392E-02
+    4    3    3    4    2    2.4981936576E-02
+    4    3    4    3    2    2.4981936576E-02
+    4    3    4    4    2   -3.1718500701E-02
+    4    4    1    1    0    1.9720029953E-02
+    4    4    1    2    0   -1.6618743524E-02
+    4    4    2    1    0   -1.6618743524E-02
+    4    4    2    2    0    1.2475460654E-02
+    4    4    3    3    0    5.0905379138E-02
+    4    4    3    4    0   -6.0106845252E-02
+    4    4    4    3    0   -6.0106845252E-02
+    4    4    4    4    0    9.2087164147E-02
+    4    4    3    3    2    2.8356534467E-02
+    4    4    3    4    2   -3.1718500872E-02
+    4    4    4    3    2   -3.1718500872E-02
+    4    4    4    4    2    3.8729279024E-02
+ Entering Core-valence exchange subroutine 
+ !!!WARNING -- further testing needed!!!
+ core-val CondonShortley           1           0           0           0
+   1.00000000000000       0.162501893470792     
+ core-val CondonShortley           1           0           0           0
+   1.00000000000000      -0.191426773651938     
+ core-val CondonShortley           1           0           0           0
+   1.00000000000000      -0.191426773651937     
+ core-val CondonShortley           1           0           0           0
+   1.00000000000000       0.226341652573399     
+ core-val CondonShortley           1           0           1           1
+  0.333333333333333       0.219006395385166     
+ core-val CondonShortley           1           0           1           1
+  0.333333333333333      -0.295850350682807     
+ core-val CondonShortley           1           0           1           1
+  0.333333333333333      -0.295850350682807     
+ core-val CondonShortley           1           0           1           1
+  0.333333333333333       0.403249642487623     
+ Core - valence accumlated terms; output will be symmetrized
+    1    1   -1.6250189E-01  0.0000000E+00
+    1    2    1.9142677E-01  9.9920072E-16
+    1    3    0.0000000E+00  0.0000000E+00
+    1    4    0.0000000E+00  0.0000000E+00
+    2    2   -2.2634165E-01  0.0000000E+00
+    2    3    0.0000000E+00  0.0000000E+00
+    2    4    0.0000000E+00  0.0000000E+00
+    3    3   -7.3002132E-02  0.0000000E+00
+    3    4    9.8616784E-02 -5.5511151E-17
+    4    4   -1.3441655E-01  0.0000000E+00
+ Entering Core-Core exchange subroutine 
+ !!!WARNING -- further testing needed!!!
+           1           1           0   2.00000000000000     
+   9.45111947109490       -9.45111947109490     
+ Core-core exchange calculated:    -9.45111947109490     
+  Completed SPMatrixElements
+ smooth kinetic    14.8824828594670     
+ q00 for atom   -5.55694810355006     
+  Total charge check   2.080450518965423E-008
+ In poisson q =   2.080450518965423E-008
+  Smooth coulomb    8.44684091247519     
+  Vloc energy   -1.93317818412198     
+ Smooth exchange-correlation contribution   -5.62974075037356     
+ valence Q  0.443504721778462     
+ Ea up to exchange-correlation terms   -46.0025057091323     
+  one center xc   -16.5501488546746       -5.62974075037356     
+  -10.9204081043011     
+ Energy terms    15.7664048374467       -56.9229138134334     
+  -41.1565089759867     
+  Summary of PAW energies
+        Total valence energy       -41.1565089759867     
+          Smooth energy             15.7664048374467     
+          One center               -56.9229138134334     
+          Smooth kinetic            14.8824828594670     
+          Vloc energy              -1.93317818412198     
+          Smooth exch-corr         -5.62974075037356     
+          One-center xc            -10.9204081043011     
+ Enter 0 or END to end program
+ Enter 1 or SCFPAW to run SCFPAW
+ Enter 2 or ABINITOUT to run atompaw2abinit
+ Enter 3 or PWSCFOUT to run atompaw2pwscf
+ Enter 4 or XMLOUT  to run atompaw2xml
+ Enter 5 or PWPAWOUT  to run atompaw2pwpaw
+ Enter 6 or SOCORROOUT  to run atompaw2socorro
+ Enter 10 or EXPLORE to run exploreparms
+0                                                                                                                                                                                                                                                               
+ UPF mesh size =         2342
+ UPF xmin =   -9.00000000000000     
+ UPF zmesh =    1.00000000000000     
+ UPF zmesh =    15.0000000000000     
+ UPF irc =         1887
+ In poisson q =    2.00000000000000     
+ Chk aug           1           1           0 -9.982513756381831E-002
+ Chk aug           1           2           0  0.135429297283275     
+ Chk aug           1           3           1  2.678982955242073E-002
+ Chk aug           1           4           1 -0.127166608439151     
+ Chk aug           2           2           0 -0.186253268251514     
+ Chk aug           2           3           1 -2.440976666942953E-002
+ Chk aug           2           4           1  0.114732680944857     
+ Chk aug           3           3           0  0.160788749228945     
+ Chk aug           3           3           2  5.352873998739835E-002
+ Chk aug           3           4           0 -0.281406662465452     
+ Chk aug           3           4           2 -0.103285542191897     
+ Chk aug           4           4           0  0.310742439210165     
+ Chk aug           4           4           2  7.891093031754799E-002
+ check augmentation charge   0.443504721778462     
+ check valence charge    5.99999999833957     
+ Enter 0 or END to end program
+ Enter 1 or SCFPAW to run SCFPAW
+ Enter 2 or ABINITOUT to run atompaw2abinit
+ Enter 3 or PWSCFOUT to run atompaw2pwscf
+ Enter 4 or XMLOUT  to run atompaw2xml
+ Enter 5 or PWPAWOUT  to run atompaw2pwpaw
+ Enter 6 or SOCORROOUT  to run atompaw2socorro
+ Enter 10 or EXPLORE to run exploreparms

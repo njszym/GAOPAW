@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 73
-  	  initial_point    2.494  2.177  1.840  2.383  2.009  2.150  2.031  2.630  7.007  2.500  1.913  1.204  1.642  1.764  2.183  2.175  1.912  2.373  2.343  6.604  2.473  1.819  1.891  1.915  2.125  2.149  2.144  1.979  1.991  5.118  0.997  2.262  0.920  2.259  2.206  1.991  2.253  2.453  2.305  2.300  1.683  1.856  3.723  2.025  9.7470  1.693  1.478  1.378  1.560  1.300  1.504  1.697  1.508  2.539  1.337  1.953  1.187  0.867  1.927  1.622  1.743  1.717  2.046  1.788  1.412  1.077
-  	  lower_bounds     2.394  2.077  1.740  2.283  1.909  2.050  1.931  2.130  6.007  2.400  1.813  1.104  1.542  1.664  2.083  2.075  1.812  2.273  1.843  5.504  2.373  1.719  1.791  1.815  2.025  2.049  2.044  1.879  1.891  4.618  0.597  1.726  0.520  2.159  2.106  1.891  2.153  2.353  2.205  2.200  1.583  1.756  3.223  1.525  8.7470  1.593  1.378  1.278  1.460  1.200  1.404  1.597  1.408  2.039  0.837  1.853  1.087  0.767  1.827  1.522  1.643  1.617  1.946  1.688  0.912  0.577
-  	  upper_bounds     2.594  2.277  1.940  2.483  2.109  2.250  2.131  3.130  8.007  2.550  2.013  1.304  1.742  1.864  2.283  2.275  2.012  2.473  2.843  7.704  2.573  1.919  1.991  2.015  2.225  2.249  2.244  2.079  2.091  5.618  1.597  2.726  1.520  2.359  2.306  2.091  2.353  2.553  2.405  2.400  1.783  1.956  4.223  2.525  10.747  1.793  1.578  1.478  1.660  1.400  1.604  1.797  1.608  3.039  1.837  2.053  1.287  0.967  2.027  1.722  1.843  1.817  2.146  1.888  1.912  1.577
-  	  descriptors     'DAKOTA_Te_RC_1' 'DAKOTA_Te_RC_2' 'DAKOTA_Te_RC_3' 'DAKOTA_Te_RC_4' 'DAKOTA_Te_RC_5' 'DAKOTA_Te_RC_6' 'DAKOTA_Te_RC_7' 'DAKOTA_Te_EP_1' 'DAKOTA_Te_EP_2' 'DAKOTA_Sr_RC_1' 'DAKOTA_Sr_RC_2' 'DAKOTA_Sr_RC_3' 'DAKOTA_Sr_RC_4' 'DAKOTA_Sr_RC_5' 'DAKOTA_Sr_RC_6' 'DAKOTA_Sr_RC_7' 'DAKOTA_Sr_RC_8' 'DAKOTA_Sr_RC_9' 'DAKOTA_Sr_EP_1' 'DAKOTA_Sr_EP_2' 'DAKOTA_Zn_RC_1' 'DAKOTA_Zn_RC_2' 'DAKOTA_Zn_RC_3' 'DAKOTA_Zn_RC_4' 'DAKOTA_Zn_RC_5' 'DAKOTA_Zn_RC_6' 'DAKOTA_Zn_RC_7' 'DAKOTA_Zn_RC_8' 'DAKOTA_Zn_RC_9' 'DAKOTA_Zn_EP_1' 'DAKOTA_Zn_EP_2' 'DAKOTA_Zn_EP_3' 'DAKOTA_Zn_EP_4' 'DAKOTA_Cd_RC_1' 'DAKOTA_Cd_RC_2' 'DAKOTA_Cd_RC_3' 'DAKOTA_Cd_RC_4' 'DAKOTA_Cd_RC_5' 'DAKOTA_Cd_RC_6' 'DAKOTA_Cd_RC_7' 'DAKOTA_Cd_RC_8' 'DAKOTA_Cd_RC_9' 'DAKOTA_Cd_EP_1' 'DAKOTA_Cd_EP_2' 'DAKOTA_Cd_EP_3' 'DAKOTA_Li_RC_1' 'DAKOTA_Li_RC_2' 'DAKOTA_Li_RC_3' 'DAKOTA_Li_RC_4' 'DAKOTA_Li_RC_5' 'DAKOTA_Li_RC_6' 'DAKOTA_Li_RC_7' 'DAKOTA_Li_RC_8' 'DAKOTA_Li_EP_1' 'DAKOTA_Li_EP_2' 'DAKOTA_Cu_RC_1' 'DAKOTA_Cu_RC_2' 'DAKOTA_Cu_RC_3' 'DAKOTA_Cu_RC_4' 'DAKOTA_Cu_RC_5' 'DAKOTA_Cu_RC_6' 'DAKOTA_Cu_RC_7' 'DAKOTA_Cu_RC_8' 'DAKOTA_Cu_RC_9' 'DAKOTA_Cu_EP_1' 'DAKOTA_Cu_EP_2'
+    continuous_design =  66
+    initial_point =  2.494 2.177 1.84 2.383 2.009 2.15 2.031 2.63 7.007 2.5 1.913 1.204 1.642 1.764 2.183 2.175 1.912 2.373 2.343 6.604 2.259 2.206 1.991 2.253 2.453 2.305 2.3 1.683 1.856 3.723 2.025 9.747 2.473 1.819 1.891 1.915 2.125 2.149 2.144 1.979 1.991 5.118 0.997 2.262 0.92 1.953 1.187 0.867 1.927 1.622 1.743 1.717 2.046 1.788 1.412 1.077 1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337
+    lower_bounds =  2.369 2.068 1.748 2.264 1.909 2.042 1.929 2.498 6.657 2.375 1.817 1.144 1.56 1.676 2.074 2.066 1.816 2.254 2.226 6.274 2.146 2.096 1.891 2.14 2.33 2.19 2.185 1.599 1.763 3.537 1.924 9.26 2.349 1.728 1.796 1.819 2.019 2.042 2.037 1.88 1.891 4.862 0.947 2.149 0.874 1.855 1.128 0.824 1.831 1.541 1.656 1.631 1.944 1.699 1.341 1.023 1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27
+    upper_bounds =  2.619 2.286 1.932 2.502 2.109 2.258 2.133 2.762 7.357 2.625 2.009 1.264 1.724 1.852 2.292 2.284 2.008 2.492 2.46 6.934 2.372 2.316 2.091 2.366 2.576 2.42 2.415 1.767 1.949 3.909 2.126 10.234 2.597 1.91 1.986 2.011 2.231 2.256 2.251 2.078 2.091 5.374 1.047 2.375 0.966 2.051 1.246 0.91 2.023 1.703 1.83 1.803 2.148 1.877 1.483 1.131 1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404
+    descriptors =  "DAKOTA_Te_RC_1" "DAKOTA_Te_RC_2" "DAKOTA_Te_RC_3" "DAKOTA_Te_RC_4" "DAKOTA_Te_RC_5" "DAKOTA_Te_RC_6" "DAKOTA_Te_RC_7" "DAKOTA_Te_EP_1" "DAKOTA_Te_EP_2" "DAKOTA_Sr_RC_1" "DAKOTA_Sr_RC_2" "DAKOTA_Sr_RC_3" "DAKOTA_Sr_RC_4" "DAKOTA_Sr_RC_5" "DAKOTA_Sr_RC_6" "DAKOTA_Sr_RC_7" "DAKOTA_Sr_RC_8" "DAKOTA_Sr_RC_9" "DAKOTA_Sr_EP_1" "DAKOTA_Sr_EP_2" "DAKOTA_Cd_RC_1" "DAKOTA_Cd_RC_2" "DAKOTA_Cd_RC_3" "DAKOTA_Cd_RC_4" "DAKOTA_Cd_RC_5" "DAKOTA_Cd_RC_6" "DAKOTA_Cd_RC_7" "DAKOTA_Cd_RC_8" "DAKOTA_Cd_RC_9" "DAKOTA_Cd_EP_1" "DAKOTA_Cd_EP_2" "DAKOTA_Cd_EP_3" "DAKOTA_Zn_RC_1" "DAKOTA_Zn_RC_2" "DAKOTA_Zn_RC_3" "DAKOTA_Zn_RC_4" "DAKOTA_Zn_RC_5" "DAKOTA_Zn_RC_6" "DAKOTA_Zn_RC_7" "DAKOTA_Zn_RC_8" "DAKOTA_Zn_RC_9" "DAKOTA_Zn_EP_1" "DAKOTA_Zn_EP_2" "DAKOTA_Zn_EP_3" "DAKOTA_Zn_EP_4" "DAKOTA_Cu_RC_1" "DAKOTA_Cu_RC_2" "DAKOTA_Cu_RC_3" "DAKOTA_Cu_RC_4" "DAKOTA_Cu_RC_5" "DAKOTA_Cu_RC_6" "DAKOTA_Cu_RC_7" "DAKOTA_Cu_RC_8" "DAKOTA_Cu_RC_9" "DAKOTA_Cu_EP_1" "DAKOTA_Cu_EP_2" "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,8 +18,8 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 250 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
-        max_function_evaluations = 5000 ## Default, max number of chromosomes tested
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 50000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
@@ -37,15 +37,16 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 10 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
           named 'workdir_pp'
 
 responses
-	num_objective_functions = 24 ## Set this accordingly based on your calculation
+    num_objective_functions =  24
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Te_elemental_log' 'Te_FCC_lattice_constant' 'Te_BCC_lattice_constant' 'Sr_elemental_log' 'Sr_FCC_lattice_constant' 'Sr_BCC_lattice_constant' 'Cd_elemental_log' 'Cd_FCC_lattice_constant' 'Cd_BCC_lattice_constant' 'Zn_elemental_log' 'Zn_FCC_lattice_constant' 'Zn_BCC_lattice_constant' 'Cu_elemental_log' 'Cu_FCC_lattice_constant' 'Cu_BCC_lattice_constant' 'Li_elemental_log' 'Li_FCC_lattice_constant' 'Li_BCC_lattice_constant' 'SrTe_RS_lattice_constant' 'SrTe_RS_phonon_frequency' 'ZnTe_ZB_eos' 'CdTe_ZB_lattice_constant' 'CdTe_ZB_band_gap' 'LiCuTe_HH_lattice_constant'

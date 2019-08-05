@@ -1,0 +1,35 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ag/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Ag",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,4.47,4.47,4.47]
+        },
+        {
+            "formula": "AgO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.677
+        },
+        {
+            "formula": "AgS",
+            "lattice_type": "ZB",
+            "eos": [23.14595, 58.83639, 5.673]
+        },
+        {
+            "formula": "AgBr",
+            "lattice_type": "RS",
+            "lattice_constant": 5.656,
+            "band_gap": 0.630
+        },
+        {
+            "formula": "AgAlGe",
+            "lattice_type": "HH",
+            "lattice_constant": 6.224
+        }
+    ]
+}

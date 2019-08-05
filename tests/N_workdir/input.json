@@ -1,0 +1,12 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "../../../Elem_Templates"
+        },
+    "compounds": [
+        {
+            "formula": "N"
+        }
+    ]
+}
+

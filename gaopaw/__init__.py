@@ -69,7 +69,7 @@ class Runner:
         with open(input_path) as input:
             self.input_settings = json.load(input, object_hook=lambda d: SimpleNamespace(**d))
         self.element_list = self.getElementList()
-        if not self.test_paw:
+        if (not self.test_paw) and (not self.writing_dakota):
             self.num_obj_fns = self.numDakotaObjs()
         self.is_elem = self.checkIfElem()
 

@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ba/Input"
+        },
+    "compounds": [
+        {
+            "formula": "BaO",
+            "lattice_type": "RS",
+            "lattice_constant": 5.590
+        },
+        {
+            "formula": "Ba",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,2.22,2.22,2.22]
+        },
+        {
+            "formula": "BaS",
+            "lattice_type": "ZB",
+            "eos": [43.71589, 24.95271, -2.862]
+        },
+        {
+            "formula": "BaTiO3",
+            "lattice_type": "per",
+            "lattice_constant": 4.024,
+            "band_gap": 1.790
+        }
+    ]
+}

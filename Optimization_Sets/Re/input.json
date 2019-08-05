@@ -1,0 +1,30 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Re/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Re",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,1.51,1.51,1.51]
+        },
+        {
+            "formula": "ReO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.455,
+            "magnetization": 0.11
+        },
+        {
+            "formula": "ReS",
+            "lattice_type": "ZB",
+            "eos": [17.99580, 177.80650, 4.793]
+        },
+        {
+            "formula": "SrReO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.986
+        }
+    ]
+}

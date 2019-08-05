@@ -1,0 +1,34 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Pt/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Pt",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,4.29,4.29,4.29]
+        },
+        {
+            "formula": "PtO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.624
+        },
+        {
+            "formula": "PtS",
+            "lattice_type": "ZB",
+            "eos": [19.95055, 114.84749, 5.195]
+        },
+        {
+            "formula": "ScSbPt",
+            "lattice_type": "HH",
+            "lattice_constant": 6.399
+        },
+        {
+            "formula": "PtS2",
+            "lattice_type": "hex",
+            "band_gap": 0.718
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Hf/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Hf",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,3.76,3.76,3.76]
+        },
+        {
+            "formula": "HfO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.611
+        },
+        {
+            "formula": "HfS",
+            "lattice_type": "ZB",
+            "eos": [22.97603, 95.87768, 5.346]
+        },
+        {
+            "formula": "HfO2",
+            "lattice_type": "FCC",
+            "lattice_constant": 5.075,
+            "band_gap": 3.780
+        },
+        {
+            "formula": "MgZnHf",
+            "lattice_type": "HH",
+            "lattice_constant": 6.579
+        }
+    ]
+}

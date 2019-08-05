@@ -1,0 +1,32 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Hg/Input"
+        },
+    "compounds": [
+        {
+            "formula": "HgO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.929,
+            "phonon_frequency": [0.0,0.0,0.0,5.47,5.47,5.47]
+        },
+        {
+            "formula": "HgS",
+            "lattice_type": "ZB",
+            "eos": [27.07583, 53.17365, -0.814]
+        },
+        {
+            "formula": "HgO",
+            "lattice_type": "ortho",
+            "band_gap": 1.000
+        },
+        {
+            "formula": "KHgF3",
+            "lattice_type": "per",
+            "lattice_constant": 4.594
+        }
+    ]
+}
+
+## No AE data available

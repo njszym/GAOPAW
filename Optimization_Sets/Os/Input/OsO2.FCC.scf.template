@@ -20,7 +20,7 @@ ATOMIC_SPECIES
   O 0.0 O.GGA-PBE-paw.UPF
   Os 0.0 Os.GGA-PBE-paw.UPF
 K_POINTS (automatic)
-  16 16 16 0 0 0
+  12 12 12 0 0 0
 ATOMIC_POSITIONS (crystal)
 O 0.25 0.25 0.25
 O 0.75 0.75 0.75

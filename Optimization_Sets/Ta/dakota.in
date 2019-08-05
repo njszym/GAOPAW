@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 
-  	  initial_point    
-  	  lower_bounds     
-  	  upper_bounds     
-  	  descriptors     
+    continuous_design =  51
+    initial_point =  2.396 2.108 1.937 1.944 1.658 2.367 2.029 2.148 2.095 2.789 6.917 1.329 2.598 2.014 1.291 2.073 2.274 2.009 2.368 2.191 2.229 6.674 1.769 1.764 1.162 1.787 1.939 1.717 1.822 2.175 1.243 2.4 1.807 2.049 2.054 2.027 2.136 2.151 2.14 2.125 1.122 8.7 1.604 1.203 1.316 1.444 1.391 1.352 1.566 4.463 5.822
+    lower_bounds =  2.276 2.003 1.84 1.847 1.575 2.249 1.928 2.041 1.99 2.65 6.571 1.263 2.468 1.913 1.226 1.969 2.16 1.909 2.25 2.081 2.118 6.34 1.681 1.676 1.104 1.698 1.842 1.631 1.731 2.066 1.181 2.28 1.717 1.947 1.951 1.926 2.029 2.043 2.033 2.019 1.066 8.265 1.524 1.143 1.25 1.372 1.321 1.284 1.488 4.24 5.531
+    upper_bounds =  2.516 2.213 2.034 2.041 1.741 2.485 2.13 2.255 2.2 2.928 7.263 1.395 2.728 2.115 1.356 2.177 2.388 2.109 2.486 2.301 2.34 7.008 1.857 1.852 1.22 1.876 2.036 1.803 1.913 2.284 1.305 2.52 1.897 2.151 2.157 2.128 2.243 2.259 2.247 2.231 1.178 9.135 1.684 1.263 1.382 1.516 1.461 1.42 1.644 4.686 6.113
+    descriptors =  "DAKOTA_Sb_RC_1" "DAKOTA_Sb_RC_2" "DAKOTA_Sb_RC_3" "DAKOTA_Sb_RC_4" "DAKOTA_Sb_RC_5" "DAKOTA_Sb_RC_6" "DAKOTA_Sb_RC_7" "DAKOTA_Sb_RC_8" "DAKOTA_Sb_RC_9" "DAKOTA_Sb_EP_1" "DAKOTA_Sb_EP_2" "DAKOTA_Sb_EP_3" "DAKOTA_Ta_RC_1" "DAKOTA_Ta_RC_2" "DAKOTA_Ta_RC_3" "DAKOTA_Ta_RC_4" "DAKOTA_Ta_RC_5" "DAKOTA_Ta_RC_6" "DAKOTA_Ta_RC_7" "DAKOTA_Ta_RC_8" "DAKOTA_Ta_RC_9" "DAKOTA_Ta_EP_1" "DAKOTA_S_RC_1" "DAKOTA_S_RC_2" "DAKOTA_S_RC_3" "DAKOTA_S_RC_4" "DAKOTA_S_RC_5" "DAKOTA_S_RC_6" "DAKOTA_S_RC_7" "DAKOTA_S_EP_1" "DAKOTA_S_EP_2" "DAKOTA_Ru_RC_1" "DAKOTA_Ru_RC_2" "DAKOTA_Ru_RC_3" "DAKOTA_Ru_RC_4" "DAKOTA_Ru_RC_5" "DAKOTA_Ru_RC_6" "DAKOTA_Ru_RC_7" "DAKOTA_Ru_RC_8" "DAKOTA_Ru_RC_9" "DAKOTA_Ru_EP_1" "DAKOTA_Ru_EP_2" "DAKOTA_O_RC_1" "DAKOTA_O_RC_2" "DAKOTA_O_RC_3" "DAKOTA_O_RC_4" "DAKOTA_O_RC_5" "DAKOTA_O_RC_6" "DAKOTA_O_RC_7" "DAKOTA_O_EP_1" "DAKOTA_O_EP_2"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,8 +18,8 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 250 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
-        max_function_evaluations = 5000 ## Default, max number of chromosomes tested
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 50000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
@@ -37,15 +37,16 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 10 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
           named 'workdir_pp'
 
 responses
-	num_objective_functions = 19 ## Set this accordingly based on your calculation
+    num_objective_functions =  19
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Sb_elemental_log' 'Sb_FCC_lattice_constant' 'Sb_BCC_lattice_constant' 'Ta_elemental_log' 'Ta_FCC_lattice_constant' 'Ta_BCC_lattice_constant' 'Ta_BCC_phonon_frequency' 'S_elemental_log' 'S_FCC_lattice_constant' 'S_BCC_lattice_constant' 'Ru_elemental_log' 'Ru_FCC_lattice_constant' 'Ru_BCC_lattice_constant' 'O_elemental_log' 'O_FCC_lattice_constant' 'O_BCC_lattice_constant' 'TaO_RS_lattice_constant' 'TaS_ZB_eos' 'TaSbRu_HH_lattice_constant'

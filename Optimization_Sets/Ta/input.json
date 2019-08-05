@@ -1,0 +1,29 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ta/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Ta",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,4.70,4.70,4.70]
+        },
+        {
+            "formula": "TaO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.506
+        },
+        {
+            "formula": "TaS",
+            "lattice_type": "ZB",
+            "eos": [20.64015, 136.76908, 3.014]
+        },
+        {
+            "formula": "TaSbRu",
+            "lattice_type": "HH",
+            "lattice_constant": 6.196
+        }
+    ]
+}

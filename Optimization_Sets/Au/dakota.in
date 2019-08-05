@@ -3,11 +3,11 @@ environment
   tabular_data ## output variable and objective function values to dakota_tabular.dat
 
 variables
-	continuous_design = 73
-  	  initial_point    
-  	  lower_bounds     
-  	  upper_bounds     
-  	  descriptors     'DAKOTA_Au_RC_1' 'DAKOTA_Au_RC_2' 'DAKOTA_Au_RC_3' 'DAKOTA_Au_RC_4' 'DAKOTA_Au_RC_5' 'DAKOTA_Au_RC_6' 'DAKOTA_Au_RC_7' 'DAKOTA_Au_RC_8' 'DAKOTA_Au_RC_9' 'DAKOTA_Au_EP_1' 'DAKOTA_Au_EP_2' 'DAKOTA_Au_EP_3' 'DAKOTA_O_RC_1' 'DAKOTA_O_RC_2' 'DAKOTA_O_RC_3' 'DAKOTA_O_RC_4' 'DAKOTA_O_RC_5' 'DAKOTA_O_RC_6' 'DAKOTA_O_RC_7' 'DAKOTA_O_EP_1' 'DAKOTA_O_EP_2' 'DAKOTA_S_RC_1' 'DAKOTA_S_RC_2' 'DAKOTA_S_RC_3' 'DAKOTA_S_RC_4' 'DAKOTA_S_RC_5' 'DAKOTA_S_RC_6' 'DAKOTA_S_RC_7' 'DAKOTA_S_EP_1' 'DAKOTA_S_EP_2' 'DAKOTA_Cs_RC_1' 'DAKOTA_Cs_RC_2' 'DAKOTA_Cs_RC_3' 'DAKOTA_Cs_RC_4' 'DAKOTA_Cs_RC_5' 'DAKOTA_Cs_RC_6' 'DAKOTA_Cs_RC_7' 'DAKOTA_Cs_RC_8' 'DAKOTA_Cs_RC_9' 'DAKOTA_Cs_EP_1' 'DAKOTA_Cs_EP_2' 'DAKOTA_Li_RC_1' 'DAKOTA_Li_RC_2' 'DAKOTA_Li_RC_3' 'DAKOTA_Li_RC_4' 'DAKOTA_Li_RC_5' 'DAKOTA_Li_RC_6' 'DAKOTA_Li_RC_7' 'DAKOTA_Li_RC_8' 'DAKOTA_Li_EP_1' 'DAKOTA_Li_EP_2'
+    continuous_design =  40
+    initial_point =  1.693 1.478 1.378 1.56 1.3 1.504 1.697 1.508 2.539 1.337 1.604 1.203 1.316 1.444 1.391 1.352 1.566 4.463 5.822 1.769 1.764 1.162 1.787 1.939 1.717 1.822 2.175 1.243 2.698 1.806 2.37 2.63 2.205 2.062 2.082 2.533 2.426 11.33 0.99 11.831
+    lower_bounds =  1.608 1.404 1.309 1.482 1.235 1.429 1.612 1.433 2.412 1.27 1.524 1.143 1.25 1.372 1.321 1.284 1.488 4.24 5.531 1.681 1.676 1.104 1.698 1.842 1.631 1.731 2.066 1.181 2.563 1.716 2.252 2.498 2.095 1.959 1.978 2.406 2.305 10.763 0.94 11.239
+    upper_bounds =  1.778 1.552 1.447 1.638 1.365 1.579 1.782 1.583 2.666 1.404 1.684 1.263 1.382 1.516 1.461 1.42 1.644 4.686 6.113 1.857 1.852 1.22 1.876 2.036 1.803 1.913 2.284 1.305 2.833 1.896 2.488 2.762 2.315 2.165 2.186 2.66 2.547 11.897 1.04 12.423
+    descriptors =  "DAKOTA_Li_RC_1" "DAKOTA_Li_RC_2" "DAKOTA_Li_RC_3" "DAKOTA_Li_RC_4" "DAKOTA_Li_RC_5" "DAKOTA_Li_RC_6" "DAKOTA_Li_RC_7" "DAKOTA_Li_RC_8" "DAKOTA_Li_EP_1" "DAKOTA_Li_EP_2" "DAKOTA_O_RC_1" "DAKOTA_O_RC_2" "DAKOTA_O_RC_3" "DAKOTA_O_RC_4" "DAKOTA_O_RC_5" "DAKOTA_O_RC_6" "DAKOTA_O_RC_7" "DAKOTA_O_EP_1" "DAKOTA_O_EP_2" "DAKOTA_S_RC_1" "DAKOTA_S_RC_2" "DAKOTA_S_RC_3" "DAKOTA_S_RC_4" "DAKOTA_S_RC_5" "DAKOTA_S_RC_6" "DAKOTA_S_RC_7" "DAKOTA_S_EP_1" "DAKOTA_S_EP_2" "DAKOTA_Au_RC_1" "DAKOTA_Au_RC_2" "DAKOTA_Au_RC_3" "DAKOTA_Au_RC_4" "DAKOTA_Au_RC_5" "DAKOTA_Au_RC_6" "DAKOTA_Au_RC_7" "DAKOTA_Au_RC_8" "DAKOTA_Au_RC_9" "DAKOTA_Au_EP_1" "DAKOTA_Au_EP_2" "DAKOTA_Au_EP_3"
 
 ## You should have reasonable guesses for the lower and upper bounds of the variables
 ## Otherwise, algorithm may converge very slowly
@@ -18,8 +18,8 @@ variables
 method
         moga ## Multi-Objective Genetic Algorithm
         max_iterations = 100 ## Dakota will stop if 100 generations reached (defaults)
-        population_size = 250 ## 250 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
-        max_function_evaluations = 5000 ## Default, max number of chromosomes tested
+        population_size = 500 ## 300 chromosomes in the initial generation, default = 50, larger No. needed if bad initial guesses (wide ranges of variables)
+        max_function_evaluations = 50000 ## Default, max number of chromosomes tested
         initialization_type unique_random ## Default, creates first generation randomly such that each chomosome is unqiue, works best
         crossover_type ## How is crossover of parents performed to generate offspring
           multi_point_parameterized_binary = 2  ## This method works best; 2-point crossover performed
@@ -37,15 +37,16 @@ method
 
 interface
         asynchronous 
-          evaluation_concurrency = 1 ## Keep this low to prevent overusage of CPU
+          evaluation_concurrency = 10 ## Keep this low to prevent overusage of CPU
         system
-          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py $PWD' ## In each work directory, run analysis.py
+          analysis_driver = '$SCHRODINGER/run /home/szymansk/Optimization_Sets/analysis.py' ## In each work directory, run analysis.py
           parameters_file = 'params.in' ## In each work directory, write values of variables to params.in 
           results_file    = 'results.out' ## In each work directory, write values of objective functions
         work_directory directory_tag 
           named 'workdir_pp'
 
 responses
-	num_objective_functions = 20 ## Set this accordingly based on your calculation
+    num_objective_functions =  16
 	no_gradients ## No gradients needed for genetic algorithm
         no_hessians ## No hessians needed for genetic algorithm
+    descriptors =  'Li_elemental_log' 'Li_FCC_lattice_constant' 'Li_BCC_lattice_constant' 'O_elemental_log' 'O_FCC_lattice_constant' 'O_BCC_lattice_constant' 'S_elemental_log' 'S_FCC_lattice_constant' 'S_BCC_lattice_constant' 'Au_elemental_log' 'Au_FCC_lattice_constant' 'Au_BCC_lattice_constant' 'Au_BCC_phonon_frequency' 'AuO_RS_lattice_constant' 'AuS_ZB_eos' 'LiAuS_HH_lattice_constant'

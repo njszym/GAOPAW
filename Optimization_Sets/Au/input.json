@@ -1,0 +1,29 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Au/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Au",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,3.69,3.69,3.69]
+        },
+        {
+            "formula": "AuO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.759
+        },
+        {
+            "formula": "AuS",
+            "lattice_type": "ZB",
+            "eos": [22.73188, 75.08151, 6.189]
+        },
+        {
+            "formula": "LiAuS",
+            "lattice_type": "HH",
+            "lattice_constant": 6.015
+        }
+    ]
+}

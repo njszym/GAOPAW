@@ -1,0 +1,36 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/home/szymansk/Elem_Templates",
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ir/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Os",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,4.15,4.15,4.15]
+        },
+        {
+            "formula": "OsO",
+            "lattice_type": "RS",
+            "lattice_constant": 4.487,
+            "magnetization": 1.790
+        },
+        {
+            "formula": "OsS",
+            "lattice_type": "ZB",
+            "eos": [17.67785, 178.01700, 5.109]
+        },
+        {
+            "formula": "OsO2",
+            "lattice_type": "FCC",
+            "lattice_constant": 4.880,
+            "band_gap": 1.238
+        },
+        {
+            "formula": "SrOsO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.982
+        }
+    ]
+}

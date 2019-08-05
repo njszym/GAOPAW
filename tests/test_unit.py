@@ -130,7 +130,7 @@ def test_checkUpf():
 def test_compareLog():
     with fileutils.chdir(os.path.join('Log_tests', 'workingdir')):
         gp_run = gaopaw.Runner()
-        assert np.isclose(gp_run.compareLog(), 0.003339, rtol=1e-3)
+        assert np.isclose(gp_run.compareLog(), 0.03425, rtol=1e-3)
 
 def test_updateStructure():
     with fileutils.chdir(os.path.join('Si_workdir', 'struct_test')):

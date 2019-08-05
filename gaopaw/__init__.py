@@ -1253,7 +1253,7 @@ class Runner:
             for line in new_dakota:
                 dakota_input.write(line)
 
-    def getBestSoln(self):
+    def getBestSoln(self, use_weights=False):
         """
         Parse dakota_tabular.dat and find best solution based
         on a weighted sum approach to mean absolute error.
@@ -1267,6 +1267,13 @@ class Runner:
         col_headers = np.array(df)[0][2:]
         var_headers = col_headers[:-num_objs]
         obj_headers = col_headers[-num_objs:]
+        weights = []
+        if use_weights:
+            for obj_name in obj_headers:
+                weights.append(float(input('%s: ' % obj_name)))
+        if not use_weights:
+            for obj_name in obj_headers:
+                weights.append(1.0)
         value_table = np.array(df)[1:][:, 2:]
         var_table = value_table[:, :-num_objs]
         obj_table = value_table[:, -num_objs:]
@@ -1283,10 +1290,10 @@ class Runner:
         for result_set in good_objs:
             obj_index = 0
             normalized_err = []
-            for value in result_set:
+            for (value, wt) in zip(result_set, weights):
                 utopia = min_values[obj_index]
                 nadir = max_values[obj_index]
-                normalized_err.append( abs( (value - utopia)/(nadir - utopia) ) )
+                normalized_err.append( wt*abs( (value - utopia)/(nadir - utopia) ) )
                 obj_index += 1
             mae_list.append(np.average(normalized_err))
         best_result_set = good_objs[np.argmin(mae_list)]

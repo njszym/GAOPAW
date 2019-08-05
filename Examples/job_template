@@ -1,0 +1,21 @@
+#!/bin/bash
+#$ -cwd
+#$ -j y
+#$ -o sleeper/out.$JOB_ID
+#$ -S /bin/bash
+#$ -V
+#$ -pe one_node 40
+#$ -l cpuonly
+
+export SCHRODINGER=/nfs/working/releases/suite2019-2
+export LD_LIBRARY_PATH=$SCHRODINGER/mmshare-v4.6/lib/Linux-x86_64:$LD_LIBRARY_PATH
+export PATH=/nfs/working/matsci/szymansk/atompaw-4.1.0.6/src:$PATH
+dakota_path=/nfs/working/matsci/szymansk/dakota-6.9.0.Linux.x86_64
+export PATH=$dakota_path/bin:$PATH
+export LD_LIBRARY_PATH=$dakota_path/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$dakota_path/bin:$LD_LIBRARY_PATH
+export PYTHONPATH=$dakota_path/share/dakota/Python:$PYTHONPATH
+export PYTHONPATH=/nfs/working/matsci/szymansk:$PYTHONPATH
+
+cd [YOUR PATH HERE]
+dakota dakota.in >> log

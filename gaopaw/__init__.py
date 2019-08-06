@@ -1265,9 +1265,13 @@ class Runner:
         obj_dict = self.mergeDicts(elem_dict, cmpd_dict)
         label_list = self.dictToList(obj_dict)[1]
         df = pd.read_table('dakota_tabular.dat',sep='\s+',header=None)
+
+        ## Save headers
         col_headers = np.array(df)[0][2:]
         var_headers = col_headers[:-num_objs]
         obj_headers = col_headers[-num_objs:]
+
+        # Check for weights
         weights = []
         if use_weights:
             for obj_name in obj_headers:
@@ -1275,14 +1279,21 @@ class Runner:
         if not use_weights:
             for obj_name in obj_headers:
                 weights.append(1.0)
-        value_table = np.array(df)[1:][:, 2:]
+
+        # Read in data and collect good solutions
+        value_table = np.array(df.loc[1:, 2:].values, dtype=float)
         var_table = value_table[:, :-num_objs]
         obj_table = value_table[:, -num_objs:]
         good_vars, good_objs = [], []
-        for (var_list, obj_list) in zip(var_table, obj_table):
-            if '100' not in obj_list:
-                good_vars.append([float(value) for value in var_list])
-                good_objs.append([float(value) for value in obj_list])
+        for (var_row, obj_row) in zip(var_table, obj_table):
+            if 100 not in obj_row:
+                good_vars.append(var_row)
+                good_objs.append(obj_row)
+        if len(good_vars) == 0:
+            print('No good solutions found')
+            return
+
+        # Normalize obj fns and calculate MAE
         min_values, max_values = [], []
         for all_obj_values in np.array(good_objs).transpose():
             min_values.append(min(all_obj_values))
@@ -1297,6 +1308,8 @@ class Runner:
                 normalized_err.append( wt*abs( (value - utopia)/(nadir - utopia) ) )
                 obj_index += 1
             mae_list.append(np.average(normalized_err))
+
+        # Choose best solution set and write data to Best_Solution/
         best_result_set = good_objs[np.argmin(mae_list)]
         best_var_set = good_vars[np.argmin(mae_list)]
         if os.path.isdir('Best_Solution'):

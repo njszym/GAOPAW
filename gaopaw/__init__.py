@@ -7,8 +7,6 @@ from scipy.optimize import curve_fit as cf
 import shutil
 import os
 import sys
-assert 'SCHRODINGER_DAKOTA_PYTHON' in os.environ and os.path.exists(os.environ['SCHRODINGER_DAKOTA_PYTHON'])
-sys.path.insert(0, os.environ['SCHRODINGER_DAKOTA_PYTHON'])
 import dakota.interfacing as di
 from schrodinger.utils import subprocess
 from schrodinger.utils import imputils
@@ -73,6 +71,7 @@ class Runner:
         if (not self.test_paw) and (not self.writing_dakota):
             self.num_obj_fns = self.numDakotaObjs()
         self.is_elem = self.checkIfElem()
+        self.getPaws()
 
     def getPaws(self):
         """

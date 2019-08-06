@@ -1329,6 +1329,7 @@ class Runner:
                 param_file.write('1 eval_id\n')
             for elem in self.element_list:
                 self.writeAtompawInput(elem)
+                self.runAtompaw(elem)
             with open('Detailed_Results', 'w+') as obj_file:
                 for (value, label) in zip(best_result_set, obj_headers):
                     value = round(float(value), 6)

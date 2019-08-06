@@ -14,7 +14,8 @@ def read_values(col_index,dataset):
     return diff_list
 
 elem_list = ['H','Li','Be','B','C','N','O','F','Na','Mg','Al','Si',
-'P','S','Cl','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br']
+'P','S','Cl','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Rb','Sr','Y','Zr','Nb','Mo','Tc',
+'Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Cs','Ba','La','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po']
 elem_index_list = [i for i in range(len(elem_list))]
 
 df = np.array(pd.read_csv('Accuracy.csv'))
@@ -65,22 +66,22 @@ for (elem,elem_index,phon_diff) in zip(elem_list,elem_index_list,phon_diff_list)
 phon_diff_list = new_phon_diff_list
 
 fig, ax = plt.subplots(nrows=4,ncols=1)
-fig.set_figwidth(14)
-fig.set_figheight(18)
+fig.set_figwidth(32)
+fig.set_figheight(16)
 
 for i in range(4):
     ax[i].set_xticks(elem_index_list)
     ax[i].set_xticklabels(elem_list)
     ax[i].set_xlim(min(elem_index_list)-0.5,max(elem_index_list)+0.5)
-    ax[i].set_ylabel('Average Absolute Error (%)',fontsize=17,labelpad=14.0)
+    ax[i].set_ylabel('Average Error (%)',fontsize=17,labelpad=14.0)
     ax[i].tick_params(axis='x',labelsize=15)
     ax[i].tick_params(axis='y',labelsize=14)
     ax[i].minorticks_on()
     ax[i].grid(zorder=0)
 
-ax[1].set_ylabel('Average Absolute Error',fontsize=16,labelpad=12.0)
-ax[2].set_ylabel('Average Absolute Error (THz)',fontsize=16,labelpad=12.0)
-ax[3].set_ylabel('Average Absolute Error (eV)',fontsize=16,labelpad=12.0)
+ax[1].set_ylabel('Average Error (meV/atom)',fontsize=16,labelpad=12.0)
+ax[2].set_ylabel('Average Error (THz)',fontsize=16,labelpad=12.0)
+ax[3].set_ylabel('Average Error (eV)',fontsize=16,labelpad=12.0)
 
 ax[0].bar(lat_elem_index_list,lat_diff_list,zorder=3)
 ax[0].set_ylim(0,max(lat_diff_list)+0.5)
@@ -102,9 +103,9 @@ ax[3].set_title('Band gap',fontsize=21)
 ## Manual y-limits
 
 ax[0].set_ylim(0,3)
-ax[1].set_ylim(0,1.2)
+ax[1].set_ylim(0,1.6)
 ax[2].set_ylim(0,3.5)
-ax[3].set_ylim(0,0.3)
+ax[3].set_ylim(0,0.4)
 
 plt.tight_layout()
 plt.savefig('Accuracy.png',dpi=600)

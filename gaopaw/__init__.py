@@ -525,7 +525,7 @@ class Runner:
         qe_lat = self.getLatticeConstant(cmpd, lat_type)
         if np.array_equal(qe_lat, False):
             return False
-        if isinstance(ae_lat, list) == False:
+        if isinstance(ae_lat, float) == True:
             return abs(qe_lat-ae_lat)/ae_lat
         assert len(ae_lat) == len(qe_lat), \
             'Wrong number of lattice parameters given for specified lattice type'

@@ -55,7 +55,7 @@ def test_numDakotaObjs():
 def test_numUserObjs():
     with fileutils.chdir('ex_templates/Empty'):
         gp_run = gaopaw.Runner()
-        assert gp_run.numUserObjs() == 15
+        assert gp_run.numUserObjs() == 9
     with fileutils.chdir('Be_workdir/Be'):
         gp_run = gaopaw.Runner()
         assert gp_run.numUserObjs() == 20
@@ -74,7 +74,7 @@ def test_formCmpdDict():
 def test_getElementList():
     with fileutils.chdir('ex_templates/Empty'):
         gp_run = gaopaw.Runner()
-        assert Counter(gp_run.element_list) == Counter(['C', 'Si', 'O'])
+        assert Counter(gp_run.element_list) == Counter(['C'])
     with fileutils.chdir('Be_workdir/Be'):
         gp_run = gaopaw.Runner()
         assert Counter(gp_run.element_list) == Counter(['Be', 'O', 'S', 'Al', 'B'])
@@ -337,7 +337,8 @@ def test_getBestSoln():
         if os.path.isdir('Best_Solution'):
             shutil.rmtree('Best_Solution')
         gp_run = gaopaw.Runner(input_dir='current')
-        gp_run.getBestSoln()
+        with mock.patch.object(gp_run, 'runAtompaw') as run_mock:
+            gp_run.getBestSoln()
         assert os.path.isdir('Best_Solution')
         with fileutils.chdir('Best_Solution'):
             assert os.path.exists('Be.atompaw.in')

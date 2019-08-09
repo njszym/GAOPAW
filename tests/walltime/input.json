@@ -1,0 +1,31 @@
+{
+    "directories":
+        {
+            "elem_template_dir": "/scr/szymansk/gaopaw/Elem_Templates",
+            "cmpd_template_dir": "/scr/szymansk/gaopaw_test/Log_Tests/Input"
+        },
+    "compounds": [
+        {
+            "formula": "Be",
+            "lattice_type": "BCC",
+            "phonon_frequency": [0.0,0.0,0.0,19.88,19.88,19.88]
+        },
+        {
+            "formula": "BeO",
+            "lattice_type": "RS",
+            "lattice_constant": 3.650,
+            "band_gap": 8.273
+        },
+        {
+            "formula": "BeS",
+            "lattice_type": "ZB",
+            "eos": [14.5166,93.00222,3.807]
+        },
+        {
+            "formula": "AlBeB",
+            "lattice_type": "HH",
+            "lattice_constant": 4.963
+        }
+
+    ]
+}

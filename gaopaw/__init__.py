@@ -1643,3 +1643,13 @@ class Runner:
                     except ValueError:
                         pass
         return pseudized, ae
+
+    def getWalltime(self, elem, lat_type):
+        """
+        Parse walltime from QE run.
+        """
+        with open('%s.%s.relax.out' % (elem, lat_type)) as qe_out:
+            for line in qe_out:
+                if ('PWSCF' in line) and ('WALL' in line):
+                    walltime = float(line.split()[-2][:-1])
+        return walltime

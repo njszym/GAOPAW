@@ -353,3 +353,8 @@ def test_getAtompawEnergies():
         assert np.isclose(pseud, -29.2657434130951, rtol=1e-12)
         assert np.isclose(ae, -29.2657430162565, rtol=1e-12)
 
+
+def test_getWalltime():
+    with fileutils.chdir('walltime'):
+        gp_run = gaopaw.Runner(input_dir='current', test_paw=True)
+        assert gp_run.getWalltime('Be', 'FCC') == 27.23

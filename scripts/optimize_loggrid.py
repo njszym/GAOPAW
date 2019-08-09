@@ -16,7 +16,7 @@ def main():
     constants are reached.
     """
     elem = sys.argv[-1]
-    gp_run = Runner(input_dir='current')
+    gp_run = Runner(input_dir='current', test_paw=True)
     gp_run.optimizeLogGrid(elem)
 
 if __name__=='__main__':

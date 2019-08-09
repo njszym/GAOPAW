@@ -37,6 +37,20 @@ class Runner:
         self.elemental_data = self.getElementInfo()
 
     def setupDefaults(self, input_dir, test_paw, writing_dakota):
+        """
+        Set all arguments based on user input. If not specified,
+        use default values. Each argument is as follows:
+
+        input_dir: controls where gaopaw looks for the input.json,
+        may be parent (default) or current directory
+
+        test_paw: determines whether the user wishes to perform
+        a test run (as opposed to optimization,
+        may be True or False (default)
+
+        writing_dakota: should be set to True when writing the
+        write_dakota script, otherwise set to False (default)
+        """
         if input_dir in [None, 'parent']:
             self.input_dir = 'parent'
         if input_dir == 'current':
@@ -61,15 +75,20 @@ class Runner:
         Read in run settings from input.json.
         """
         working_dir = self.working_dir
+
         if self.input_dir == 'parent':
             input_path = os.path.join(working_dir, os.pardir, 'input.json')
         if self.input_dir == 'current':
             input_path = os.path.join(working_dir, 'input.json')
+
         with open(input_path) as input:
             self.input_settings = json.load(input, object_hook=lambda d: SimpleNamespace(**d))
         self.element_list = self.getElementList()
+
+        ## Obj functions used only for optimization
         if (not self.test_paw) and (not self.writing_dakota):
             self.num_obj_fns = self.numDakotaObjs()
+
         self.is_elem = self.checkIfElem()
         self.getPaws()
 
@@ -93,19 +112,24 @@ class Runner:
         Parse *dakota.in* and return total number of objective functions.
         """
         working_dir = self.working_dir
+
         if self.input_dir == 'parent':
             dakota_path = os.path.join(working_dir, os.pardir, 'dakota.in')
         if self.input_dir == 'current':
             dakota_path = os.path.join(working_dir, 'dakota.in')
+
         with open(dakota_path) as dakota_input:
             for line in dakota_input:
                 if 'num_objective_functions' in line:
                     num_objs = int(line.split()[2])
         objs_from_input = self.numUserObjs()
+
         if not self.writing_dakota:
+            ## Check that number of objectives in input.json and dakota.in agree
             assert num_objs == objs_from_input, \
                 'Wrong number of objective functions specified, should be %s' \
                 % objs_from_input
+
         return num_objs
 
     def numUserObjs(self):
@@ -115,17 +139,26 @@ class Runner:
         element_list = self.element_list
         cmpd_list = self.input_settings.compounds
         num_elems = len(element_list)
+
+        ## For almost all elements, we test log derivs and FCC/BCC
+        ## lattice constants; hence 3 objs for each element
+        ## However, for N and P, we have only one structure
+        ## (SC and ortho respectively) + log derivs ~ 2 objs
         if num_elems == 1 and len(vars(cmpd_list[0])) == 1:
             if element_list[0] in ['N', 'P']:
                 return 2
             else:
                 return 3
+
         cmpd_diff_dict = self.formCmpdDict()
         num_properties = 0
+
+        ## Each specified property yields an obj fn
         for cmpd in cmpd_diff_dict.keys():
             for lat_type in cmpd_diff_dict[cmpd].keys():
                 for property in cmpd_diff_dict[cmpd][lat_type].keys():
                     num_properties += 1
+
         num_obj_fns = 0
         for elem in element_list:
             if elem in ['N', 'P']:
@@ -144,6 +177,10 @@ class Runner:
         for cmpd in cmpd_list:
             formula = cmpd.formula
             lat_type = cmpd.lattice_type
+
+            ## Polymoprhs are tested by providing an ordered
+            ## list (corresponding increasing energy) of structures
+            ## in the lat_type tag of the input.json file
             if isinstance(lat_type, list):
                 assert len(lat_type) > 1, \
                 'List not necessary for single compound'
@@ -160,6 +197,7 @@ class Runner:
                 cmpd_diff_dict[formula]['polymorph']['stability'] = {}
             else:
                 self.test_polymorph = False
+
             property_list = [property for property in vars(cmpd)
                 if property not in ['formula', 'lattice_type']]
             try:
@@ -208,9 +246,12 @@ class Runner:
         elem_list = self.element_list
         elemental_data = self.elemental_data
         elem_diff_dict = self.formElementDict()
+
         for elem in elem_list:
             os.mkdir(elem)
             with fileutils.chdir(elem):
+
+                ## Attempt to generate potential using Atompaw
                 if not self.test_paw:
                     copyfile(os.path.join(os.pardir, 'params.in'), 'params.in')
                     self.writeAtompawInput(elem)
@@ -220,6 +261,8 @@ class Runner:
                         return elem_diff_dict, True
                     copyfile('%s.GGA-PBE-paw.UPF' % elem, os.path.join(os.pardir, '%s.GGA-PBE-paw.UPF' % elem))
                     elem_diff_dict[elem]['elemental']['log'] = self.compareLog()
+
+                ## If test run (not optimization), retrieve PAW from paw_dir
                 if self.test_paw:
                     if hasattr(self.input_settings.directories, 'paw_dir'):
                         paw_dir = self.input_settings.directories.paw_dir
@@ -229,6 +272,9 @@ class Runner:
                     upf_path = os.path.join(paw_dir, upf_name)
                     copyfile(upf_path, upf_name)
                     copyfile(upf_path, os.path.join(os.pardir, upf_name))
+
+                ## Test SC and ortho structures (lat) for N and P respectively
+                ## For f-block, test rocksalt nitrides (lat and mag)
                 if elem in ['N', 'P', *self.f_block]:
                     if elem == 'N':
                         self.runQE(elem, 'SC', 'relax', template_dir)
@@ -262,6 +308,8 @@ class Runner:
                         ae_mag = elemental_data['%sN' % elem]['magnetization']
                         elem_diff_dict['%sN' % elem]['RS']['magnetization'] = \
                             abs(ae_mag-qe_mag)
+
+                ## For all other elements, test FCC/BCC (lat)
                 else:
                     for lat_type in ['FCC', 'BCC']:
                         self.runQE(elem, lat_type, 'relax', template_dir)
@@ -272,6 +320,7 @@ class Runner:
                             self.compareLat(ae_lat, elem, lat_type)
                         if elem_diff_dict[elem][lat_type]['lattice_constant'] == False:
                             return elem_diff_dict, True
+
         return elem_diff_dict, False
 
     def getElementInfo(self):
@@ -286,6 +335,8 @@ class Runner:
             'Er','Tm','Yb','Lu','Ac','Th','Pa','U','Np','Pu','Am']
         template_dir = self.input_settings.directories.elem_template_dir
         elemental_data = {}
+
+        ## FCC/BCC data provided by GBRV
         df_fcc = pd.read_table(os.path.join(template_dir, 'WIEN2k_FCC'),
             sep='\s+', header=None)
         for (elem, lat_const) in zip(df_fcc[0], df_fcc[1]):
@@ -297,10 +348,14 @@ class Runner:
             elemental_data[elem]['BCC'] = lat_const
         df_ren = pd.read_table(os.path.join(template_dir, 'F_BLOCK_RS_NITRIDES'),
             sep='\s+', header=None)
+
+        ## RS f-block data found in literature (see References/Literature_AE/)
         for (elem, lat_const, mag) in zip(df_ren[0], df_ren[1], df_ren[2]):
             elemental_data['%sN' % elem] = {}
             elemental_data['%sN' % elem]['RS'] = lat_const
             elemental_data['%sN' % elem]['magnetization'] = mag
+
+        ## N and P data provided by Delta package
         elemental_data['N'] = {}
         elemental_data['N']['SC'] = 6.1902
         elemental_data['P'] = {}
@@ -316,13 +371,19 @@ class Runner:
         elem_list = self.element_list
         elemental_data = self.elemental_data
         elem_diff_dict = {}
+
         for elem in elem_list:
             assert elem in elemental_data.keys(), \
                 'No AE data available for your element: %s' % elem
             elem_diff_dict[elem] = {}
+
+            ## Log derivs not considered for tests (no PAW generation)
             if not self.test_paw:
                 elem_diff_dict[elem]['elemental'] = {}
                 elem_diff_dict[elem]['elemental']['log'] = {}
+
+            ## For N, test dimer separation w/ atomic positions
+            ## For f-block, test mag in RS nitrides
             if elem in ['N', 'P', *self.f_block]:
                 if elem == 'N':
                     elem_diff_dict[elem]['SC'] = {}
@@ -335,6 +396,8 @@ class Runner:
                     elem_diff_dict['%sN' % elem]['RS'] = {}
                     elem_diff_dict['%sN' % elem]['RS']['lattice_constant'] = {}
                     elem_diff_dict['%sN' % elem]['RS']['magnetization'] = {}
+
+            ## Test FCC/BCC lattice constants for all other elements
             else:
                 for lat_type in ['FCC', 'BCC']:
                     elem_diff_dict[elem][lat_type] = {}
@@ -380,18 +443,23 @@ class Runner:
         log_derivs = glob.glob('logd*')
         sum_log = 0
         total_diff = 0
-        for fname in log_derivs[:-1]: ## Exclude unbound state
+
+        ## Compare log derivs for all orbitals excluding unbound state
+        for fname in log_derivs[:-1]:
             log_data = np.loadtxt(fname).transpose()
             log_exact = np.array(log_data[3])
             log_pseudo = np.array(log_data[4])
             sum_log += sum([abs(value) for value in log_exact])
             total_diff += sum(abs(log_pseudo - log_exact))
+
         return total_diff/sum_log
 
     def runQE(self, cmpd, lat_type, calc_type, template_dir):
         """
         Write and run QE using cmpd.lat_type.calc_type from template_dir.
         """
+        ## Don't run QE for a given cmpd/property if the necessary
+        ## calculation has already be completed
         if os.path.exists('%s.%s.%s.out' % (cmpd, lat_type, calc_type)):
             return
         template_file = os.path.join(template_dir, '%s.%s.%s.template' % (cmpd, lat_type, calc_type))
@@ -399,6 +467,8 @@ class Runner:
         shutil.copy(template_file, qe_input)
         if calc_type == 'scf':
             self.updateStructure(cmpd, lat_type, 'scf')
+
+        ## Run QE on 4 processors; this may be changed
         subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'pw.x', qe_input,
             '-MPICORES', '4'], env=os.environ.copy())
 
@@ -409,6 +479,7 @@ class Runner:
         """
         with open('%s.%s.relax.out' % (cmpd, lat_type)) as f:
             lines = f.readlines()
+
         index = 0
         for line in lines:
             if 'ATOMIC_POSITIONS' in line:
@@ -422,6 +493,7 @@ class Runner:
                 if 'bohr' in line:
                     coord_type = 'bohr'
             index += 1
+
         coords = []
         for line in lines[start:]:
             if ('End' in line) or (line == '\n'):
@@ -429,6 +501,7 @@ class Runner:
             else:
                 coords.append(line)
         coords_header = 'ATOMIC_POSITIONS %s \n' % coord_type
+
         index = 0
         for line in lines:
             if 'CELL_PARAMETERS' in line:
@@ -441,6 +514,7 @@ class Runner:
                 if 'bohr' in line:
                     alat = 1.00
             index += 1
+
         vectors = []
         for i in cell_index:
             v = lines[i].split()
@@ -451,6 +525,7 @@ class Runner:
         v1 = '%s %s %s \n' % tuple(vectors[0])
         v2 = '%s %s %s \n' % tuple(vectors[1])
         v3 = '%s %s %s \n' % tuple(vectors[2])
+
         with open('%s.%s.%s.in' % (cmpd, lat_type, calc_type)) as qe_input:
             lines = qe_input.readlines()
         orig_struct = []
@@ -458,6 +533,9 @@ class Runner:
         for line in lines:
             if 'nat=' in line:
                 natoms = int(line.split('=')[1][:-1])
+
+        ## Switch off ibrav and explicitly write cell parameters (bohr)
+        ## and atomic positions of given type (alat/angstrom/bohr)
         while line_index < len(lines):
             line = lines[line_index]
             if ('ATOMIC_POSITIONS' not in line) and ('CELL_PARAMETERS' not in line):
@@ -473,6 +551,7 @@ class Runner:
                 if 'ATOMIC_POSITIONS' in line:
                     jump = natoms+1
                     line_index += jump
+
         with open('%s.%s.%s.in' % (cmpd, lat_type, calc_type), 'w+') as qe_file:
             for line in orig_struct:
                 qe_file.write(line)
@@ -486,8 +565,11 @@ class Runner:
         Check if the QE calculation ran succesfully
         (i.e., w/o error and convergence acheived).
         """
+        ## These should be sufficient signs of a bad QE run
+        ## May be appended to if other errors found
         qe_error_signs = \
             ['convergence NOT', 'S matrix not positive definite', 'stopping ...']
+
         with open('%s.%s.%s.out' % (cmpd, lat_type, calc_type)) as qe_output:
             for line in qe_output:
                 if any(error in line for error in qe_error_signs):
@@ -499,20 +581,25 @@ class Runner:
         Compare atomic positions of QE-relaxed structure and those 
         of the AE-relaxed structure. Return sum of the distances.
         """
+        ## Atomic positions (in QE-readable format) should
+        ## be place in cmpd_template_dir
         df_ae = pd.read_table(os.path.join(template_dir, 
             'AE_Struct.%s.%s' % (cmpd, lat_type)), sep='\s+', header=None)
         df_ae = df_ae.drop(0, 1).transpose()
+
         qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(), 
             'periodic_dft_gui_dir', 'qe2mae.py')
         qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
         qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
         struct = qe_reader.structs[qe_reader.final_struct_id]
         df_qe = struct.getXYZ()
+
         distance_list = []
         for index in range(len(df_ae.keys())):
             ae_position = np.array(df_ae[index])
             qe_position = np.array(df_qe[index])
             distance_list.append(np.linalg.norm(ae_position-qe_position))
+
         return sum(distance_list)
 
     def compareLat(self, ae_lat, cmpd, lat_type):
@@ -525,11 +612,16 @@ class Runner:
         qe_lat = self.getLatticeConstant(cmpd, lat_type)
         if np.array_equal(qe_lat, False):
             return False
+
+        ## If only one unique lattice param (e.g., cubic)
         if isinstance(ae_lat, float) == True:
             return abs(qe_lat-ae_lat)/ae_lat
+
         assert len(ae_lat) == len(qe_lat), \
             'Wrong number of lattice parameters given for specified lattice type'
         lat_diff = 0
+
+        ## Otherwise, compute average difference in all params
         for (qe_val, ae_val) in zip(qe_lat, ae_lat):
             lat_diff += abs(qe_val-ae_val)/ae_val
         return lat_diff/len(ae_lat)
@@ -545,17 +637,23 @@ class Runner:
         qe_reader_path = os.path.join(fileutils.get_mmshare_scripts_dir(), 
             'periodic_dft_gui_dir', 'qe2mae.py')
         qe_reader_mod = imputils.import_module_from_file(qe_reader_path)
+
         try:
             qe_reader = qe_reader_mod.QEOutputReader('%s.%s.relax.out' % (cmpd, lat_type))
-        except ValueError: ## Pressure too large in QE run
+        ## Except pressure too large in QE run (returns *** which can't be parsed by qe_reader)
+        ## In this case, you may have a bad pseudopotential, or your initial guess for lattice
+        ## constant may be too far from the AE value
+        except ValueError:
             warnings.warn('You may want to check your initial guess for lattice constant(s)')
             return False
+
         struct = qe_reader.structs[qe_reader.final_struct_id]
         cparams = xtal.get_chorus_properties(struct)
         params = np.array(xtal.get_params_from_chorus(cparams)).round(tol)
         unique_lat = np.array(sorted(list(set(params[:3]))))
         unique_angles = np.array(sorted(list(set(params[3:]))))
         err_mssg = 'Input lattice is incorrect, does not match %s' % lat_type
+
         if lat_type in ['FCC', 'ZB', 'RS', 'diamond', 'HH']: ## face-centered (F)
             assert len(unique_lat) == 1, err_mssg
             if np.array_equal(unique_angles, [60.0]):
@@ -563,6 +661,7 @@ class Runner:
             if np.array_equal(unique_angles, [90.0]):
                 return params[0]
             raise ValueError(err_mssg)
+
         if lat_type == 'BCC': ## body-centered (I)
             assert len(unique_lat) == 1, err_mssg
             if len(unique_angles) == 2:
@@ -570,17 +669,21 @@ class Runner:
             if np.array_equal(unique_angles, [90.0]):
                 return params[0]
             raise ValueError(err_mssg)
+
         if lat_type in ['per', 'SC', 'CsCl']: ## conv (P)
             assert np.array_equal(unique_angles, [90.0]) and len(unique_lat) == 1, err_mssg
             return params[0]
+
         if lat_type in ['hex', 'WZ']: ## conv (P)
             assert len(unique_lat) == 2 \
                 and np.array_equal(unique_angles, [90.0, 120.0]), err_mssg
             return unique_lat[0], unique_lat[1]
+
         if lat_type == 'rhomb': ## trig (R)
             assert len(unique_lat) == 1 and len(unique_angles) == 1 \
                 and not np.array_equal(unique_angles, [90.0]), err_mssg
             return unique_lat[0], unique_angles[0]
+
         if lat_type == 'tetrag':
             if len(unique_lat) == 1 and len(unique_angles) == 2: ## body-centered (I)
                 cell_vecs = self.getCell(cmpd, lat_type, 'relax', unit='angstrom')
@@ -591,6 +694,7 @@ class Runner:
             if len(unique_lat) == 2 and np.array_equal(unique_angles, [90.0]): ## conv (P)
                 return unique_lat[0], unique_lat[1]
             raise ValueError(err_mssg)
+
         if lat_type == 'ortho':
             if len(unique_lat) == 3 and np.array_equal(unique_angles, [90.0]): ## conv (P)
                 return unique_lat[0], unique_lat[1], unique_lat[2]
@@ -615,6 +719,7 @@ class Runner:
                 conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
                 return conv_lengths[0], conv_lengths[1], conv_lengths[2]
             raise ValueError(err_mssg)
+
         if lat_type == 'monoclin':
             if list(params[3:]).count(90.0) == 2: ## conv (P)
                 for value in params[3:]:
@@ -633,6 +738,7 @@ class Runner:
                 conv_lengths = np.array(sorted([a_lat, b_lat, c_lat])).round(tol)
                 return conv_lengths[0], conv_lengths[1], conv_lengths[2], angle
             raise ValueError(err_mssg)
+
         if lat_type == 'triclin': ## conv (P)
             assert len(unique_lat) == 3 and list(params[3:]).count(90.0) < 2, err_mssg
             return params
@@ -644,6 +750,7 @@ class Runner:
         """
         with open('%s.%s.relax.out' % (cmpd, lat_type)) as f:
             lines = f.readlines()
+
         index = 0
         for line in lines:
             if 'CELL_PARAMETERS' in line:
@@ -656,6 +763,7 @@ class Runner:
                 if 'bohr' in line:
                     alat = 1.00
             index += 1
+
         vectors = []
         for i in cell_index:
             v = lines[i].split()
@@ -664,6 +772,7 @@ class Runner:
             if unit == 'angstrom':
                 v = [value/1.88973 for value in v]
             vectors.append(v)
+
         return vectors
 
     def getMag(self, cmpd, lat_type):
@@ -675,8 +784,10 @@ class Runner:
             for line in qe_output:
                 if 'absolute' in line.split():
                     mag.append(line.split()[3])
+
         assert len(mag) != 0, """No magnetization found, 
             spin-polarization must be considered in SCF calculation"""
+
         return float(mag[-1])
 
     def checkIfElem(self):
@@ -686,6 +797,7 @@ class Runner:
         """
         cmpd_list = self.input_settings.compounds
         element_list = self.element_list
+
         if len(cmpd_list) == 1 and len(element_list) == 1 and len(vars(cmpd_list[0])) == 1:
             return True
         else:
@@ -713,6 +825,7 @@ class Runner:
         cmpd_template_dir = self.input_settings.directories.cmpd_template_dir
         elem_template_dir = self.input_settings.directories.elem_template_dir
         elemental_data = self.elemental_data
+
         for cmpd in cmpd_list:
             formula = cmpd.formula
             lat_type = cmpd.lattice_type
@@ -723,6 +836,7 @@ class Runner:
                     return cmpd_diff_dict, True
             property_list = [property for property in vars(cmpd)
                 if property not in ['formula', 'lattice_type']]
+
             for property in property_list:
                 elem_err_mssg = """%s not needed for %s, this is tested
                     automatically, therefore property should be
@@ -743,6 +857,7 @@ class Runner:
                     self.testProperty(formula, lat_type, property, ae_value, cmpd_template_dir)
                 if error_check:
                     return cmpd_diff_dict, True
+
         return cmpd_diff_dict, False
 
     def testPhaseStability(self, cmpd, polytypes, template_dir):
@@ -760,13 +875,16 @@ class Runner:
             all_energies = []
             with open('%s.%s.relax.out' % (cmpd, lat_type)) as qe_output:
                 for line in qe_output:
+                    ## Read in energy at each ionic step
                     if '!    total energy              =' in line:
                         all_energies.append(float(line.split()[4]))
             with open('%s.%s.relax.in' % (cmpd, lat_type)) as qe_input:
                 for line in qe_input:
                     if 'nat=' in line:
                         natoms = float(line.split('=')[1][:-1])
+            ## Normalize final energy per atom
             polytype_energies.append(all_energies[-1]/natoms)
+
         coupled_data = zip(polytypes, polytype_energies)
         ordered_data = sorted(coupled_data, key = lambda x: x[1])
         ordered_polytypes = np.array(ordered_data)[:, 0]
@@ -781,14 +899,19 @@ class Runner:
         calculations to obtain data which will be compared with an
         specified AE value (difference ~ objective function).
         """
+        ## Relaxation (at least) required for all properties
+        ## If you wish to keep structure fix, you must change
+        ## tags in QE relaxation input accordingly
         self.runQE(cmpd, lat_type, 'relax', template_dir)
         if not self.checkConvergence(cmpd, lat_type, 'relax'):
             return None, True
+
         if property == 'lattice_constant':
             lat_diff = self.compareLat(ae_data, cmpd, lat_type)
             if lat_diff == False:
                 return None, True
             return lat_diff, False
+
         if property in ['eos', 'bulk_modulus']:
             self.runScaleLat(cmpd, lat_type)
             V0, QE_bulk, B_prime = self.getBulk(cmpd, lat_type)
@@ -810,6 +933,7 @@ class Runner:
             if property == 'bulk_modulus':
                 bulk_diff = abs(QE_bulk - ae_data)/ae_data
                 return bulk_diff, False
+
         if property == 'phonon_frequency':
             self.runQE(cmpd, lat_type, 'scf', template_dir)
             if not self.checkConvergence(cmpd, lat_type, 'scf'):
@@ -817,25 +941,30 @@ class Runner:
             self.runPhonon(cmpd, lat_type, template_dir)
             phonon_diff = self.comparePhonon(cmpd, lat_type, ae_data, template_dir)
             return phonon_diff, False
+
         if property == 'atomic_positions':
             return self.compareAtoms(cmpd, lat_type, template_dir), False
+
         if property == 'band_gap':
             self.runQE(cmpd, lat_type, 'scf', template_dir)
             if not self.checkConvergence(cmpd, lat_type, 'scf'):
                 return None, True
             qe_gap = self.getGap(cmpd, lat_type)
             return abs(ae_data-qe_gap), False
+
         if property == 'magnetization':
             self.runQE(cmpd, lat_type, 'scf', template_dir)
             if not self.checkConvergence(cmpd, lat_type, 'scf'):
                 return None, True
             qe_mag = self.getMag(cmpd, lat_type)
             return abs(ae_data-qe_mag), False
+
         if property == 'magnetic_moment':
             self.runQE(cmpd, lat_type, 'scf', template_dir)
             if not self.checkConvergence(cmpd, lat_type, 'scf'):
                 return None, True
             return self.compareMagMom(cmpd, lat_type, ae_data), False
+
         raise ValueError('Your property, %s , is not defined' % property)
 
     def runScaleLat(self, cmpd, lat_type, ev_fname='E_V.txt'):
@@ -847,12 +976,15 @@ class Runner:
         Note that crystal coords are preferred in QE input, otherwise
         atomic positions will not be scaled with the cell.
         """
+        ## 94% to 106% (7 total steps) volume in accordance
+        ## with the Delta package
         scale_num = [0.94, 0.96, 0.98, 1.0, 1.02, 1.04, 1.06]
         relax_in = '%s.%s.relax.in' % (cmpd, lat_type)
         relax_out = '%s.%s.relax.out' % (cmpd, lat_type)
         energies = []
         volumes = []
         folder_index = 1
+
         for value in scale_num:
             folder = '%s_%s' % (cmpd, folder_index)
             new_cell_params = self.scaleCell(cmpd, lat_type, value)
@@ -874,6 +1006,7 @@ class Runner:
                             all_energies.append(line.split()[4])
                 energies.append(all_energies[-1])
             folder_index += 1
+
         with open(ev_fname, 'w+') as ev_file:
             for (e, v) in zip(energies, volumes):
                 ev_file.write('%s %s \n' % (e, v))
@@ -884,6 +1017,7 @@ class Runner:
         """
         with open('%s.%s.relax.out' % (cmpd, lat_type)) as qe_output:
             lines = qe_output.readlines()
+
         index = 0
         for line in lines:
             if 'CELL_PARAMETERS' in line:
@@ -896,13 +1030,19 @@ class Runner:
                 if 'bohr' in line:
                     alat = 1.00
             index += 1
+
         vectors = []
         for i in cell_index:
             v = lines[i].split()
             v = [float(value) for value in v]
             v = np.array([alat*value for value in v])
             vectors.append(v)
+
+        ## scaling as follows works for all symmetries
+        ## recall: constant**(1/3) extracted from determinant
+        ## (representing volume) for a 3x3 matrix
         scaled_cell = np.array(vectors)*(scale_factor**(1./3.))
+
         return scaled_cell
 
     def writeCell(self, cmpd, lat_type, cell):
@@ -916,8 +1056,10 @@ class Runner:
         v2 = '%s %s %s \n' % tuple(vectors[1])
         v3 = '%s %s %s \n' % tuple(vectors[2])
         cell_header = 'CELL_PARAMETERS bohr\n'
+
         with open('%s.%s.relax.in' % (cmpd, lat_type)) as qe_input:
             lines = qe_input.readlines()
+
         orig_struct = []
         line_index = 0
         while line_index < len(lines):
@@ -933,6 +1075,7 @@ class Runner:
                 line_index += 1
             else:
                 line_index += 4
+
         with open('%s.%s.relax.in' % (cmpd, lat_type), 'w+') as qe_file:
             for line in orig_struct:
                 qe_file.write(line)
@@ -942,6 +1085,7 @@ class Runner:
         """
         Run QE w/o needing to fetch input, to be used in EOS calculations.
         """
+        ## 4 processors used, may be changed
         subprocess.call(['run', 'periodic_dft_gui_dir/runner.py', 'pw.x', relax_in,
             '-MPICORES', '4'], env=os.environ.copy())
 
@@ -959,15 +1103,19 @@ class Runner:
         initial_parameters = [volume.mean(), 2.5, 4, energy.mean()]
         fit_eqn = eval('self.birchMurnaghan')
         popt, pcov = cf(fit_eqn, volume, energy, initial_parameters)
+
         with open('%s.%s.relax.in' % (cmpd, lat_type)) as qe_output:
             for line in qe_output:
                 if 'nat=' in line:
                     num_atoms = float(line.split('=')[1][:-1])
+
         volume = popt[0]/num_atoms ## A^3/atom
         bulk = popt[1]*160.2 ## GPa
         bulk_prime = popt[2] ## Dimensionless
+
         with open('QE_EOS.txt', 'w+') as eos_file:
             eos_file.write('%s %s %s' % (volume, bulk, bulk_prime))
+
         return volume, bulk, bulk_prime
 
     def birchMurnaghan(self, vol, vol_equil, bulk, bulk_prime, energy_equil):
@@ -1008,6 +1156,7 @@ class Runner:
             for line in qe_input:
                 if 'nat=' in line:
                     num_atoms = int(line.split('=')[1][:-1])
+
         with open('dynmat.out') as dyn_output:
             lines = dyn_output.readlines()
         index = 0
@@ -1018,16 +1167,19 @@ class Runner:
         num_freq = 3*num_atoms
         freq_index = mode_line + 1
         freq = []
+
         for i in range(num_freq):
             freq.append(lines[freq_index].split()[2])
             freq_index += 1
         qe_freq = sorted([float(value) for value in freq])
         assert len(ae_freq) == len(qe_freq), \
             'Wrong number of phonon frequencies given'
+
         rel_diff = []
         for (qe_val, ae_val) in zip(qe_freq, ae_freq):
             rel_diff.append(abs(ae_val-qe_val))
         net_diff = sum(rel_diff)/len(rel_diff)
+
         return net_diff
 
     def getGap(self, cmpd, lat_type):
@@ -1037,14 +1189,17 @@ class Runner:
         and occupations set to fixed in the scf run.
         """
         band_gap = None
+
         with open('%s.%s.scf.out' % (cmpd, lat_type)) as qe_output:
             for line in qe_output:
                 if 'highest' and 'lowest' in line.split():
                     band_gap = (float(line.split()[7]) - float(line.split()[6]))
+
         if not band_gap:
             err = """Energies of highest occupied and lowest unoccupied 
                 states could not be found; ensure occupation is fixed"""
             raise NameError(err)
+
         return band_gap
 
     def compareMagMom(self, cmpd, lat_type, ae_mag_mom):
@@ -1061,10 +1216,12 @@ class Runner:
         assert len(qe_mag_mom) != 0, """No magnetization found, 
             spin-polarization must be considered in SCF calculation"""
         qe_mag_mom = [float(value) for value in qe_mag_mom]
+
         rel_diff = []
         for (qe_val, ae_val) in zip(qe_mag_mom, ae_mag_mom):
             rel_diff.append(abs(qe_val-ae_val))
         net_diff = sum(rel_diff)/len(rel_diff)
+
         return net_diff
 
     def updateObjFile(self, diff_dict):
@@ -1107,11 +1264,13 @@ class Runner:
         """
         obj_fn_list = []
         obj_fn_labels = []
+
         for formula in diff_dict.keys():
             for lat_type in diff_dict[formula].keys():
                 for property in diff_dict[formula][lat_type].keys():
                     obj_fn_labels.append('%s_%s_%s' % (formula, lat_type, property))
                     obj_fn_list.append(diff_dict[formula][lat_type][property])
+
         return obj_fn_list, obj_fn_labels
 
     def updateDakota(self, diff_dict):
@@ -1122,12 +1281,14 @@ class Runner:
         """
         params, results = di.read_parameters_file('params.in', 'results.out')
         label_index = 1
+
         for formula in diff_dict.keys():
             for lat_type in diff_dict[formula].keys():
                 for property in diff_dict[formula][lat_type].keys():
                     label = '%s_%s_%s' % (formula, lat_type, property)
                     results[label].function = diff_dict[formula][lat_type][property]
                     label_index += 1
+
         results.write()
 
     def badRun(self):
@@ -1148,12 +1309,14 @@ class Runner:
         num_objs = self.numUserObjs()
         with open('dakota.in') as dakota_input:
             orig_dakota = dakota_input.readlines()
+
         new_dakota = []
         for line in orig_dakota:
             new_line = line
             if 'num_objective_functions' in line:
                 new_line = '    num_objective_functions =  '+str(num_objs)+'\n'
             new_dakota.append(new_line)
+
         with open('dakota.in','w+') as dakota_input:
             for line in new_dakota:
                 dakota_input.write(line)
@@ -1168,6 +1331,7 @@ class Runner:
         element_list = self.element_list
         vars = []
         var_labels = []
+
         for elem in element_list:
             with open(bound_path) as var_bounds:
                 var_list = var_bounds.readlines()
@@ -1182,6 +1346,7 @@ class Runner:
             elem_var_labels = ['"'+'DAKOTA_'+elem+'_'+label+'"' for label in elem_var_labels.split()]
             elem_var_labels = ' '.join(elem_var_labels)
             var_labels.append(elem_var_labels)
+
         temp_pts = []
         for elem_set in vars:
             temp_pts.append([float(value) for value in elem_set.split()])
@@ -1190,6 +1355,7 @@ class Runner:
         var_labels = ' '.join(var_labels)
         lower_bounds = [round(0.95*value,3) for value in init_pts] ## May be tuned
         check_lower = []
+
         for value in lower_bounds:
             if value < 0:
                 check_lower.append(0.0)
@@ -1200,9 +1366,11 @@ class Runner:
         init_pts = ' '.join([str(value) for value in init_pts])
         lower_bounds = ' '.join([str(value) for value in lower_bounds])
         upper_bounds = ' '.join([str(value) for value in upper_bounds])
+
         with open('dakota.in') as dakota_input:
             orig_dakota = dakota_input.readlines()
         new_dakota = []
+
         for line in orig_dakota:
             new_line = line
             if 'continuous_design' in line:
@@ -1216,6 +1384,7 @@ class Runner:
             if 'descriptors' in line:
                 new_line = '    descriptors =  '+var_labels+'\n'
             new_dakota.append(new_line)
+
         with open('dakota.in','w+') as dakota_input:
             for line in new_dakota:
                 dakota_input.write(line)
@@ -1227,6 +1396,7 @@ class Runner:
         """
         elem_dict = self.formElementDict()
         num_objs = self.numUserObjs()
+
         if not self.is_elem:
             cmpd_dict = self.formCmpdDict()
             obj_fn_dict = self.mergeDicts(elem_dict, cmpd_dict)
@@ -1234,14 +1404,17 @@ class Runner:
             obj_fn_dict = elem_dict
         label_list = self.dictToList(obj_fn_dict)[1]
         label_string = ' '.join("""'%s'""" % label for label in label_list)
+
         with open('dakota.in') as dakota_input:
             orig_dakota = dakota_input.readlines()
         new_dakota = []
+
         index = 0
         for line in orig_dakota:
             if 'responses' in line:
                 response_index = index
             index += 1
+
         index = 0
         for line in orig_dakota:
             new_line = line
@@ -1249,6 +1422,7 @@ class Runner:
                 new_line = '    descriptors =  '+label_string+'\n'
             new_dakota.append(new_line)
             index += 1
+
         with open('dakota.in','w+') as dakota_input:
             for line in new_dakota:
                 dakota_input.write(line)
@@ -1367,12 +1541,14 @@ class Runner:
         self.runAtompaw(elem)
         initial_energy = self.getAtompawEnergies(elem)[0]
         initial_lat = {}
+
         if elem not in ['N', 'P']:
             lat_type_list = ['FCC', 'BCC']
         if elem == 'N':
             lat_type_list = ['SC']
         if elem == 'P':
             lat_type_list = ['ortho']
+
         for lat_type in lat_type_list:
             self.runQE(elem, lat_type, 'relax', template_dir)
             if not self.checkConvergence(elem, lat_type, 'relax'):
@@ -1381,6 +1557,7 @@ class Runner:
                 initial_lat[lat_type] = self.getLatticeConstant(elem, lat_type)
             else:
                 initial_lat[lat_type] = self.compareAtoms(elem, lat_type, template_dir)
+
         energy_diff, lat_diff = 0, 0
         while (energy_diff < energy_tol) and (lat_diff < lat_tol):
             for fname in glob.iglob('*relax.out'):
@@ -1412,6 +1589,7 @@ class Runner:
                 break
             energy = self.getAtompawEnergies(elem)[0]
             energy_diff = abs(energy - initial_energy)
+
             if elem not in ['N', 'P']:
                 self.runQE(elem, 'FCC', 'relax', template_dir)
                 if not self.checkConvergence(elem, 'FCC', 'relax'):
@@ -1437,6 +1615,7 @@ class Runner:
                 lat_ortho = self.getLatticeConstant(elem, 'ortho')
                 lat_diff = np.average(abs(
                     np.array(lat_ortho) - np.array(initial_lat['ortho'])))
+
         num_pts += 100
         log_line[log_index] = str(num_pts)
         new_line = ''
@@ -1444,6 +1623,7 @@ class Runner:
             var = '%s ' % word
             new_line += var
         lines[1] = '%s\n' % new_line
+
         with open('%s.atompaw.in' % elem,'w+') as ap_in:
             for line in lines:
                 ap_in.write(line)

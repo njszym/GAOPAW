@@ -33,3 +33,13 @@ For details on the dakota parameters, see https://dakota.sandia.gov/documentatio
 (6) Once the optimization is complete, use scripts/get_best_soln.py to to retrieve the best solution obtained throughout all generations considered. The weighted sum approach is currently utilized to normalize all objective functions, for which the mean absolute error (MAE) is calculated. User specified weights may also be used for each objective function; to do so, add " --weights" to the end of the python execution statement. In comparing all result sets, the universal minimum in MAE is chosen as the best solution; corresponding objective functions and atompaw input files are placed in the Best_Solution/ folder.
 
 (7) Once a set of optimized pseudopotentials is obtained, a final test may be carried out using scripts/test_PP.py. The procedure follows same as usual according to the input.json file, however, no dakota settings are necessary. Additionally, it is recommended that a new directory containing the .UPF files be created, for which the path is specified as "paw_dir" is the input.json (under "directories").
+
+### Optional arguments:
+
+The following may be specified under the "directories" section of the input.json file:
+
+- "optimize_log_grid": [True or False]
+    - Whether to include number of logarithmic grid points (see AtomPAW docs) in optimization.
+
+- "include_paw": [list of elements]
+    - Which elements would you like to pull from a directory ("paw_dir" if specified, or "cmpd_template_dir") and keep fixed throughout optimization

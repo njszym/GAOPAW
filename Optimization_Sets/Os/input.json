@@ -2,30 +2,35 @@
     "directories":
         {
             "elem_template_dir": "/home/szymansk/Elem_Templates",
-            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Ir/Input"
+            "cmpd_template_dir": "/home/szymansk/Optimization_Sets/Os/Input"
         },
     "compounds": [
         {
-            "formula": "Ir",
+            "formula": "Os",
             "lattice_type": "BCC",
-            "phonon_frequency": [0.0,0.0,0.0,3.79,3.79,3.79]
+            "phonon_frequency": [0.0,0.0,0.0,4.15,4.15,4.15]
         },
         {
-            "formula": "IrO",
+            "formula": "OsO",
             "lattice_type": "RS",
-            "lattice_constant": 4.542,
-            "magnetization": 0.790
+            "lattice_constant": 4.487,
+            "magnetization": 1.790
         },
         {
-            "formula": "IrS",
+            "formula": "OsS",
             "lattice_type": "ZB",
-            "eos": [18.38514, 153.64959, 4.848]
+            "eos": [17.67785, 178.01700, 5.109]
         },
         {
-            "formula": "TiBeIr2",
-            "lattice_type": "RS",
-            "lattice_constant": 5.8911,
-            "band_gap": 1.238
+            "formula": "OsO2",
+            "lattice_type": "FCC",
+            "lattice_constant": 4.880,
+            "band_gap": 1.2376
+        },
+        {
+            "formula": "SrOsO3",
+            "lattice_type": "per",
+            "lattice_constant": 3.982
         }
     ]
 }

@@ -1,4 +1,4 @@
-+&control
+&control
   calculation='vc-relax'
   prefix='relax'
   pseudo_dir='./'

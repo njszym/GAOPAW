@@ -6,31 +6,25 @@
         },
     "compounds": [
         {
-            "formula": "Os",
+            "formula": "Ir",
             "lattice_type": "BCC",
-            "phonon_frequency": [0.0,0.0,0.0,4.15,4.15,4.15]
+            "phonon_frequency": [0.0,0.0,0.0,3.79,3.79,3.79]
         },
         {
-            "formula": "OsO",
+            "formula": "IrO",
             "lattice_type": "RS",
-            "lattice_constant": 4.487,
-            "magnetization": 1.790
+            "lattice_constant": 4.542,
+            "magnetization": 0.790
         },
         {
-            "formula": "OsS",
+            "formula": "IrS",
             "lattice_type": "ZB",
-            "eos": [17.67785, 178.01700, 5.109]
+            "eos": [18.38514, 153.64959, 4.848]
         },
         {
-            "formula": "OsO2",
-            "lattice_type": "FCC",
-            "lattice_constant": 4.880,
-            "band_gap": 1.238
-        },
-        {
-            "formula": "SrOsO3",
-            "lattice_type": "per",
-            "lattice_constant": 3.982
+            "formula": "TiBeIr2",
+            "lattice_type": "RS",
+            "lattice_constant": 5.8911
         }
     ]
 }

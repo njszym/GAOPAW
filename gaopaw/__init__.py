@@ -85,6 +85,15 @@ class Runner:
             self.input_settings = json.load(input, object_hook=lambda d: SimpleNamespace(**d))
         self.element_list = self.getElementList()
 
+        if hasattr(self.input_settings.directories, 'optimize_log_grid'):
+            bool_val = self.input_settings.directories.optimize_log_grid
+            if bool_val == 'True':
+                self.opt_log = True
+            else:
+                self.opt_log = False
+        else:
+            self.opt_log = False
+
         ## Obj functions used only for optimization
         if (not self.test_paw) and (not self.writing_dakota):
             self.num_obj_fns = self.numDakotaObjs()
@@ -166,6 +175,10 @@ class Runner:
             else:
                 num_obj_fns += 3
         num_obj_fns += num_properties
+
+        if self.opt_log:
+            num_obj_fns += len(element_list)
+
         return num_obj_fns
 
     def formCmpdDict(self):
@@ -261,6 +274,10 @@ class Runner:
                         return elem_diff_dict, True
                     copyfile('%s.GGA-PBE-paw.UPF' % elem, os.path.join(os.pardir, '%s.GGA-PBE-paw.UPF' % elem))
                     elem_diff_dict[elem]['elemental']['log'] = self.compareLog()
+
+                ## If number of logarithmic grid points are to be optimized
+                if self.opt_log:
+                    elem_diff_dict[elem]['elemental']['grid_pts'] = self.readLogGrid(elem)
 
                 ## If test run (not optimization), retrieve PAW from paw_dir
                 if self.test_paw:
@@ -382,6 +399,10 @@ class Runner:
                 elem_diff_dict[elem]['elemental'] = {}
                 elem_diff_dict[elem]['elemental']['log'] = {}
 
+            ## If number of logarithmic grid points are to be optimized
+            if self.opt_log:
+                elem_diff_dict[elem]['elemental']['grid_pts'] = {}
+
             ## For N, test dimer separation w/ atomic positions
             ## For f-block, test mag in RS nitrides
             if elem in ['N', 'P', *self.f_block]:
@@ -411,9 +432,14 @@ class Runner:
         """
         template_dir = self.input_settings.directories.elem_template_dir
         template_file = os.path.join(template_dir, '%s.atompaw.template' % elem)
-        new_input_file = '%s.atompaw.in' % elem
-        subprocess.check_call(['run', 'dprepro.py', 'params.in', template_file,
-            new_input_file], env=os.environ.copy())
+        copyfile(template_file, '%s.atompaw.template' % elem)
+
+        ## If number of logarithmic grid points are to be optimized
+        if self.opt_log:
+            self.changeLogGrid(elem)
+
+        subprocess.check_call(['run', 'dprepro.py', 'params.in', '%s.atompaw.template' % elem,
+            '%s.atompaw.in' % elem], env=os.environ.copy())
 
     def runAtompaw(self, elem):
         """
@@ -1367,6 +1393,14 @@ class Runner:
         lower_bounds = ' '.join([str(value) for value in lower_bounds])
         upper_bounds = ' '.join([str(value) for value in upper_bounds])
 
+        if self.opt_log:
+            num_vars += len(element_list)
+            for elem in element_list:
+                init_pts += ' 1800'
+                lower_bounds += ' 600'
+                upper_bounds += ' 2200'
+                var_labels += ' "%s_DAKOTA_LogGrid"' % elem
+
         with open('dakota.in') as dakota_input:
             orig_dakota = dakota_input.readlines()
         new_dakota = []
@@ -1528,105 +1562,36 @@ class Runner:
                         if value == 100.0:
                             obj_file.write('%s: False\n' % label)
 
-    def optimizeLogGrid(self, elem, energy_tol=1e-6, lat_tol=1e-3):
+    def changeLogGrid(self, elem):
         """
-        Decrease number of points in the logarithmic radial grid
-        until property differences reach given tolerance.
-        Units of energy and lattice constant are in eV
-        and angstroms respectively.
+        Update Atompaw input to change the number of points
+        in the logarithmic radial grid according to log_val.
+        Currently set such that the file is readable
+        by Dakota, i.e., log grid will be read in as a variable.
         """
-        for fname in glob.iglob('*relax.out'):
-            os.remove(fname)
-        template_dir = self.input_settings.directories.elem_template_dir
-        self.runAtompaw(elem)
-        initial_energy = self.getAtompawEnergies(elem)[0]
-        initial_lat = {}
+        log_val = '{%s_DAKOTA_LogGrid}' % elem
+        updated_lines = []
+        fname = '%s.atompaw.template' % elem
+        with open(fname) as ap_input:
+            for line in ap_input:
+                new_line = line
+                if 'loggrid' in line:
+                    new_line = line.split()
+                    new_line[3] = log_val
+                    new_line = '%s\n' % ' '.join(new_line)
+                updated_lines.append(new_line)
+        with open(fname, 'w+') as ap_input:
+            for line in updated_lines:
+                ap_input.write(line)
 
-        if elem not in ['N', 'P']:
-            lat_type_list = ['FCC', 'BCC']
-        if elem == 'N':
-            lat_type_list = ['SC']
-        if elem == 'P':
-            lat_type_list = ['ortho']
-
-        for lat_type in lat_type_list:
-            self.runQE(elem, lat_type, 'relax', template_dir)
-            if not self.checkConvergence(elem, lat_type, 'relax'):
-                raise ValueError('Bad pseudopotential')
-            if elem != 'N':
-                initial_lat[lat_type] = self.getLatticeConstant(elem, lat_type)
-            else:
-                initial_lat[lat_type] = self.compareAtoms(elem, lat_type, template_dir)
-
-        energy_diff, lat_diff = 0, 0
-        while (energy_diff < energy_tol) and (lat_diff < lat_tol):
-            for fname in glob.iglob('*relax.out'):
-                os.remove(fname)
-            with open('%s.atompaw.in' % elem) as ap_in:
-                lines = ap_in.readlines()
-            log_line = (lines[1]).split()
-            index = 1
-            for word in log_line:
-                if word == 'loggrid':
-                    num_pts = float(log_line[index])
-                    log_index = index
-                else:
-                    index += 1
-            num_pts -= 100
-            log_line[log_index] = str(num_pts)
-            new_line = ''
-            for word in log_line:
-                var = '%s ' % word
-                new_line += var
-            lines[1] = '%s\n' % new_line
-            with open('%s.atompaw.in' % elem,'w+') as ap_in:
-                for line in lines:
-                    ap_in.write(line)
-            if os.path.exists('%s.GGA-PBE-paw.UPF' % elem):
-                os.remove('%s.GGA-PBE-paw.UPF' % elem)
-            self.runAtompaw(elem)
-            if not self.checkUpf():
-                break
-            energy = self.getAtompawEnergies(elem)[0]
-            energy_diff = abs(energy - initial_energy)
-
-            if elem not in ['N', 'P']:
-                self.runQE(elem, 'FCC', 'relax', template_dir)
-                if not self.checkConvergence(elem, 'FCC', 'relax'):
-                    break
-                self.runQE(elem, 'BCC', 'relax', template_dir)
-                if not self.checkConvergence(elem, 'BCC', 'relax'):
-                    break
-                lat_FCC = self.getLatticeConstant(elem, 'FCC')
-                lat_BCC = self.getLatticeConstant(elem, 'BCC')
-                diff_FCC = abs(lat_FCC - initial_lat['FCC'])
-                diff_BCC = abs(lat_BCC - initial_lat['BCC'])
-                lat_diff = max([diff_FCC, diff_BCC])
-            if elem == 'N':
-                self.runQE(elem, 'SC', 'relax', template_dir)
-                if not self.checkConvergence(elem, 'SC', 'relax'):
-                    break
-                atom_diff = self.compareAtoms(elem, 'SC', template_dir)
-                lat_diff = abs(atom_diff - initial_lat['SC'])
-            if elem == 'P':
-                self.runQE(elem, 'ortho', 'relax', template_dir)
-                if not self.checkConvergence(elem, 'ortho', 'relax'):
-                    break
-                lat_ortho = self.getLatticeConstant(elem, 'ortho')
-                lat_diff = np.average(abs(
-                    np.array(lat_ortho) - np.array(initial_lat['ortho'])))
-
-        num_pts += 100
-        log_line[log_index] = str(num_pts)
-        new_line = ''
-        for word in log_line:
-            var = '%s ' % word
-            new_line += var
-        lines[1] = '%s\n' % new_line
-
-        with open('%s.atompaw.in' % elem,'w+') as ap_in:
-            for line in lines:
-                ap_in.write(line)
+    def readLogGrid(self, elem):
+        """
+        Parse the number of grid poins from Atompaw input.
+        """
+        with open('%s.atompaw.in' % elem) as ap_input:
+            for line in ap_input:
+                if 'loggrid' in line:
+                    return float(line.split()[3])
 
     def getAtompawEnergies(self, elem):
         """

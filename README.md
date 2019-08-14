@@ -105,3 +105,5 @@ Unique labels, which may share the same Bravais lattice, are useful to distringu
 - Further properties (e.g., phonon frequencies) may be tested with respect to elemental FCC/BCC states, however, lattice constant should (typically) be ommitted from the properties, considering this is already tested for most elements.
 
 - GAOPAW will determine what calculations are necessary for a given property. By default, a relaxation is always carried as a first step, followed by a scf calculation if appropriate (e.g., to obtain the band gap). However, if you wish to structure fixed (perhaps you'd like to match with experimental or AE values), this can be acheived by modifying the QE relaxation input accordingly: 'none' for cell_dynamics and/or 0.0 scaling constants for ionic force factors.
+
+- Similarily, in some cases it may be useful to keep the symmetry of the cell fixed (note that if symmetry changes to a different Bravais lattice, GAOPAW will give an error), in which case the cell_dofree tag (under &CELL) may be set to 'ibrav' in the corresponding QE input.

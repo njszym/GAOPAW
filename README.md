@@ -99,6 +99,7 @@ Unique labels, which may share the same Bravais lattice, are useful to distringu
 - Generally, FCC/BCC lattice constants are automatically tested for each element throughout an optimization. However, exceptions include:
     - N: dimer separation is tested by considering atomic positions
     - P: lattice constants are tested with respect to the orthorhombic ground state
+    - Hg: lattice constants are tested with respect to the tetragonal ground state
     - f-block (where available): lattice constant and magnetization tested for rocksalt nitrides. Note that variable bounds have not yet been obtained for these elements; once fully-optimized nitrogen PAW has been obtained, these optimizations may be performed with fixed N potential (see Examples/La/).
     
 - Further properties (e.g., phonon frequencies) may be tested with respect to elemental FCC/BCC states, however, lattice constant should (typically) be ommitted from the properties, considering this is already tested for most elements.

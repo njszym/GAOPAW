@@ -29,7 +29,7 @@ Objective functions, defined as differences between calculated data (using pseud
 
 (7) Once a set of optimized pseudopotentials is obtained, a final test may be carried out using scripts/test_PP.py. The procedure follows same as usual according to the input.json file, however, no dakota settings are necessary. Additionally, it is recommended that a new directory containing the .UPF files be created, for which the path is specified as "paw_dir" in the input.json (under "directories").
 
-### Optional arguments:
+## Optional arguments:
 
 The following may be specified under the "directories" section of the input.json file:
 
@@ -39,7 +39,7 @@ The following may be specified under the "directories" section of the input.json
 - "include_paw": [list of elements]
     - Which elements would you like to pull from a directory ("paw_dir" if specified, otherwise "cmpd_template_dir") and keep fixed throughout optimization
     
-### Currently supported properties with required formats
+## Currently supported properties with required formats:
 
 - Logarithmic derivatives of the pseudized wavefunctions
     - Need not be specified explicitly, automatically considered for each element
@@ -69,7 +69,7 @@ The following may be specified under the "directories" section of the input.json
 - Individual magnetic moments
     - "magnetic_moment": [moments (in Bohr magnetons) in order consistent with corresponding atoms in QE input]
     
-### Some caveats
+## Some caveats:
 
 - Generally, FCC/BCC lattice constants are automatically tested for each element throughout an optimization. However, exceptions include:
     - N: dimer separation is tested by considering atomic positions

@@ -48,7 +48,7 @@ The following may be specified under the "directories" section of the input.json
     - For cubic symmetry: "lattice_constant": *a* in angstroms
     - For all lower-symmetry structures: "lattice_constant": [unique lattice constants (angstroms) in order of increasing magnitude, unique non-90 lattice angles (degrees) in order of increasing magntitude]
     
-- Delta-factor (based on equation of state)
+- Delta-factor (based on equation of state, see: https://molmod.ugent.be/deltacodesdft)
     - "eos": [volume (cubic angstroms), bulk modulus (GPa), derivative of bulk modulus with respect to pressure]
     
 - Bulk modulus
@@ -91,6 +91,8 @@ Unique labels, which may share the same Bravais lattice, are useful to distringu
 - Triclinic: "triclin"
 
 #### Some caveats:
+
+- Input structures may be in the conventional or primitive setting, however, if the latter is used, the cell orientation must be consistent with the default QE orientation according to ibrav (see: https://www.quantum-espresso.org/Doc/INPUT_PW.html)
 
 - Roughly optimized on AtomPAW varialbes have been obtained for the majority of elements (see Elem_Templates/BOUNDS) typically by considering logarithmic derivatives and FCC/BCC lattice constants. The write_dakota.py script will generate bounds according to these values; 5% above and below (default) seems to work well, however, this range may be changed in the updateVars method.
 

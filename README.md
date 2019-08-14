@@ -68,6 +68,9 @@ The following may be specified under the "directories" section of the input.json
     
 - Individual magnetic moments
     - "magnetic_moment": [moments (in Bohr magnetons) in order consistent with corresponding atoms in QE input]
+    
+- Polymorph energetics
+    - "lattice_type": [lattice type labels for each polymorph, listed in order of increasing energy]
 
 #### Currently supported lattice type labels:
 

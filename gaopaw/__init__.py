@@ -154,7 +154,7 @@ class Runner:
         ## However, for N and P, we have only one structure
         ## (SC and ortho respectively) + log derivs ~ 2 objs
         if num_elems == 1 and len(vars(cmpd_list[0])) == 1:
-            if element_list[0] in ['N', 'P']:
+            if element_list[0] in ['N', 'P', 'Hg']:
                 return 2
             else:
                 return 3
@@ -170,7 +170,7 @@ class Runner:
 
         num_obj_fns = 0
         for elem in element_list:
-            if elem in ['N', 'P']:
+            if elem in ['N', 'P', 'Hg']:
                 num_obj_fns += 2
             else:
                 num_obj_fns += 3
@@ -292,7 +292,7 @@ class Runner:
 
                 ## Test SC and ortho structures (lat) for N and P respectively
                 ## For f-block, test rocksalt nitrides (lat and mag)
-                if elem in ['N', 'P', *self.f_block]:
+                if elem in ['N', 'P', 'Hg', *self.f_block]:
                     if elem == 'N':
                         self.runQE(elem, 'SC', 'relax', template_dir)
                         if not self.checkConvergence(elem, 'SC', 'relax'):
@@ -307,6 +307,15 @@ class Runner:
                         elem_diff_dict[elem]['ortho']['lattice_constant'] = \
                             self.compareLat(ae_lat, elem, 'ortho')
                         if elem_diff_dict[elem]['ortho']['lattice_constant'] == False:
+                            return elem_diff_dict, True
+                    if elem == 'Hg':
+                        self.runQE(elem, 'tetrag', 'relax', template_dir)
+                        if not self.checkConvergence(elem, 'tetrag', 'relax'):
+                            return elem_diff_dict, True
+                        ae_lat = elemental_data[elem]['tetrag']
+                        elem_diff_dict[elem]['tetrag']['lattice_constant'] = \
+                            self.compareLat(ae_lat, elem, 'tetrag')
+                        if elem_diff_dict[elem]['tetrag']['lattice_constant'] == False:
                             return elem_diff_dict, True
                     if elem in self.f_block:
                         copyfile(os.path.join(os.pardir,'N.GGA-PBE-paw.UPF'),'./N.GGA-PBE-paw.UPF')
@@ -377,6 +386,8 @@ class Runner:
         elemental_data['N']['SC'] = 6.1902
         elemental_data['P'] = {}
         elemental_data['P']['ortho'] = [3.304659, 4.573268, 11.316935]
+        elemental_data['Hg'] = {}
+        elemental_data['Hg']['tetrag'] = [3.548309, 4.103048]
         return elemental_data
 
     def formElementDict(self):
@@ -405,13 +416,16 @@ class Runner:
 
             ## For N, test dimer separation w/ atomic positions
             ## For f-block, test mag in RS nitrides
-            if elem in ['N', 'P', *self.f_block]:
+            if elem in ['N', 'P', 'Hg', *self.f_block]:
                 if elem == 'N':
                     elem_diff_dict[elem]['SC'] = {}
                     elem_diff_dict[elem]['SC']['atomic_positions'] = {}
                 if elem == 'P':
                     elem_diff_dict[elem]['ortho'] = {}
                     elem_diff_dict[elem]['ortho']['lattice_constant'] = {}
+                if elem == 'Hg':
+                    elem_diff_dict[elem]['tetrag'] = {}
+                    elem_diff_dict[elem]['tetrag']['lattice_constant'] = {}
                 if elem in self.f_block:
                     elem_diff_dict['%sN' % elem] = {}
                     elem_diff_dict['%sN' % elem]['RS'] = {}
@@ -868,11 +882,13 @@ class Runner:
                     automatically, therefore property should be
                     removed from input.json""" % (property, formula)
                 if formula in elemental_data.keys():
-                    if (formula not in ['N','P']) and (lat_type in ['FCC','BCC']):
+                    if (formula not in ['N', 'P', 'Hg']) and (lat_type in ['FCC', 'BCC']):
                         assert property != 'lattice_constant', elem_err_mssg
                     if (cmpd == 'N') and (lat_type == 'SC'):
                         assert property != 'atomic_positions', elem_err_mssg
                     if (cmpd == 'P') and (lat_type == 'ortho'):
+                        assert property != 'lattice_constant', elem_err_mssg
+                    if (cmpd == 'Hg') and (lat_type == 'tetrag'):
                         assert property != 'lattice_constant', elem_err_mssg
                 if formula in ['%sN' % f_elem for f_elem in self.f_block]:
                     if lat_type == 'RS':

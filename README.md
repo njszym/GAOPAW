@@ -74,6 +74,6 @@ The following may be specified under the "directories" section of the input.json
 - Generally, FCC/BCC lattice constants are automatically tested for each element throughout an optimization. However, exceptions include:
     - N: dimer separation is tested by considering atomic positions
     - P: lattice constants are tested with respect to the orthorhombic ground state
-    - f-block (where available): lattice constant and magnetization tested for rocksalt nitrides
+    - f-block (where available): lattice constant and magnetization tested for rocksalt nitrides. Note that variable bounds have not yet been obtained for these elements; once fully-optimized nitrogen PAW has been obtained, these optimizations may be performed with fixed N potential (see Examples/La/).
 
 - GAOPAW will determine what calculations are necessary for a given property. By default, a relaxation is always carried as a first step, followed by a scf calculation if appropriate (e.g., to obtain the band gap). However, if you wish to structure fixed (perhaps you'd like to match with experimental or AE values), this can be acheived by modifying the QE relaxation input accordingly: 'none' for cell_dynamics and/or 0.0 scaling constants for ionic force factors.

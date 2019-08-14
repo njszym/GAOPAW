@@ -21,8 +21,7 @@ Objective functions, defined as differences between calculated data (using pseud
 (4) Create a template dakota.in file (see Examples/Dakota_template) in the working directory. Use scripts/write_dakota.py to parse the input.json file and write the following information to dakota.in:
 - Elemental variable bounds (taken from "elem_template_dir"/BOUNDS)
 - Total number of objective functions
-- Objective function labels
-For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html.
+- Objective function labels (For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html)
 
 (5) Execute Dakota optimization through *dakota dakota.in*; generally submit using job script (see Examples/job_template). Note that the evaluation_concurrency variable, which controls the number of parallel jobs allowed to run at once, should be chosen according to the number of processors available. Currently the code is set up to employ 4 processors per job; hence the evaluation_concurrency should equal the total number of processors available divided by 4.
 

@@ -29,7 +29,7 @@ Objective functions, defined as differences between calculated data (using pseud
 
 (7) Once a set of optimized pseudopotentials is obtained, a final test may be carried out using scripts/test_PP.py. The procedure follows same as usual according to the input.json file, however, no dakota settings are necessary. Additionally, it is recommended that a new directory containing the .UPF files be created, for which the path is specified as "paw_dir" in the input.json (under "directories").
 
-## Optional arguments:
+#### Optional arguments:
 
 The following may be specified under the "directories" section of the input.json file:
 
@@ -39,7 +39,7 @@ The following may be specified under the "directories" section of the input.json
 - "include_paw": [list of elements]
     - Which elements would you like to pull from a directory ("paw_dir" if specified, otherwise "cmpd_template_dir") and keep fixed throughout optimization
     
-## Currently supported properties with required formats:
+#### Currently supported properties with required formats:
 
 - Logarithmic derivatives of the pseudized wavefunctions
     - Need not be specified explicitly, automatically considered for each element
@@ -68,12 +68,32 @@ The following may be specified under the "directories" section of the input.json
     
 - Individual magnetic moments
     - "magnetic_moment": [moments (in Bohr magnetons) in order consistent with corresponding atoms in QE input]
-    
-## Some caveats:
+
+#### Currently supported lattice type labels:
+
+Unique labels, which may share the same Bravais lattice, are useful to distringuish between polymorphs. While the following are currently implemented, more may be added by simply appending to the lists present in the getLatticeConstant method.
+
+- Cubic: "FCC", "ZB", "RS", "diamond", "HH", "BCC", "per", "SC", "CsCl"
+
+- Hexagonal: "hex", "WZ"
+
+- Rhombohedral: "rhomb"
+
+- Orthorhombic: "ortho"
+
+- Tetragonal: "tetrag"
+
+- Monoclinic: "monoclin"
+
+- Triclinic: "triclin"
+
+#### Some caveats:
 
 - Generally, FCC/BCC lattice constants are automatically tested for each element throughout an optimization. However, exceptions include:
     - N: dimer separation is tested by considering atomic positions
     - P: lattice constants are tested with respect to the orthorhombic ground state
     - f-block (where available): lattice constant and magnetization tested for rocksalt nitrides. Note that variable bounds have not yet been obtained for these elements; once fully-optimized nitrogen PAW has been obtained, these optimizations may be performed with fixed N potential (see Examples/La/).
+    
+- Further properties (e.g., phonon frequencies) may be tested with respect to elemental FCC/BCC states, however, lattice constant should (typically) be ommitted from the properties, considering this is already tested for most elements.
 
 - GAOPAW will determine what calculations are necessary for a given property. By default, a relaxation is always carried as a first step, followed by a scf calculation if appropriate (e.g., to obtain the band gap). However, if you wish to structure fixed (perhaps you'd like to match with experimental or AE values), this can be acheived by modifying the QE relaxation input accordingly: 'none' for cell_dynamics and/or 0.0 scaling constants for ionic force factors.

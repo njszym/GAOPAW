@@ -10,13 +10,13 @@ Objective functions, defined as differences between calculated data (using pseud
 
 (2) Write the input.json file containing information on the compounds and properties to be tested. Several sample input files are provided in the Examples/ folder. The general structure is as follows:
 - "directories":
-  - "elem_template_dir": [path to elemental template files]
-  - "cmpd_template_dir": [path to compound templates files]
+  - "elem_template_dir": "*absolute path to elemental template files*"
+  - "cmpd_template_dir": "*absolute path to compound templates files*"
 - "compounds":
   - For each compound, provide a formula, lattice type, and any properties to be tested/optimized.
   - For each property, provide the corresponding all-electron data.
 
-(3) If necessary, create a template directory (i.e., "cmpd_template_dir" specified in input.json) containing all QE input files required to calculate properties of compounds specified in the input.json file. Filenames follow the format of [compound formula].[lattice type].[calculation type].template. Note that elemental properties (log derivs, FCC/BCC lattice constants) are considered automatically and therefore input files (contained in "elem_template_dir") for these runs need not be explicitly provided. 
+(3) If necessary, create a template directory (i.e., "cmpd_template_dir" specified in input.json) containing all QE input files required to calculate properties of compounds specified in the input.json file. Filenames follow the format of *compound*.*formula*.*lattice type*.*calculation type*.*template*. Note that elemental properties (log derivatives and FCC/BCC lattice constants) are considered automatically and therefore input files (contained in "elem_template_dir") for these runs need not be explicitly provided. 
 
 (4) Create a template dakota.in file (see Examples/Dakota_template) in the working directory. Use scripts/write_dakota.py to parse the input.json file and write the following information to dakota.in:
 - Elemental variable bounds (taken from "elem_template_dir"/BOUNDS)
@@ -24,9 +24,9 @@ Objective functions, defined as differences between calculated data (using pseud
 - Objective function labels
 For details on the dakota parameters, see https://dakota.sandia.gov/documentation.html.
 
-(5) Execute Dakota optimization through "dakota dakota.in"; generally submit using job script (see Examples/job_template). Note that the evaluation_concurrency variable, which controls the number of parallel jobs allowed to run at once, should be chosen according to the number of processors available. Currently the code is set up to employ 4 processors per job; hence the evaluation_concurrency should equal the total number of processors available divided by 4.
+(5) Execute Dakota optimization through *dakota dakota.in*; generally submit using job script (see Examples/job_template). Note that the evaluation_concurrency variable, which controls the number of parallel jobs allowed to run at once, should be chosen according to the number of processors available. Currently the code is set up to employ 4 processors per job; hence the evaluation_concurrency should equal the total number of processors available divided by 4.
 
-(6) Once the optimization is complete, use scripts/get_best_soln.py to to retrieve the best solution obtained throughout all generations considered. The weighted sum approach is currently utilized to normalize all objective functions, for which the mean absolute error (MAE) is calculated. By default, all objectives are weighted equally. Alternatively, user specified weights may be used; to do so, add " --weights" to the end of the python execution statement. In comparing all result sets, the universal minimum in MAE is chosen as the best solution; corresponding objective functions and atompaw input files are placed in the Best_Solution/ folder.
+(6) Once the optimization is complete, use scripts/get_best_soln.py to to retrieve the best solution obtained throughout all generations considered. The weighted sum approach is currently utilized to normalize all objective functions, for which the mean absolute error (MAE) is calculated. By default, all objectives are weighted equally. Alternatively, user specified weights may be used; to do so, add --weights to the end of the python execution statement. In comparing all result sets, the universal minimum in MAE is chosen as the best solution; corresponding objective functions and atompaw input files are placed in the Best_Solution/ folder.
 
 (7) Once a set of optimized pseudopotentials is obtained, a final test may be carried out using scripts/test_PP.py. The procedure follows same as usual according to the input.json file, however, no dakota settings are necessary. Additionally, it is recommended that a new directory containing the .UPF files be created, for which the path is specified as "paw_dir" in the input.json (under "directories").
 
@@ -34,7 +34,7 @@ For details on the dakota parameters, see https://dakota.sandia.gov/documentatio
 
 The following may be specified under the "directories" section of the input.json file:
 
-- "optimize_log_grid": [True or False]
+- "optimize_log_grid": True or False
     - Whether to include number of logarithmic grid points (see AtomPAW docs) in optimization.
 
 - "include_paw": [list of elements]

@@ -89,6 +89,8 @@ Unique labels, which may share the same Bravais lattice, are useful to distringu
 
 #### Some caveats:
 
+- Roughly optimized on AtomPAW varialbes have been obtained for the majority of elements (see Elem_Templates/BOUNDS) typically by considering logarithmic derivatives and FCC/BCC lattice constants. The write_dakota.py script will generate bounds according to these values; 5% above and below (default) seems to work well, however, this range may be changed in the updateVars method.
+
 - Generally, FCC/BCC lattice constants are automatically tested for each element throughout an optimization. However, exceptions include:
     - N: dimer separation is tested by considering atomic positions
     - P: lattice constants are tested with respect to the orthorhombic ground state

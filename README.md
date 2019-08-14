@@ -59,7 +59,7 @@ The following may be specified under the "directories" section of the input.json
     - "phonon_frequency": [individual frequencies in order of increasing value (including sign)]
     
 - Atomic positions
-    - "atomic_positions": True (data will be taken from file (in "cmpd_template_dir") with positions written in QE format)
+    - "atomic_positions": True (data will be taken from a file, in "cmpd_template_dir", with positions written in QE format)
     
 - Electronic band gap
     - "band_gap": gap in eV

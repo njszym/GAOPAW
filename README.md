@@ -68,3 +68,12 @@ The following may be specified under the "directories" section of the input.json
     
 - Individual magnetic moments
     - "magnetic_moment": [moments (in Bohr magnetons) in order consistent with corresponding atoms in QE input]
+    
+### Some caveats
+
+- Generally, FCC/BCC lattice constants are automatically tested for each element throughout an optimization. However, exceptions include:
+    - N: dimer separation is tested by considering atomic positions
+    - P: lattice constants are tested with respect to the orthorhombic ground state
+    - f-block (where available): lattice constant and magnetization tested for rocksalt nitrides
+
+- GAOPAW will determine what calculations are necessary for a given property. By default, a relaxation is always carried as a first step, followed by a scf calculation if appropriate (e.g., to obtain the band gap). However, if you wish to structure fixed (perhaps you'd like to match with experimental or AE values), this can be acheived by modifying the QE relaxation input accordingly: 'none' for cell_dynamics and/or 0.0 scaling constants for ionic force factors.

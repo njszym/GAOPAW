@@ -696,9 +696,9 @@ class Runner:
 
         if lat_type in ['FCC', 'ZB', 'RS', 'diamond', 'HH']: ## face-centered (F)
             assert len(unique_lat) == 1, err_mssg
-            if np.array_equal(unique_angles, [60.0]):
+            if np.allclose(unique_angles, [60.0], atol=1e-2):
                 return math.sqrt(2)*params[0]
-            if np.array_equal(unique_angles, [90.0]):
+            if np.allclose(unique_angles, [90.0], atol=1e-2):
                 return params[0]
             raise ValueError(err_mssg)
 
@@ -706,7 +706,7 @@ class Runner:
             assert len(unique_lat) == 1, err_mssg
             if len(unique_angles) == 2:
                 return (2./3.)*math.sqrt(3)*params[0]
-            if np.array_equal(unique_angles, [90.0]):
+            if np.allclose(unique_angles, [90.0], atol=1e-2):
                 return params[0]
             raise ValueError(err_mssg)
 
@@ -716,12 +716,12 @@ class Runner:
 
         if lat_type in ['hex', 'WZ']: ## conv (P)
             assert len(unique_lat) == 2 \
-                and np.array_equal(unique_angles, [90.0, 120.0]), err_mssg
+                and np.allclose(unique_angles, [90.0, 120.0], atol=1e-2), err_mssg
             return unique_lat[0], unique_lat[1]
 
         if lat_type == 'rhomb': ## trig (R)
             assert len(unique_lat) == 1 and len(unique_angles) == 1 \
-                and not np.array_equal(unique_angles, [90.0]), err_mssg
+                and not np.allclose(unique_angles, [90.0], atol=1e-2), err_mssg
             return unique_lat[0], unique_angles[0]
 
         if lat_type == 'tetrag':
@@ -731,12 +731,12 @@ class Runner:
                 prim_lengths = sorted(set(abs_vec))
                 conv_lengths = np.array([2*value for value in prim_lengths]).round(tol)
                 return conv_lengths[0], conv_lengths[1]
-            if len(unique_lat) == 2 and np.array_equal(unique_angles, [90.0]): ## conv (P)
+            if len(unique_lat) == 2 and np.allclose(unique_angles, [90.0], atol=1e-2): ## conv (P)
                 return unique_lat[0], unique_lat[1]
             raise ValueError(err_mssg)
 
         if lat_type == 'ortho':
-            if len(unique_lat) == 3 and np.array_equal(unique_angles, [90.0]): ## conv (P)
+            if len(unique_lat) == 3 and np.allclose(unique_angles, [90.0], atol=1e-2): ## conv (P)
                 return unique_lat[0], unique_lat[1], unique_lat[2]
             if len(unique_lat) == 2 and len(unique_angles) == 2: ## base-centered (C)
                 assert list(params[3:]).count(90.0) == 2, err_mssg

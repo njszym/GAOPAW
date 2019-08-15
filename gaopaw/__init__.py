@@ -955,7 +955,9 @@ class Runner:
             return lat_diff, False
 
         if property in ['eos', 'bulk_modulus']:
-            self.runScaleLat(cmpd, lat_type)
+            eosConv = self.runScaleLat(cmpd, lat_type)
+            if eosConv == False:
+                return None, True
             V0, QE_bulk, B_prime = self.getBulk(cmpd, lat_type)
             if property == 'eos':
                 assert len(ae_data) == 3, \
@@ -1041,6 +1043,8 @@ class Runner:
                 self.updateStructure(cmpd, lat_type, 'relax')
                 self.writeCell(cmpd, lat_type, new_cell_params)
                 self.runCurrentQE(relax_in)
+                if not self.checkConvergence(cmpd, lat_type, 'relax'):
+                    return False
                 all_energies = []
                 with open(relax_out) as qe_output:
                     for line in qe_output:

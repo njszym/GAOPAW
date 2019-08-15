@@ -711,7 +711,7 @@ class Runner:
             raise ValueError(err_mssg)
 
         if lat_type in ['per', 'SC', 'CsCl']: ## conv (P)
-            assert np.array_equal(unique_angles, [90.0]) and len(unique_lat) == 1, err_mssg
+            assert np.allclose(unique_angles, [90.0], atol=1e-2) and len(unique_lat) == 1, err_mssg
             return params[0]
 
         if lat_type in ['hex', 'WZ']: ## conv (P)

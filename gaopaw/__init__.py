@@ -1,8 +1,6 @@
 import warnings
 import collections
-import time
 import pandas as pd
-from scipy.signal import argrelextrema
 from scipy.optimize import curve_fit as cf
 import shutil
 import os
@@ -11,10 +9,8 @@ import dakota.interfacing as di
 from schrodinger.utils import subprocess
 from schrodinger.utils import imputils
 from schrodinger.utils import fileutils
-from schrodinger.application.matsci import property_names as pnames
 from schrodinger.application.matsci.nano import xtal
 import math
-import yaml
 import numpy as np
 from shutil import copyfile
 import json

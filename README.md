@@ -92,7 +92,7 @@ Unique labels, which may share the same Bravais lattice, are useful to distringu
 
 #### Some caveats:
 
-- Input structures may be in the conventional or primitive setting, however, if the latter is used, the cell orientation must be consistent with the default QE orientation according to ibrav (see: https://www.quantum-espresso.org/Doc/INPUT_PW.html)
+- Input structures may be in the conventional or primitive setting, however, if the latter is used, the cell orientation must be consistent with the default QE orientation according to ibrav (see: https://www.quantum-espresso.org/Doc/INPUT_PW.html). To avoid such issues, it is best to explicitly set ibrav (> 0) as opposed to specifying your own cell (with ibrav = 0). This also ensures your lattice parameters are nearly exact (e.g., 90 or 120), which serves to avoid any errors in the getLatticeConstant method (checks are made to ensure correct cell shape, with some tolerance).
 
 - Roughly optimized on AtomPAW varialbes have been obtained for the majority of elements (see Elem_Templates/BOUNDS) typically by considering logarithmic derivatives and FCC/BCC lattice constants. The write_dakota.py script will generate bounds according to these values; 5% above and below (default) seems to work well, however, this range may be changed in the updateVars method.
 

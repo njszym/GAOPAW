@@ -959,6 +959,8 @@ class Runner:
             if eosConv == False:
                 return None, True
             V0, QE_bulk, B_prime = self.getBulk(cmpd, lat_type)
+            if V0 == False:
+                return None, True
             if property == 'eos':
                 assert len(ae_data) == 3, \
                     'Three parameters required for EOS'
@@ -1148,7 +1150,12 @@ class Runner:
         volume = np.array([0.14818453429566825*value for value in volume]) ## bohr^3 to A^3
         initial_parameters = [volume.mean(), 2.5, 4, energy.mean()]
         fit_eqn = eval('self.birchMurnaghan')
-        popt, pcov = cf(fit_eqn, volume, energy, initial_parameters)
+
+        try:
+            popt, pcov = cf(fit_eqn, volume, energy, initial_parameters)
+        except RuntimeError: ## If fitting unsuccesful
+            warnings.warn('You may want to check your initial volume')
+            return False, False, False
 
         with open('%s.%s.relax.in' % (cmpd, lat_type)) as qe_output:
             for line in qe_output:

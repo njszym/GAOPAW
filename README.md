@@ -94,6 +94,8 @@ Unique labels, which may share the same Bravais lattice, are useful to distringu
 
 - Once all required software is compiled and paths are set accordingly (as in Examples/job_template), GAOPAW may be tested by executing ./run_tests.sh (checks each method is working as expected).
 
+- It may not always be obvious if an error arises during an optimization. Typically, the run will "freeze" at the point of error, meaning that updating stops at some workdir.XX folder. If this happens, check for errors in the standard output (grep "Error" sleeper/out*). Issues are most commonly related to some mistake in the QE input, for example, an incorrect cell given for a specified lattice type. Assertion error messages have been used to help clarify such cases.
+
 - Input structures may be in the conventional or primitive setting, however, if the latter is used, the cell orientation must be consistent with the default QE orientation according to ibrav (see: https://www.quantum-espresso.org/Doc/INPUT_PW.html). To avoid such issues, it is best to explicitly set ibrav (> 0) as opposed to specifying your own cell (with ibrav = 0). This also ensures your lattice parameters are nearly exact (e.g., 90 or 120), which serves to avoid any errors in the getLatticeConstant method (checks are made to ensure correct cell shape, with some tolerance).
 
 - Roughly optimized on AtomPAW varialbes have been obtained for the majority of elements (see Elem_Templates/BOUNDS) typically by considering logarithmic derivatives and FCC/BCC lattice constants. The write_dakota.py script will generate bounds according to these values; 5% above and below (default) seems to work well, however, this range may be changed in the updateVars method.

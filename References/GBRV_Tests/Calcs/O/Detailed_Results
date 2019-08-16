@@ -1,0 +1,20 @@
+C_FCC_lattice_constant: 0.0525%
+C_BCC_lattice_constant: 0.7816%
+Mg_FCC_lattice_constant: 0.0114%
+Mg_BCC_lattice_constant: 0.23340000000000002%
+V_FCC_lattice_constant: 0.0948%
+V_BCC_lattice_constant: 0.5867%
+Sr_FCC_lattice_constant: 0.0904%
+Sr_BCC_lattice_constant: 0.0044%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+Zn_FCC_lattice_constant: 0.0297%
+Zn_BCC_lattice_constant: 0.2188%
+VO_RS_lattice_constant: 0.1751%
+VO_RS_magnetization: 0.06 bohr mag
+MgO_RS_lattice_constant: 0.0853%
+MgO_RS_phonon_frequency: 1.4679 THz
+MgO_RS_band_gap: 0.0396 eV
+ZnO_ZB_delta_factor: 0.817799 meV/atom
+SrVO3_per_lattice_constant: 0.0518%
+CO2_SC_lattice_constant: 0.9060999999999999%

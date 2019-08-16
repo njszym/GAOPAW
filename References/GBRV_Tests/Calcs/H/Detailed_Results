@@ -1,0 +1,14 @@
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+N_SC_atomic_positions: 0.019048 angstroms
+K_FCC_lattice_constant: 2.9474%
+K_BCC_lattice_constant: 2.8298%
+H_FCC_lattice_constant: 0.0201%
+H_BCC_lattice_constant: 0.9563999999999999%
+H_hex_lattice_constant: 0.24719999999999998%
+LiH_RS_lattice_constant: 0.0073999999999999995%
+LiH_RS_band_gap: 0.4429 eV
+LiH_RS_phonon_frequency: 1.70925 THz
+KH_RS_lattice_constant: 1.5757%
+KH_RS_bulk_modulus: 4.805000000000001%
+NH3_SC_lattice_constant: 0.1354%

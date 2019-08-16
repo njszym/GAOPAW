@@ -1,0 +1,15 @@
+Ca_FCC_lattice_constant: 0.095%
+Ca_BCC_lattice_constant: 0.3546%
+Cs_FCC_lattice_constant: 0.0051%
+Cs_BCC_lattice_constant: 0.002%
+Cs_BCC_phonon_frequency: 1.0712 THz
+Cl_FCC_lattice_constant: 0.3411%
+Cl_BCC_lattice_constant: 0.034499999999999996%
+Br_FCC_lattice_constant: 0.1204%
+Br_BCC_lattice_constant: 0.19669999999999999%
+F_FCC_lattice_constant: 0.9188999999999999%
+F_BCC_lattice_constant: 0.8142%
+CsCl_RS_lattice_constant: 0.25880000000000003%
+CsBr_ZB_delta_factor: 0.371035 meV/atom
+CsCaF3_per_lattice_constant: 0.9641000000000001%
+CsCaF3_per_band_gap: 0.1984 eV

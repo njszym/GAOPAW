@@ -1,0 +1,13 @@
+In_FCC_lattice_constant: 1.1083%
+In_BCC_lattice_constant: 1.336%
+Ge_FCC_lattice_constant: 0.015200000000000002%
+Ge_BCC_lattice_constant: 0.43810000000000004%
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+N_SC_atomic_positions: 0.019048 angstroms
+P_ortho_lattice_constant: 0.5716%
+InN_RS_lattice_constant: 0.39230000000000004%
+InN_RS_phonon_frequency: 0.5507 THz
+InP_ZB_delta_factor: 0.241398 meV/atom
+InP_ZB_band_gap: 0.147 eV
+InLiGe_HH_lattice_constant: 0.35209999999999997%

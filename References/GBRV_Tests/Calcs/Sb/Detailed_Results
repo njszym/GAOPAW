@@ -1,0 +1,16 @@
+Ga_FCC_lattice_constant: 0.6715%
+Ga_BCC_lattice_constant: 0.1479%
+Ti_FCC_lattice_constant: 0.0357%
+Ti_BCC_lattice_constant: 0.15510000000000002%
+Sb_FCC_lattice_constant: 0.0104%
+Sb_BCC_lattice_constant: 0.5447%
+Ni_FCC_lattice_constant: 0.9447000000000001%
+Ni_BCC_lattice_constant: 0.7363%
+Al_FCC_lattice_constant: 0.0059%
+Al_BCC_lattice_constant: 0.11919999999999999%
+AlSb_RS_lattice_constant: 0.2164%
+AlSb_RS_phonon_frequency: 0.25965 THz
+AlSb_ZB_lattice_constant: 0.11969999999999999%
+AlSb_ZB_band_gap: 0.0139 eV
+GaSb_ZB_delta_factor: 0.065942 meV/atom
+SbTiNi_HH_lattice_constant: 2.1363%

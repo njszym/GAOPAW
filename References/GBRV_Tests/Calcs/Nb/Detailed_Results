@@ -1,0 +1,12 @@
+Nb_FCC_lattice_constant: 0.1298%
+Nb_BCC_lattice_constant: 0.046099999999999995%
+Nb_BCC_phonon_frequency: 0.63065 THz
+S_FCC_lattice_constant: 0.0419%
+S_BCC_lattice_constant: 0.8961%
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+NbO_RS_lattice_constant: 0.1583%
+NbS_ZB_delta_factor: 0.941574 meV/atom
+LiNbO3_rhomb_band_gap: 0.133 eV

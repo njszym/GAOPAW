@@ -1,0 +1,16 @@
+Tl_FCC_lattice_constant: 1.3221%
+Tl_BCC_lattice_constant: 1.2248%
+Tl_BCC_phonon_frequency: 5.73025 THz
+N_SC_atomic_positions: 0.019048 angstroms
+Br_FCC_lattice_constant: 0.1204%
+Br_BCC_lattice_constant: 0.19669999999999999%
+P_ortho_lattice_constant: 0.5716%
+Ge_FCC_lattice_constant: 0.015200000000000002%
+Ge_BCC_lattice_constant: 0.43810000000000004%
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+TlN_RS_lattice_constant: 0.346%
+TlP_ZB_delta_factor: 0.10592 meV/atom
+TlBr_CsCl_lattice_constant: 3.9896000000000003%
+TlBr_CsCl_band_gap: 0.2697 eV
+TlLiGe_HH_lattice_constant: 0.5698%

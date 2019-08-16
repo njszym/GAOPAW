@@ -1,0 +1,18 @@
+S_FCC_lattice_constant: 0.0419%
+S_BCC_lattice_constant: 0.8961%
+Al_FCC_lattice_constant: 0.0059%
+Al_BCC_lattice_constant: 0.11919999999999999%
+Ge_FCC_lattice_constant: 0.015200000000000002%
+Ge_BCC_lattice_constant: 0.43810000000000004%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+Ag_FCC_lattice_constant: 0.6853%
+Ag_BCC_lattice_constant: 0.5606%
+Ag_BCC_phonon_frequency: 0.28505 THz
+Br_FCC_lattice_constant: 0.1204%
+Br_BCC_lattice_constant: 0.19669999999999999%
+AgO_RS_lattice_constant: 1.9394000000000002%
+AgS_ZB_delta_factor: 0.195731 meV/atom
+AgBr_RS_lattice_constant: 2.8905%
+AgBr_RS_band_gap: 0.2473 eV
+AgAlGe_HH_lattice_constant: 0.7278%

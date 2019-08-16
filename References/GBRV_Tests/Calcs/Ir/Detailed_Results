@@ -1,0 +1,15 @@
+Ti_FCC_lattice_constant: 0.0357%
+Ti_BCC_lattice_constant: 0.15510000000000002%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+Ir_FCC_lattice_constant: 0.2289%
+Ir_BCC_lattice_constant: 0.18309999999999998%
+Ir_BCC_phonon_frequency: 0.1814 THz
+S_FCC_lattice_constant: 0.0419%
+S_BCC_lattice_constant: 0.8961%
+Be_FCC_lattice_constant: 0.0313%
+Be_BCC_lattice_constant: 0.1963%
+IrO_RS_lattice_constant: 0.23909999999999998%
+IrO_RS_magnetization: 0.07 bohr mag
+IrS_ZB_delta_factor: 1.019707 meV/atom
+TiBeIr2_RS_lattice_constant: 0.9450000000000001%

@@ -1,0 +1,16 @@
+H_FCC_lattice_constant: 0.0201%
+H_BCC_lattice_constant: 0.9563999999999999%
+Zn_FCC_lattice_constant: 0.0297%
+Zn_BCC_lattice_constant: 0.2188%
+Cl_FCC_lattice_constant: 0.3411%
+Cl_BCC_lattice_constant: 0.034499999999999996%
+Bi_FCC_lattice_constant: 0.48849999999999993%
+Bi_BCC_lattice_constant: 0.6158%
+Rb_FCC_lattice_constant: 0.0029%
+Rb_BCC_lattice_constant: 0.0005%
+Rb_BCC_phonon_frequency: 1.2766 THz
+Rb_BCC_delta_factor: 0.170545 meV/atom
+RbCl_RS_lattice_constant: 0.16199999999999998%
+RbH_RS_lattice_constant: 0.3474%
+RbH_RS_band_gap: 0.0228 eV
+RbZnBi_HH_lattice_constant: 3.5930999999999997%

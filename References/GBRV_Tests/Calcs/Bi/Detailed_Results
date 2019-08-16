@@ -1,0 +1,19 @@
+Al_FCC_lattice_constant: 0.0059%
+Al_BCC_lattice_constant: 0.11919999999999999%
+Bi_FCC_lattice_constant: 0.48849999999999993%
+Bi_BCC_lattice_constant: 0.6158%
+Bi_BCC_phonon_frequency: 0.58595 THz
+Zr_FCC_lattice_constant: 0.0793%
+Zr_BCC_lattice_constant: 0.3286%
+Co_FCC_lattice_constant: 0.101%
+Co_BCC_lattice_constant: 0.0402%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+Br_FCC_lattice_constant: 0.1204%
+Br_BCC_lattice_constant: 0.19669999999999999%
+Ga_FCC_lattice_constant: 0.6715%
+Ga_BCC_lattice_constant: 0.1479%
+AlBi_RS_lattice_constant: 0.43579999999999997%
+GaBi_ZB_delta_factor: 1.057676 meV/atom
+ZrCoBi_HH_lattice_constant: 6.411%
+BiOBr_ortho_band_gap: 0.4016 eV

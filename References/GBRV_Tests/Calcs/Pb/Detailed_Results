@@ -1,0 +1,13 @@
+Pb_FCC_lattice_constant: 0.15009999999999998%
+Pb_BCC_lattice_constant: 0.34659999999999996%
+Pb_BCC_phonon_frequency: 0.25805 THz
+Sn_FCC_lattice_constant: 0.0024000000000000002%
+Sn_BCC_lattice_constant: 0.0056%
+Ti_FCC_lattice_constant: 0.0357%
+Ti_BCC_lattice_constant: 0.15510000000000002%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+PbO_RS_lattice_constant: 0.1542%
+PbSn_ZB_delta_factor: 0.688139 meV/atom
+PbTiO3_per_lattice_constant: 0.10070000000000001%
+PbTiO3_per_band_gap: 0.1654 eV

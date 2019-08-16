@@ -1,0 +1,14 @@
+Be_FCC_lattice_constant: 0.0313%
+Be_BCC_lattice_constant: 0.1963%
+N_SC_atomic_positions: 0.019048 angstroms
+P_ortho_lattice_constant: 0.5716%
+B_FCC_lattice_constant: 0.0892%
+B_BCC_lattice_constant: 0.3369%
+B_BCC_phonon_frequency: 1.9879 THz
+Al_FCC_lattice_constant: 0.0059%
+Al_BCC_lattice_constant: 0.11919999999999999%
+BN_RS_lattice_constant: 0.045%
+BN_hex_lattice_constant: 7.9261%
+BN_hex_band_gap: 0.0938 eV
+BP_ZB_delta_factor: 0.327112 meV/atom
+AlBeB_HH_lattice_constant: 4.6626%

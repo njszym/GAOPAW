@@ -1,0 +1,13 @@
+Y_FCC_lattice_constant: 0.1502%
+Y_BCC_lattice_constant: 0.1201%
+Y_BCC_phonon_frequency: 0.5344 THz
+N_SC_atomic_positions: 0.019048 angstroms
+Cu_FCC_lattice_constant: 0.0212%
+Cu_BCC_lattice_constant: 0.060700000000000004%
+Si_FCC_lattice_constant: 0.12140000000000001%
+Si_BCC_lattice_constant: 0.12589999999999998%
+P_ortho_lattice_constant: 0.5716%
+YN_RS_lattice_constant: 1.0252000000000001%
+YN_RS_band_gap: 0.0159 eV
+YP_ZB_delta_factor: 0.47764 meV/atom
+CuYSi_HH_lattice_constant: 2.4394%

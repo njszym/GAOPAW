@@ -1,0 +1,14 @@
+Ag_FCC_lattice_constant: 0.6853%
+Ag_BCC_lattice_constant: 0.5606%
+Sr_FCC_lattice_constant: 0.0904%
+Sr_BCC_lattice_constant: 0.0044%
+Ti_FCC_lattice_constant: 0.0357%
+Ti_BCC_lattice_constant: 0.15510000000000002%
+S_FCC_lattice_constant: 0.0419%
+S_BCC_lattice_constant: 0.8961%
+SrS_RS_lattice_constant: 0.121%
+SrS_RS_band_gap: 0.0157 eV
+SrS_RS_phonon_frequency: 0.27515 THz
+AgS_ZB_delta_factor: 0.201881 meV/atom
+SrTiS3_per_lattice_constant: 0.16720000000000002%
+TiS2_hex_lattice_constant: 1.562%

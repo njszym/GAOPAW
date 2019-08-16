@@ -1,0 +1,15 @@
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+Sb_FCC_lattice_constant: 0.0104%
+Sb_BCC_lattice_constant: 0.5447%
+Ta_FCC_lattice_constant: 0.38730000000000003%
+Ta_BCC_lattice_constant: 1.0554%
+Ru_FCC_lattice_constant: 0.1251%
+Ru_BCC_lattice_constant: 0.27590000000000003%
+Ru_BCC_phonon_frequency: 0.23805 THz
+S_FCC_lattice_constant: 0.0419%
+S_BCC_lattice_constant: 0.8961%
+RuO_RS_lattice_constant: 0.1298%
+RuO_RS_magnetization: 0.01 bohr mag
+RuS_ZB_delta_factor: 1.464872 meV/atom
+SbTaRu_HH_lattice_constant: 0.9077%

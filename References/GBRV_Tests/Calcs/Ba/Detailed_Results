@@ -1,0 +1,13 @@
+Ba_FCC_lattice_constant: 0.20070000000000002%
+Ba_BCC_lattice_constant: 0.2309%
+Ba_BCC_phonon_frequency: 0.2777 THz
+S_FCC_lattice_constant: 0.0419%
+S_BCC_lattice_constant: 0.8961%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+Ti_FCC_lattice_constant: 0.0357%
+Ti_BCC_lattice_constant: 0.15510000000000002%
+BaO_RS_lattice_constant: 0.057499999999999996%
+BaS_ZB_delta_factor: 0.722645 meV/atom
+BaTiO3_per_lattice_constant: 0.09940000000000002%
+BaTiO3_per_band_gap: 0.0342 eV

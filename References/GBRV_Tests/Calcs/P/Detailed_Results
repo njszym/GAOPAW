@@ -1,0 +1,14 @@
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+Ca_FCC_lattice_constant: 0.095%
+Ca_BCC_lattice_constant: 0.3546%
+P_ortho_lattice_constant: 0.5716%
+Al_FCC_lattice_constant: 0.0059%
+Al_BCC_lattice_constant: 0.11919999999999999%
+Ga_FCC_lattice_constant: 0.6715%
+Ga_BCC_lattice_constant: 0.1479%
+AlP_RS_lattice_constant: 0.07150000000000001%
+AlP_RS_phonon_frequency: 0.36345 THz
+GaP_ZB_delta_factor: 0.036103 meV/atom
+GaP_ZB_band_gap: 0.0315 eV
+LiCaP_HH_lattice_constant: 5.682799999999999%

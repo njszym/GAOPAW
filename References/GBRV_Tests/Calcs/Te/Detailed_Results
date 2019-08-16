@@ -1,0 +1,18 @@
+Cu_FCC_lattice_constant: 0.0212%
+Cu_BCC_lattice_constant: 0.060700000000000004%
+Te_FCC_lattice_constant: 0.0116%
+Te_BCC_lattice_constant: 0.7143%
+Cd_FCC_lattice_constant: 0.3059%
+Cd_BCC_lattice_constant: 0.6346%
+Sr_FCC_lattice_constant: 0.0904%
+Sr_BCC_lattice_constant: 0.0044%
+Zn_FCC_lattice_constant: 0.0297%
+Zn_BCC_lattice_constant: 0.2188%
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+SrTe_RS_lattice_constant: 0.0965%
+SrTe_RS_phonon_frequency: 0.175 THz
+ZnTe_ZB_delta_factor: 0.081927 meV/atom
+CdTe_ZB_lattice_constant: 0.08270000000000001%
+CdTe_ZB_band_gap: 0.0576 eV
+LiCuTe_HH_lattice_constant: 2.9010000000000002%

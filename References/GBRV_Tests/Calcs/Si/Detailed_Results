@@ -1,0 +1,15 @@
+C_FCC_lattice_constant: 0.0525%
+C_BCC_lattice_constant: 0.7816%
+Si_FCC_lattice_constant: 0.12140000000000001%
+Si_BCC_lattice_constant: 0.12589999999999998%
+Si_BCC_phonon_frequency: 0.3764 THz
+Si_diamond_lattice_constant: 0.0107%
+Si_diamond_band_gap: 0.0075 eV
+Sr_FCC_lattice_constant: 0.0904%
+Sr_BCC_lattice_constant: 0.0044%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+SiO_RS_lattice_constant: 0.00019999999999999998%
+SiC_ZB_delta_factor: 0.130602 meV/atom
+SiC_ZB_band_gap: 0.1415 eV
+SrSiO3_per_lattice_constant: 0.0541%

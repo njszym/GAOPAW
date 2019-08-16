@@ -1,0 +1,15 @@
+Sc_FCC_lattice_constant: 0.1606%
+Sc_BCC_lattice_constant: 0.2502%
+Pt_FCC_lattice_constant: 0.2926%
+Pt_BCC_lattice_constant: 0.067%
+Pt_BCC_phonon_frequency: 0.11035 THz
+Sb_FCC_lattice_constant: 0.0104%
+Sb_BCC_lattice_constant: 0.5447%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+S_FCC_lattice_constant: 0.0419%
+S_BCC_lattice_constant: 0.8961%
+PtO_RS_lattice_constant: 0.2343%
+PtS_ZB_delta_factor: 1.39744 meV/atom
+ScSbPt_HH_lattice_constant: 1.552%
+PtS2_hex_band_gap: 0.1519 eV

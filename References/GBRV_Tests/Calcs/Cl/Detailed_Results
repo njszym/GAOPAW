@@ -1,0 +1,13 @@
+K_FCC_lattice_constant: 2.9474%
+K_BCC_lattice_constant: 2.8298%
+Cl_FCC_lattice_constant: 0.3411%
+Cl_BCC_lattice_constant: 0.034499999999999996%
+Na_FCC_lattice_constant: 0.0113%
+Na_BCC_lattice_constant: 0.0121%
+Mg_FCC_lattice_constant: 0.0114%
+Mg_BCC_lattice_constant: 0.23340000000000002%
+NaCl_RS_lattice_constant: 0.1091%
+NaCl_RS_band_gap: 0.0292 eV
+NaCl_RS_phonon_frequency: 1.5243 THz
+NaCl_ZB_delta_factor: 0.026066 meV/atom
+KMgCl3_per_lattice_constant: 0.43750000000000006%

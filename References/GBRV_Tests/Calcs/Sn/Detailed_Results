@@ -1,0 +1,16 @@
+Pd_FCC_lattice_constant: 0.007899999999999999%
+Pd_BCC_lattice_constant: 0.1943%
+O_FCC_lattice_constant: 0.052700000000000004%
+O_BCC_lattice_constant: 0.7169%
+Ge_FCC_lattice_constant: 0.015200000000000002%
+Ge_BCC_lattice_constant: 0.43810000000000004%
+Ti_FCC_lattice_constant: 0.0357%
+Ti_BCC_lattice_constant: 0.15510000000000002%
+Sn_FCC_lattice_constant: 0.0024000000000000002%
+Sn_BCC_lattice_constant: 0.0056%
+Sn_BCC_phonon_frequency: 0.3311 THz
+SnO_RS_lattice_constant: 0.0935%
+SnGe_ZB_delta_factor: 0.303702 meV/atom
+SnO2_tetrag_lattice_constant: 0.67%
+SnO2_tetrag_band_gap: 0.1005 eV
+TiSnPd_HH_lattice_constant: 2.603%

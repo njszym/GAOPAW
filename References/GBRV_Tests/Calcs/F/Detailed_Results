@@ -1,0 +1,15 @@
+F_FCC_lattice_constant: 0.9188999999999999%
+F_BCC_lattice_constant: 0.8142%
+K_FCC_lattice_constant: 2.9474%
+K_BCC_lattice_constant: 2.8298%
+Na_FCC_lattice_constant: 0.0113%
+Na_BCC_lattice_constant: 0.0121%
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+Mg_FCC_lattice_constant: 0.0114%
+Mg_BCC_lattice_constant: 0.23340000000000002%
+LiF_RS_lattice_constant: 0.4222%
+LiF_RS_phonon_frequency: 0.6928 THz
+NaF_ZB_delta_factor: 0.385057 meV/atom
+KMgF3_per_lattice_constant: 0.5174%
+KMgF3_per_band_gap: 0.1679 eV

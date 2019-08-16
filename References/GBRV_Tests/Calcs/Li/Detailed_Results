@@ -1,0 +1,15 @@
+Ge_FCC_lattice_constant: 0.015200000000000002%
+Ge_BCC_lattice_constant: 0.43810000000000004%
+Br_FCC_lattice_constant: 0.1204%
+Br_BCC_lattice_constant: 0.19669999999999999%
+F_FCC_lattice_constant: 0.9188999999999999%
+F_BCC_lattice_constant: 0.8142%
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+Al_FCC_lattice_constant: 0.0059%
+Al_BCC_lattice_constant: 0.11919999999999999%
+LiF_RS_lattice_constant: 0.4222%
+LiF_RS_band_gap: 0.0332 eV
+LiF_RS_phonon_frequency: 0.4747 THz
+LiBr_ZB_delta_factor: 0.282411 meV/atom
+AlLiGe_HH_lattice_constant: 0.3946%

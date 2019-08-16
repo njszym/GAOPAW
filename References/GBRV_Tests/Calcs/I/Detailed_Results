@@ -1,0 +1,18 @@
+Na_FCC_lattice_constant: 0.0113%
+Na_BCC_lattice_constant: 0.0121%
+Cs_FCC_lattice_constant: 0.0051%
+Cs_BCC_lattice_constant: 0.002%
+Li_FCC_lattice_constant: 0.01%
+Li_BCC_lattice_constant: 0.3077%
+I_FCC_lattice_constant: 0.0724%
+I_BCC_lattice_constant: 0.4692%
+Pb_FCC_lattice_constant: 0.15009999999999998%
+Pb_BCC_lattice_constant: 0.34659999999999996%
+Cu_FCC_lattice_constant: 0.0212%
+Cu_BCC_lattice_constant: 0.060700000000000004%
+LiI_RS_lattice_constant: 0.24620000000000003%
+LiI_RS_phonon_frequency: 0.8429 THz
+NaI_ZB_delta_factor: 0.045226 meV/atom
+CuI_WZ_lattice_constant: 1.0447%
+CuI_WZ_band_gap: 0.3563 eV
+CsPbI3_per_lattice_constant: 0.1567%

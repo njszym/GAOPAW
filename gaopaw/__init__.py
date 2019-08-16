@@ -1507,37 +1507,27 @@ class Runner:
             for obj_name in obj_headers:
                 weights.append(float(input('%s: ' % obj_name)))
         if not use_weights:
-            for obj_name in obj_headers:
-                weights.append(1.0)
+            weights = [1.0]*len(obj_headers)
+        weights = np.array(weights)
 
         # Read in data and collect good solutions
         value_table = np.array(df.loc[1:, 2:].values, dtype=float)
         var_table = value_table[:, :-num_objs]
         obj_table = value_table[:, -num_objs:]
-        good_vars, good_objs = [], []
-        for (var_row, obj_row) in zip(var_table, obj_table):
-            if 100 not in obj_row:
-                good_vars.append(var_row)
-                good_objs.append(obj_row)
+        # If last obj fn is 100, the PAW is bad
+        good_rows = np.where(obj_table[:, -1] < 100)[0]
+        # Consider only the good solutions
+        good_vars = np.take(var_table, good_rows, axis=0)
+        good_objs = np.take(obj_table, good_rows, axis=0)
         if len(good_vars) == 0:
             print('No good solutions found')
             return
 
         # Normalize obj fns and calculate MAE
-        min_values, max_values = [], []
-        for all_obj_values in np.array(good_objs).transpose():
-            min_values.append(min(all_obj_values))
-            max_values.append(max(all_obj_values))
-        mae_list = []
-        for result_set in good_objs:
-            obj_index = 0
-            normalized_err = []
-            for (value, wt) in zip(result_set, weights):
-                utopia = min_values[obj_index]
-                nadir = max_values[obj_index]
-                normalized_err.append( wt*abs( (value - utopia)/(nadir - utopia) ) )
-                obj_index += 1
-            mae_list.append(np.average(normalized_err))
+        utopia = np.amin(good_objs, axis=0)
+        nadir = np.amax(good_objs, axis=0)
+        mae_list = [np.average(weights*abs(rset - utopia) /
+            (nadir - utopia)) for rset in good_objs]
 
         # Choose best solution set and write data to Best_Solution/
         best_result_set = good_objs[np.argmin(mae_list)]
